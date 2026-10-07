@@ -14,3 +14,5 @@ jobs:
           cache: npm
       - run: npm ci
       - run: npm run test:all
+      # dist/ is committed so the package installs straight from GitHub; it must match the source.
+      - run: npm run check:dist

@@ -26,14 +26,15 @@
   "scripts": {
     "build": "tsc -p tsconfig.json",
     "check": "tsc -p tsconfig.test.json",
+    "check:dist": "npm run build && test -z \"$(git status --porcelain -- dist)\"",
     "format": "prettier --write .",
     "format:check": "prettier --check .",
     "test": "tsx --test test/*.test.ts",
     "test:package": "npm run build && node --test test/package.test.mjs",
     "test:all": "npm run format:check && npm run check && npm test && npm run test:package",
     "demo": "npm run build && node scripts/serve.mjs",
-    "prepare": "npm run build",
-    "release": "npm run test:all && bumpp"
+    "prepack": "npm run build",
+    "release": "npm run test:all && npm run check:dist && bumpp package.json package-lock.json README.md"
   },
   "keywords": [
     "zemax",

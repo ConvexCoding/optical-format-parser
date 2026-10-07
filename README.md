@@ -4,13 +4,15 @@ A TypeScript library that parses the contents of sequential Zemax (`.zmx`) and O
 
 ## Install in another project
 
-The package is not published to npm. Install it from GitHub, pinned to a release tag:
+The package is not published to npm. Install it straight from GitHub, pinned to a release tag:
 
 ```sh
 npm install github:ConvexCoding/optical-format-parser#v1.0.0
+# or
+bun add github:ConvexCoding/optical-format-parser#v1.0.0
 ```
 
-npm fetches the repository and builds it on install, so the consuming project needs no extra setup.
+The built `dist/` is committed to the repository, so nothing is compiled on install and no install scripts run. This works with npm, Bun, pnpm and Yarn.
 
 To install from a local checkout instead, use Node.js 22+ to build and pack it:
 
@@ -153,6 +155,7 @@ npm run build          # Generate dist/ JavaScript and declarations
 npm run test:package   # Install the tarball in an isolated JS/TS consumer
 npm run test:all       # Formatting check plus all checks above
 npm run format         # Format with Prettier
+npm run check:dist     # Rebuild and fail if the committed dist/ is out of date
 npm run release        # Run all checks, then bump the version, commit, tag and push (bumpp)
 npm run demo          # Build and serve the browser example and checks
 ```
@@ -168,7 +171,9 @@ test/                 TypeScript tests, fixtures, browser and package checks
 examples/browser/     File-picker example
 scripts/              Local demo server
 docs/                 Compatibility notes
-dist/                 Generated ESM and declarations (ignored by Git)
+dist/                 Built ESM and declarations (committed; see below)
 ```
+
+Because consumers install from GitHub, `dist/` is committed. After changing anything in `src/`, run `npm run build` and commit the result along with the source. CI rebuilds and fails if the committed `dist/` differs, and `npm run release` runs the same check before tagging.
 
 CI is configured to install, check formatting, type-check, test, build, and verify the package on Node.js 22 and 24.
