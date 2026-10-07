@@ -1,0 +1,21 @@
+{
+  "name": "optical-format-import",
+  "version": "0.1.0",
+  "description": "Browser-native Zemax and OSLO prescription parsers and normalized JSON",
+  "type": "module",
+  "license": "MIT",
+  "exports": {".": {"types": "./dist/index.d.ts", "import": "./dist/index.js"}},
+  "files": ["dist", "LICENSE", "README.md"],
+  "scripts": {
+    "build": "tsc",
+    "test": "tsx --test test/*.test.ts",
+    "check": "tsc --noEmit"
+  },
+  "dependencies": {},
+  "devDependencies": {
+    "@types/node": "^26.0.0",
+    "ajv": "^8.17.1",
+    "tsx": "^4.20.0",
+    "typescript": "^6.0.0"
+  }
+}
