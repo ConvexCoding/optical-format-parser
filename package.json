@@ -1,6 +1,6 @@
 {
   "name": "optical-format-parser",
-  "version": "0.2.0",
+  "version": "1.0.0",
   "description": "Browser-native Zemax and OSLO prescription parsers and normalized JSON",
   "type": "module",
   "license": "MIT",
@@ -32,7 +32,8 @@
     "test:package": "npm run build && node --test test/package.test.mjs",
     "test:all": "npm run format:check && npm run check && npm test && npm run test:package",
     "demo": "npm run build && node scripts/serve.mjs",
-    "prepare": "npm run build"
+    "prepare": "npm run build",
+    "release": "npm run test:all && bumpp"
   },
   "keywords": [
     "zemax",
@@ -45,6 +46,7 @@
   "devDependencies": {
     "@types/node": "^26.0.0",
     "ajv": "^8.17.1",
+    "bumpp": "^12.3.0",
     "prettier": "^3.9.9",
     "tsx": "^4.20.0",
     "typescript": "^6.0.0"
