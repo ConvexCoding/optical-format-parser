@@ -361,26 +361,7 @@
           "type": "boolean"
         },
         "material": {
-          "type": "object",
-          "properties": {
-            "kind": {
-              "enum": [
-                "air",
-                "mirror",
-                "catalog",
-                "model",
-                "constantIndex",
-                "sampledIndex",
-                "unknown"
-              ]
-            }
-          },
-          "required": [
-            "kind"
-          ],
-          "additionalProperties": {
-            "$ref": "#/$defs/jsonValue"
-          }
+          "$ref": "#/$defs/material"
         },
         "clearAperture": {
           "anyOf": [
@@ -415,6 +396,204 @@
         "parameters"
       ],
       "additionalProperties": false
+    },
+    "material": {
+      "oneOf": [
+        {
+          "type": "object",
+          "properties": {
+            "kind": {
+              "const": "air"
+            }
+          },
+          "required": [
+            "kind"
+          ],
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "properties": {
+            "kind": {
+              "const": "mirror"
+            }
+          },
+          "required": [
+            "kind"
+          ],
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "properties": {
+            "kind": {
+              "const": "catalog"
+            },
+            "name": {
+              "type": "string"
+            },
+            "resolution": {
+              "const": "unresolved"
+            },
+            "catalogs": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            },
+            "nd": {
+              "anyOf": [
+                {
+                  "type": "number"
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            },
+            "vd": {
+              "anyOf": [
+                {
+                  "type": "number"
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            }
+          },
+          "required": [
+            "kind",
+            "name",
+            "resolution"
+          ],
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "properties": {
+            "kind": {
+              "const": "model"
+            },
+            "name": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            },
+            "nd": {
+              "type": "number",
+              "exclusiveMinimum": 0
+            },
+            "vd": {
+              "type": "number",
+              "exclusiveMinimum": 0
+            },
+            "dispersion": {
+              "const": "unspecified"
+            },
+            "resolution": {
+              "const": "unresolved"
+            }
+          },
+          "required": [
+            "kind",
+            "name",
+            "nd",
+            "vd",
+            "dispersion",
+            "resolution"
+          ],
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "properties": {
+            "kind": {
+              "const": "constantIndex"
+            },
+            "name": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            },
+            "index": {
+              "type": "number",
+              "exclusiveMinimum": 0
+            }
+          },
+          "required": [
+            "kind",
+            "name",
+            "index"
+          ],
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "properties": {
+            "kind": {
+              "const": "sampledIndex"
+            },
+            "name": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            },
+            "wavelengthsUm": {
+              "type": "array",
+              "items": {
+                "type": "number",
+                "exclusiveMinimum": 0
+              }
+            },
+            "indices": {
+              "type": "array",
+              "items": {
+                "type": "number",
+                "exclusiveMinimum": 0
+              }
+            }
+          },
+          "required": [
+            "kind",
+            "name",
+            "wavelengthsUm",
+            "indices"
+          ],
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "properties": {
+            "kind": {
+              "const": "unknown"
+            },
+            "raw": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "kind",
+            "raw"
+          ],
+          "additionalProperties": false
+        }
+      ]
     }
   }
 }

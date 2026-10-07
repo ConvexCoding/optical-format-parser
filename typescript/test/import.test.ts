@@ -136,3 +136,32 @@ test("source package has no runtime dependencies or Node imports", () => {
     assert.doesNotMatch(source, /(?:from\s+["'](?:node:|fs|path)|\bBuffer\b|\bprocess\.)/);
   }
 });
+
+test("invalid common numbers and clear aperture bounds fail", () => {
+  for (const insertion of ["CONI Infinity", "CLAP 4 2", "CLAP 0 Infinity", "PARM 1 Infinity", "XFLD Infinity"]) assert.throws(() => parseText(ZMX.replace("STOP", insertion + "\nSTOP"), { format: "zemax" }));
+  for (const replacement of ["ENPD Infinity", "ENPD -2"]) assert.throws(() => parseText(ZMX.replace("ENPD 4", replacement), { format: "zemax" }));
+});
+test("short weight columns are diagnosed and still schema-valid", () => {
+  const source = ZMX.replace("STOP", "XFLD 0 1\nYFLD 0 1\nFWGN\nSTOP");
+  const data = parseText(source, { format: "zemax" });
+  assert.deepEqual(data.fields.points.map(p => p.weight), [1, 1]);
+  assert.ok(validate(data), JSON.stringify(validate.errors));
+  compare(data, python(source, "zemax"));
+});
+test("uninterpreted OSLO footer and phase features are explicit", () => {
+  const data = parseText(LEN + "BOGUS 2\n", { format: "oslo" });
+  assert.ok(data.diagnostics.some(d => d.command === "BOGUS"));
+  assert.throws(() => parseText(LEN + "BOGUS 2\n", { format: "oslo", strict: true }));
+  const source = LEN.replace("RD 20", "GSP 0.01; GOR 1; RD 20");
+  const phase = parseText(source, { format: "oslo" });
+  assert.ok(phase.diagnostics.some(d => d.code === "unresolved_optical_feature"));
+  compare(phase, python(source, "oslo"));
+});
+test("unknown type and prototype-property command names preserve Python behavior", () => {
+  const source = ZMX.replace("STOP", "TYPE constructor\nSTOP") + "__proto__ 1\n";
+  const data = parseText(source, { format: "zemax" });
+  assert.equal(data.surfaces[1].type, "constructor");
+  assert.ok(data.diagnostics.some(d => d.code === "unresolved_surface_type"));
+  assert.ok(data.diagnostics.some(d => d.command === "__proto__"));
+  compare(data, python(source, "zemax"));
+});

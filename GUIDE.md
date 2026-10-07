@@ -217,7 +217,7 @@ Core fields:
 | `aperture` | Named prescription quantity, value, original declarations. OSLO EBR becomes `beamRadiusAtSurface1`; it is not automatically equivalent to an entrance pupil for finite objects. |
 | `fields` | Zemax explicit field points; OSLO reference extent and relative source table without generated optical sampling |
 | `wavelengths` | Aligned `valuesUm` / `weights`, zero-based `primaryIndex`; native slots retained in source records |
-| `surfaces` | Ordered array with explicit source index, object/image/coordinate-break role, common geometry, material and clear-aperture records |
+| `surfaces` | Ordered array with explicit parser index, object/image/coordinate-break role, common geometry, material and clear-aperture records |
 | `diagnostics` | Severity, code, message, optional source command/line/surface |
 | `raw` | Parsed native model and original nonempty source statements, including declarations outside the common schema |
 
@@ -232,7 +232,11 @@ Examples of portable nonfinite values:
 
 Use finite numbers for ordinary values, tagged infinity for physical planes/distances, and `null` only for a genuinely missing optional value. Reject NaN. Never rely on Python `json.dumps()` emitting `Infinity`, or JavaScript `JSON.stringify(Infinity)` converting it to `null`. Integer-keyed dictionaries become JSON object keys; use the explicit surface array for ordering, and sort native index keys numerically when interpreting them.
 
+JSON numeric spelling (for example `1` versus `1.0`) and signed zero are not semantic differences. Preserve original lexical details in `raw.records`; use numeric comparison for parity. Common numeric fields require finite values except the explicit infinite radius/distance representation. Invalid clear-aperture bounds and negative field weights fail; missing entries in a short Zemax weight column use 1 with a mismatch diagnostic.
+
 Material records distinguish air, mirror, named unresolved catalog glass, constant refractive index, sampled indices, and model Nd/Vd declarations. Preserve each sampled index's wavelength association. Report an unresolved catalog rather than guessing an identity. Adding a catalog resolver later must state its matching policy and data revision.
+
+Named Zemax glass records may carry zero Nd/Vd placeholders. Keep these as recorded hints on the unresolved catalog entry; do not treat them as a physical zero refractive index. Resolved constant/sample/model index data has separate validation and record kinds.
 
 `parameters` and `raw` stay in **native prescription units**. Only explicitly named common dimensions such as `radiusMm`, `thicknessMm`, and clear-aperture dimensions are scaled. Do not multiply every `PARM` by the length scale: asphere coefficients have power-dependent units, coordinate rotations are angular, and toroidal parameters have distinct meanings. A future coefficient normalizer should carry explicit polynomial powers and use `scale ** (1 - power)` where appropriate.
 
@@ -270,6 +274,8 @@ Do not download/open anything during parsing. A UI can inspect diagnostics and d
 
 ## Milestone evidence
 
-The repository is developed in staged Git commits. The Python milestone includes a zero-dependency package, CLI, source/schema contract, 22 corpus goldens, independent synthetic cases, malformed-input checks, and an import boundary audit. TypeScript completion is recorded in the README with the final test and browser verification results.
+Both milestones are implemented in this repository and recorded in staged Git commits. The Python milestone includes a zero-dependency package, CLI, source/schema contract, 22 corpus goldens, independent synthetic cases, malformed-input checks, and an import boundary audit. The TypeScript library emits browser-native ESM and type declarations and passes the same corpus/schema checks.
+
+Final local evidence: **17 Python tests, 34 TypeScript tests, 24 checks executed in the Codex in-app browser**. The browser checks include all 22 real files plus the browser `File.arrayBuffer()` API and a strict OSLO text case. Both sample buttons in the demo were exercised. Installable Python-wheel and npm-package consumers were checked outside the source tree. See [the validation record](docs/VALIDATION.md) and its browser screenshot.
 
 Validation of this extraction concerns parsing and JSON declarations. Full Optiland loader/engine oracle tests are an additional optional check and were not used to assert optical equivalence.

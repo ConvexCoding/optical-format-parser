@@ -85,7 +85,12 @@ def normalize(model: dict, fmt: str, filename: str, encoding: str, *, strict: bo
     else:
         source_unit, scale = "lensUnit", model["units"]
 
+    if not math.isfinite(scale) or scale <= 0:
+        raise ValueError("Length scale must be a positive finite number")
+
     aperture_source = model["aperture"]
+    if any(not isinstance(v, bool) and (not math.isfinite(v) or v < 0) for v in aperture_source.values()):
+        raise ValueError("Aperture values must be finite and nonnegative")
     aperture = {"kind": "unspecified", "value": None, "source": aperture_source}
     if aperture_source:
         key = next(iter(aperture_source))
@@ -100,6 +105,11 @@ def normalize(model: dict, fmt: str, filename: str, encoding: str, *, strict: bo
         warn("multiple_apertures", "Multiple aperture declarations retained; first is reported as the common aperture")
 
     fields_source = model["fields"]
+    for key, column in fields_source.items():
+        if isinstance(column, list) and any(not math.isfinite(v) for v in column):
+            raise ValueError(f"Field {key} must contain finite numbers")
+    if any(w < 0 for w in fields_source.get("weights", [])):
+        raise ValueError("Field weights must be nonnegative")
     field_kind = fields_source.get("type", "angle")
     field_scale = scale if field_kind in {"object_height", "paraxial_image_height", "real_image_height", "gaussian_image_height"} else 1
     points = []
@@ -109,7 +119,8 @@ def normalize(model: dict, fmt: str, filename: str, encoding: str, *, strict: bo
         if len(xs) != len(ys) or any(len(v) != len(xs) for v in extras.values()) or fields_source.get("num_fields", len(xs)) != len(xs):
             warn("field_count_mismatch", "Declared and parsed field columns differ; raw columns retained")
         for i, (x, y) in enumerate(zip(xs, ys)):
-            point = {"x": x * field_scale, "y": y * field_scale, "weight": fields_source.get("weights", [1] * len(xs))[i]}
+            field_weights = fields_source.get("weights", [])
+            point = {"x": x * field_scale, "y": y * field_scale, "weight": field_weights[i] if i < len(field_weights) else 1}
             point["vignetting"] = {key: values[i] for key, values in extras.items() if key != "weights" and i < len(values)}
             points.append(point)
     else:
@@ -137,6 +148,9 @@ def normalize(model: dict, fmt: str, filename: str, encoding: str, *, strict: bo
     max_index = max(model["surfaces"], default=0)
     has_stop = any(s.get("AST", False) for s in model["surfaces"].values())
     for index, surface in sorted(model["surfaces"].items()):
+        for key, value in surface.items():
+            if key not in {"radius", "thickness", "RD", "TH"} and isinstance(value, (int, float)) and not math.isfinite(value):
+                raise ValueError(f"Surface {index} {key} must be finite")
         native_type = surface.get("type", surface.get("ASP", "ADO"))
         kind = native_type if fmt == "zemax" else {"ADO": "standard", "ASR": "even_asphere", "ARA": "odd_asphere", "ASX": "polynomial"}.get(native_type, "unknown")
         if fmt == "oslo" and any(k in surface for k in ("AD", "AE", "AF", "AG")):
@@ -145,6 +159,8 @@ def normalize(model: dict, fmt: str, filename: str, encoding: str, *, strict: bo
             kind = "toroidal"
         if fmt == "oslo" and "PFL" in surface:
             kind = "paraxial"
+        if kind not in {"standard", "even_asphere", "odd_asphere", "toroidal", "coordinate_break", "paraxial", "polynomial"}:
+            warn("unresolved_surface_type", "Surface type retained without a common geometry interpretation", surface=index)
         radius = surface.get("radius" if fmt == "zemax" else "RD", math.inf)
         thickness = surface.get("thickness" if fmt == "zemax" else "TH", 0.0)
         if fmt == "oslo" and abs(thickness) >= (1e8 if index == 0 else 9.9e9):
@@ -156,10 +172,14 @@ def normalize(model: dict, fmt: str, filename: str, encoding: str, *, strict: bo
             warn("unresolved_coordinates", "Coordinate declarations retained; no global frame is calculated", surface=index)
         if any(k in surface for k in ("pickups", "PY", "PYC", "PU", "PUC", "EC")):
             warn("unresolved_constraints", "Pickup/solve declarations retained; literal values are not a solved snapshot", surface=index)
+        if any(k in surface for k in ("PFL", "PFM", "GSP", "GOR", "TCE")):
+            warn("unresolved_optical_feature", "Perfect-imagery, grating or thermal declarations retained without optical interpretation", surface=index)
         if fmt == "oslo" and index == max_index and thickness:
             warn("image_focus_declaration", "Image TH is OSLO defocus, retained as a declaration rather than applied to the preceding gap", surface=index)
         clear = surface.get("aperture")
         if clear is not None:
+            if any(not math.isfinite(clear[k]) for k in ("r_min", "r_max", "offset_x", "offset_y")) or not 0 <= clear["r_min"] <= clear["r_max"]:
+                raise ValueError("Clear aperture radii/offsets must be finite with 0 <= r_min <= r_max")
             clear = {**clear, **{k: clear[k] * scale for k in ("r_min", "r_max", "offset_x", "offset_y")}}
         elif fmt == "oslo" and "AP" in surface:
             clear = {"kind": "annulus", "r_min": 0.0, "r_max": surface["AP"] * scale, "offset_x": 0.0, "offset_y": 0.0,

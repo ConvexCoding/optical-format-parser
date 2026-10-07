@@ -47,7 +47,7 @@ export function parseZemax(text: string, filename: string): NativeRecord {
     const command = tokens[0], n = (index = 1) => number(tokens[index]);
     model.records.push({ line: i + 1, text: line.trim() });
     try {
-      if (command in column) { rawFields[column[command]] = tokens.slice(1).map(number); syncFields(); return; }
+      if (Object.hasOwn(column, command)) { rawFields[column[command]] = tokens.slice(1).map(number); syncFields(); return; }
       switch (command) {
         case "UNIT": if (!tokens[1]) throw new Error("UNIT requires a unit"); model.units = tokens[1].toUpperCase(); break;
         case "NAME": model.name = tokens.slice(1).join(" "); break;
@@ -64,7 +64,11 @@ export function parseZemax(text: string, filename: string): NativeRecord {
         case "SURF":
           if (surface >= 0) model.surfaces[surface] = current;
           surface++; offset = [0, 0]; current = { type: "standard", is_stop: false, conic: 0, material: "air", aperture: null }; break;
-        case "TYPE": current.type = ({ STANDARD: "standard", EVENASPH: "even_asphere", ODDASPHE: "odd_asphere", COORDBRK: "coordinate_break", TOROIDAL: "toroidal" } as Record<string, string>)[tokens[1]] ?? tokens[1]?.toLowerCase(); if (current.type === undefined) throw new Error("TYPE requires a type"); break;
+        case "TYPE": {
+          const types: Record<string, string> = { STANDARD: "standard", EVENASPH: "even_asphere", ODDASPHE: "odd_asphere", COORDBRK: "coordinate_break", TOROIDAL: "toroidal" };
+          current.type = Object.hasOwn(types, tokens[1]) ? types[tokens[1]] : tokens[1]?.toLowerCase();
+          if (current.type === undefined) throw new Error("TYPE requires a type"); break;
+        }
         case "PARM": current[`param_${integer(tokens[1]) - 1}`] = n(2); break;
         case "CURV": { const c = n(); current.radius = c === 0 ? Infinity : 1 / c; break; }
         case "DISZ": current.thickness = tokens[1] === "INFINITY" ? Infinity : n(); break;

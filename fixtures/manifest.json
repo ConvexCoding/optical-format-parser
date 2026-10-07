@@ -1,0 +1,90 @@
+[
+  {
+    "format": "zemax",
+    "filename": "circular_aperture_example_with_aperture.zmx"
+  },
+  {
+    "format": "zemax",
+    "filename": "circular_aperture_example_without_aperture.zmx"
+  },
+  {
+    "format": "zemax",
+    "filename": "complicated_fold_mirrors_setup_v2.zmx"
+  },
+  {
+    "format": "zemax",
+    "filename": "curved_reflective_grating.zmx"
+  },
+  {
+    "format": "zemax",
+    "filename": "curved_transmission_grating.zmx"
+  },
+  {
+    "format": "zemax",
+    "filename": "flat_transmission_grating.zmx"
+  },
+  {
+    "format": "zemax",
+    "filename": "inactive_wavelengths.zmx"
+  },
+  {
+    "format": "zemax",
+    "filename": "lens1.zmx"
+  },
+  {
+    "format": "zemax",
+    "filename": "lens2.zmx"
+  },
+  {
+    "format": "zemax",
+    "filename": "lens_floa.zmx"
+  },
+  {
+    "format": "zemax",
+    "filename": "lens_offset_aperture.zmx"
+  },
+  {
+    "format": "zemax",
+    "filename": "lens_thorlabs_iso_8859_1.zmx"
+  },
+  {
+    "format": "zemax",
+    "filename": "one_mirror_up_45deg.zmx"
+  },
+  {
+    "format": "zemax",
+    "filename": "simple_fold_mirror_up.zmx"
+  },
+  {
+    "format": "zemax",
+    "filename": "thorlabs_lj1598l1.zmx"
+  },
+  {
+    "format": "oslo",
+    "filename": "cox3_07.len"
+  },
+  {
+    "format": "oslo",
+    "filename": "test_achromat.len"
+  },
+  {
+    "format": "oslo",
+    "filename": "test_asphere_singlet.len"
+  },
+  {
+    "format": "oslo",
+    "filename": "test_cassegrain.len"
+  },
+  {
+    "format": "oslo",
+    "filename": "test_cooke_triplet.len"
+  },
+  {
+    "format": "oslo",
+    "filename": "test_glass_fallback.len"
+  },
+  {
+    "format": "oslo",
+    "filename": "test_petzval.len"
+  }
+]

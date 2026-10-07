@@ -137,6 +137,35 @@ class ImportTests(unittest.TestCase):
         self.assertNotEqual(failed.returncode, 0)
         self.assertEqual(failed.stdout, "")
 
+    def test_nonfinite_common_fields_and_invalid_clear_apertures(self):
+        for insertion in ("CONI Infinity", "CLAP 4 2", "CLAP 0 Infinity", "PARM 1 Infinity"):
+            with self.subTest(insertion=insertion), self.assertRaises(ValueError):
+                parse_text(ZMX.replace("STOP", insertion + "\nSTOP"), "zemax")
+        for replacement in ("ENPD Infinity", "ENPD -2"):
+            with self.assertRaises(ValueError):
+                parse_text(ZMX.replace("ENPD 4", replacement), "zemax")
+        with self.assertRaises(ValueError):
+            parse_text(ZMX.replace("STOP", "XFLD Infinity\nSTOP"), "zemax")
+
+    def test_empty_weight_column_stays_valid_with_diagnostic(self):
+        data = parse_text(ZMX.replace("STOP", "XFLD 0 1\nYFLD 0 1\nFWGN\nSTOP"), "zemax")
+        self.assertEqual([p["weight"] for p in data["fields"]["points"]], [1, 1])
+        self.assertTrue(any(d["code"] == "field_count_mismatch" for d in data["diagnostics"]))
+
+    def test_footer_and_uninterpreted_phase_declarations(self):
+        data = parse_text(LEN + "BOGUS 2\n", "oslo")
+        self.assertTrue(any(d.get("command") == "BOGUS" for d in data["diagnostics"]))
+        with self.assertRaises(ValueError):
+            parse_text(LEN + "BOGUS 2\n", "oslo", strict=True)
+        data = parse_text(LEN.replace("RD 20", "GSP 0.01; GOR 1; RD 20"), "oslo")
+        self.assertTrue(any(d["code"] == "unresolved_optical_feature" for d in data["diagnostics"]))
+
+    def test_unknown_surface_type_is_diagnosed(self):
+        data = parse_text(ZMX.replace("STOP", "TYPE constructor\nSTOP") + "__proto__ 1\n", "zemax")
+        self.assertEqual(data["surfaces"][1]["type"], "constructor")
+        self.assertTrue(any(d["code"] == "unresolved_surface_type" for d in data["diagnostics"]))
+        self.assertTrue(any(d.get("command") == "__proto__" for d in data["diagnostics"]))
+
 
 if __name__ == "__main__":
     unittest.main()

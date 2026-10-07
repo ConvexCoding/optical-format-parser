@@ -418,6 +418,7 @@ class OsloDataParser:
         """Read declarative field data without executing analysis or CCL blocks."""
         cmd = tokens[0]
         if self._ignore_footer:
+            self._unsupported(cmd, "remaining footer block retained but not interpreted")
             return
         if self._configuration_table:
             if cmd == "CFG":
@@ -476,6 +477,8 @@ class OsloDataParser:
                 "vy": 1 - ymax,
                 "vx": 1 - xmax,
             }
+        else:
+            self._unsupported(cmd, "footer command retained but not interpreted")
 
     def _read_tele(self, tokens: list[str]) -> None:
         if tokens[1].upper() not in {"ON", "OFF", "0", "1"}:

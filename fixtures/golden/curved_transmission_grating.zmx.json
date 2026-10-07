@@ -770,6 +770,12 @@
       "code": "unresolved_material",
       "message": "Material identity preserved; catalog lookup and dispersion fitting are not executed",
       "surface": 2
+    },
+    {
+      "severity": "warning",
+      "code": "unresolved_surface_type",
+      "message": "Surface type retained without a common geometry interpretation",
+      "surface": 3
     }
   ],
   "raw": {

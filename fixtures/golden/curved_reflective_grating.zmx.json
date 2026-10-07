@@ -582,6 +582,12 @@
       "line": 105,
       "surface": 2,
       "message": "Record retained but not interpreted"
+    },
+    {
+      "severity": "warning",
+      "code": "unresolved_surface_type",
+      "message": "Surface type retained without a common geometry interpretation",
+      "surface": 1
     }
   ],
   "raw": {

@@ -135,7 +135,7 @@ export function parseOslo(text: string, filename: string, strict: boolean): Nati
   };
   const footer = (tokens: string[]) => {
     const cmd = tokens[0];
-    if (ignoreFooter) return;
+    if (ignoreFooter) { unsupported(cmd, "remaining footer block retained but not interpreted"); return; }
     if (configTable) {
       if (cmd === "CFG") throw new Error("nested CFG table");
       if (cmd === "END") { requireLength(tokens, 1, "configuration END takes no arguments"); configTable = false; }
@@ -160,7 +160,7 @@ export function parseOslo(text: string, filename: string, strict: boolean): Nati
       if (!(ymin < ymax && xmin < xmax)) throw new Error("F pupil bounds must be increasing");
       if (ymin !== -ymax || xmin !== -xmax) { unsupported("F", "asymmetric field pupil bounds are not mapped"); ymin = xmin = -1; ymax = xmax = 1; }
       model.fields.points[index] = { y: nums[0], x: nums[1], weight: nums[9], vy: 1 - ymax, vx: 1 - xmax };
-    }
+    } else unsupported(cmd, "footer command retained but not interpreted");
   };
   const deletes = new Set("ATD CXD APD GCD RCD BED PFD TDD CSD TSD".split(" "));
   const coeffs = new Set("CC CVX AD AE AF AG DCX DCY DCZ TLA TLB TLC DT GC TOX TOY TOZ APN PFM GSP GOR TCE".split(" "));

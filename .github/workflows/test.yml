@@ -1,0 +1,22 @@
+name: Parser parity
+on: [push, pull_request]
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+          cache-dependency-path: typescript/package-lock.json
+      - name: Python runtime without external dependencies
+        run: PYTHONPATH=python/src python3 -S -m unittest discover -s python/tests -v
+      - name: TypeScript parity and schema
+        run: |
+          npm --prefix typescript ci
+          npm --prefix typescript test
+          npm --prefix typescript run build

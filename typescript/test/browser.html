@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="en">
+<meta charset="utf-8">
+<title>Optical importer browser verification</title>
+<style>body { font: 16px system-ui; max-width: 1000px; padding: 32px; } pre { white-space: pre-wrap; } .pass { color: #14532d; } .fail { color: #991b1b; }</style>
+<h1>Browser library verification</h1>
+<p id="summary" role="status">Loading browser-native ESM…</p>
+<pre id="results"></pre>
+<script type="module">
+import { parseBytes, parseText, stringify } from "../dist/index.js";
+const summary = document.querySelector("#summary"), results = document.querySelector("#results");
+let passes = 0, failures = 0;
+function compare(a, b, path = "$") {
+  if (typeof a === "number" && typeof b === "number") {
+    if (Math.abs(a - b) > 1e-10 + 1e-12 * Math.max(Math.abs(a), Math.abs(b))) throw new Error(path + ": number mismatch");
+  } else if (Array.isArray(a) && Array.isArray(b)) {
+    if (a.length !== b.length) throw new Error(path + ": length mismatch");
+    a.forEach((v, i) => compare(v, b[i], `${path}[${i}]`));
+  } else if (a && b && typeof a === "object" && typeof b === "object") {
+    if (JSON.stringify(Object.keys(a).sort()) !== JSON.stringify(Object.keys(b).sort())) throw new Error(path + ": key mismatch");
+    for (const key of Object.keys(a)) compare(a[key], b[key], path + "." + key);
+  } else if (a !== b) throw new Error(path + ": value mismatch");
+}
+async function check(name, action) {
+  try { await action(); passes++; results.textContent += `PASS ${name}\n`; }
+  catch (error) { failures++; results.textContent += `FAIL ${name}: ${error.message}\n`; }
+}
+try {
+  const manifest = await (await fetch("../../fixtures/manifest.json")).json();
+  for (const entry of manifest) await check(entry.filename, async () => {
+    const bytes = await (await fetch(`../../fixtures/${entry.format}/${entry.filename}`)).arrayBuffer();
+    const data = parseBytes(bytes, entry);
+    const golden = await (await fetch(`../../fixtures/golden/${entry.filename}.json`)).json();
+    compare(data, golden); compare(JSON.parse(stringify(data)), data);
+  });
+  await check("Browser File.arrayBuffer() and tagged infinity", async () => {
+    const text = "NAME browser\nENPD 4\nSURF 0\nCURV 0\nDISZ INFINITY\nSURF 1\nCURV 0.05\nDISZ 2\n";
+    const file = new File([text], "browser.zmx");
+    const data = parseBytes(await file.arrayBuffer(), { format: "zemax", filename: file.name });
+    if (data.surfaces[1].radiusMm !== 20 || data.surfaces[0].thicknessMm.special !== "positiveInfinity") throw new Error("Unexpected geometry");
+  });
+  await check("Browser strict OSLO text API", () => {
+    const data = parseText('LEN NEW "browser; // name" 1 1\nEBR 2; RD 0; NXT; RD 20; END 1\n', { format: "oslo", strict: true });
+    if (data.name !== "browser; // name" || data.surfaces.length !== 2 || data.surfaces[1].radiusMm !== 20) throw new Error("Unexpected parse");
+  });
+  summary.textContent = `${passes} passed; ${failures} failed. ESM runs directly in the browser without a server-side parser.`;
+  summary.className = failures ? "fail" : "pass";
+} catch (error) { summary.textContent = "Verification could not run: " + error.message; summary.className = "fail"; }
+</script>
+</html>

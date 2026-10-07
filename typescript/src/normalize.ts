@@ -52,9 +52,11 @@ export function normalize(model: NativeRecord, fmt: Format, filename: string, en
   const sourceUnit = fmt === "zemax" ? model.units : "lensUnit";
   const scale = fmt === "zemax" ? scales[sourceUnit] : model.units;
   if (scale === undefined) throw new Error(`Unsupported Zemax length unit: ${sourceUnit}`);
+  if (!Number.isFinite(scale) || scale <= 0) throw new Error("Length scale must be a positive finite number");
   if (fmt === "zemax" && !model.records.some((r: NativeRecord) => r.text.startsWith("UNIT "))) diagnostics.push({ severity: "info", code: "assumed_units", message: "No UNIT record; assuming millimeters" });
 
   const apertureSource = model.aperture;
+  if (Object.values(apertureSource).some((v: any) => typeof v !== "boolean" && (!Number.isFinite(v) || v < 0))) throw new Error("Aperture values must be finite and nonnegative");
   const aperture: NativeRecord = { kind: "unspecified", value: null, source: apertureSource };
   const keys = Object.keys(apertureSource);
   if (keys.length) {
@@ -66,6 +68,8 @@ export function normalize(model: NativeRecord, fmt: Format, filename: string, en
   if (keys.length > 1) warn("multiple_apertures", "Multiple aperture declarations retained; first is reported as the common aperture");
 
   const fieldsSource = model.fields, fieldKind = fieldsSource.type ?? "angle";
+  for (const [key, column] of Object.entries(fieldsSource)) if (Array.isArray(column) && column.some(v => !Number.isFinite(v))) throw new Error(`Field ${key} must contain finite numbers`);
+  if ((fieldsSource.weights ?? []).some((w: number) => w < 0)) throw new Error("Field weights must be nonnegative");
   const fieldScale = ["object_height", "paraxial_image_height", "real_image_height", "gaussian_image_height"].includes(fieldKind) ? scale : 1;
   const points: NativeRecord[] = [];
   if (fmt === "zemax") {
@@ -73,7 +77,7 @@ export function normalize(model: NativeRecord, fmt: Format, filename: string, en
     const extras = Object.fromEntries(["weights", "vignette_decenter_x", "vignette_decenter_y", "vignette_compress_x", "vignette_compress_y", "vignette_tangent_angle"].filter(k => k in fieldsSource).map(k => [k, fieldsSource[k]]));
     if (xs.length !== ys.length || Object.values(extras).some(v => v.length !== xs.length) || (fieldsSource.num_fields ?? xs.length) !== xs.length) warn("field_count_mismatch", "Declared and parsed field columns differ; raw columns retained");
     for (let i = 0; i < Math.min(xs.length, ys.length); i++) {
-      const point: NativeRecord = { x: xs[i] * fieldScale, y: ys[i] * fieldScale, weight: (fieldsSource.weights ?? Array(xs.length).fill(1))[i] };
+      const point: NativeRecord = { x: xs[i] * fieldScale, y: ys[i] * fieldScale, weight: fieldsSource.weights?.[i] ?? 1 };
       point.vignetting = Object.fromEntries(Object.entries(extras).filter(([key, values]) => key !== "weights" && i < values.length).map(([key, values]) => [key, values[i]]));
       points.push(point);
     }
@@ -92,10 +96,12 @@ export function normalize(model: NativeRecord, fmt: Format, filename: string, en
   const hasStop = Object.values(model.surfaces).some((s: any) => s.AST ?? false);
   for (const index of indices) {
     const surface = model.surfaces[index], nativeType = surface.type ?? surface.ASP ?? "ADO";
+    for (const [key, value] of Object.entries(surface)) if (!["radius", "thickness", "RD", "TH"].includes(key) && typeof value === "number" && !Number.isFinite(value)) throw new Error(`Surface ${index} ${key} must be finite`);
     let kind = fmt === "zemax" ? nativeType : ({ ADO: "standard", ASR: "even_asphere", ARA: "odd_asphere", ASX: "polynomial" } as Record<string, string>)[nativeType] ?? "unknown";
     if (fmt === "oslo" && ["AD", "AE", "AF", "AG"].some(k => k in surface)) kind = "even_asphere";
     if (fmt === "oslo" && "CVX" in surface) kind = "toroidal";
     if (fmt === "oslo" && "PFL" in surface) kind = "paraxial";
+    if (!["standard", "even_asphere", "odd_asphere", "toroidal", "coordinate_break", "paraxial", "polynomial"].includes(kind)) warn("unresolved_surface_type", "Surface type retained without a common geometry interpretation", { surface: index });
     const radius = surface[fmt === "zemax" ? "radius" : "RD"] ?? Infinity;
     let thickness = surface[fmt === "zemax" ? "thickness" : "TH"] ?? 0;
     if (fmt === "oslo" && Math.abs(thickness) >= (index === 0 ? 1e8 : 9.9e9)) thickness = thickness < 0 ? -Infinity : Infinity;
@@ -103,9 +109,13 @@ export function normalize(model: NativeRecord, fmt: Format, filename: string, en
     if (["catalog", "model"].includes(mat.kind)) warn("unresolved_material", "Material identity preserved; catalog lookup and dispersion fitting are not executed", { surface: index });
     if (kind === "coordinate_break" || ["DCX", "DCY", "DCZ", "TLA", "TLB", "TLC", "GC", "RCO", "BEN", "TOX", "TOY", "TOZ"].some(k => k in surface)) warn("unresolved_coordinates", "Coordinate declarations retained; no global frame is calculated", { surface: index });
     if (["pickups", "PY", "PYC", "PU", "PUC", "EC"].some(k => k in surface)) warn("unresolved_constraints", "Pickup/solve declarations retained; literal values are not a solved snapshot", { surface: index });
+    if (["PFL", "PFM", "GSP", "GOR", "TCE"].some(k => k in surface)) warn("unresolved_optical_feature", "Perfect-imagery, grating or thermal declarations retained without optical interpretation", { surface: index });
     if (fmt === "oslo" && index === maxIndex && thickness) warn("image_focus_declaration", "Image TH is OSLO defocus, retained as a declaration rather than applied to the preceding gap", { surface: index });
     let clear = surface.aperture ?? null;
-    if (clear !== null) clear = { ...clear, ...Object.fromEntries(["r_min", "r_max", "offset_x", "offset_y"].map(k => [k, clear[k] * scale])) };
+    if (clear !== null) {
+      if (["r_min", "r_max", "offset_x", "offset_y"].some(k => !Number.isFinite(clear[k])) || !(0 <= clear.r_min && clear.r_min <= clear.r_max)) throw new Error("Clear aperture radii/offsets must be finite with 0 <= r_min <= r_max");
+      clear = { ...clear, ...Object.fromEntries(["r_min", "r_max", "offset_x", "offset_y"].map(k => [k, clear[k] * scale])) };
+    }
     else if (fmt === "oslo" && "AP" in surface) clear = { kind: "annulus", r_min: 0, r_max: surface.AP * scale, offset_x: 0, offset_y: 0, checked: surface.aperture_checked ?? false, checkingEnabled: model.settings.aperture_check ?? true };
     surfaces.push({ index, role: kind === "coordinate_break" ? "coordinateBreak" : index === 0 ? "object" : index === maxIndex ? "image" : "surface",
       type: kind, radiusMm: radius * scale, thicknessMm: thickness * scale, conic: surface[fmt === "zemax" ? "conic" : "CC"] ?? 0,

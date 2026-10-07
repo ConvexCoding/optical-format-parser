@@ -11,9 +11,15 @@ export interface Diagnostic {
   line?: number;
   surface?: number;
 }
-export type MaterialRecord = JsonObject & {
-  kind: "air" | "mirror" | "catalog" | "model" | "constantIndex" | "sampledIndex" | "unknown";
-};
+export type MaterialRecord = JsonObject & (
+  | { kind: "air" }
+  | { kind: "mirror" }
+  | { kind: "catalog"; name: string; resolution: "unresolved"; catalogs?: string[]; nd?: number | null; vd?: number | null }
+  | { kind: "model"; name: string | null; nd: number; vd: number; dispersion: "unspecified"; resolution: "unresolved" }
+  | { kind: "constantIndex"; name: string | null; index: number }
+  | { kind: "sampledIndex"; name: string | null; wavelengthsUm: number[]; indices: number[] }
+  | { kind: "unknown"; raw: string }
+);
 export interface NormalizedSurface {
   index: number;
   role: "object" | "surface" | "image" | "coordinateBreak";

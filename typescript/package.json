@@ -4,12 +4,13 @@
   "description": "Browser-native Zemax and OSLO prescription parsers and normalized JSON",
   "type": "module",
   "license": "MIT",
-  "exports": {".": {"types": "./dist/index.d.ts", "import": "./dist/index.js"}},
-  "files": ["dist", "LICENSE", "README.md"],
+  "exports": {".": {"types": "./dist/index.d.ts", "import": "./dist/index.js"}, "./schema": "./schema/prescription.schema.json"},
+  "files": ["dist", "LICENSE", "README.md", "schema"],
   "scripts": {
     "build": "tsc",
     "test": "tsx --test test/*.test.ts",
-    "check": "tsc --noEmit"
+    "check": "tsc --noEmit",
+    "prepack": "npm run build && node scripts/prepare-package.mjs"
   },
   "dependencies": {},
   "devDependencies": {
