@@ -1,6 +1,5 @@
 // Derived from Optiland master parser/model; see LICENSE.
 import { DeclarationError, PrescriptionParseError } from "./errors.js";
-import { ZEMAX_FIELD_COLUMNS } from "./models.js";
 import { LINE_BREAKS, parseInteger, parseNumber } from "./numbers.js";
 const FIELD_TYPES = ["angle", "object_height", "paraxial_image_height", "real_image_height", "theodolite_angle"];
 const FIELD_COMMANDS = new Map([
@@ -22,11 +21,15 @@ const SURFACE_TYPES = new Map([
     ["COORDBRK", "coordinate_break"],
     ["TOROIDAL", "toroidal"],
 ]);
-/** Records that carry no prescription data; reported as info rather than warnings. */
-const INFORMATIONAL = new Set(["VERS", "NAME", "NOTE", "PFIL", "LANG", "ZRD", "ZPK", "MNUM"]);
+/** Records that carry no prescription data; reported as inert rather than as warnings. */
+const INERT = new Set(["VERS", "PFIL", "LANG", "ZRD", "ZPK", "MNUM"]);
 const AXES = ["x", "y"];
-function newSurface() {
-    return { type: "standard", is_stop: false, conic: 0, material: "air", aperture: null };
+function newSurface(line) {
+    return { line, type: "standard", is_stop: false, conic: 0, material: "air", aperture: null };
+}
+/** Free text after a command: one pair of enclosing double quotes is a delimiter, not content. */
+function decodeText(text) {
+    return text.length >= 2 && text.startsWith('"') && text.endsWith('"') ? text.slice(1, -1) : text;
 }
 export function parseZemax(text) {
     const model = {
@@ -35,6 +38,16 @@ export function parseZemax(text) {
         records: [],
         diagnostics: [],
         name: null,
+        notes: [],
+        declarations: {
+            units: "defaulted",
+            wavelengths: "absent",
+            wavelengthWeights: "absent",
+            primaryWavelength: "absent",
+            aperture: "explicit",
+            fields: "defaulted",
+            terminator: "notApplicable",
+        },
         aperture: {},
         fields: {},
         wavelengths: { data: [], weights: [] },
@@ -42,7 +55,7 @@ export function parseZemax(text) {
     };
     const fields = model.fields;
     let surface = -1;
-    let current = newSurface();
+    let current = newSurface(0);
     let offset = [0, 0];
     let fieldCount = null;
     let wavelengthCount = null;
@@ -70,6 +83,17 @@ export function parseZemax(text) {
         model.wavelengths.data = active.map(([, entry]) => entry.value);
         model.wavelengths.weights = active.map(([, entry]) => entry.weight);
         model.wavelengths.num_wavelengths = wavelengthCount ?? active.length;
+        const weighted = active.filter(([, entry]) => entry.weighted).length;
+        model.declarations.wavelengths = active.length ? "explicit" : "absent";
+        model.declarations.wavelengthWeights = !active.length
+            ? "absent"
+            : weighted === active.length
+                ? "explicit"
+                : weighted
+                    ? "padded"
+                    : "defaulted";
+        if (active.length)
+            model.declarations.primaryWavelength = primarySlot === null ? "defaulted" : "explicit";
         if (primarySlot !== null) {
             const index = active.findIndex(([slot]) => slot === primarySlot);
             model.wavelengths.primary_index = index >= 0 ? index : null;
@@ -110,11 +134,14 @@ export function parseZemax(text) {
         const tokens = line.split(/\s+/);
         const command = tokens[0] ?? "";
         const num = (index = 1) => parseNumber(tokens[index]);
+        const rest = line.slice(command.length).trim();
         model.records.push({ line: lineNumber, text: line });
         try {
             const column = FIELD_COMMANDS.get(command);
             if (column) {
                 declaredColumns.set(column, tokens.slice(1).map((token) => parseNumber(token)));
+                if (column === "x" || column === "y")
+                    model.declarations.fields = "explicit";
                 syncFields();
                 continue;
             }
@@ -123,10 +150,18 @@ export function parseZemax(text) {
                     if (!tokens[1])
                         throw new DeclarationError("UNIT requires a unit");
                     model.units = tokens[1].toUpperCase();
+                    model.declarations.units = "explicit";
                     break;
                 case "NAME":
-                    model.name = tokens.slice(1).join(" ");
+                    model.name = decodeText(rest);
                     break;
+                case "NOTE": {
+                    // `NOTE n text`: the leading number is a line index, not content.
+                    const note = decodeText(rest.replace(/^[+-]?\d+(?:\s+|$)/, ""));
+                    if (note)
+                        model.notes.push(note);
+                    break;
+                }
                 case "FNUM": {
                     const mode = parseInteger(tokens[2]);
                     if (mode === 0)
@@ -156,7 +191,8 @@ export function parseZemax(text) {
                 case "WAVM": {
                     const slot = command === "WAVL" ? Math.max(0, ...slots.keys()) + 1 : parseInteger(tokens[1]);
                     if (slot >= 1) {
-                        slots.set(slot, { value: num(2), weight: tokens.length > 3 ? num(3) : 1 });
+                        const weighted = tokens.length > 3;
+                        slots.set(slot, { value: num(2), weight: weighted ? num(3) : 1, weighted });
                         syncWavelengths();
                     }
                     break;
@@ -165,13 +201,21 @@ export function parseZemax(text) {
                     primarySlot = parseInteger(tokens[1]);
                     syncWavelengths();
                     break;
-                case "SURF":
+                case "SURF": {
+                    // The literal index is the surface's identity: surfaces are numbered from 0 without gaps.
+                    if (tokens.length !== 2)
+                        throw new DeclarationError("SURF requires exactly one surface index");
+                    const declared = parseInteger(tokens[1]);
+                    if (declared !== surface + 1) {
+                        throw new DeclarationError(`index ${declared} is out of sequence; expected ${surface + 1}`);
+                    }
                     if (surface >= 0)
                         model.surfaces[surface] = current;
                     surface++;
                     offset = [0, 0];
-                    current = newSurface();
+                    current = newSurface(lineNumber);
                     break;
+                }
                 case "TYPE": {
                     const name = tokens[1];
                     if (name === undefined)
@@ -222,6 +266,24 @@ export function parseZemax(text) {
                 case "DIAM":
                     current.diameter = num();
                     break;
+                case "MEMA":
+                    current.mechanical_semi_diameter = num();
+                    if (!Number.isFinite(current.mechanical_semi_diameter) || current.mechanical_semi_diameter < 0) {
+                        throw new DeclarationError("MEMA must be finite and nonnegative");
+                    }
+                    break;
+                case "COMM":
+                    if (rest)
+                        current.comment = decodeText(rest);
+                    else
+                        delete current.comment;
+                    break;
+                case "COAT":
+                    if (tokens[1])
+                        current.coating = decodeText(tokens[1]);
+                    else
+                        delete current.coating;
+                    break;
                 case "MODE":
                     if (tokens[1] !== "SEQ")
                         throw new DeclarationError("Only sequential mode is supported");
@@ -242,7 +304,7 @@ export function parseZemax(text) {
                         command,
                         line: lineNumber,
                         surface,
-                        severity: INFORMATIONAL.has(command) ? "info" : "warning",
+                        severity: INERT.has(command) ? "info" : "warning",
                         message: "Record retained but not interpreted",
                     });
             }
@@ -259,25 +321,6 @@ export function parseZemax(text) {
     }
     if (!Object.keys(model.aperture).length)
         throw new DeclarationError("Zemax file requires aperture data");
-    // Drop duplicate (x, y) points and order the rest by y, keeping every column aligned.
-    const columns = ZEMAX_FIELD_COLUMNS.filter((column) => AXES.includes(column) || column in fields);
-    const rowCount = Math.min(...columns.map((column) => fields[column]?.length ?? 0));
-    const seen = new Set();
-    const rows = [];
-    for (let i = 0; i < rowCount; i++) {
-        const row = columns.map((column) => fields[column]?.[i] ?? 0);
-        const key = JSON.stringify(row.slice(0, 2));
-        if (!seen.has(key)) {
-            rows.push(row);
-            seen.add(key);
-        }
-    }
-    rows.sort((a, b) => (a[1] ?? 0) - (b[1] ?? 0));
-    if (rows.length) {
-        columns.forEach((column, i) => {
-            fields[column] = rows.map((row) => row[i] ?? 0);
-        });
-    }
     if (fieldCount === null)
         fields.num_fields = fields.x?.length ?? 0;
     if (surface >= 0)

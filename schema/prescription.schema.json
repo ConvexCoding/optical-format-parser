@@ -1,12 +1,12 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "urn:optical-format-parser:prescription:2.0",
+  "$id": "urn:optical-format-parser:prescription:1.0",
   "title": "Normalized optical prescription (declarations, not computed optics)",
-  "description": "The JSON written by stringify(). Lengths are millimeters and wavelengths micrometers; parameters, source and raw keep file units. Infinite numbers appear as { \"special\": \"positiveInfinity\" | \"negativeInfinity\" }.",
+  "description": "The JSON written by stringify(). Lengths are millimeters, wavelengths micrometers and angles degrees; parameters, source and raw keep file units. Infinite numbers appear as { \"special\": \"positiveInfinity\" | \"negativeInfinity\" }.",
   "type": "object",
   "properties": {
     "schemaVersion": {
-      "const": "2.0"
+      "const": "1.0"
     },
     "source": {
       "type": "object",
@@ -34,8 +34,60 @@
         }
       ]
     },
+    "designer": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "notes": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
     "mode": {
       "const": "sequential"
+    },
+    "declarations": {
+      "type": "object",
+      "properties": {
+        "units": {
+          "$ref": "#/$defs/declarationStatus"
+        },
+        "wavelengths": {
+          "$ref": "#/$defs/declarationStatus"
+        },
+        "wavelengthWeights": {
+          "$ref": "#/$defs/declarationStatus"
+        },
+        "primaryWavelength": {
+          "$ref": "#/$defs/declarationStatus"
+        },
+        "aperture": {
+          "$ref": "#/$defs/declarationStatus"
+        },
+        "fields": {
+          "$ref": "#/$defs/declarationStatus"
+        },
+        "terminator": {
+          "$ref": "#/$defs/declarationStatus"
+        }
+      },
+      "required": [
+        "units",
+        "wavelengths",
+        "wavelengthWeights",
+        "primaryWavelength",
+        "aperture",
+        "fields",
+        "terminator"
+      ],
+      "additionalProperties": false
     },
     "units": {
       "type": "object",
@@ -261,6 +313,11 @@
           "code": {
             "enum": [
               "uninterpreted_record",
+              "inert_record",
+              "default_wavelengths",
+              "padded_wavelength_weights",
+              "missing_end",
+              "unresolved_geometry",
               "assumed_units",
               "multiple_apertures",
               "field_count_mismatch",
@@ -306,7 +363,10 @@
     "schemaVersion",
     "source",
     "name",
+    "designer",
+    "notes",
     "mode",
+    "declarations",
     "units",
     "aperture",
     "fields",
@@ -352,10 +412,17 @@
         }
       ]
     },
+    "declarationStatus": {
+      "enum": ["explicit", "defaulted", "padded", "inferred", "absent", "notApplicable"]
+    },
     "surface": {
       "type": "object",
       "properties": {
         "index": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "line": {
           "type": "integer",
           "minimum": 0
         },
@@ -453,6 +520,188 @@
             }
           ]
         },
+        "mechanicalSemiDiameter": {
+          "anyOf": [
+            {
+              "type": "number",
+              "minimum": 0
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "comment": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "coating": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "coordinates": {
+          "anyOf": [
+            {
+              "type": "object",
+              "properties": {
+                "decenterX": {
+                  "type": "number"
+                },
+                "decenterY": {
+                  "type": "number"
+                },
+                "decenterZ": {
+                  "type": "number"
+                },
+                "tiltX": {
+                  "type": "number"
+                },
+                "tiltY": {
+                  "type": "number"
+                },
+                "tiltZ": {
+                  "type": "number"
+                },
+                "order": {
+                  "enum": ["decenterThenTilt", "tiltThenDecenter"]
+                },
+                "bend": {
+                  "type": "boolean"
+                },
+                "returnTo": {
+                  "anyOf": [
+                    {
+                      "type": "integer",
+                      "minimum": 0
+                    },
+                    {
+                      "type": "null"
+                    }
+                  ]
+                },
+                "returnBase": {
+                  "type": "boolean"
+                },
+                "globalReference": {
+                  "anyOf": [
+                    {
+                      "type": "integer",
+                      "minimum": 0
+                    },
+                    {
+                      "type": "null"
+                    }
+                  ]
+                },
+                "tiltOffsetX": {
+                  "type": "number"
+                },
+                "tiltOffsetY": {
+                  "type": "number"
+                },
+                "tiltOffsetZ": {
+                  "type": "number"
+                }
+              },
+              "required": [
+                "decenterX",
+                "decenterY",
+                "decenterZ",
+                "tiltX",
+                "tiltY",
+                "tiltZ",
+                "order",
+                "bend",
+                "returnTo",
+                "returnBase",
+                "globalReference",
+                "tiltOffsetX",
+                "tiltOffsetY",
+                "tiltOffsetZ"
+              ],
+              "additionalProperties": false
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "pickups": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "property": {
+                "enum": ["curvature", "thickness", "aperture", "material", "coordinates"]
+              },
+              "native": {
+                "type": "string"
+              },
+              "negated": {
+                "type": "boolean"
+              },
+              "reference": {
+                "type": "integer"
+              },
+              "arguments": {
+                "type": "array",
+                "items": {
+                  "type": "number"
+                }
+              },
+              "line": {
+                "type": "integer",
+                "minimum": 0
+              }
+            },
+            "required": ["property", "native", "negated", "reference", "arguments", "line"],
+            "additionalProperties": false
+          }
+        },
+        "solves": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "kind": {
+                "enum": ["axialRayHeight", "chiefRayHeight", "axialRayAngle", "chiefRayAngle", "edgeContact"]
+              },
+              "native": {
+                "type": "string"
+              },
+              "target": {
+                "enum": ["thickness", "curvature"]
+              },
+              "value": {
+                "type": "number"
+              },
+              "line": {
+                "type": "integer",
+                "minimum": 0
+              }
+            },
+            "required": ["kind", "native", "target", "value", "line"],
+            "additionalProperties": false
+          }
+        },
+        "unresolvedSag": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
         "asphereTerms": {
           "type": "array",
           "items": {
@@ -482,6 +731,7 @@
       },
       "required": [
         "index",
+        "line",
         "role",
         "type",
         "nativeType",
@@ -492,6 +742,13 @@
         "material",
         "clearAperture",
         "semiDiameter",
+        "mechanicalSemiDiameter",
+        "comment",
+        "coating",
+        "coordinates",
+        "pickups",
+        "solves",
+        "unresolvedSag",
         "parameters"
       ],
       "additionalProperties": false,
@@ -672,6 +929,19 @@
             }
           },
           "required": ["kind", "name", "wavelengths", "indices"],
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "properties": {
+            "kind": {
+              "const": "pickup"
+            },
+            "reference": {
+              "type": "integer"
+            }
+          },
+          "required": ["kind", "reference"],
           "additionalProperties": false
         },
         {

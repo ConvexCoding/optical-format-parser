@@ -1,5 +1,5 @@
 {
-  "schemaVersion": "2.0",
+  "schemaVersion": "1.0",
   "source": {
     "format": "zemax",
     "encoding": "utf-16-le",
@@ -7,6 +7,19 @@
   },
   "name": "47728 Asphere F/1.5",
   "mode": "sequential",
+  "declarations": {
+    "units": "explicit",
+    "wavelengths": "explicit",
+    "wavelengthWeights": "explicit",
+    "primaryWavelength": "explicit",
+    "aperture": "explicit",
+    "fields": "explicit",
+    "terminator": "notApplicable"
+  },
+  "designer": null,
+  "notes": [
+    "Lens Asphere 15mm F/1.5 UNCTD"
+  ],
   "units": {
     "length": "mm",
     "wavelength": "um",
@@ -67,6 +80,7 @@
   "surfaces": [
     {
       "index": 0,
+      "line": 26,
       "role": "object",
       "nativeType": "STANDARD",
       "radius": {
@@ -82,6 +96,13 @@
       },
       "clearAperture": null,
       "semiDiameter": null,
+      "mechanicalSemiDiameter": 0,
+      "comment": null,
+      "coating": null,
+      "coordinates": null,
+      "pickups": [],
+      "solves": [],
+      "unresolvedSag": [],
       "parameters": {
         "type": "standard",
         "is_stop": false,
@@ -93,12 +114,14 @@
         },
         "thickness": {
           "special": "positiveInfinity"
-        }
+        },
+        "mechanical_semi_diameter": 0
       },
       "type": "standard"
     },
     {
       "index": 1,
+      "line": 32,
       "role": "surface",
       "nativeType": "EVENASPH",
       "radius": 13.255,
@@ -126,6 +149,13 @@
         "checkingEnabled": null
       },
       "semiDiameter": 6.75,
+      "mechanicalSemiDiameter": 7.5,
+      "comment": "47728",
+      "coating": null,
+      "coordinates": null,
+      "pickups": [],
+      "solves": [],
+      "unresolvedSag": [],
       "parameters": {
         "type": "even_asphere",
         "is_stop": true,
@@ -148,6 +178,7 @@
           "offset_x": 0,
           "offset_y": 0
         },
+        "comment": "47728",
         "radius": 13.255,
         "param_0": 0,
         "param_1": 0.00009556697,
@@ -160,7 +191,8 @@
         "thickness": 4,
         "index": null,
         "abbe": null,
-        "diameter": 6.75
+        "diameter": 6.75,
+        "mechanical_semi_diameter": 7.5
       },
       "type": "evenAsphere",
       "asphereTerms": [
@@ -208,6 +240,7 @@
     },
     {
       "index": 2,
+      "line": 54,
       "role": "surface",
       "nativeType": "STANDARD",
       "radius": {
@@ -229,6 +262,13 @@
         "checkingEnabled": null
       },
       "semiDiameter": 6.75,
+      "mechanicalSemiDiameter": 7.5,
+      "comment": null,
+      "coating": null,
+      "coordinates": null,
+      "pickups": [],
+      "solves": [],
+      "unresolvedSag": [],
       "parameters": {
         "type": "standard",
         "is_stop": false,
@@ -245,12 +285,14 @@
           "special": "positiveInfinity"
         },
         "thickness": 19.982263937046813,
-        "diameter": 6.75
+        "diameter": 6.75,
+        "mechanical_semi_diameter": 7.5
       },
       "type": "standard"
     },
     {
       "index": 3,
+      "line": 64,
       "role": "image",
       "nativeType": "STANDARD",
       "radius": {
@@ -264,6 +306,13 @@
       },
       "clearAperture": null,
       "semiDiameter": null,
+      "mechanicalSemiDiameter": 0.0010092192841524295,
+      "comment": null,
+      "coating": null,
+      "coordinates": null,
+      "pickups": [],
+      "solves": [],
+      "unresolvedSag": [],
       "parameters": {
         "type": "standard",
         "is_stop": false,
@@ -273,7 +322,8 @@
         "radius": {
           "special": "positiveInfinity"
         },
-        "thickness": 0
+        "thickness": 0,
+        "mechanical_semi_diameter": 0.0010092192841524295
       },
       "type": "standard"
     }
@@ -281,7 +331,7 @@
   "diagnostics": [
     {
       "severity": "info",
-      "code": "uninterpreted_record",
+      "code": "inert_record",
       "message": "Record retained but not interpreted",
       "command": "VERS",
       "line": 1
@@ -302,21 +352,14 @@
     },
     {
       "severity": "info",
-      "code": "uninterpreted_record",
-      "message": "Record retained but not interpreted",
-      "command": "NOTE",
-      "line": 6
-    },
-    {
-      "severity": "info",
-      "code": "uninterpreted_record",
+      "code": "inert_record",
       "message": "Record retained but not interpreted",
       "command": "PFIL",
       "line": 7
     },
     {
       "severity": "info",
-      "code": "uninterpreted_record",
+      "code": "inert_record",
       "message": "Record retained but not interpreted",
       "command": "LANG",
       "line": 8
@@ -389,22 +432,6 @@
       "severity": "warning",
       "code": "uninterpreted_record",
       "message": "Record retained but not interpreted",
-      "command": "MEMA",
-      "line": 31,
-      "surface": 0
-    },
-    {
-      "severity": "warning",
-      "code": "uninterpreted_record",
-      "message": "Record retained but not interpreted",
-      "command": "COMM",
-      "line": 33,
-      "surface": 1
-    },
-    {
-      "severity": "warning",
-      "code": "uninterpreted_record",
-      "message": "Record retained but not interpreted",
       "command": "FIMP",
       "line": 36,
       "surface": 1
@@ -415,14 +442,6 @@
       "message": "Record retained but not interpreted",
       "command": "OEMA",
       "line": 51,
-      "surface": 1
-    },
-    {
-      "severity": "warning",
-      "code": "uninterpreted_record",
-      "message": "Record retained but not interpreted",
-      "command": "MEMA",
-      "line": 52,
       "surface": 1
     },
     {
@@ -453,24 +472,8 @@
       "severity": "warning",
       "code": "uninterpreted_record",
       "message": "Record retained but not interpreted",
-      "command": "MEMA",
-      "line": 62,
-      "surface": 2
-    },
-    {
-      "severity": "warning",
-      "code": "uninterpreted_record",
-      "message": "Record retained but not interpreted",
       "command": "FIMP",
       "line": 65,
-      "surface": 3
-    },
-    {
-      "severity": "warning",
-      "code": "uninterpreted_record",
-      "message": "Record retained but not interpreted",
-      "command": "MEMA",
-      "line": 69,
       "surface": 3
     },
     {
@@ -768,13 +771,6 @@
         "message": "Record retained but not interpreted"
       },
       {
-        "command": "NOTE",
-        "line": 6,
-        "surface": -1,
-        "severity": "info",
-        "message": "Record retained but not interpreted"
-      },
-      {
         "command": "PFIL",
         "line": 7,
         "surface": -1,
@@ -852,20 +848,6 @@
         "message": "Record retained but not interpreted"
       },
       {
-        "command": "MEMA",
-        "line": 31,
-        "surface": 0,
-        "severity": "warning",
-        "message": "Record retained but not interpreted"
-      },
-      {
-        "command": "COMM",
-        "line": 33,
-        "surface": 1,
-        "severity": "warning",
-        "message": "Record retained but not interpreted"
-      },
-      {
         "command": "FIMP",
         "line": 36,
         "surface": 1,
@@ -875,13 +857,6 @@
       {
         "command": "OEMA",
         "line": 51,
-        "surface": 1,
-        "severity": "warning",
-        "message": "Record retained but not interpreted"
-      },
-      {
-        "command": "MEMA",
-        "line": 52,
         "surface": 1,
         "severity": "warning",
         "message": "Record retained but not interpreted"
@@ -908,28 +883,26 @@
         "message": "Record retained but not interpreted"
       },
       {
-        "command": "MEMA",
-        "line": 62,
-        "surface": 2,
-        "severity": "warning",
-        "message": "Record retained but not interpreted"
-      },
-      {
         "command": "FIMP",
         "line": 65,
-        "surface": 3,
-        "severity": "warning",
-        "message": "Record retained but not interpreted"
-      },
-      {
-        "command": "MEMA",
-        "line": 69,
         "surface": 3,
         "severity": "warning",
         "message": "Record retained but not interpreted"
       }
     ],
     "name": "47728 Asphere F/1.5",
+    "notes": [
+      "Lens Asphere 15mm F/1.5 UNCTD"
+    ],
+    "declarations": {
+      "units": "explicit",
+      "wavelengths": "explicit",
+      "wavelengthWeights": "explicit",
+      "primaryWavelength": "explicit",
+      "aperture": "explicit",
+      "fields": "explicit",
+      "terminator": "notApplicable"
+    },
     "aperture": {
       "EPD": 15
     },
@@ -960,6 +933,7 @@
     },
     "surfaces": {
       "0": {
+        "line": 26,
         "type": "standard",
         "is_stop": false,
         "conic": 0,
@@ -970,9 +944,11 @@
         },
         "thickness": {
           "special": "positiveInfinity"
-        }
+        },
+        "mechanical_semi_diameter": 0
       },
       "1": {
+        "line": 32,
         "type": "even_asphere",
         "is_stop": true,
         "conic": -2.364143,
@@ -994,6 +970,7 @@
           "offset_x": 0,
           "offset_y": 0
         },
+        "comment": "47728",
         "radius": 13.255,
         "param_0": 0,
         "param_1": 0.00009556697,
@@ -1006,9 +983,11 @@
         "thickness": 4,
         "index": null,
         "abbe": null,
-        "diameter": 6.75
+        "diameter": 6.75,
+        "mechanical_semi_diameter": 7.5
       },
       "2": {
+        "line": 54,
         "type": "standard",
         "is_stop": false,
         "conic": 0,
@@ -1024,9 +1003,11 @@
           "special": "positiveInfinity"
         },
         "thickness": 19.982263937046813,
-        "diameter": 6.75
+        "diameter": 6.75,
+        "mechanical_semi_diameter": 7.5
       },
       "3": {
+        "line": 64,
         "type": "standard",
         "is_stop": false,
         "conic": 0,
@@ -1035,7 +1016,8 @@
         "radius": {
           "special": "positiveInfinity"
         },
-        "thickness": 0
+        "thickness": 0,
+        "mechanical_semi_diameter": 0.0010092192841524295
       }
     },
     "glass_catalogs": [

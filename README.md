@@ -100,30 +100,72 @@ Zemax byte decoding supports UTF-8, UTF-16 LE/BE, and Latin-1; OSLO supports UTF
 
 All types are exported; `NormalizedPrescription` is the root. **Every length is in millimeters and every wavelength in micrometers**, whatever unit the file used, so property names carry no unit. A name includes a unit only where it departs from that rule (`units.scaleToMm`, the millimeters per source unit). Angles are in degrees. The pass-through records (`parameters`, `source`, `raw`) keep the file's own units.
 
-| Property               | Type                  | Notes                                                                                                                                                       |
-| ---------------------- | --------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `surfaces`             | `NormalizedSurface[]` | Union discriminated by `type`: `"standard"`, `"evenAsphere"`, `"oddAsphere"`, `"toroidal"`, `"coordinateBreak"`, `"paraxial"`, `"polynomial"`, `"unknown"`. |
-| `surfaces[i].material` | `Material`            | Union discriminated by `kind`: `"air"`, `"mirror"`, `"catalog"`, `"model"`, `"constantIndex"`, `"sampledIndex"`, `"unknown"`.                               |
-| `aperture`             | `SystemAperture`      | Union discriminated by `kind`; `value` is `null` only for `"floatingStop"` and `"unspecified"`.                                                             |
-| `fields`               | `Fields`              | `points` is never empty. `specification` says whether they are the file's point list (Zemax) or its single full-field point (OSLO).                         |
-| `wavelengths`          | `Wavelengths`         | Parallel `values` (micrometers) and `weights`, plus `primaryIndex`.                                                                                         |
-| `diagnostics`          | `Diagnostic[]`        | `severity` is `"info"` or `"warning"`; `code` is a closed set of literals.                                                                                  |
+| Property                    | Type                         | Notes                                                                                                                                                                                                   |
+| --------------------------- | ---------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `surfaces`                  | `NormalizedSurface[]`        | Union discriminated by `type`: `"standard"`, `"evenAsphere"`, `"oddAsphere"`, `"toroidal"`, `"coordinateBreak"`, `"paraxial"`, `"polynomial"`, `"unknown"`.                                             |
+| `surfaces[i].material`      | `Material`                   | Union discriminated by `kind`: `"air"`, `"mirror"`, `"catalog"`, `"model"`, `"constantIndex"`, `"sampledIndex"`, `"pickup"`, `"unknown"`.                                                               |
+| `aperture`                  | `SystemAperture`             | Union discriminated by `kind`; `value` is `null` only for `"floatingStop"` and `"unspecified"`.                                                                                                         |
+| `fields`                    | `Fields`                     | `points` is never empty and keeps the file's order, repeated coordinates included. `specification` says whether they are the file's point list (Zemax) or its single full-field point (OSLO).           |
+| `name`, `designer`, `notes` | `string \| null`, `string[]` | The title (Zemax `NAME`, OSLO `LEN`), OSLO `DES`, and the design notes in order (Zemax `NOTE`, OSLO `SNOn`).                                                                                            |
+| `declarations`              | `Declarations`               | For units, wavelengths, weights, primary wavelength, aperture, fields and the OSLO `END`: whether the file states it (`"explicit"`) or it was `"defaulted"`, `"padded"`, `"inferred"` or is `"absent"`. |
+| `wavelengths`               | `Wavelengths`                | Parallel `values` (micrometers) and `weights`, plus `primaryIndex`.                                                                                                                                     |
+| `diagnostics`               | `Diagnostic[]`               | `severity` is `"info"` or `"warning"`; `code` is a closed set of literals.                                                                                                                              |
 
-Every surface has `radius` (`Infinity` when flat), `thickness`, `conic`, `stop`, `clearAperture`, `semiDiameter`, `nativeType` (the format's own type name) and `parameters` (every declaration as the file spells it, in file units). Asphere surfaces add `asphereTerms`: each term is `coefficient * r^power` with `r` and sag in millimeters, so the format-specific coefficient naming and unit scaling are already resolved.
+### Surfaces
+
+The prescription is a list of surfaces, not of lenses or mirrors: grouping surfaces into elements is left to the application. Every surface carries the same properties, so that grouping needs no format-specific code and no second look at the file.
+
+| Property                               | Notes                                                                                                                                             |
+| -------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `index`, `line`, `role`                | Position in the sequence, the source line that opens the surface, and `"object"`, `"surface"`, `"image"` or `"coordinateBreak"`.                  |
+| `radius`, `thickness`, `conic`         | `radius` is `Infinity` when flat.                                                                                                                 |
+| `material`                             | The medium after the surface.                                                                                                                     |
+| `stop`                                 | Whether this is the aperture stop.                                                                                                                |
+| `semiDiameter`, `clearAperture`        | The optical extent: Zemax `DIAM` and `CLAP`, OSLO `AP`.                                                                                           |
+| `mechanicalSemiDiameter`               | The physical edge of the part (Zemax `MEMA`), separate from the clear aperture. `null` when not declared.                                         |
+| `comment`, `coating`                   | Zemax `COMM` or OSLO `NOT`, and Zemax `COAT`. Names only; no coating is modeled.                                                                  |
+| `coordinates`                          | Declared decenters (mm), tilts (degrees), their order, and the OSLO bend, return and global-reference declarations. `null` when there are none.   |
+| `pickups`, `solves`                    | OSLO `PK` and `PY`/`PYC`/`PU`/`PUC`/`EC` declarations, with the property each controls and its source line. Not executed.                         |
+| `asphereTerms` (asphere surfaces only) | Each term is `coefficient * r^power` with `r` and sag in millimeters.                                                                             |
+| `unresolvedSag`                        | OSLO sag coefficients that are declared but have no entry in `asphereTerms`. Empty when `radius`, `conic` and `asphereTerms` are the whole shape. |
+| `nativeType`, `parameters`             | The format's own type name, and every declaration as the file spells it, in file units.                                                           |
+
+A property controlled by a pickup or solve keeps the value the file saved for it. When the file saved none, the value is empty rather than a default: `semiDiameter` is `null`, and a surface whose glass is only a `PK GLA` has the material `{ kind: "pickup", reference }` instead of air.
+
+Tilts keep each format's own meaning. Zemax tilts are right-handed rotations about +x, +y and +z, and a coordinate break moves the frame for the surfaces after it. OSLO `TLA` and `TLB` rotate about -x and -y and apply to the surface they are declared on.
+
+Asphere terms have the format-specific coefficient naming and unit scaling already resolved:
 
 | Source                      | Term                |
 | --------------------------- | ------------------- |
 | Zemax `EVENASPH` `PARM n`   | r^(2n)              |
 | Zemax `ODDASPHE` `PARM n`   | r^n                 |
 | OSLO `AD`, `AE`, `AF`, `AG` | r^4, r^6, r^8, r^10 |
+| OSLO `AS2`..`AS5`, no `ASP` | r^4, r^6, r^8, r^10 |
 | OSLO `ASn` under `ASP ASR`  | r^(2n)              |
 | OSLO `ASn` under `ASP ARA`  | r^n                 |
 
+The OSLO rows follow the OSLO Program Reference (equations 3.9 and 3.17), which also states that `AD`..`AG` and `AS2`..`AS5` are the same four coefficients; when a surface declares both names for one, the later declaration is used. A surface without `ASP` is OSLO's standard asphere, which stops at r^10, so any other `ASn` on it is listed in `unresolvedSag`.
+
 OSLO declares only the maximum field, so `fields.points` holds that one point. Rows of an OSLO field table are fractions of the full field and are reported unconverted in `fields.relativePoints`.
+
+### Diagnostics
+
+Diagnostic codes fall into three groups, so a review can separate what may matter optically from what cannot:
+
+| Group                          | Severity  | Codes                                                                                                                                                                                                                                                |
+| ------------------------------ | --------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Cannot affect the prescription | `info`    | `inert_record`: version and file records, and OSLO display, spot-diagram and optimization settings, ray sets and operands.                                                                                                                           |
+| Left to a default              | `info`    | `assumed_units`, `default_wavelengths`, `padded_wavelength_weights`, `missing_end`. These mirror `declarations`.                                                                                                                                     |
+| Kept but not interpreted       | `warning` | `uninterpreted_record` (an unknown record, which may be optical), `unresolved_material`, `unresolved_geometry`, `unresolved_coordinates`, `unresolved_constraints`, `unresolved_optical_feature`, `unresolved_surface_type` and the remaining codes. |
+
+`strict` rejects warnings only. Whether a defaulted declaration is acceptable is the application's decision: check `declarations`, for example `declarations.terminator === "absent"` for an OSLO file cut off before `END`.
+
+Malformed structure is always an error, whatever the options. Zemax `SURF` records must number the surfaces from 0 without gaps or repeats, and OSLO surface counts must match `LEN` and `END`.
 
 ## JSON contract
 
-The [schema](schema/prescription.schema.json) describes schema version `2.0`: the JSON that `stringify` writes. JSON cannot represent infinity, so infinite radii and thicknesses are written as tagged objects, and `parseJson` turns them back into numbers:
+The [schema](schema/prescription.schema.json) describes schema version `1.0`: the JSON that `stringify` writes. JSON cannot represent infinity, so infinite radii and thicknesses are written as tagged objects, and `parseJson` turns them back into numbers:
 
 ```json
 { "special": "positiveInfinity" }
@@ -141,7 +183,7 @@ Runtime schema validation is optional and supplied by the consuming application.
 
 **Parsing into JSON does not establish optical equivalence with Zemax or OSLO.** This library captures prescription declarations. Catalog names, direct-index samples, coordinate commands, pickups, and solve declarations are retained as data. Catalog resolution, dispersion fitting, solve/pickup execution, global frame composition, thermal analysis, and ray tracing are outside its scope.
 
-Review `diagnostics` alongside the data. A retained command or surface type does not mean its optical effect was implemented. Strict parsing rejects warning diagnostics; it does not certify optical accuracy. Legacy Zemax `WAVL` vector syntax and `WWGT` are not fully interpreted. Alternative OSLO configurations remain declarations in `raw` (with `includeRaw`); common surfaces describe the base prescription. Values in `parameters`, the `source` records and `raw` keep the file's own units; the normalized properties are in millimeters and micrometers. The OSLO `ASn` powers above follow the upstream importer's documentation and have not been checked against OSLO itself.
+Review `diagnostics` alongside the data. A retained command or surface type does not mean its optical effect was implemented. Strict parsing rejects warning diagnostics; it does not certify optical accuracy. Legacy Zemax `WAVL` vector syntax and `WWGT` are not fully interpreted. Alternative OSLO configurations remain declarations in `raw` (with `includeRaw`); common surfaces describe the base prescription. Values in `parameters`, the `source` records and `raw` keep the file's own units; the normalized properties are in millimeters and micrometers. OSLO writes `BCR` on fold mirrors but the OSLO Program Reference does not define it; it is reported as `coordinates.returnBase` without interpretation.
 
 [Detailed compatibility notes](docs/compatibility.md) document the original importer restrictions and how this library's scope differs. Adapted code and test inputs retain their required [MIT attribution](LICENSE).
 
@@ -150,7 +192,7 @@ Review `diagnostics` alongside the data. A retained command or surface type does
 ```sh
 npm ci
 npm run check          # Type-check source and TypeScript tests
-npm test               # 44 parser regression/schema/API/edge-case tests
+npm test               # 56 parser regression/schema/API/edge-case tests
 npm run build          # Generate dist/ JavaScript and declarations
 npm run test:package   # Install the tarball in an isolated JS/TS consumer
 npm run test:all       # Formatting check plus all checks above
@@ -160,7 +202,7 @@ npm run release        # Run all checks, then bump the version, commit, tag and 
 npm run demo          # Build and serve the browser example and checks
 ```
 
-The fixture suite covers all 15 Zemax and 7 OSLO inputs, plus 18 saved synthetic regression cases and independent assertions for geometry, units, encodings, quoting, diagnostics, and malformed data. Tests run entirely in JavaScript/TypeScript and never regenerate expectations. The package test installs the tarball and checks its runtime exports from ESM and CommonJS, the schema export, TypeScript resolution in NodeNext and Bundler modes, and compile-time behavior of the public types (narrowing, exhaustive switches, and rejected typos). These checks establish parser regression behavior and JSON structure, not ray-trace accuracy.
+The fixture suite covers all 15 Zemax and 7 OSLO inputs, plus 18 saved synthetic regression cases, 22 synthetic prescriptions covering metadata, mechanical apertures, coordinates, pickups, solves, declaration defaults and malformed structure, and independent assertions for geometry, units, encodings, quoting, diagnostics, and malformed data. Tests run entirely in JavaScript/TypeScript and never regenerate expectations. The package test installs the tarball and checks its runtime exports from ESM and CommonJS, the schema export, TypeScript resolution in NodeNext and Bundler modes, and compile-time behavior of the public types (narrowing, exhaustive switches, and rejected typos). These checks establish parser regression behavior and JSON structure, not ray-trace accuracy.
 
 `npm run demo` serves [the browser example](http://127.0.0.1:8765/examples/browser/) and [25 browser checks](http://127.0.0.1:8765/test/browser.html). Set `PORT` to change the default port, 8765. Files selected in the example stay local.
 

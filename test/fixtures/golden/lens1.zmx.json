@@ -1,5 +1,5 @@
 {
-  "schemaVersion": "2.0",
+  "schemaVersion": "1.0",
   "source": {
     "format": "zemax",
     "encoding": "utf-8",
@@ -7,6 +7,17 @@
   },
   "name": null,
   "mode": "sequential",
+  "declarations": {
+    "units": "explicit",
+    "wavelengths": "explicit",
+    "wavelengthWeights": "explicit",
+    "primaryWavelength": "explicit",
+    "aperture": "explicit",
+    "fields": "explicit",
+    "terminator": "notApplicable"
+  },
+  "designer": null,
+  "notes": [],
   "units": {
     "length": "mm",
     "wavelength": "um",
@@ -96,6 +107,7 @@
   "surfaces": [
     {
       "index": 0,
+      "line": 16,
       "role": "object",
       "nativeType": "STANDARD",
       "radius": {
@@ -111,6 +123,13 @@
       },
       "clearAperture": null,
       "semiDiameter": null,
+      "mechanicalSemiDiameter": null,
+      "comment": null,
+      "coating": null,
+      "coordinates": null,
+      "pickups": [],
+      "solves": [],
+      "unresolvedSag": [],
       "parameters": {
         "type": "standard",
         "is_stop": false,
@@ -128,6 +147,7 @@
     },
     {
       "index": 1,
+      "line": 20,
       "role": "surface",
       "nativeType": "STANDARD",
       "radius": 12.439788347626695,
@@ -146,6 +166,13 @@
       },
       "clearAperture": null,
       "semiDiameter": null,
+      "mechanicalSemiDiameter": null,
+      "comment": null,
+      "coating": null,
+      "coordinates": null,
+      "pickups": [],
+      "solves": [],
+      "unresolvedSag": [],
       "parameters": {
         "type": "standard",
         "is_stop": false,
@@ -170,6 +197,7 @@
     },
     {
       "index": 2,
+      "line": 25,
       "role": "surface",
       "nativeType": "STANDARD",
       "radius": -181.2574754401636,
@@ -181,6 +209,13 @@
       },
       "clearAperture": null,
       "semiDiameter": null,
+      "mechanicalSemiDiameter": null,
+      "comment": null,
+      "coating": null,
+      "coordinates": null,
+      "pickups": [],
+      "solves": [],
+      "unresolvedSag": [],
       "parameters": {
         "type": "standard",
         "is_stop": false,
@@ -194,6 +229,7 @@
     },
     {
       "index": 3,
+      "line": 29,
       "role": "surface",
       "nativeType": "STANDARD",
       "radius": -12.362402664694592,
@@ -212,6 +248,13 @@
       },
       "clearAperture": null,
       "semiDiameter": null,
+      "mechanicalSemiDiameter": null,
+      "comment": null,
+      "coating": null,
+      "coordinates": null,
+      "pickups": [],
+      "solves": [],
+      "unresolvedSag": [],
       "parameters": {
         "type": "standard",
         "is_stop": false,
@@ -236,6 +279,7 @@
     },
     {
       "index": 4,
+      "line": 34,
       "role": "surface",
       "nativeType": "STANDARD",
       "radius": 10.181895642830472,
@@ -247,6 +291,13 @@
       },
       "clearAperture": null,
       "semiDiameter": null,
+      "mechanicalSemiDiameter": null,
+      "comment": null,
+      "coating": null,
+      "coordinates": null,
+      "pickups": [],
+      "solves": [],
+      "unresolvedSag": [],
       "parameters": {
         "type": "standard",
         "is_stop": false,
@@ -260,6 +311,7 @@
     },
     {
       "index": 5,
+      "line": 38,
       "role": "surface",
       "nativeType": "STANDARD",
       "radius": {
@@ -273,6 +325,13 @@
       },
       "clearAperture": null,
       "semiDiameter": null,
+      "mechanicalSemiDiameter": null,
+      "comment": null,
+      "coating": null,
+      "coordinates": null,
+      "pickups": [],
+      "solves": [],
+      "unresolvedSag": [],
       "parameters": {
         "type": "standard",
         "is_stop": true,
@@ -288,6 +347,7 @@
     },
     {
       "index": 6,
+      "line": 43,
       "role": "surface",
       "nativeType": "STANDARD",
       "radius": 25.4625317208055,
@@ -306,6 +366,13 @@
       },
       "clearAperture": null,
       "semiDiameter": null,
+      "mechanicalSemiDiameter": null,
+      "comment": null,
+      "coating": null,
+      "coordinates": null,
+      "pickups": [],
+      "solves": [],
+      "unresolvedSag": [],
       "parameters": {
         "type": "standard",
         "is_stop": false,
@@ -330,6 +397,7 @@
     },
     {
       "index": 7,
+      "line": 48,
       "role": "surface",
       "nativeType": "STANDARD",
       "radius": -11.16160011921875,
@@ -341,6 +409,13 @@
       },
       "clearAperture": null,
       "semiDiameter": null,
+      "mechanicalSemiDiameter": null,
+      "comment": null,
+      "coating": null,
+      "coordinates": null,
+      "pickups": [],
+      "solves": [],
+      "unresolvedSag": [],
       "parameters": {
         "type": "standard",
         "is_stop": false,
@@ -354,6 +429,7 @@
     },
     {
       "index": 8,
+      "line": 52,
       "role": "image",
       "nativeType": "STANDARD",
       "radius": {
@@ -367,6 +443,13 @@
       },
       "clearAperture": null,
       "semiDiameter": null,
+      "mechanicalSemiDiameter": null,
+      "comment": null,
+      "coating": null,
+      "coordinates": null,
+      "pickups": [],
+      "solves": [],
+      "unresolvedSag": [],
       "parameters": {
         "type": "standard",
         "is_stop": false,
@@ -685,6 +768,16 @@
       }
     ],
     "name": null,
+    "notes": [],
+    "declarations": {
+      "units": "explicit",
+      "wavelengths": "explicit",
+      "wavelengthWeights": "explicit",
+      "primaryWavelength": "explicit",
+      "aperture": "explicit",
+      "fields": "explicit",
+      "terminator": "notApplicable"
+    },
     "aperture": {
       "EPD": 8.333333969116211
     },
@@ -720,6 +813,7 @@
     },
     "surfaces": {
       "0": {
+        "line": 16,
         "type": "standard",
         "is_stop": false,
         "conic": 0,
@@ -733,6 +827,7 @@
         }
       },
       "1": {
+        "line": 20,
         "type": "standard",
         "is_stop": false,
         "conic": 0,
@@ -753,6 +848,7 @@
         "abbe": 60.27947998046875
       },
       "2": {
+        "line": 25,
         "type": "standard",
         "is_stop": false,
         "conic": 0,
@@ -762,6 +858,7 @@
         "thickness": 2.6377501487731934
       },
       "3": {
+        "line": 29,
         "type": "standard",
         "is_stop": false,
         "conic": 0,
@@ -782,6 +879,7 @@
         "abbe": 33.838470458984375
       },
       "4": {
+        "line": 34,
         "type": "standard",
         "is_stop": false,
         "conic": 0,
@@ -791,6 +889,7 @@
         "thickness": 0.7544687986373901
       },
       "5": {
+        "line": 38,
         "type": "standard",
         "is_stop": true,
         "conic": 0,
@@ -802,6 +901,7 @@
         "thickness": 1.6761058568954468
       },
       "6": {
+        "line": 43,
         "type": "standard",
         "is_stop": false,
         "conic": 0,
@@ -822,6 +922,7 @@
         "abbe": 54.711463928222656
       },
       "7": {
+        "line": 48,
         "type": "standard",
         "is_stop": false,
         "conic": 0,
@@ -831,6 +932,7 @@
         "thickness": 18.660079956054688
       },
       "8": {
+        "line": 52,
         "type": "standard",
         "is_stop": false,
         "conic": 0,

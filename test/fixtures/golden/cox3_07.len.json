@@ -1,5 +1,5 @@
 {
-  "schemaVersion": "2.0",
+  "schemaVersion": "1.0",
   "source": {
     "format": "oslo",
     "encoding": "utf-8",
@@ -7,6 +7,21 @@
   },
   "name": "COX PROBLEM 3-07",
   "mode": "sequential",
+  "declarations": {
+    "units": "explicit",
+    "wavelengths": "explicit",
+    "wavelengthWeights": "explicit",
+    "primaryWavelength": "inferred",
+    "aperture": "explicit",
+    "fields": "explicit",
+    "terminator": "explicit"
+  },
+  "designer": "",
+  "notes": [
+    "COX PROBLEM 3-07",
+    "IDN   17",
+    "DOUBLE GAUSS"
+  ],
   "units": {
     "length": "mm",
     "wavelength": "um",
@@ -62,6 +77,7 @@
   "surfaces": [
     {
       "index": 0,
+      "line": 3,
       "role": "object",
       "nativeType": "ADO",
       "radius": {
@@ -85,6 +101,13 @@
         "checkingEnabled": true
       },
       "semiDiameter": 3639702342.9,
+      "mechanicalSemiDiameter": null,
+      "comment": null,
+      "coating": null,
+      "coordinates": null,
+      "pickups": [],
+      "solves": [],
+      "unresolvedSag": [],
       "parameters": {
         "material": "AIR",
         "TH": 10000000000,
@@ -95,6 +118,7 @@
     },
     {
       "index": 1,
+      "line": 14,
       "role": "surface",
       "nativeType": "ADO",
       "radius": 1,
@@ -125,6 +149,13 @@
         "checkingEnabled": true
       },
       "semiDiameter": 0.33,
+      "mechanicalSemiDiameter": null,
+      "comment": null,
+      "coating": null,
+      "coordinates": null,
+      "pickups": [],
+      "solves": [],
+      "unresolvedSag": [],
       "parameters": {
         "material": "GLA MOD G1 1.564 1.571047 1.56094",
         "glass_wavelengths": [
@@ -141,6 +172,7 @@
     },
     {
       "index": 2,
+      "line": 22,
       "role": "surface",
       "nativeType": "ADO",
       "radius": -0.580686371291,
@@ -165,6 +197,13 @@
         "checkingEnabled": true
       },
       "semiDiameter": 0.33,
+      "mechanicalSemiDiameter": null,
+      "comment": null,
+      "coating": null,
+      "coordinates": null,
+      "pickups": [],
+      "solves": [],
+      "unresolvedSag": [],
       "parameters": {
         "material": "GLA SF5",
         "glass_wavelengths": [
@@ -181,6 +220,7 @@
     },
     {
       "index": 3,
+      "line": 27,
       "role": "surface",
       "nativeType": "ADO",
       "radius": -2.314814814815,
@@ -200,6 +240,13 @@
         "checkingEnabled": true
       },
       "semiDiameter": 0.33,
+      "mechanicalSemiDiameter": null,
+      "comment": null,
+      "coating": null,
+      "coordinates": null,
+      "pickups": [],
+      "solves": [],
+      "unresolvedSag": [],
       "parameters": {
         "material": "AIR",
         "RD": -2.314814814815,
@@ -211,6 +258,7 @@
     },
     {
       "index": 4,
+      "line": 32,
       "role": "surface",
       "nativeType": "ADO",
       "radius": 0.330600370272,
@@ -227,6 +275,13 @@
       },
       "clearAperture": null,
       "semiDiameter": null,
+      "mechanicalSemiDiameter": null,
+      "comment": null,
+      "coating": null,
+      "coordinates": null,
+      "pickups": [],
+      "solves": [],
+      "unresolvedSag": [],
       "parameters": {
         "material": "GLA F7",
         "glass_wavelengths": [
@@ -241,6 +296,7 @@
     },
     {
       "index": 5,
+      "line": 36,
       "role": "surface",
       "nativeType": "ADO",
       "radius": 0.224502166446,
@@ -252,6 +308,13 @@
       },
       "clearAperture": null,
       "semiDiameter": null,
+      "mechanicalSemiDiameter": null,
+      "comment": null,
+      "coating": null,
+      "coordinates": null,
+      "pickups": [],
+      "solves": [],
+      "unresolvedSag": [],
       "parameters": {
         "material": "AIR",
         "RD": 0.224502166446,
@@ -261,6 +324,7 @@
     },
     {
       "index": 6,
+      "line": 40,
       "role": "surface",
       "nativeType": "ADO",
       "radius": {
@@ -274,6 +338,13 @@
       },
       "clearAperture": null,
       "semiDiameter": null,
+      "mechanicalSemiDiameter": null,
+      "comment": null,
+      "coating": null,
+      "coordinates": null,
+      "pickups": [],
+      "solves": [],
+      "unresolvedSag": [],
       "parameters": {
         "material": "AIR",
         "TH": 0.13,
@@ -283,6 +354,7 @@
     },
     {
       "index": 7,
+      "line": 44,
       "role": "surface",
       "nativeType": "ADO",
       "radius": -0.311100049776,
@@ -307,6 +379,13 @@
         "checkingEnabled": true
       },
       "semiDiameter": 0.255,
+      "mechanicalSemiDiameter": null,
+      "comment": null,
+      "coating": null,
+      "coordinates": null,
+      "pickups": [],
+      "solves": [],
+      "unresolvedSag": [],
       "parameters": {
         "material": "GLA F8",
         "glass_wavelengths": [
@@ -323,6 +402,7 @@
     },
     {
       "index": 8,
+      "line": 49,
       "role": "surface",
       "nativeType": "ADO",
       "radius": 1.721170395869,
@@ -347,6 +427,13 @@
         "checkingEnabled": true
       },
       "semiDiameter": 0.255,
+      "mechanicalSemiDiameter": null,
+      "comment": null,
+      "coating": null,
+      "coordinates": null,
+      "pickups": [],
+      "solves": [],
+      "unresolvedSag": [],
       "parameters": {
         "material": "GLA SK16",
         "glass_wavelengths": [
@@ -363,6 +450,7 @@
     },
     {
       "index": 9,
+      "line": 54,
       "role": "surface",
       "nativeType": "ADO",
       "radius": -0.387596899225,
@@ -382,6 +470,13 @@
         "checkingEnabled": true
       },
       "semiDiameter": 0.255,
+      "mechanicalSemiDiameter": null,
+      "comment": null,
+      "coating": null,
+      "coordinates": null,
+      "pickups": [],
+      "solves": [],
+      "unresolvedSag": [],
       "parameters": {
         "material": "AIR",
         "RD": -0.387596899225,
@@ -393,6 +488,7 @@
     },
     {
       "index": 10,
+      "line": 59,
       "role": "surface",
       "nativeType": "ADO",
       "radius": 2.62467191601,
@@ -417,6 +513,13 @@
         "checkingEnabled": true
       },
       "semiDiameter": 0.3,
+      "mechanicalSemiDiameter": null,
+      "comment": null,
+      "coating": null,
+      "coordinates": null,
+      "pickups": [],
+      "solves": [],
+      "unresolvedSag": [],
       "parameters": {
         "material": "GLA SK16",
         "glass_wavelengths": [
@@ -433,6 +536,7 @@
     },
     {
       "index": 11,
+      "line": 64,
       "role": "surface",
       "nativeType": "ADO",
       "radius": -0.865126741068,
@@ -452,6 +556,21 @@
         "checkingEnabled": true
       },
       "semiDiameter": 0.3,
+      "mechanicalSemiDiameter": null,
+      "comment": null,
+      "coating": null,
+      "coordinates": null,
+      "pickups": [],
+      "solves": [
+        {
+          "kind": "axialRayHeight",
+          "native": "PY",
+          "target": "thickness",
+          "value": 0,
+          "line": 67
+        }
+      ],
+      "unresolvedSag": [],
       "parameters": {
         "material": "AIR",
         "RD": -0.865126741068,
@@ -463,6 +582,7 @@
     },
     {
       "index": 12,
+      "line": 69,
       "role": "image",
       "nativeType": "ADO",
       "radius": {
@@ -476,6 +596,13 @@
       },
       "clearAperture": null,
       "semiDiameter": null,
+      "mechanicalSemiDiameter": null,
+      "comment": null,
+      "coating": null,
+      "coordinates": null,
+      "pickups": [],
+      "solves": [],
+      "unresolvedSag": [],
       "parameters": {
         "material": "AIR"
       },
@@ -548,12 +675,14 @@
     },
     "surfaces": {
       "0": {
+        "line": 3,
         "material": "AIR",
         "TH": 10000000000,
         "AP": 3639702342.9,
         "aperture_checked": false
       },
       "1": {
+        "line": 14,
         "material": "GLA MOD G1 1.564 1.571047 1.56094",
         "glass_wavelengths": [
           0.58756,
@@ -566,6 +695,7 @@
         "aperture_checked": false
       },
       "2": {
+        "line": 22,
         "material": "GLA SF5",
         "glass_wavelengths": [
           0.58756,
@@ -578,6 +708,7 @@
         "aperture_checked": false
       },
       "3": {
+        "line": 27,
         "material": "AIR",
         "RD": -2.314814814815,
         "TH": 0.002,
@@ -585,6 +716,7 @@
         "aperture_checked": false
       },
       "4": {
+        "line": 32,
         "material": "GLA F7",
         "glass_wavelengths": [
           0.58756,
@@ -595,16 +727,19 @@
         "TH": 0.172
       },
       "5": {
+        "line": 36,
         "material": "AIR",
         "RD": 0.224502166446,
         "TH": 0.132
       },
       "6": {
+        "line": 40,
         "material": "AIR",
         "TH": 0.13,
         "AST": true
       },
       "7": {
+        "line": 44,
         "material": "GLA F8",
         "glass_wavelengths": [
           0.58756,
@@ -617,6 +752,7 @@
         "aperture_checked": false
       },
       "8": {
+        "line": 49,
         "material": "GLA SK16",
         "glass_wavelengths": [
           0.58756,
@@ -629,6 +765,7 @@
         "aperture_checked": false
       },
       "9": {
+        "line": 54,
         "material": "AIR",
         "RD": -0.387596899225,
         "TH": 0.002,
@@ -636,6 +773,7 @@
         "aperture_checked": false
       },
       "10": {
+        "line": 59,
         "material": "GLA SK16",
         "glass_wavelengths": [
           0.58756,
@@ -648,13 +786,18 @@
         "aperture_checked": false
       },
       "11": {
+        "line": 64,
         "material": "AIR",
         "RD": -0.865126741068,
         "PY": 0,
+        "solve_lines": {
+          "PY": 67
+        },
         "AP": 0.3,
         "aperture_checked": false
       },
       "12": {
+        "line": 69,
         "material": "AIR"
       }
     },
@@ -950,6 +1093,15 @@
       "SNO1": "COX PROBLEM 3-07",
       "SNO2": "IDN   17",
       "SNO10": "DOUBLE GAUSS"
+    },
+    "declarations": {
+      "units": "explicit",
+      "wavelengths": "explicit",
+      "wavelengthWeights": "explicit",
+      "primaryWavelength": "inferred",
+      "aperture": "explicit",
+      "fields": "explicit",
+      "terminator": "explicit"
     },
     "diagnostics": [],
     "settings": {},

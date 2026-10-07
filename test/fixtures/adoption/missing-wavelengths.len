@@ -1,0 +1,19 @@
+LEN NEW "Parser adoption singlet" 100 3
+UNI 1
+EBR 2
+AIR
+TH 1e20
+NXT
+GLA N-BK7
+RD 50
+TH 3
+AP CHK 5
+NXT
+AIR
+RD -50
+TH 30
+AP CHK 5
+NXT
+AIR
+AP 10
+END 3

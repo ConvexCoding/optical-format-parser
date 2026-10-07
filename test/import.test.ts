@@ -383,7 +383,7 @@ test("parsing returns [value, error] pairs and never throws for bad input", () =
     parseBytes(new Uint8Array([0x81, 0xff]), { format: "oslo" }),
     parseBytes(null as never, { format: "zemax" }),
     parseJson("{nope"),
-    parseJson('{"schemaVersion":"1.0"}'),
+    parseJson('{"schemaVersion":"0.0"}'),
   ].map(([value, failure]) => [value, failure?.code]);
   assert.deepEqual(codes, [
     [null, "strict_violation"],
@@ -430,7 +430,7 @@ test("JSON round trip tags and restores infinities", () => {
   assert.deepEqual(tagSpecialNumbers({ x: -Infinity }), { x: { special: "negativeInfinity" } });
   assert.throws(() => tagSpecialNumbers({ x: NaN }));
   expectError(() => mustParseJson("{nope"), "invalid_json");
-  expectError(() => mustParseJson('{"schemaVersion":"1.0"}'), "invalid_json");
+  expectError(() => mustParseJson('{"schemaVersion":"0.0"}'), "invalid_json");
   expectError(() => mustParseJson("null"), "invalid_json");
 });
 
@@ -526,4 +526,377 @@ test("unknown type and prototype-property command names are retained", () => {
   assert.equal(data.surfaces[1]?.nativeType, "CONSTRUCTOR");
   assert.ok(data.diagnostics.some((d) => d.code === "unresolved_surface_type"));
   assert.ok(data.diagnostics.some((d) => d.command === "__proto__"));
+});
+
+// ---------------------------------------------------------------------------------------------
+// Surface properties a consumer needs to build optics from the surface list. The inputs are the
+// synthetic prescriptions in test/fixtures/adoption.
+
+function adoption(filename: string, options: Partial<Parameters<typeof parseBytes>[1]> = {}) {
+  const format: Format = filename.endsWith(".len") ? "oslo" : "zemax";
+  return parseBytes(readFileSync(root + "test/fixtures/adoption/" + filename), { format, ...options });
+}
+const adopted = (filename: string) => {
+  const data = must(adoption(filename));
+  assert.ok(validate(serialized(data)), JSON.stringify(validate.errors));
+  return data;
+};
+/** The optical content of a prescription, without source lines or diagnostics. */
+const geometry = (data: NormalizedPrescription) => ({
+  name: data.name,
+  wavelengths: data.wavelengths,
+  aperture: data.aperture,
+  surfaces: data.surfaces.map(({ line, ...surface }) => surface),
+});
+
+test("mechanical semi-diameter is separate from the clear semi-diameter and in millimeters", () => {
+  const sizes = (filename: string) =>
+    adopted(filename).surfaces.map((surface) => [surface.semiDiameter, surface.mechanicalSemiDiameter]);
+  assert.deepEqual(sizes("mechanical-diameter-mm.zmx"), [
+    [null, null],
+    [5, 6],
+    [5, 6],
+    [10, null],
+  ]);
+  assert.deepEqual(sizes("mechanical-diameter-cm.zmx")[1], [50, 60]);
+  assert.ok(adopted("mechanical-diameter-mm.zmx").diagnostics.every((d) => d.command !== "MEMA"));
+  for (const value of ["6junk", "Infinity", "-1", ""]) {
+    const error = expectError(
+      () => mustParseText(ZMX.replace("STOP", `MEMA ${value}\nSTOP`), { format: "zemax" }),
+      "invalid_prescription",
+    );
+    assert.deepEqual([error.line, error.command], [12, "MEMA"]);
+  }
+});
+
+test("notes, designer, surface comments and coatings are typed and unquoted", () => {
+  const zemax = adopted("metadata.zmx");
+  assert.equal(zemax.name, "Parser adoption singlet");
+  assert.deepEqual(zemax.notes, ["First design note", "Second design note"]);
+  assert.equal(zemax.designer, null);
+  assert.deepEqual(
+    zemax.surfaces.map((surface) => [surface.comment, surface.coating]),
+    [
+      [null, null],
+      ["Front lens surface", "AR_TEST"],
+      [null, null],
+      [null, null],
+    ],
+  );
+  assert.ok(zemax.diagnostics.every((d) => !["NOTE", "COMM", "COAT", "NAME"].includes(d.command ?? "")));
+
+  const oslo = adopted("metadata.len");
+  assert.equal(oslo.designer, "OSLO design description");
+  assert.deepEqual(oslo.notes, ["First design note"]);
+  assert.equal(oslo.surfaces[1]?.comment, "Front lens surface");
+  assert.equal(oslo.surfaces[1]?.coating, null);
+
+  // Only an enclosing pair of quotes is a delimiter; inner quotes and spacing are content.
+  const quoted = mustParseText(
+    ZMX.replace("NAME simple", 'NAME "f = 2"  lens"\nNOTE 0 "say "hi""\nNOTE 0\nNOTE 4 plain  text').replace(
+      "STOP",
+      'COMM a "b" c\nSTOP',
+    ),
+    { format: "zemax" },
+  );
+  assert.equal(quoted.name, 'f = 2"  lens');
+  assert.deepEqual(quoted.notes, ['say "hi"', "plain  text"]);
+  assert.equal(quoted.surfaces[1]?.comment, 'a "b" c');
+});
+
+test("OSLO SEF is not a surface delimiter", () => {
+  // SEF is not an OSLO record: OSLO writes NXT. It stays an unknown record and the count fails.
+  const [value, error] = adoption("sef-singlet.len");
+  assert.equal(value, null);
+  assert.deepEqual([error?.code, error?.message], ["invalid_prescription", "surface records do not match LEN count"]);
+});
+
+test("OSLO asphere coefficients follow the program reference and unresolved ones are reported", () => {
+  const terms = (filename: string) => {
+    const surface = adopted(filename).surfaces[2];
+    return [surface?.type, surface && "asphereTerms" in surface ? surface.asphereTerms : null, surface?.unresolvedSag];
+  };
+  // AS3 is the standard asphere's AE: both multiply r^6.
+  const sixth = [{ power: 6, coefficient: -2e-8, native: "AS3" }];
+  assert.deepEqual(terms("asphere-implicit.len"), ["evenAsphere", sixth, []]);
+  assert.deepEqual(terms("asphere-explicit-asr.len"), ["evenAsphere", sixth, []]);
+  assert.deepEqual(terms("asphere-explicit-ara.len"), [
+    "oddAsphere",
+    [{ power: 3, coefficient: -2e-8, native: "AS3" }],
+    [],
+  ]);
+
+  const surface = (declarations: string) =>
+    mustParseText(LEN.replace("RD 20", `${declarations}; RD 20`), { format: "oslo" }).surfaces[1];
+  // AD..AG and AS2..AS5 are one set of coefficients: the later declaration replaces the earlier.
+  assert.deepEqual(surfaceOfType(surface("AD 1e-5; AS2 2e-5; AS3 3e-7; AE 4e-7"), "evenAsphere").asphereTerms, [
+    { power: 4, coefficient: 2e-5, native: "AS2" },
+    { power: 6, coefficient: 4e-7, native: "AE" },
+  ]);
+  assert.deepEqual(surfaceOfType(surface("ASP ASR; AS0 1e-3; AD 1e-5; AS7 1e-12"), "evenAsphere").asphereTerms, [
+    { power: 0, coefficient: 1e-3, native: "AS0" },
+    { power: 4, coefficient: 1e-5, native: "AD" },
+    { power: 14, coefficient: 1e-12, native: "AS7" },
+  ]);
+
+  // A standard asphere has no coefficient beyond r^10, so AS7 has no known meaning there.
+  const partial = mustParseText(LEN.replace("RD 20", "AS7 1e-12; AS6 0; RD 20"), { format: "oslo" });
+  assert.equal(partial.surfaces[1]?.type, "standard");
+  assert.deepEqual(partial.surfaces[1]?.unresolvedSag, ["AS7"]);
+  assert.deepEqual(
+    partial.diagnostics.filter((d) => d.code === "unresolved_geometry").map((d) => [d.severity, d.surface]),
+    [["warning", 1]],
+  );
+  assert.deepEqual(surface("ASP ARA; AD 1e-5; AS1 0.1")?.unresolvedSag, ["AD"]);
+  assert.deepEqual(surface("ASP ASX; AS4 1e-3")?.unresolvedSag, ["AS4"]);
+  assert.deepEqual(surface("CC -1")?.unresolvedSag, []);
+});
+
+test("Zemax SURF indices must count up from zero", () => {
+  adopted("control.zmx");
+  const failure = (filename: string) => {
+    const [value, error] = adoption(filename);
+    assert.equal(value, null);
+    return [error?.code, error?.line, error?.command, error?.message];
+  };
+  assert.deepEqual(failure("surface-index-junk.zmx"), [
+    "invalid_prescription",
+    12,
+    "SURF",
+    "line 12: SURF: Invalid integer: 1junk",
+  ]);
+  assert.deepEqual(failure("surface-index-duplicate.zmx"), [
+    "invalid_prescription",
+    18,
+    "SURF",
+    "line 18: SURF: index 1 is out of sequence; expected 2",
+  ]);
+  assert.deepEqual(failure("surface-index-gap.zmx").slice(0, 3), ["invalid_prescription", 18, "SURF"]);
+  for (const replacement of ["SURF", "SURF -1", "SURF 1", "SURF 0 0", "SURF 1e0"]) {
+    expectError(() => mustParseText(ZMX.replace("SURF 0", replacement), { format: "zemax" }), "invalid_prescription");
+  }
+});
+
+test("declarations say what the file states, so a consumer can require it", () => {
+  const explicit = {
+    units: "explicit",
+    wavelengths: "explicit",
+    wavelengthWeights: "explicit",
+    primaryWavelength: "inferred",
+    aperture: "explicit",
+    fields: "defaulted",
+    terminator: "explicit",
+  };
+  assert.deepEqual(adopted("control.len").declarations, explicit);
+  assert.deepEqual(adopted("missing-end.len").declarations, { ...explicit, terminator: "absent" });
+  assert.deepEqual(adopted("missing-wavelengths.len").declarations, {
+    ...explicit,
+    wavelengths: "defaulted",
+    wavelengthWeights: "defaulted",
+  });
+  assert.deepEqual(adopted("partial-weights.len").declarations, { ...explicit, wavelengthWeights: "padded" });
+  assert.deepEqual(adopted("partial-weights.len").wavelengths.weights, [1, 1]);
+  assert.deepEqual(adopted("control.zmx").declarations, {
+    ...explicit,
+    primaryWavelength: "explicit",
+    terminator: "notApplicable",
+  });
+  assert.equal(adopted("missing-units.zmx").declarations.units, "defaulted");
+  assert.equal(adopted("field-order-duplicates.zmx").declarations.fields, "explicit");
+  const partial = mustParseText(ZMX.replace("PWAV 1", "WAVM 2 0.6"), { format: "zemax" }).declarations;
+  assert.deepEqual([partial.wavelengthWeights, partial.primaryWavelength], ["padded", "defaulted"]);
+  assert.equal(mustParseText(LEN.replace("EBR 2\n", ""), { format: "oslo" }).declarations.aperture, "absent");
+
+  // Each default is also an info diagnostic, so strict parsing is unaffected by it.
+  const cases: [string, string, keyof NormalizedPrescription["declarations"]][] = [
+    ["missing-end.len", "missing_end", "terminator"],
+    ["missing-wavelengths.len", "default_wavelengths", "wavelengths"],
+    ["partial-weights.len", "padded_wavelength_weights", "wavelengthWeights"],
+    ["missing-units.zmx", "assumed_units", "units"],
+  ];
+  for (const [filename, code, declaration] of cases) {
+    const data = adopted(filename);
+    assert.equal(data.diagnostics.find((d) => d.code === code)?.severity, "info", filename);
+    assert.notEqual(data.declarations[declaration], "explicit", filename);
+    assert.ok(must(adoption(filename, { strict: false })), filename);
+  }
+  must(parseText(LEN.replace("EBR 2", "EBR 2; UNI 1"), { format: "oslo", strict: true }));
+});
+
+test("Zemax fields keep declared order and repeated coordinates", () => {
+  const { fields } = adopted("field-order-duplicates.zmx");
+  assert.deepEqual(
+    fields.points.map((point) => [point.x, point.y, point.weight, point.vignetting.decenterX]),
+    [
+      [0, 5, 2, 0],
+      [0, 0, 1, 0],
+      [0, -5, 3, 0],
+      [0, 5, 7, 0.1],
+    ],
+  );
+});
+
+test("coordinate declarations are typed, in millimeters and degrees", () => {
+  const none = {
+    decenterX: 0,
+    decenterY: 0,
+    decenterZ: 0,
+    tiltX: 0,
+    tiltY: 0,
+    tiltZ: 0,
+    order: "decenterThenTilt",
+    bend: false,
+    returnTo: null,
+    returnBase: false,
+    globalReference: null,
+    tiltOffsetX: 0,
+    tiltOffsetY: 0,
+    tiltOffsetZ: 0,
+  };
+  const zemax = adopted("fold-coordinates.zmx");
+  assert.deepEqual(
+    zemax.surfaces.map((surface) => surface.coordinates),
+    [null, null, { ...none, tiltX: -45, order: "tiltThenDecenter" }, null, { ...none, tiltX: -45 }, null],
+  );
+  // The file is in centimeters: normalized lengths are scaled, `parameters` are as written.
+  assert.deepEqual([zemax.surfaces[4]?.thickness, zemax.surfaces[4]?.parameters.thickness], [-20, -2]);
+  const decentered = mustParseText(
+    ZMX.replace("UNIT MM", "UNIT CM").replace("STOP", "TYPE COORDBRK\nPARM 1 0.5\nPARM 2 -1\nPARM 5 30"),
+    { format: "zemax" },
+  );
+  assert.deepEqual(decentered.surfaces[1]?.coordinates, { ...none, decenterX: 5, decenterY: -10, tiltZ: 30 });
+
+  const oslo = adopted("fold-coordinates.len");
+  assert.deepEqual(
+    oslo.surfaces.map((surface) => surface.coordinates),
+    [null, { ...none, tiltX: 45, bend: true, returnBase: true }, null],
+  );
+  assert.equal(oslo.surfaces[1]?.material.kind, "mirror");
+  assert.ok(oslo.diagnostics.every((d) => d.command !== "BCR"));
+  assert.deepEqual(
+    oslo.diagnostics.filter((d) => d.code === "unresolved_coordinates").map((d) => d.surface),
+    [1],
+  );
+  const full = mustParseText(
+    LEN.replace("EBR 2", "EBR 2; UNI 10").replace("RD 20", "DCX 1; DCZ 2; TLB 3; DT -1; TOY 4; RCO 1; GC 0; RD 20"),
+    { format: "oslo" },
+  );
+  assert.deepEqual(full.surfaces[1]?.coordinates, {
+    ...none,
+    decenterX: 10,
+    decenterZ: 20,
+    tiltY: 3,
+    order: "tiltThenDecenter",
+    returnTo: 1,
+    globalReference: 0,
+    tiltOffsetY: 40,
+  });
+  assert.equal(
+    mustParseText(LEN.replace("RD 20", "TLA 5; TDD; RD 20"), { format: "oslo" }).surfaces[1]?.coordinates,
+    null,
+  );
+});
+
+test("pickups and solves are typed declarations and a picked-up glass is not reported as air", () => {
+  const data = adopted("pickups-and-focus.len");
+  const aperturePickup = (line: number) => ({
+    property: "aperture",
+    native: "AP",
+    negated: false,
+    reference: -1,
+    arguments: [],
+    line,
+  });
+  assert.deepEqual(
+    data.surfaces.map((surface) => surface.pickups),
+    [
+      [],
+      [],
+      [aperturePickup(16)],
+      [{ property: "material", native: "GLA", negated: false, reference: -2, arguments: [], line: 19 }],
+      [aperturePickup(26)],
+      [],
+    ],
+  );
+  assert.deepEqual(data.surfaces[3]?.material, { kind: "pickup", reference: -2 });
+  assert.deepEqual(
+    data.surfaces.map((surface) => surface.semiDiameter),
+    [null, 5, null, 5, null, 10],
+  );
+  assert.deepEqual(data.surfaces[4]?.solves, [
+    { kind: "axialRayHeight", native: "PY", target: "thickness", value: 0, line: 28 },
+  ]);
+  assert.deepEqual(
+    data.diagnostics.filter((d) => d.code === "unresolved_constraints").map((d) => d.surface),
+    [2, 3, 4],
+  );
+
+  const surface = (declarations: string, units = "") =>
+    mustParseText(LEN.replace("EBR 2", "EBR 2" + units).replace("TH 20", "TH 20; " + declarations), { format: "oslo" })
+      .surfaces[2];
+  assert.deepEqual(surface("PK CVM 1 0.01; PK LN 0 1 2.5")?.pickups, [
+    { property: "curvature", native: "CVM", negated: true, reference: 1, arguments: [0.01], line: 7 },
+    { property: "thickness", native: "LN", negated: false, reference: 0, arguments: [1, 2.5], line: 7 },
+  ]);
+  // A saved glass stays the reported medium; the pickup that controls it is still listed.
+  const saved = surface("GLA BK7; PK GLA 1");
+  assert.equal(saved?.material.kind, "catalog");
+  assert.equal(saved?.pickups[0]?.property, "material");
+  // A later direct value replaces the pickup or solve of the same property.
+  assert.deepEqual(surface("PK TH 1; PY 0; TH 20")?.pickups, []);
+  assert.deepEqual(surface("PK TH 1; PY 0; TH 20")?.solves, []);
+  // Heights are lengths and are scaled; slopes are not. PYC replaces EC: both set the thickness.
+  assert.deepEqual(surface("PU -0.1; EC 0.5; PYC 2", "; UNI 10")?.solves, [
+    { kind: "chiefRayHeight", native: "PYC", target: "thickness", value: 20, line: 7 },
+    { kind: "axialRayAngle", native: "PU", target: "curvature", value: -0.1, line: 7 },
+  ]);
+  expectError(() => mustParseText(LEN.replace("RD -20", "PK CV 1 x"), { format: "oslo" }), "invalid_prescription");
+});
+
+test("inert OSLO footer records are told apart from records that may be optical", () => {
+  const control = adopted("control.len");
+  const footer = adopted("display-footer.len");
+  assert.deepEqual(geometry(footer), geometry(control));
+  assert.deepEqual(footer.fields, control.fields);
+  assert.deepEqual(
+    footer.diagnostics.map((d) => [d.severity, d.code, d.command ?? null, d.line ?? null]),
+    [
+      ["info", "inert_record", "DLRS", 22],
+      ["info", "inert_record", "DLNR", 23],
+      ["info", "inert_record", "SDAD", 24],
+      ["info", "inert_record", "OPDF", 25],
+      ["info", "inert_record", "R", 27],
+      ["info", "inert_record", "O", 30],
+      ["warning", "unresolved_material", null, null],
+    ],
+  );
+  // Field tables and configurations after END are still read, and unknown records still warn.
+  const mixed = mustParseText(
+    LEN + "DLRS 3\nRST NEW\nR 1 0 0 0.5\nF 1 0.7 0 0 0 0 -1 1 -1 1 1\nEND\nBOGUS 1\nCFG NEW\nTH 1 2 8\nEND\n",
+    { format: "oslo", includeRaw: true },
+  );
+  assert.deepEqual(
+    mixed.fields.relativePoints.map((point) => point.y),
+    [0.7],
+  );
+  assert.deepEqual((mixed.raw as any).configurations[2].thicknesses, { 1: 8 });
+  assert.deepEqual(
+    mixed.diagnostics.filter((d) => d.command).map((d) => [d.code, d.command]),
+    [
+      ["inert_record", "DLRS"],
+      ["inert_record", "R"],
+      ["uninterpreted_record", "BOGUS"],
+    ],
+  );
+});
+
+test("surfaces report the line that opens them", () => {
+  assert.deepEqual(
+    adopted("control.zmx").surfaces.map((surface) => surface.line),
+    [9, 12, 18, 23],
+  );
+  assert.deepEqual(
+    adopted("control.len").surfaces.map((surface) => surface.line),
+    [1, 8, 13, 18],
+  );
 });

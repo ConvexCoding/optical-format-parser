@@ -1,5 +1,5 @@
 {
-  "schemaVersion": "2.0",
+  "schemaVersion": "1.0",
   "source": {
     "format": "zemax",
     "encoding": "utf-8",
@@ -7,6 +7,17 @@
   },
   "name": "SyntheticFTYP",
   "mode": "sequential",
+  "declarations": {
+    "units": "defaulted",
+    "wavelengths": "explicit",
+    "wavelengthWeights": "explicit",
+    "primaryWavelength": "explicit",
+    "aperture": "explicit",
+    "fields": "explicit",
+    "terminator": "notApplicable"
+  },
+  "designer": null,
+  "notes": [],
   "units": {
     "length": "mm",
     "wavelength": "um",
@@ -67,6 +78,7 @@
   "surfaces": [
     {
       "index": 0,
+      "line": 15,
       "role": "object",
       "nativeType": "STANDARD",
       "radius": {
@@ -80,6 +92,13 @@
       },
       "clearAperture": null,
       "semiDiameter": null,
+      "mechanicalSemiDiameter": null,
+      "comment": null,
+      "coating": null,
+      "coordinates": null,
+      "pickups": [],
+      "solves": [],
+      "unresolvedSag": [],
       "parameters": {
         "type": "standard",
         "is_stop": false,
@@ -95,6 +114,7 @@
     },
     {
       "index": 1,
+      "line": 19,
       "role": "surface",
       "nativeType": "STANDARD",
       "radius": {
@@ -108,6 +128,13 @@
       },
       "clearAperture": null,
       "semiDiameter": 2,
+      "mechanicalSemiDiameter": null,
+      "comment": null,
+      "coating": null,
+      "coordinates": null,
+      "pickups": [],
+      "solves": [],
+      "unresolvedSag": [],
       "parameters": {
         "type": "standard",
         "is_stop": true,
@@ -124,6 +151,7 @@
     },
     {
       "index": 2,
+      "line": 25,
       "role": "image",
       "nativeType": "STANDARD",
       "radius": {
@@ -137,6 +165,13 @@
       },
       "clearAperture": null,
       "semiDiameter": null,
+      "mechanicalSemiDiameter": null,
+      "comment": null,
+      "coating": null,
+      "coordinates": null,
+      "pickups": [],
+      "solves": [],
+      "unresolvedSag": [],
       "parameters": {
         "type": "standard",
         "is_stop": false,
@@ -154,7 +189,7 @@
   "diagnostics": [
     {
       "severity": "info",
-      "code": "uninterpreted_record",
+      "code": "inert_record",
       "message": "Record retained but not interpreted",
       "command": "VERS",
       "line": 1
@@ -162,7 +197,7 @@
     {
       "severity": "info",
       "code": "assumed_units",
-      "message": "No UNIT record; assuming millimeters"
+      "message": "No length unit record; assuming millimeters"
     }
   ],
   "raw": {
@@ -292,6 +327,16 @@
       }
     ],
     "name": "SyntheticFTYP",
+    "notes": [],
+    "declarations": {
+      "units": "defaulted",
+      "wavelengths": "explicit",
+      "wavelengthWeights": "explicit",
+      "primaryWavelength": "explicit",
+      "aperture": "explicit",
+      "fields": "explicit",
+      "terminator": "notApplicable"
+    },
     "aperture": {
       "EPD": 4
     },
@@ -322,6 +367,7 @@
     },
     "surfaces": {
       "0": {
+        "line": 15,
         "type": "standard",
         "is_stop": false,
         "conic": 0,
@@ -333,6 +379,7 @@
         "thickness": 10
       },
       "1": {
+        "line": 19,
         "type": "standard",
         "is_stop": true,
         "conic": 0,
@@ -345,6 +392,7 @@
         "diameter": 2
       },
       "2": {
+        "line": 25,
         "type": "standard",
         "is_stop": false,
         "conic": 0,

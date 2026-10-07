@@ -5,7 +5,7 @@ import { normalizeOslo, normalizeZemax } from "./normalize.js";
 import { parseOslo } from "./oslo.js";
 import { parseZemax } from "./zemax.js";
 export { PrescriptionParseError } from "./errors.js";
-const SCHEMA_VERSION = "2.0";
+const SCHEMA_VERSION = "1.0";
 function resolveOptions(options) {
     if (options === null || typeof options !== "object") {
         throw new PrescriptionParseError("invalid_options", "options must be an object with a format");

@@ -9,6 +9,22 @@ export interface NativeDiagnostic {
     message: string;
     severity?: "info" | "warning";
 }
+/**
+ * How a piece of system data came to have its value. `explicit`: the file declares it.
+ * `defaulted`: the file is silent and the format's default applies. `padded`: the file declares
+ * only part of it and the rest was filled in. `inferred`: the format has no declaration for it and
+ * fixes it by convention. `absent`: the file is silent and nothing stands in.
+ */
+export type DeclarationStatus = "explicit" | "defaulted" | "padded" | "inferred" | "absent" | "notApplicable";
+export interface NativeDeclarations {
+    units: DeclarationStatus;
+    wavelengths: DeclarationStatus;
+    wavelengthWeights: DeclarationStatus;
+    primaryWavelength: DeclarationStatus;
+    aperture: DeclarationStatus;
+    fields: DeclarationStatus;
+    terminator: DeclarationStatus;
+}
 export interface NativeAnnulus {
     kind: "annulus";
     r_min: number;
@@ -37,6 +53,8 @@ export type ZemaxMaterial = "air" | {
     resolution: "unresolved";
 };
 export interface ZemaxSurface {
+    /** Line of the `SURF` record. */
+    line: number;
     type: string;
     is_stop: boolean;
     conic: number;
@@ -45,6 +63,9 @@ export interface ZemaxSurface {
     radius?: number;
     thickness?: number;
     diameter?: number;
+    mechanical_semi_diameter?: number;
+    comment?: string;
+    coating?: string;
     index?: number | null;
     abbe?: number | null;
     [parameter: `param_${number}`]: number;
@@ -63,6 +84,8 @@ export interface ZemaxModel {
     records: SourceRecord[];
     diagnostics: NativeDiagnostic[];
     name: string | null;
+    notes: string[];
+    declarations: NativeDeclarations;
     aperture: ZemaxAperture;
     fields: ZemaxFields;
     wavelengths: {
@@ -78,6 +101,13 @@ export interface ZemaxModel {
 export declare const OSLO_COEFFICIENTS: readonly ["CC", "CVX", "AD", "AE", "AF", "AG", "DCX", "DCY", "DCZ", "TLA", "TLB", "TLC", "DT", "GC", "TOX", "TOY", "TOZ", "APN", "PFM", "GSP", "GOR", "TCE"];
 export type OsloCoefficient = (typeof OSLO_COEFFICIENTS)[number];
 export type OsloSolve = "PY" | "PYC" | "PU" | "PUC" | "EC";
+export interface OsloPickup {
+    /** Pickup type as written, upper-cased: `CV`, `THM`, `GLA`, ... */
+    type: string;
+    /** The remaining arguments: the source surface, then any second surface or constant. */
+    arguments: number[];
+    line: number;
+}
 export type OsloSurface = {
     [K in OsloCoefficient | OsloSolve | "RD" | "TH" | "AP" | "PFL" | "RCO"]?: number;
 } & {
@@ -87,8 +117,15 @@ export type OsloSurface = {
     ASP?: string;
     AST?: true;
     BEN?: true;
+    BCR?: true;
     note?: string;
-    pickups?: string[][];
+    pickups?: OsloPickup[];
+    /** Line of the record that opens the surface (`LEN` or its `NXT`). */
+    line?: number;
+    /** Line of the active declaration of each solve. */
+    solve_lines?: {
+        [K in OsloSolve]?: number;
+    };
     [generalCoefficient: `AS${number}`]: number;
 };
 export interface OsloFieldPoint {
@@ -132,7 +169,9 @@ export interface OsloModel {
     /** Millimeters per lens unit. */
     units: number;
     records: SourceRecord[];
+    /** `SNOn` system notes keyed by command, and the `DES` designer name. */
     notes: Record<string, string>;
+    declarations: NativeDeclarations;
     diagnostics: NativeDiagnostic[];
     settings: {
         aperture_check?: boolean;

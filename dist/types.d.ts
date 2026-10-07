@@ -19,8 +19,18 @@ export interface ParseOptions {
 }
 export type DiagnosticSeverity = "info" | "warning";
 export type DiagnosticCode = 
-/** A source command was kept in `parameters`/`raw` but has no normalized meaning. */
+/** A source command was kept in `parameters`/`raw` but has no normalized meaning. It may be optical. */
 "uninterpreted_record"
+/** A record that cannot change the prescription: version, display, plotting or optimization setup. */
+ | "inert_record"
+/** OSLO file without wavelengths; the d, F and C lines are assumed. */
+ | "default_wavelengths"
+/** Fewer wavelength weights than wavelengths; the missing weights are reported as 1. */
+ | "padded_wavelength_weights"
+/** OSLO prescription that stops without its `END` record. */
+ | "missing_end"
+/** Sag coefficients are declared that `asphereTerms` does not represent; see `unresolvedSag`. */
+ | "unresolved_geometry"
 /** Zemax file without a `UNIT` record; millimeters assumed. */
  | "assumed_units"
 /** Several system aperture declarations; the first is reported as `aperture`. */
@@ -98,13 +108,22 @@ export interface SampledIndexMaterial {
     wavelengths: number[];
     indices: number[];
 }
+/**
+ * OSLO `PK GLA` with no saved glass: the medium is whatever the referenced surface has. See the
+ * surface's `pickups` for the declaration.
+ */
+export interface PickupMaterial {
+    kind: "pickup";
+    /** The source surface as the file writes it. */
+    reference: number;
+}
 /** A material declaration that could not be classified; `raw` is the source text. */
 export interface UnknownMaterial {
     kind: "unknown";
     raw: string;
 }
 /** The medium following a surface. Narrow on `kind`. */
-export type Material = AirMaterial | MirrorMaterial | CatalogMaterial | ModelMaterial | ConstantIndexMaterial | SampledIndexMaterial | UnknownMaterial;
+export type Material = AirMaterial | MirrorMaterial | CatalogMaterial | ModelMaterial | ConstantIndexMaterial | SampledIndexMaterial | PickupMaterial | UnknownMaterial;
 export type MaterialKind = Material["kind"];
 export type SurfaceRole = "object" | "surface" | "image" | "coordinateBreak";
 /** Circular or annular clear aperture, centered at (`offsetX`, `offsetY`). */
@@ -132,9 +151,77 @@ export interface AsphereTerm {
     /** The source declaration this term came from, e.g. `"PARM 2"`, `"AD"` or `"AS3"`. */
     native: string;
 }
+/**
+ * How a surface's coordinate system is declared to be placed: the file's own tilt and decenter
+ * data, not a computed frame. A Zemax coordinate break and an OSLO surface with tilt/decenter data
+ * both report one. Decenters are in millimeters and tilts in degrees.
+ *
+ * The formats differ in what the numbers mean. Zemax tilts are right-handed rotations about +x, +y
+ * and +z, and a coordinate break moves the frame for every later surface. OSLO `TLA` and `TLB`
+ * rotate about -x and -y (`TLC` about +z) and apply to the surface they are declared on.
+ */
+export interface CoordinateDeclaration {
+    decenterX: number;
+    decenterY: number;
+    decenterZ: number;
+    /** Zemax `PARM 3`, OSLO `TLA`. */
+    tiltX: number;
+    /** Zemax `PARM 4`, OSLO `TLB`. */
+    tiltY: number;
+    /** Zemax `PARM 5`, OSLO `TLC`. */
+    tiltZ: number;
+    /**
+     * `"decenterThenTilt"` tilts about x, y, then z. `"tiltThenDecenter"` tilts about z, y, then x.
+     * Zemax `PARM 6` (0 or nonzero), OSLO `DT` (1 or -1).
+     */
+    order: "decenterThenTilt" | "tiltThenDecenter";
+    /** OSLO `BEN`: the tilt is applied again after reflection, so the axis follows the folded beam. */
+    bend: boolean;
+    /** OSLO `RCO`: the surface whose coordinates are returned to before this surface's thickness. */
+    returnTo: number | null;
+    /** OSLO `BCR` is declared. OSLO writes it on fold mirrors, but the Program Reference does not define it. */
+    returnBase: boolean;
+    /** OSLO `GC`: the surface whose coordinates the tilts and decenters are measured in. */
+    globalReference: number | null;
+    /** OSLO `TOX`, `TOY`, `TOZ`: offset of the tilt vertex. */
+    tiltOffsetX: number;
+    tiltOffsetY: number;
+    tiltOffsetZ: number;
+}
+/**
+ * A declared pickup: the property is tied to a preceding surface. Pickups are not executed, so the
+ * property's normalized value is whatever the file saved, or its empty value if nothing was saved.
+ */
+export interface Pickup {
+    property: "curvature" | "thickness" | "aperture" | "material" | "coordinates";
+    /** The OSLO pickup type: `CV`, `CVM`, `TH`, `THM`, `LN`, `LNM`, `AP`, `GLA`, `TD` or `TDM`. */
+    native: string;
+    /** Whether the picked-up value is negated (the `M` types). */
+    negated: boolean;
+    /** The source surface as the file writes it. */
+    reference: number;
+    /** Arguments after the source surface, in file units: a constant, or for `LN` a second surface then a constant. */
+    arguments: number[];
+    /** 1-based source line. */
+    line: number;
+}
+/** A declared solve: the property is to be computed from a paraxial ray. Solves are not executed. */
+export interface Solve {
+    kind: "axialRayHeight" | "chiefRayHeight" | "axialRayAngle" | "chiefRayAngle" | "edgeContact";
+    /** The OSLO command: `PY`, `PYC`, `PU`, `PUC` or `EC`. */
+    native: string;
+    /** The property the solve sets. */
+    target: "thickness" | "curvature";
+    /** The solve's target: a height or edge thickness in millimeters, or a ray slope. */
+    value: number;
+    /** 1-based source line. */
+    line: number;
+}
 interface SurfaceCommon {
     /** Position in the sequential prescription; `0` is the object surface. */
     index: number;
+    /** 1-based line of the record that opens the surface: Zemax `SURF`, OSLO `LEN` or `NXT`. */
+    line: number;
     role: SurfaceRole;
     /** The format's own surface type name, e.g. Zemax `"EVENASPH"` (upper-cased) or OSLO `"ASR"`. */
     nativeType: string;
@@ -151,6 +238,24 @@ interface SurfaceCommon {
     clearAperture: ClearAperture | null;
     /** Declared semi-diameter (Zemax `DIAM`, OSLO `AP`), or `null`. */
     semiDiameter: number | null;
+    /** Declared mechanical semi-diameter, the physical edge of the part (Zemax `MEMA`), or `null`. */
+    mechanicalSemiDiameter: number | null;
+    /** Surface comment or note (Zemax `COMM`, OSLO `NOT`), or `null`. */
+    comment: string | null;
+    /** Coating name (Zemax `COAT`), or `null`. An identifier only; no coating is modeled. */
+    coating: string | null;
+    /** Tilt and decenter declarations, or `null` when the surface has none. */
+    coordinates: CoordinateDeclaration | null;
+    /** Active pickup declarations (OSLO `PK`), in source order. */
+    pickups: Pickup[];
+    /** Active solve declarations (OSLO `PY`, `PYC`, `PU`, `PUC`, `EC`). */
+    solves: Solve[];
+    /**
+     * OSLO sag coefficients (`AD`..`AG`, `ASn`) that are declared but not represented in
+     * `asphereTerms`, by name. Empty means `radius`, `conic` and `asphereTerms` are the whole declared
+     * sag; otherwise the surface is not the shape those describe.
+     */
+    unresolvedSag: string[];
     /** Every declaration on this surface as the format spells it, in the file's own units. */
     parameters: JsonObject;
 }
@@ -236,12 +341,40 @@ export interface Fields {
      * the file declares only the maximum field, so `points` holds that single point (OSLO).
      */
     specification: "pointList" | "fullField";
-    /** Field points in degrees or millimeters according to `kind`. Never empty. */
+    /**
+     * Field points in degrees or millimeters according to `kind`, in the order the file declares
+     * them. Repeated coordinates are kept: they can differ in weight or vignetting. Never empty.
+     */
     points: FieldPoint[];
     /** OSLO field-table rows in ascending `index`; empty when the file has no field table. */
     relativePoints: RelativeFieldPoint[];
     /** The file's own field declarations, in file units. */
     source: JsonObject;
+}
+/**
+ * How a piece of system data came to have its value. `"explicit"`: the file declares it.
+ * `"defaulted"`: the file is silent and the format's default was used. `"padded"`: the file declares
+ * part of it and the rest was filled in. `"inferred"`: the format has no record for it and fixes it
+ * by convention. `"absent"`: the file is silent and there is no value. `"notApplicable"`: the format
+ * has no such thing.
+ */
+export type DeclarationStatus = "explicit" | "defaulted" | "padded" | "inferred" | "absent" | "notApplicable";
+/** Which system data the file declares itself, so defaults are not mistaken for declarations. */
+export interface Declarations {
+    /** Length unit: Zemax `UNIT`, OSLO `UNI`. Millimeters when defaulted. */
+    units: DeclarationStatus;
+    /** Wavelength values. OSLO defaults to the d, F and C lines. */
+    wavelengths: DeclarationStatus;
+    /** Wavelength weights. `"padded"` when some wavelengths have a weight and others were given 1. */
+    wavelengthWeights: DeclarationStatus;
+    /** Primary wavelength: Zemax `PWAV`. OSLO has no record; its first wavelength is the primary. */
+    primaryWavelength: DeclarationStatus;
+    /** System aperture. */
+    aperture: DeclarationStatus;
+    /** Field: Zemax field columns, OSLO `ANG`, `OBH` or `GIH`. On-axis when defaulted. */
+    fields: DeclarationStatus;
+    /** OSLO `END` closing the prescription. `"notApplicable"` for Zemax. */
+    terminator: DeclarationStatus;
 }
 /** Active wavelengths in micrometers; `values` and `weights` are parallel arrays. */
 export interface Wavelengths {
@@ -275,9 +408,14 @@ export interface PrescriptionSource {
  * `raw`) are the exception: they keep the file's own units.
  */
 export interface NormalizedPrescription {
-    schemaVersion: "2.0";
+    schemaVersion: "1.0";
     source: PrescriptionSource;
     name: string | null;
+    /** OSLO `DES`, the designer's name, or `null`. */
+    designer: string | null;
+    /** Design notes in source order: Zemax `NOTE` text, OSLO `SNOn` system notes. */
+    notes: string[];
+    declarations: Declarations;
     mode: "sequential";
     units: Units;
     aperture: SystemAperture;

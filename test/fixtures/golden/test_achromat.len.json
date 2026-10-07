@@ -1,5 +1,5 @@
 {
-  "schemaVersion": "2.0",
+  "schemaVersion": "1.0",
   "source": {
     "format": "oslo",
     "encoding": "utf-8",
@@ -7,6 +7,17 @@
   },
   "name": "LENS",
   "mode": "sequential",
+  "declarations": {
+    "units": "explicit",
+    "wavelengths": "explicit",
+    "wavelengthWeights": "explicit",
+    "primaryWavelength": "inferred",
+    "aperture": "explicit",
+    "fields": "explicit",
+    "terminator": "explicit"
+  },
+  "designer": "Optiland",
+  "notes": [],
   "units": {
     "length": "mm",
     "wavelength": "um",
@@ -62,6 +73,7 @@
   "surfaces": [
     {
       "index": 0,
+      "line": 2,
       "role": "object",
       "nativeType": "ADO",
       "radius": {
@@ -85,6 +97,13 @@
         "checkingEnabled": true
       },
       "semiDiameter": 874886600,
+      "mechanicalSemiDiameter": null,
+      "comment": null,
+      "coating": null,
+      "coordinates": null,
+      "pickups": [],
+      "solves": [],
+      "unresolvedSag": [],
       "parameters": {
         "material": "AIR",
         "TH": 10000000000,
@@ -95,6 +114,7 @@
     },
     {
       "index": 1,
+      "line": 10,
       "role": "surface",
       "nativeType": "ADO",
       "radius": 12.38401,
@@ -119,6 +139,13 @@
         "checkingEnabled": true
       },
       "semiDiameter": 1.667166,
+      "mechanicalSemiDiameter": null,
+      "comment": null,
+      "coating": null,
+      "coordinates": null,
+      "pickups": [],
+      "solves": [],
+      "unresolvedSag": [],
       "parameters": {
         "material": "GLA N-BAK1",
         "glass_wavelengths": [
@@ -135,6 +162,7 @@
     },
     {
       "index": 2,
+      "line": 15,
       "role": "surface",
       "nativeType": "ADO",
       "radius": -7.9414,
@@ -151,6 +179,13 @@
       },
       "clearAperture": null,
       "semiDiameter": null,
+      "mechanicalSemiDiameter": null,
+      "comment": null,
+      "coating": null,
+      "coordinates": null,
+      "pickups": [],
+      "solves": [],
+      "unresolvedSag": [],
       "parameters": {
         "material": "GLA SF2",
         "glass_wavelengths": [
@@ -165,6 +200,7 @@
     },
     {
       "index": 3,
+      "line": 19,
       "role": "surface",
       "nativeType": "ADO",
       "radius": -48.44396,
@@ -176,6 +212,13 @@
       },
       "clearAperture": null,
       "semiDiameter": null,
+      "mechanicalSemiDiameter": null,
+      "comment": null,
+      "coating": null,
+      "coordinates": null,
+      "pickups": [],
+      "solves": [],
+      "unresolvedSag": [],
       "parameters": {
         "material": "AIR",
         "RD": -48.44396,
@@ -185,6 +228,7 @@
     },
     {
       "index": 4,
+      "line": 23,
       "role": "image",
       "nativeType": "ADO",
       "radius": {
@@ -198,6 +242,13 @@
       },
       "clearAperture": null,
       "semiDiameter": null,
+      "mechanicalSemiDiameter": null,
+      "comment": null,
+      "coating": null,
+      "coordinates": null,
+      "pickups": [],
+      "solves": [],
+      "unresolvedSag": [],
       "parameters": {
         "material": "AIR",
         "TH": 0
@@ -247,12 +298,14 @@
     },
     "surfaces": {
       "0": {
+        "line": 2,
         "material": "AIR",
         "TH": 10000000000,
         "AP": 874886600,
         "aperture_checked": false
       },
       "1": {
+        "line": 10,
         "material": "GLA N-BAK1",
         "glass_wavelengths": [
           0.58756,
@@ -265,6 +318,7 @@
         "aperture_checked": false
       },
       "2": {
+        "line": 15,
         "material": "GLA SF2",
         "glass_wavelengths": [
           0.58756,
@@ -275,11 +329,13 @@
         "TH": 0.321
       },
       "3": {
+        "line": 19,
         "material": "AIR",
         "RD": -48.44396,
         "TH": 19.60699
       },
       "4": {
+        "line": 23,
         "material": "AIR",
         "TH": 0
       }
@@ -397,6 +453,15 @@
     ],
     "notes": {
       "DES": "Optiland"
+    },
+    "declarations": {
+      "units": "explicit",
+      "wavelengths": "explicit",
+      "wavelengthWeights": "explicit",
+      "primaryWavelength": "inferred",
+      "aperture": "explicit",
+      "fields": "explicit",
+      "terminator": "explicit"
     },
     "diagnostics": [],
     "settings": {},

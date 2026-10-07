@@ -1,5 +1,5 @@
 {
-  "schemaVersion": "2.0",
+  "schemaVersion": "1.0",
   "source": {
     "format": "zemax",
     "encoding": "utf-16-le",
@@ -7,6 +7,17 @@
   },
   "name": "",
   "mode": "sequential",
+  "declarations": {
+    "units": "explicit",
+    "wavelengths": "explicit",
+    "wavelengthWeights": "explicit",
+    "primaryWavelength": "explicit",
+    "aperture": "explicit",
+    "fields": "explicit",
+    "terminator": "notApplicable"
+  },
+  "designer": null,
+  "notes": [],
   "units": {
     "length": "mm",
     "wavelength": "um",
@@ -82,6 +93,7 @@
   "surfaces": [
     {
       "index": 0,
+      "line": 63,
       "role": "object",
       "nativeType": "STANDARD",
       "radius": {
@@ -97,6 +109,13 @@
       },
       "clearAperture": null,
       "semiDiameter": 0,
+      "mechanicalSemiDiameter": 0,
+      "comment": null,
+      "coating": null,
+      "coordinates": null,
+      "pickups": [],
+      "solves": [],
+      "unresolvedSag": [],
       "parameters": {
         "type": "standard",
         "is_stop": false,
@@ -109,12 +128,14 @@
         "thickness": {
           "special": "positiveInfinity"
         },
-        "diameter": 0
+        "diameter": 0,
+        "mechanical_semi_diameter": 0
       },
       "type": "standard"
     },
     {
       "index": 1,
+      "line": 76,
       "role": "surface",
       "nativeType": "STANDARD",
       "radius": {
@@ -128,22 +149,32 @@
       },
       "clearAperture": null,
       "semiDiameter": 10,
+      "mechanicalSemiDiameter": 10,
+      "comment": "dummy",
+      "coating": null,
+      "coordinates": null,
+      "pickups": [],
+      "solves": [],
+      "unresolvedSag": [],
       "parameters": {
         "type": "standard",
         "is_stop": false,
         "conic": 0,
         "material": "air",
         "aperture": null,
+        "comment": "dummy",
         "radius": {
           "special": "positiveInfinity"
         },
         "thickness": 10,
-        "diameter": 10
+        "diameter": 10,
+        "mechanical_semi_diameter": 10
       },
       "type": "standard"
     },
     {
       "index": 2,
+      "line": 90,
       "role": "surface",
       "nativeType": "STANDARD",
       "radius": {
@@ -157,6 +188,13 @@
       },
       "clearAperture": null,
       "semiDiameter": 10,
+      "mechanicalSemiDiameter": 10,
+      "comment": null,
+      "coating": null,
+      "coordinates": null,
+      "pickups": [],
+      "solves": [],
+      "unresolvedSag": [],
       "parameters": {
         "type": "standard",
         "is_stop": true,
@@ -167,12 +205,14 @@
           "special": "positiveInfinity"
         },
         "thickness": 30,
-        "diameter": 10
+        "diameter": 10,
+        "mechanical_semi_diameter": 10
       },
       "type": "standard"
     },
     {
       "index": 3,
+      "line": 104,
       "role": "coordinateBreak",
       "nativeType": "COORDBRK",
       "radius": {
@@ -186,6 +226,28 @@
       },
       "clearAperture": null,
       "semiDiameter": 0,
+      "mechanicalSemiDiameter": 0,
+      "comment": null,
+      "coating": null,
+      "coordinates": {
+        "decenterX": 0,
+        "decenterY": 0,
+        "decenterZ": 0,
+        "tiltX": 45,
+        "tiltY": 0,
+        "tiltZ": 0,
+        "order": "decenterThenTilt",
+        "bend": false,
+        "returnTo": null,
+        "returnBase": false,
+        "globalReference": null,
+        "tiltOffsetX": 0,
+        "tiltOffsetY": 0,
+        "tiltOffsetZ": 0
+      },
+      "pickups": [],
+      "solves": [],
+      "unresolvedSag": [],
       "parameters": {
         "type": "coordinate_break",
         "is_stop": false,
@@ -202,12 +264,14 @@
         "param_4": 0,
         "param_5": 0,
         "thickness": 0,
-        "diameter": 0
+        "diameter": 0,
+        "mechanical_semi_diameter": 0
       },
       "type": "coordinateBreak"
     },
     {
       "index": 4,
+      "line": 123,
       "role": "surface",
       "nativeType": "STANDARD",
       "radius": {
@@ -221,6 +285,13 @@
       },
       "clearAperture": null,
       "semiDiameter": 14.142135623730955,
+      "mechanicalSemiDiameter": 14.142135623730955,
+      "comment": "M1",
+      "coating": null,
+      "coordinates": null,
+      "pickups": [],
+      "solves": [],
+      "unresolvedSag": [],
       "parameters": {
         "type": "standard",
         "is_stop": false,
@@ -229,16 +300,19 @@
           "kind": "mirror"
         },
         "aperture": null,
+        "comment": "M1",
         "radius": {
           "special": "positiveInfinity"
         },
         "thickness": 0,
-        "diameter": 14.142135623730955
+        "diameter": 14.142135623730955,
+        "mechanical_semi_diameter": 14.142135623730955
       },
       "type": "standard"
     },
     {
       "index": 5,
+      "line": 138,
       "role": "coordinateBreak",
       "nativeType": "COORDBRK",
       "radius": {
@@ -252,6 +326,28 @@
       },
       "clearAperture": null,
       "semiDiameter": 0,
+      "mechanicalSemiDiameter": 0,
+      "comment": null,
+      "coating": null,
+      "coordinates": {
+        "decenterX": 0,
+        "decenterY": 0,
+        "decenterZ": 0,
+        "tiltX": 45,
+        "tiltY": 0,
+        "tiltZ": 0,
+        "order": "decenterThenTilt",
+        "bend": false,
+        "returnTo": null,
+        "returnBase": false,
+        "globalReference": null,
+        "tiltOffsetX": 0,
+        "tiltOffsetY": 0,
+        "tiltOffsetZ": 0
+      },
+      "pickups": [],
+      "solves": [],
+      "unresolvedSag": [],
       "parameters": {
         "type": "coordinate_break",
         "is_stop": false,
@@ -268,12 +364,14 @@
         "param_4": 0,
         "param_5": 0,
         "thickness": -20,
-        "diameter": 0
+        "diameter": 0,
+        "mechanical_semi_diameter": 0
       },
       "type": "coordinateBreak"
     },
     {
       "index": 6,
+      "line": 158,
       "role": "image",
       "nativeType": "STANDARD",
       "radius": {
@@ -287,6 +385,13 @@
       },
       "clearAperture": null,
       "semiDiameter": 10.000000000000005,
+      "mechanicalSemiDiameter": 10.000000000000005,
+      "comment": null,
+      "coating": null,
+      "coordinates": null,
+      "pickups": [],
+      "solves": [],
+      "unresolvedSag": [],
       "parameters": {
         "type": "standard",
         "is_stop": false,
@@ -297,7 +402,8 @@
           "special": "positiveInfinity"
         },
         "thickness": 0,
-        "diameter": 10.000000000000005
+        "diameter": 10.000000000000005,
+        "mechanical_semi_diameter": 10.000000000000005
       },
       "type": "standard"
     }
@@ -305,7 +411,7 @@
   "diagnostics": [
     {
       "severity": "info",
-      "code": "uninterpreted_record",
+      "code": "inert_record",
       "message": "Record retained but not interpreted",
       "command": "VERS",
       "line": 1
@@ -333,14 +439,14 @@
     },
     {
       "severity": "info",
-      "code": "uninterpreted_record",
+      "code": "inert_record",
       "message": "Record retained but not interpreted",
       "command": "PFIL",
       "line": 7
     },
     {
       "severity": "info",
-      "code": "uninterpreted_record",
+      "code": "inert_record",
       "message": "Record retained but not interpreted",
       "command": "LANG",
       "line": 8
@@ -508,14 +614,6 @@
       "severity": "warning",
       "code": "uninterpreted_record",
       "message": "Record retained but not interpreted",
-      "command": "MEMA",
-      "line": 74,
-      "surface": 0
-    },
-    {
-      "severity": "warning",
-      "code": "uninterpreted_record",
-      "message": "Record retained but not interpreted",
       "command": "POPS",
       "line": 75,
       "surface": 0
@@ -526,14 +624,6 @@
       "message": "Record retained but not interpreted",
       "command": "SSID",
       "line": 77,
-      "surface": 1
-    },
-    {
-      "severity": "warning",
-      "code": "uninterpreted_record",
-      "message": "Record retained but not interpreted",
-      "command": "COMM",
-      "line": 78,
       "surface": 1
     },
     {
@@ -566,14 +656,6 @@
       "message": "Record retained but not interpreted",
       "command": "SLAB",
       "line": 85,
-      "surface": 1
-    },
-    {
-      "severity": "warning",
-      "code": "uninterpreted_record",
-      "message": "Record retained but not interpreted",
-      "command": "MEMA",
-      "line": 88,
       "surface": 1
     },
     {
@@ -628,14 +710,6 @@
       "severity": "warning",
       "code": "uninterpreted_record",
       "message": "Record retained but not interpreted",
-      "command": "MEMA",
-      "line": 102,
-      "surface": 2
-    },
-    {
-      "severity": "warning",
-      "code": "uninterpreted_record",
-      "message": "Record retained but not interpreted",
       "command": "POPS",
       "line": 103,
       "surface": 2
@@ -684,14 +758,6 @@
       "severity": "warning",
       "code": "uninterpreted_record",
       "message": "Record retained but not interpreted",
-      "command": "MEMA",
-      "line": 121,
-      "surface": 3
-    },
-    {
-      "severity": "warning",
-      "code": "uninterpreted_record",
-      "message": "Record retained but not interpreted",
       "command": "POPS",
       "line": 122,
       "surface": 3
@@ -702,14 +768,6 @@
       "message": "Record retained but not interpreted",
       "command": "SSID",
       "line": 124,
-      "surface": 4
-    },
-    {
-      "severity": "warning",
-      "code": "uninterpreted_record",
-      "message": "Record retained but not interpreted",
-      "command": "COMM",
-      "line": 125,
       "surface": 4
     },
     {
@@ -742,14 +800,6 @@
       "message": "Record retained but not interpreted",
       "command": "SLAB",
       "line": 132,
-      "surface": 4
-    },
-    {
-      "severity": "warning",
-      "code": "uninterpreted_record",
-      "message": "Record retained but not interpreted",
-      "command": "MEMA",
-      "line": 136,
       "surface": 4
     },
     {
@@ -812,14 +862,6 @@
       "severity": "warning",
       "code": "uninterpreted_record",
       "message": "Record retained but not interpreted",
-      "command": "MEMA",
-      "line": 156,
-      "surface": 5
-    },
-    {
-      "severity": "warning",
-      "code": "uninterpreted_record",
-      "message": "Record retained but not interpreted",
       "command": "POPS",
       "line": 157,
       "surface": 5
@@ -868,14 +910,6 @@
       "severity": "warning",
       "code": "uninterpreted_record",
       "message": "Record retained but not interpreted",
-      "command": "MEMA",
-      "line": 169,
-      "surface": 6
-    },
-    {
-      "severity": "warning",
-      "code": "uninterpreted_record",
-      "message": "Record retained but not interpreted",
       "command": "POPS",
       "line": 170,
       "surface": 6
@@ -898,7 +932,7 @@
     },
     {
       "severity": "info",
-      "code": "uninterpreted_record",
+      "code": "inert_record",
       "message": "Record retained but not interpreted",
       "command": "MNUM",
       "line": 173,
@@ -1796,13 +1830,6 @@
         "message": "Record retained but not interpreted"
       },
       {
-        "command": "MEMA",
-        "line": 74,
-        "surface": 0,
-        "severity": "warning",
-        "message": "Record retained but not interpreted"
-      },
-      {
         "command": "POPS",
         "line": 75,
         "surface": 0,
@@ -1812,13 +1839,6 @@
       {
         "command": "SSID",
         "line": 77,
-        "surface": 1,
-        "severity": "warning",
-        "message": "Record retained but not interpreted"
-      },
-      {
-        "command": "COMM",
-        "line": 78,
         "surface": 1,
         "severity": "warning",
         "message": "Record retained but not interpreted"
@@ -1847,13 +1867,6 @@
       {
         "command": "SLAB",
         "line": 85,
-        "surface": 1,
-        "severity": "warning",
-        "message": "Record retained but not interpreted"
-      },
-      {
-        "command": "MEMA",
-        "line": 88,
         "surface": 1,
         "severity": "warning",
         "message": "Record retained but not interpreted"
@@ -1901,13 +1914,6 @@
         "message": "Record retained but not interpreted"
       },
       {
-        "command": "MEMA",
-        "line": 102,
-        "surface": 2,
-        "severity": "warning",
-        "message": "Record retained but not interpreted"
-      },
-      {
         "command": "POPS",
         "line": 103,
         "surface": 2,
@@ -1950,13 +1956,6 @@
         "message": "Record retained but not interpreted"
       },
       {
-        "command": "MEMA",
-        "line": 121,
-        "surface": 3,
-        "severity": "warning",
-        "message": "Record retained but not interpreted"
-      },
-      {
         "command": "POPS",
         "line": 122,
         "surface": 3,
@@ -1966,13 +1965,6 @@
       {
         "command": "SSID",
         "line": 124,
-        "surface": 4,
-        "severity": "warning",
-        "message": "Record retained but not interpreted"
-      },
-      {
-        "command": "COMM",
-        "line": 125,
         "surface": 4,
         "severity": "warning",
         "message": "Record retained but not interpreted"
@@ -2001,13 +1993,6 @@
       {
         "command": "SLAB",
         "line": 132,
-        "surface": 4,
-        "severity": "warning",
-        "message": "Record retained but not interpreted"
-      },
-      {
-        "command": "MEMA",
-        "line": 136,
         "surface": 4,
         "severity": "warning",
         "message": "Record retained but not interpreted"
@@ -2062,13 +2047,6 @@
         "message": "Record retained but not interpreted"
       },
       {
-        "command": "MEMA",
-        "line": 156,
-        "surface": 5,
-        "severity": "warning",
-        "message": "Record retained but not interpreted"
-      },
-      {
         "command": "POPS",
         "line": 157,
         "surface": 5,
@@ -2111,13 +2089,6 @@
         "message": "Record retained but not interpreted"
       },
       {
-        "command": "MEMA",
-        "line": 169,
-        "surface": 6,
-        "severity": "warning",
-        "message": "Record retained but not interpreted"
-      },
-      {
         "command": "POPS",
         "line": 170,
         "surface": 6,
@@ -2154,6 +2125,16 @@
       }
     ],
     "name": "",
+    "notes": [],
+    "declarations": {
+      "units": "explicit",
+      "wavelengths": "explicit",
+      "wavelengthWeights": "explicit",
+      "primaryWavelength": "explicit",
+      "aperture": "explicit",
+      "fields": "explicit",
+      "terminator": "notApplicable"
+    },
     "aperture": {
       "EPD": 20
     },
@@ -2199,6 +2180,7 @@
     },
     "surfaces": {
       "0": {
+        "line": 63,
         "type": "standard",
         "is_stop": false,
         "conic": 0,
@@ -2210,21 +2192,26 @@
         "thickness": {
           "special": "positiveInfinity"
         },
-        "diameter": 0
+        "diameter": 0,
+        "mechanical_semi_diameter": 0
       },
       "1": {
+        "line": 76,
         "type": "standard",
         "is_stop": false,
         "conic": 0,
         "material": "air",
         "aperture": null,
+        "comment": "dummy",
         "radius": {
           "special": "positiveInfinity"
         },
         "thickness": 10,
-        "diameter": 10
+        "diameter": 10,
+        "mechanical_semi_diameter": 10
       },
       "2": {
+        "line": 90,
         "type": "standard",
         "is_stop": true,
         "conic": 0,
@@ -2234,9 +2221,11 @@
           "special": "positiveInfinity"
         },
         "thickness": 30,
-        "diameter": 10
+        "diameter": 10,
+        "mechanical_semi_diameter": 10
       },
       "3": {
+        "line": 104,
         "type": "coordinate_break",
         "is_stop": false,
         "conic": 0,
@@ -2252,9 +2241,11 @@
         "param_4": 0,
         "param_5": 0,
         "thickness": 0,
-        "diameter": 0
+        "diameter": 0,
+        "mechanical_semi_diameter": 0
       },
       "4": {
+        "line": 123,
         "type": "standard",
         "is_stop": false,
         "conic": 0,
@@ -2262,13 +2253,16 @@
           "kind": "mirror"
         },
         "aperture": null,
+        "comment": "M1",
         "radius": {
           "special": "positiveInfinity"
         },
         "thickness": 0,
-        "diameter": 14.142135623730955
+        "diameter": 14.142135623730955,
+        "mechanical_semi_diameter": 14.142135623730955
       },
       "5": {
+        "line": 138,
         "type": "coordinate_break",
         "is_stop": false,
         "conic": 0,
@@ -2284,9 +2278,11 @@
         "param_4": 0,
         "param_5": 0,
         "thickness": -20,
-        "diameter": 0
+        "diameter": 0,
+        "mechanical_semi_diameter": 0
       },
       "6": {
+        "line": 158,
         "type": "standard",
         "is_stop": false,
         "conic": 0,
@@ -2296,7 +2292,8 @@
           "special": "positiveInfinity"
         },
         "thickness": 0,
-        "diameter": 10.000000000000005
+        "diameter": 10.000000000000005,
+        "mechanical_semi_diameter": 10.000000000000005
       }
     },
     "glass_catalogs": [

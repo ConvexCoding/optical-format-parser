@@ -93,6 +93,12 @@ const surface: NormalizedSurface = prescription.surfaces[0]!;
 const curvature: number = 1 / surface.radius;
 const semiDiameter: number | null = surface.semiDiameter;
 const maxRadius: number | undefined = surface.clearAperture?.maxRadius;
+const edge: number | null = surface.mechanicalSemiDiameter;
+const label: string | null = surface.comment ?? surface.coating;
+const tilt: number | undefined = surface.coordinates?.tiltX;
+const controlled: string[] = [...surface.pickups.map(pickup => pickup.property), ...surface.solves.map(solve => solve.target)];
+const complete: boolean = surface.unresolvedSag.length === 0;
+const declared: boolean = prescription.declarations.units === 'explicit' && prescription.notes.length > 0;
 const output: string = stringify(prescription);
 const format: Format = prescription.source.format;
 async function fromFile(file: File): Promise<NormalizedPrescription | null> {
@@ -114,6 +120,7 @@ function describe(material: Material): string {
     case 'model': return String(material.nd + material.vd);
     case 'constantIndex': return String(material.index);
     case 'sampledIndex': return String(material.indices[0]);
+    case 'pickup': return String(material.reference);
     case 'unknown': return material.raw;
   }
 }

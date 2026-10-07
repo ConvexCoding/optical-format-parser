@@ -12,7 +12,7 @@ export { PrescriptionParseError } from "./errors.js";
 export type { ParseErrorCode, ParseErrorDetails, ParseResult, Result } from "./errors.js";
 export type * from "./types.js";
 
-const SCHEMA_VERSION: NormalizedPrescription["schemaVersion"] = "2.0";
+const SCHEMA_VERSION: NormalizedPrescription["schemaVersion"] = "1.0";
 
 function resolveOptions(options: ParseOptions): Required<ParseOptions> {
   if (options === null || typeof options !== "object") {

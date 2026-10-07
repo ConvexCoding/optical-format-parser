@@ -1,5 +1,5 @@
 {
-  "schemaVersion": "2.0",
+  "schemaVersion": "1.0",
   "source": {
     "format": "zemax",
     "encoding": "utf-16-le",
@@ -7,6 +7,19 @@
   },
   "name": "100 deg Laikin wide angle lens",
   "mode": "sequential",
+  "declarations": {
+    "units": "explicit",
+    "wavelengths": "explicit",
+    "wavelengthWeights": "explicit",
+    "primaryWavelength": "explicit",
+    "aperture": "explicit",
+    "fields": "explicit",
+    "terminator": "notApplicable"
+  },
+  "designer": null,
+  "notes": [
+    "Notes..."
+  ],
   "units": {
     "length": "mm",
     "wavelength": "um",
@@ -122,6 +135,7 @@
   "surfaces": [
     {
       "index": 0,
+      "line": 67,
       "role": "object",
       "nativeType": "STANDARD",
       "radius": {
@@ -137,6 +151,13 @@
       },
       "clearAperture": null,
       "semiDiameter": 0,
+      "mechanicalSemiDiameter": 0,
+      "comment": null,
+      "coating": null,
+      "coordinates": null,
+      "pickups": [],
+      "solves": [],
+      "unresolvedSag": [],
       "parameters": {
         "type": "standard",
         "is_stop": false,
@@ -149,12 +170,14 @@
         "thickness": {
           "special": "positiveInfinity"
         },
-        "diameter": 0
+        "diameter": 0,
+        "mechanical_semi_diameter": 0
       },
       "type": "standard"
     },
     {
       "index": 1,
+      "line": 80,
       "role": "surface",
       "nativeType": "STANDARD",
       "radius": {
@@ -168,6 +191,13 @@
       },
       "clearAperture": null,
       "semiDiameter": 0,
+      "mechanicalSemiDiameter": 0,
+      "comment": null,
+      "coating": null,
+      "coordinates": null,
+      "pickups": [],
+      "solves": [],
+      "unresolvedSag": [],
       "parameters": {
         "type": "standard",
         "is_stop": false,
@@ -178,12 +208,14 @@
           "special": "positiveInfinity"
         },
         "thickness": 0.5,
-        "diameter": 0
+        "diameter": 0,
+        "mechanical_semi_diameter": 0
       },
       "type": "standard"
     },
     {
       "index": 2,
+      "line": 93,
       "role": "surface",
       "nativeType": "STANDARD",
       "radius": -234.59947934617122,
@@ -202,6 +234,13 @@
       },
       "clearAperture": null,
       "semiDiameter": 32.617590606705946,
+      "mechanicalSemiDiameter": 32.617590606705946,
+      "comment": null,
+      "coating": "WAR",
+      "coordinates": null,
+      "pickups": [],
+      "solves": [],
+      "unresolvedSag": [],
       "parameters": {
         "type": "standard",
         "is_stop": false,
@@ -218,15 +257,18 @@
         },
         "aperture": null,
         "radius": -9.23619997425871,
+        "coating": "WAR",
         "thickness": 0.249,
         "index": 0,
         "abbe": 0,
-        "diameter": 1.2841571105002343
+        "diameter": 1.2841571105002343,
+        "mechanical_semi_diameter": 1.2841571105002343
       },
       "type": "standard"
     },
     {
       "index": 3,
+      "line": 108,
       "role": "surface",
       "nativeType": "STANDARD",
       "radius": 32.75584000744213,
@@ -238,6 +280,13 @@
       },
       "clearAperture": null,
       "semiDiameter": 24.159866451989835,
+      "mechanicalSemiDiameter": 32.617590606705946,
+      "comment": null,
+      "coating": "WAR",
+      "coordinates": null,
+      "pickups": [],
+      "solves": [],
+      "unresolvedSag": [],
       "parameters": {
         "type": "standard",
         "is_stop": false,
@@ -245,13 +294,16 @@
         "material": "air",
         "aperture": null,
         "radius": 1.2896000002929973,
+        "coating": "WAR",
         "thickness": 0.092,
-        "diameter": 0.9511758445665289
+        "diameter": 0.9511758445665289,
+        "mechanical_semi_diameter": 1.2841571105002343
       },
       "type": "standard"
     },
     {
       "index": 4,
+      "line": 122,
       "role": "surface",
       "nativeType": "STANDARD",
       "radius": 35.10280002169353,
@@ -270,6 +322,13 @@
       },
       "clearAperture": null,
       "semiDiameter": 24.014077269549848,
+      "mechanicalSemiDiameter": 24.014077269549848,
+      "comment": null,
+      "coating": "WAR",
+      "coordinates": null,
+      "pickups": [],
+      "solves": [],
+      "unresolvedSag": [],
       "parameters": {
         "type": "standard",
         "is_stop": false,
@@ -286,15 +345,18 @@
         },
         "aperture": null,
         "radius": 1.382000000854076,
+        "coating": "WAR",
         "thickness": 0.541,
         "index": 0,
         "abbe": 0,
-        "diameter": 0.9454361129744034
+        "diameter": 0.9454361129744034,
+        "mechanical_semi_diameter": 0.9454361129744034
       },
       "type": "standard"
     },
     {
       "index": 5,
+      "line": 137,
       "role": "surface",
       "nativeType": "STANDARD",
       "radius": -138.13282016664343,
@@ -313,6 +375,13 @@
       },
       "clearAperture": null,
       "semiDiameter": 23.032716880469238,
+      "mechanicalSemiDiameter": 24.014077269549848,
+      "comment": null,
+      "coating": null,
+      "coordinates": null,
+      "pickups": [],
+      "solves": [],
+      "unresolvedSag": [],
       "parameters": {
         "type": "standard",
         "is_stop": false,
@@ -332,12 +401,14 @@
         "thickness": 0.214,
         "index": 1.612720178898,
         "abbe": 58.62982920247,
-        "diameter": 0.9067998771838283
+        "diameter": 0.9067998771838283,
+        "mechanical_semi_diameter": 0.9454361129744034
       },
       "type": "standard"
     },
     {
       "index": 6,
+      "line": 151,
       "role": "surface",
       "nativeType": "STANDARD",
       "radius": 22.672040059174023,
@@ -349,6 +420,13 @@
       },
       "clearAperture": null,
       "semiDiameter": 16.256933590860275,
+      "mechanicalSemiDiameter": 24.014077269549848,
+      "comment": null,
+      "coating": "WAR",
+      "coordinates": null,
+      "pickups": [],
+      "solves": [],
+      "unresolvedSag": [],
       "parameters": {
         "type": "standard",
         "is_stop": false,
@@ -356,13 +434,16 @@
         "material": "air",
         "aperture": null,
         "radius": 0.892600002329686,
+        "coating": "WAR",
         "thickness": 0.413,
-        "diameter": 0.6400367555456801
+        "diameter": 0.6400367555456801,
+        "mechanical_semi_diameter": 0.9454361129744034
       },
       "type": "standard"
     },
     {
       "index": 7,
+      "line": 165,
       "role": "surface",
       "nativeType": "STANDARD",
       "radius": -46.80458001021276,
@@ -381,6 +462,13 @@
       },
       "clearAperture": null,
       "semiDiameter": 16.098793250322885,
+      "mechanicalSemiDiameter": 16.288485280054594,
+      "comment": null,
+      "coating": "WAR",
+      "coordinates": null,
+      "pickups": [],
+      "solves": [],
+      "unresolvedSag": [],
       "parameters": {
         "type": "standard",
         "is_stop": false,
@@ -397,15 +485,18 @@
         },
         "aperture": null,
         "radius": -1.8427000004020773,
+        "coating": "WAR",
         "thickness": 0.139,
         "index": 0,
         "abbe": 0,
-        "diameter": 0.6338107578867278
+        "diameter": 0.6338107578867278,
+        "mechanical_semi_diameter": 0.6412789480336455
       },
       "type": "standard"
     },
     {
       "index": 8,
+      "line": 180,
       "role": "surface",
       "nativeType": "STANDARD",
       "radius": -38.71722002945993,
@@ -424,6 +515,13 @@
       },
       "clearAperture": null,
       "semiDiameter": 16.21015405143617,
+      "mechanicalSemiDiameter": 16.288485280054594,
+      "comment": null,
+      "coating": null,
+      "coordinates": null,
+      "pickups": [],
+      "solves": [],
+      "unresolvedSag": [],
       "parameters": {
         "type": "standard",
         "is_stop": false,
@@ -443,12 +541,14 @@
         "thickness": 0.207,
         "index": 1.612720178898,
         "abbe": 58.62982920247,
-        "diameter": 0.6381950413951248
+        "diameter": 0.6381950413951248,
+        "mechanical_semi_diameter": 0.6412789480336455
       },
       "type": "standard"
     },
     {
       "index": 9,
+      "line": 194,
       "role": "surface",
       "nativeType": "STANDARD",
       "radius": -55.46089998144833,
@@ -460,6 +560,13 @@
       },
       "clearAperture": null,
       "semiDiameter": 16.288485280054594,
+      "mechanicalSemiDiameter": 16.288485280054594,
+      "comment": null,
+      "coating": null,
+      "coordinates": null,
+      "pickups": [],
+      "solves": [],
+      "unresolvedSag": [],
       "parameters": {
         "type": "standard",
         "is_stop": false,
@@ -468,12 +575,14 @@
         "aperture": null,
         "radius": -2.1834999992696194,
         "thickness": 0.2,
-        "diameter": 0.6412789480336455
+        "diameter": 0.6412789480336455,
+        "mechanical_semi_diameter": 0.6412789480336455
       },
       "type": "standard"
     },
     {
       "index": 10,
+      "line": 206,
       "role": "surface",
       "nativeType": "STANDARD",
       "radius": {
@@ -487,6 +596,13 @@
       },
       "clearAperture": null,
       "semiDiameter": 14.966388730259842,
+      "mechanicalSemiDiameter": 14.966388730259842,
+      "comment": null,
+      "coating": "WAR",
+      "coordinates": null,
+      "pickups": [],
+      "solves": [],
+      "unresolvedSag": [],
       "parameters": {
         "type": "standard",
         "is_stop": false,
@@ -496,13 +612,16 @@
         "radius": {
           "special": "positiveInfinity"
         },
+        "coating": "WAR",
         "thickness": 0.936,
-        "diameter": 0.5892279027661356
+        "diameter": 0.5892279027661356,
+        "mechanical_semi_diameter": 0.5892279027661356
       },
       "type": "standard"
     },
     {
       "index": 11,
+      "line": 220,
       "role": "surface",
       "nativeType": "STANDARD",
       "radius": {
@@ -516,6 +635,13 @@
       },
       "clearAperture": null,
       "semiDiameter": 10.789837577604775,
+      "mechanicalSemiDiameter": 10.789837577604775,
+      "comment": null,
+      "coating": null,
+      "coordinates": null,
+      "pickups": [],
+      "solves": [],
+      "unresolvedSag": [],
       "parameters": {
         "type": "standard",
         "is_stop": true,
@@ -526,12 +652,14 @@
           "special": "positiveInfinity"
         },
         "thickness": 0.299,
-        "diameter": 0.4247967550238101
+        "diameter": 0.4247967550238101,
+        "mechanical_semi_diameter": 0.4247967550238101
       },
       "type": "standard"
     },
     {
       "index": 12,
+      "line": 234,
       "role": "surface",
       "nativeType": "STANDARD",
       "radius": -168.26230004534668,
@@ -550,6 +678,13 @@
       },
       "clearAperture": null,
       "semiDiameter": 14.064514961228607,
+      "mechanicalSemiDiameter": 15.284471169420389,
+      "comment": null,
+      "coating": "WAR",
+      "coordinates": null,
+      "pickups": [],
+      "solves": [],
+      "unresolvedSag": [],
       "parameters": {
         "type": "standard",
         "is_stop": false,
@@ -566,15 +701,18 @@
         },
         "aperture": null,
         "radius": -6.624500001785303,
+        "coating": "WAR",
         "thickness": 0.226,
         "index": 1.612720178898,
         "abbe": 58.62982920247,
-        "diameter": 0.5537210614656932
+        "diameter": 0.5537210614656932,
+        "mechanical_semi_diameter": 0.6017508334417476
       },
       "type": "standard"
     },
     {
       "index": 13,
+      "line": 249,
       "role": "surface",
       "nativeType": "STANDARD",
       "radius": -50.14214003664889,
@@ -586,6 +724,13 @@
       },
       "clearAperture": null,
       "semiDiameter": 15.284471169420389,
+      "mechanicalSemiDiameter": 15.284471169420389,
+      "comment": null,
+      "coating": "WAR",
+      "coordinates": null,
+      "pickups": [],
+      "solves": [],
+      "unresolvedSag": [],
       "parameters": {
         "type": "standard",
         "is_stop": false,
@@ -593,13 +738,16 @@
         "material": "air",
         "aperture": null,
         "radius": -1.9741000014428698,
+        "coating": "WAR",
         "thickness": 0.021,
-        "diameter": 0.6017508334417476
+        "diameter": 0.6017508334417476,
+        "mechanical_semi_diameter": 0.6017508334417476
       },
       "type": "standard"
     },
     {
       "index": 14,
+      "line": 263,
       "role": "surface",
       "nativeType": "STANDARD",
       "radius": 651.9849796932475,
@@ -618,6 +766,13 @@
       },
       "clearAperture": null,
       "semiDiameter": 16.2300787039494,
+      "mechanicalSemiDiameter": 18.33482504709233,
+      "comment": null,
+      "coating": "WAR",
+      "coordinates": null,
+      "pickups": [],
+      "solves": [],
+      "unresolvedSag": [],
       "parameters": {
         "type": "standard",
         "is_stop": false,
@@ -634,15 +789,18 @@
         },
         "aperture": null,
         "radius": 25.668699987923134,
+        "coating": "WAR",
         "thickness": 0.34,
         "index": 1.612720178898,
         "abbe": 58.62982920247,
-        "diameter": 0.638979476533441
+        "diameter": 0.638979476533441,
+        "mechanical_semi_diameter": 0.7218435057910367
       },
       "type": "standard"
     },
     {
       "index": 15,
+      "line": 278,
       "role": "surface",
       "nativeType": "STANDARD",
       "radius": -26.372819986489205,
@@ -661,6 +819,13 @@
       },
       "clearAperture": null,
       "semiDiameter": 16.662001410818316,
+      "mechanicalSemiDiameter": 18.33482504709233,
+      "comment": null,
+      "coating": null,
+      "coordinates": null,
+      "pickups": [],
+      "solves": [],
+      "unresolvedSag": [],
       "parameters": {
         "type": "standard",
         "is_stop": false,
@@ -680,12 +845,14 @@
         "thickness": 0.146,
         "index": 0,
         "abbe": 0,
-        "diameter": 0.6559843075125322
+        "diameter": 0.6559843075125322,
+        "mechanical_semi_diameter": 0.7218435057910367
       },
       "type": "standard"
     },
     {
       "index": 16,
+      "line": 292,
       "role": "surface",
       "nativeType": "STANDARD",
       "radius": -106.72826002174054,
@@ -697,6 +864,13 @@
       },
       "clearAperture": null,
       "semiDiameter": 18.33482504709233,
+      "mechanicalSemiDiameter": 18.33482504709233,
+      "comment": null,
+      "coating": "WAR",
+      "coordinates": null,
+      "pickups": [],
+      "solves": [],
+      "unresolvedSag": [],
       "parameters": {
         "type": "standard",
         "is_stop": false,
@@ -704,13 +878,16 @@
         "material": "air",
         "aperture": null,
         "radius": -4.201900000855927,
+        "coating": "WAR",
         "thickness": 0.758,
-        "diameter": 0.7218435057910367
+        "diameter": 0.7218435057910367,
+        "mechanical_semi_diameter": 0.7218435057910367
       },
       "type": "standard"
     },
     {
       "index": 17,
+      "line": 306,
       "role": "surface",
       "nativeType": "STANDARD",
       "radius": 209.5957194810829,
@@ -729,6 +906,13 @@
       },
       "clearAperture": null,
       "semiDiameter": 23.475439266575872,
+      "mechanicalSemiDiameter": 24.21954861574262,
+      "comment": null,
+      "coating": "WAR",
+      "coordinates": null,
+      "pickups": [],
+      "solves": [],
+      "unresolvedSag": [],
       "parameters": {
         "type": "standard",
         "is_stop": false,
@@ -745,15 +929,18 @@
         },
         "aperture": null,
         "radius": 8.251799979570194,
+        "coating": "WAR",
         "thickness": 0.207,
         "index": 0,
         "abbe": 0,
-        "diameter": 0.9242298923848768
+        "diameter": 0.9242298923848768,
+        "mechanical_semi_diameter": 0.9535255360528592
       },
       "type": "standard"
     },
     {
       "index": 18,
+      "line": 321,
       "role": "surface",
       "nativeType": "STANDARD",
       "radius": 61.450220064608764,
@@ -765,6 +952,13 @@
       },
       "clearAperture": null,
       "semiDiameter": 24.21954861574262,
+      "mechanicalSemiDiameter": 24.21954861574262,
+      "comment": null,
+      "coating": "WAR",
+      "coordinates": null,
+      "pickups": [],
+      "solves": [],
+      "unresolvedSag": [],
       "parameters": {
         "type": "standard",
         "is_stop": false,
@@ -772,13 +966,16 @@
         "material": "air",
         "aperture": null,
         "radius": 2.419300002543652,
+        "coating": "WAR",
         "thickness": 0.021,
-        "diameter": 0.9535255360528592
+        "diameter": 0.9535255360528592,
+        "mechanical_semi_diameter": 0.9535255360528592
       },
       "type": "standard"
     },
     {
       "index": 19,
+      "line": 335,
       "role": "surface",
       "nativeType": "STANDARD",
       "radius": 62.27572006240027,
@@ -797,6 +994,13 @@
       },
       "clearAperture": null,
       "semiDiameter": 24.58229766084528,
+      "mechanicalSemiDiameter": 24.882354999414602,
+      "comment": null,
+      "coating": "WAR",
+      "coordinates": null,
+      "pickups": [],
+      "solves": [],
+      "unresolvedSag": [],
       "parameters": {
         "type": "standard",
         "is_stop": false,
@@ -813,15 +1017,18 @@
         },
         "aperture": null,
         "radius": 2.4518000024567037,
+        "coating": "WAR",
         "thickness": 0.442,
         "index": 1.612720178898,
         "abbe": 58.62982920247,
-        "diameter": 0.9678069945214678
+        "diameter": 0.9678069945214678,
+        "mechanical_semi_diameter": 0.9796202755675041
       },
       "type": "standard"
     },
     {
       "index": 20,
+      "line": 350,
       "role": "surface",
       "nativeType": "STANDARD",
       "radius": -87.02801997987912,
@@ -833,6 +1040,13 @@
       },
       "clearAperture": null,
       "semiDiameter": 24.882354999414602,
+      "mechanicalSemiDiameter": 24.882354999414602,
+      "comment": null,
+      "coating": "WAR",
+      "coordinates": null,
+      "pickups": [],
+      "solves": [],
+      "unresolvedSag": [],
       "parameters": {
         "type": "standard",
         "is_stop": false,
@@ -840,13 +1054,16 @@
         "material": "air",
         "aperture": null,
         "radius": -3.4262999992078393,
+        "coating": "WAR",
         "thickness": 0.071,
-        "diameter": 0.9796202755675041
+        "diameter": 0.9796202755675041,
+        "mechanical_semi_diameter": 0.9796202755675041
       },
       "type": "standard"
     },
     {
       "index": 21,
+      "line": 364,
       "role": "surface",
       "nativeType": "STANDARD",
       "radius": 55.11546005362734,
@@ -865,6 +1082,13 @@
       },
       "clearAperture": null,
       "semiDiameter": 24.99583825364087,
+      "mechanicalSemiDiameter": 24.99583825364087,
+      "comment": null,
+      "coating": "WAR",
+      "coordinates": null,
+      "pickups": [],
+      "solves": [],
+      "unresolvedSag": [],
       "parameters": {
         "type": "standard",
         "is_stop": false,
@@ -881,15 +1105,18 @@
         },
         "aperture": null,
         "radius": 2.1699000021113126,
+        "coating": "WAR",
         "thickness": 0.317,
         "index": 1.612720178898,
         "abbe": 58.62982920247,
-        "diameter": 0.9840881202220816
+        "diameter": 0.9840881202220816,
+        "mechanical_semi_diameter": 0.9840881202220816
       },
       "type": "standard"
     },
     {
       "index": 22,
+      "line": 379,
       "role": "surface",
       "nativeType": "STANDARD",
       "radius": 855.096081272075,
@@ -901,6 +1128,13 @@
       },
       "clearAperture": null,
       "semiDiameter": 24.55732183863724,
+      "mechanicalSemiDiameter": 24.99583825364087,
+      "comment": null,
+      "coating": "WAR",
+      "coordinates": null,
+      "pickups": [],
+      "solves": [],
+      "unresolvedSag": [],
       "parameters": {
         "type": "standard",
         "is_stop": false,
@@ -908,13 +1142,16 @@
         "material": "air",
         "aperture": null,
         "radius": 33.665200050081694,
+        "coating": "WAR",
         "thickness": 1.56108721331,
-        "diameter": 0.9668236944345371
+        "diameter": 0.9668236944345371,
+        "mechanical_semi_diameter": 0.9840881202220816
       },
       "type": "standard"
     },
     {
       "index": 23,
+      "line": 393,
       "role": "image",
       "nativeType": "STANDARD",
       "radius": {
@@ -928,6 +1165,13 @@
       },
       "clearAperture": null,
       "semiDiameter": 13.505714202555087,
+      "mechanicalSemiDiameter": 13.505714202555087,
+      "comment": null,
+      "coating": null,
+      "coordinates": null,
+      "pickups": [],
+      "solves": [],
+      "unresolvedSag": [],
       "parameters": {
         "type": "standard",
         "is_stop": false,
@@ -938,7 +1182,8 @@
           "special": "positiveInfinity"
         },
         "thickness": 0,
-        "diameter": 0.531721031596657
+        "diameter": 0.531721031596657,
+        "mechanical_semi_diameter": 0.531721031596657
       },
       "type": "standard"
     }
@@ -946,7 +1191,7 @@
   "diagnostics": [
     {
       "severity": "info",
-      "code": "uninterpreted_record",
+      "code": "inert_record",
       "message": "Record retained but not interpreted",
       "command": "VERS",
       "line": 1
@@ -967,49 +1212,14 @@
     },
     {
       "severity": "info",
-      "code": "uninterpreted_record",
-      "message": "Record retained but not interpreted",
-      "command": "NOTE",
-      "line": 6
-    },
-    {
-      "severity": "info",
-      "code": "uninterpreted_record",
-      "message": "Record retained but not interpreted",
-      "command": "NOTE",
-      "line": 7
-    },
-    {
-      "severity": "info",
-      "code": "uninterpreted_record",
-      "message": "Record retained but not interpreted",
-      "command": "NOTE",
-      "line": 8
-    },
-    {
-      "severity": "info",
-      "code": "uninterpreted_record",
-      "message": "Record retained but not interpreted",
-      "command": "NOTE",
-      "line": 9
-    },
-    {
-      "severity": "info",
-      "code": "uninterpreted_record",
-      "message": "Record retained but not interpreted",
-      "command": "NOTE",
-      "line": 10
-    },
-    {
-      "severity": "info",
-      "code": "uninterpreted_record",
+      "code": "inert_record",
       "message": "Record retained but not interpreted",
       "command": "PFIL",
       "line": 11
     },
     {
       "severity": "info",
-      "code": "uninterpreted_record",
+      "code": "inert_record",
       "message": "Record retained but not interpreted",
       "command": "LANG",
       "line": 12
@@ -1177,14 +1387,6 @@
       "severity": "warning",
       "code": "uninterpreted_record",
       "message": "Record retained but not interpreted",
-      "command": "MEMA",
-      "line": 78,
-      "surface": 0
-    },
-    {
-      "severity": "warning",
-      "code": "uninterpreted_record",
-      "message": "Record retained but not interpreted",
       "command": "POPS",
       "line": 79,
       "surface": 0
@@ -1233,14 +1435,6 @@
       "severity": "warning",
       "code": "uninterpreted_record",
       "message": "Record retained but not interpreted",
-      "command": "MEMA",
-      "line": 91,
-      "surface": 1
-    },
-    {
-      "severity": "warning",
-      "code": "uninterpreted_record",
-      "message": "Record retained but not interpreted",
       "command": "POPS",
       "line": 92,
       "surface": 1
@@ -1259,14 +1453,6 @@
       "message": "Record retained but not interpreted",
       "command": "FIMP",
       "line": 96,
-      "surface": 2
-    },
-    {
-      "severity": "warning",
-      "code": "uninterpreted_record",
-      "message": "Record retained but not interpreted",
-      "command": "COAT",
-      "line": 99,
       "surface": 2
     },
     {
@@ -1297,14 +1483,6 @@
       "severity": "warning",
       "code": "uninterpreted_record",
       "message": "Record retained but not interpreted",
-      "command": "MEMA",
-      "line": 106,
-      "surface": 2
-    },
-    {
-      "severity": "warning",
-      "code": "uninterpreted_record",
-      "message": "Record retained but not interpreted",
       "command": "POPS",
       "line": 107,
       "surface": 2
@@ -1323,14 +1501,6 @@
       "message": "Record retained but not interpreted",
       "command": "FIMP",
       "line": 111,
-      "surface": 3
-    },
-    {
-      "severity": "warning",
-      "code": "uninterpreted_record",
-      "message": "Record retained but not interpreted",
-      "command": "COAT",
-      "line": 114,
       "surface": 3
     },
     {
@@ -1361,14 +1531,6 @@
       "severity": "warning",
       "code": "uninterpreted_record",
       "message": "Record retained but not interpreted",
-      "command": "MEMA",
-      "line": 120,
-      "surface": 3
-    },
-    {
-      "severity": "warning",
-      "code": "uninterpreted_record",
-      "message": "Record retained but not interpreted",
       "command": "POPS",
       "line": 121,
       "surface": 3
@@ -1393,14 +1555,6 @@
       "severity": "warning",
       "code": "uninterpreted_record",
       "message": "Record retained but not interpreted",
-      "command": "COAT",
-      "line": 128,
-      "surface": 4
-    },
-    {
-      "severity": "warning",
-      "code": "uninterpreted_record",
-      "message": "Record retained but not interpreted",
       "command": "HIDE",
       "line": 129,
       "surface": 4
@@ -1419,14 +1573,6 @@
       "message": "Record retained but not interpreted",
       "command": "SLAB",
       "line": 131,
-      "surface": 4
-    },
-    {
-      "severity": "warning",
-      "code": "uninterpreted_record",
-      "message": "Record retained but not interpreted",
-      "command": "MEMA",
-      "line": 135,
       "surface": 4
     },
     {
@@ -1481,14 +1627,6 @@
       "severity": "warning",
       "code": "uninterpreted_record",
       "message": "Record retained but not interpreted",
-      "command": "MEMA",
-      "line": 149,
-      "surface": 5
-    },
-    {
-      "severity": "warning",
-      "code": "uninterpreted_record",
-      "message": "Record retained but not interpreted",
       "command": "POPS",
       "line": 150,
       "surface": 5
@@ -1507,14 +1645,6 @@
       "message": "Record retained but not interpreted",
       "command": "FIMP",
       "line": 154,
-      "surface": 6
-    },
-    {
-      "severity": "warning",
-      "code": "uninterpreted_record",
-      "message": "Record retained but not interpreted",
-      "command": "COAT",
-      "line": 157,
       "surface": 6
     },
     {
@@ -1545,14 +1675,6 @@
       "severity": "warning",
       "code": "uninterpreted_record",
       "message": "Record retained but not interpreted",
-      "command": "MEMA",
-      "line": 163,
-      "surface": 6
-    },
-    {
-      "severity": "warning",
-      "code": "uninterpreted_record",
-      "message": "Record retained but not interpreted",
       "command": "POPS",
       "line": 164,
       "surface": 6
@@ -1577,14 +1699,6 @@
       "severity": "warning",
       "code": "uninterpreted_record",
       "message": "Record retained but not interpreted",
-      "command": "COAT",
-      "line": 171,
-      "surface": 7
-    },
-    {
-      "severity": "warning",
-      "code": "uninterpreted_record",
-      "message": "Record retained but not interpreted",
       "command": "HIDE",
       "line": 172,
       "surface": 7
@@ -1603,14 +1717,6 @@
       "message": "Record retained but not interpreted",
       "command": "SLAB",
       "line": 174,
-      "surface": 7
-    },
-    {
-      "severity": "warning",
-      "code": "uninterpreted_record",
-      "message": "Record retained but not interpreted",
-      "command": "MEMA",
-      "line": 178,
       "surface": 7
     },
     {
@@ -1665,14 +1771,6 @@
       "severity": "warning",
       "code": "uninterpreted_record",
       "message": "Record retained but not interpreted",
-      "command": "MEMA",
-      "line": 192,
-      "surface": 8
-    },
-    {
-      "severity": "warning",
-      "code": "uninterpreted_record",
-      "message": "Record retained but not interpreted",
       "command": "POPS",
       "line": 193,
       "surface": 8
@@ -1721,14 +1819,6 @@
       "severity": "warning",
       "code": "uninterpreted_record",
       "message": "Record retained but not interpreted",
-      "command": "MEMA",
-      "line": 204,
-      "surface": 9
-    },
-    {
-      "severity": "warning",
-      "code": "uninterpreted_record",
-      "message": "Record retained but not interpreted",
       "command": "POPS",
       "line": 205,
       "surface": 9
@@ -1753,14 +1843,6 @@
       "severity": "warning",
       "code": "uninterpreted_record",
       "message": "Record retained but not interpreted",
-      "command": "COAT",
-      "line": 212,
-      "surface": 10
-    },
-    {
-      "severity": "warning",
-      "code": "uninterpreted_record",
-      "message": "Record retained but not interpreted",
       "command": "HIDE",
       "line": 213,
       "surface": 10
@@ -1779,14 +1861,6 @@
       "message": "Record retained but not interpreted",
       "command": "SLAB",
       "line": 215,
-      "surface": 10
-    },
-    {
-      "severity": "warning",
-      "code": "uninterpreted_record",
-      "message": "Record retained but not interpreted",
-      "command": "MEMA",
-      "line": 218,
       "surface": 10
     },
     {
@@ -1841,14 +1915,6 @@
       "severity": "warning",
       "code": "uninterpreted_record",
       "message": "Record retained but not interpreted",
-      "command": "MEMA",
-      "line": 232,
-      "surface": 11
-    },
-    {
-      "severity": "warning",
-      "code": "uninterpreted_record",
-      "message": "Record retained but not interpreted",
       "command": "POPS",
       "line": 233,
       "surface": 11
@@ -1867,14 +1933,6 @@
       "message": "Record retained but not interpreted",
       "command": "FIMP",
       "line": 237,
-      "surface": 12
-    },
-    {
-      "severity": "warning",
-      "code": "uninterpreted_record",
-      "message": "Record retained but not interpreted",
-      "command": "COAT",
-      "line": 240,
       "surface": 12
     },
     {
@@ -1905,14 +1963,6 @@
       "severity": "warning",
       "code": "uninterpreted_record",
       "message": "Record retained but not interpreted",
-      "command": "MEMA",
-      "line": 247,
-      "surface": 12
-    },
-    {
-      "severity": "warning",
-      "code": "uninterpreted_record",
-      "message": "Record retained but not interpreted",
       "command": "POPS",
       "line": 248,
       "surface": 12
@@ -1931,14 +1981,6 @@
       "message": "Record retained but not interpreted",
       "command": "FIMP",
       "line": 252,
-      "surface": 13
-    },
-    {
-      "severity": "warning",
-      "code": "uninterpreted_record",
-      "message": "Record retained but not interpreted",
-      "command": "COAT",
-      "line": 255,
       "surface": 13
     },
     {
@@ -1969,14 +2011,6 @@
       "severity": "warning",
       "code": "uninterpreted_record",
       "message": "Record retained but not interpreted",
-      "command": "MEMA",
-      "line": 261,
-      "surface": 13
-    },
-    {
-      "severity": "warning",
-      "code": "uninterpreted_record",
-      "message": "Record retained but not interpreted",
       "command": "POPS",
       "line": 262,
       "surface": 13
@@ -2001,14 +2035,6 @@
       "severity": "warning",
       "code": "uninterpreted_record",
       "message": "Record retained but not interpreted",
-      "command": "COAT",
-      "line": 269,
-      "surface": 14
-    },
-    {
-      "severity": "warning",
-      "code": "uninterpreted_record",
-      "message": "Record retained but not interpreted",
       "command": "HIDE",
       "line": 270,
       "surface": 14
@@ -2027,14 +2053,6 @@
       "message": "Record retained but not interpreted",
       "command": "SLAB",
       "line": 272,
-      "surface": 14
-    },
-    {
-      "severity": "warning",
-      "code": "uninterpreted_record",
-      "message": "Record retained but not interpreted",
-      "command": "MEMA",
-      "line": 276,
       "surface": 14
     },
     {
@@ -2089,14 +2107,6 @@
       "severity": "warning",
       "code": "uninterpreted_record",
       "message": "Record retained but not interpreted",
-      "command": "MEMA",
-      "line": 290,
-      "surface": 15
-    },
-    {
-      "severity": "warning",
-      "code": "uninterpreted_record",
-      "message": "Record retained but not interpreted",
       "command": "POPS",
       "line": 291,
       "surface": 15
@@ -2115,14 +2125,6 @@
       "message": "Record retained but not interpreted",
       "command": "FIMP",
       "line": 295,
-      "surface": 16
-    },
-    {
-      "severity": "warning",
-      "code": "uninterpreted_record",
-      "message": "Record retained but not interpreted",
-      "command": "COAT",
-      "line": 298,
       "surface": 16
     },
     {
@@ -2153,14 +2155,6 @@
       "severity": "warning",
       "code": "uninterpreted_record",
       "message": "Record retained but not interpreted",
-      "command": "MEMA",
-      "line": 304,
-      "surface": 16
-    },
-    {
-      "severity": "warning",
-      "code": "uninterpreted_record",
-      "message": "Record retained but not interpreted",
       "command": "POPS",
       "line": 305,
       "surface": 16
@@ -2179,14 +2173,6 @@
       "message": "Record retained but not interpreted",
       "command": "FIMP",
       "line": 309,
-      "surface": 17
-    },
-    {
-      "severity": "warning",
-      "code": "uninterpreted_record",
-      "message": "Record retained but not interpreted",
-      "command": "COAT",
-      "line": 312,
       "surface": 17
     },
     {
@@ -2217,14 +2203,6 @@
       "severity": "warning",
       "code": "uninterpreted_record",
       "message": "Record retained but not interpreted",
-      "command": "MEMA",
-      "line": 319,
-      "surface": 17
-    },
-    {
-      "severity": "warning",
-      "code": "uninterpreted_record",
-      "message": "Record retained but not interpreted",
       "command": "POPS",
       "line": 320,
       "surface": 17
@@ -2243,14 +2221,6 @@
       "message": "Record retained but not interpreted",
       "command": "FIMP",
       "line": 324,
-      "surface": 18
-    },
-    {
-      "severity": "warning",
-      "code": "uninterpreted_record",
-      "message": "Record retained but not interpreted",
-      "command": "COAT",
-      "line": 327,
       "surface": 18
     },
     {
@@ -2281,14 +2251,6 @@
       "severity": "warning",
       "code": "uninterpreted_record",
       "message": "Record retained but not interpreted",
-      "command": "MEMA",
-      "line": 333,
-      "surface": 18
-    },
-    {
-      "severity": "warning",
-      "code": "uninterpreted_record",
-      "message": "Record retained but not interpreted",
       "command": "POPS",
       "line": 334,
       "surface": 18
@@ -2307,14 +2269,6 @@
       "message": "Record retained but not interpreted",
       "command": "FIMP",
       "line": 338,
-      "surface": 19
-    },
-    {
-      "severity": "warning",
-      "code": "uninterpreted_record",
-      "message": "Record retained but not interpreted",
-      "command": "COAT",
-      "line": 341,
       "surface": 19
     },
     {
@@ -2345,14 +2299,6 @@
       "severity": "warning",
       "code": "uninterpreted_record",
       "message": "Record retained but not interpreted",
-      "command": "MEMA",
-      "line": 348,
-      "surface": 19
-    },
-    {
-      "severity": "warning",
-      "code": "uninterpreted_record",
-      "message": "Record retained but not interpreted",
       "command": "POPS",
       "line": 349,
       "surface": 19
@@ -2371,14 +2317,6 @@
       "message": "Record retained but not interpreted",
       "command": "FIMP",
       "line": 353,
-      "surface": 20
-    },
-    {
-      "severity": "warning",
-      "code": "uninterpreted_record",
-      "message": "Record retained but not interpreted",
-      "command": "COAT",
-      "line": 356,
       "surface": 20
     },
     {
@@ -2409,14 +2347,6 @@
       "severity": "warning",
       "code": "uninterpreted_record",
       "message": "Record retained but not interpreted",
-      "command": "MEMA",
-      "line": 362,
-      "surface": 20
-    },
-    {
-      "severity": "warning",
-      "code": "uninterpreted_record",
-      "message": "Record retained but not interpreted",
       "command": "POPS",
       "line": 363,
       "surface": 20
@@ -2435,14 +2365,6 @@
       "message": "Record retained but not interpreted",
       "command": "FIMP",
       "line": 367,
-      "surface": 21
-    },
-    {
-      "severity": "warning",
-      "code": "uninterpreted_record",
-      "message": "Record retained but not interpreted",
-      "command": "COAT",
-      "line": 370,
       "surface": 21
     },
     {
@@ -2473,14 +2395,6 @@
       "severity": "warning",
       "code": "uninterpreted_record",
       "message": "Record retained but not interpreted",
-      "command": "MEMA",
-      "line": 377,
-      "surface": 21
-    },
-    {
-      "severity": "warning",
-      "code": "uninterpreted_record",
-      "message": "Record retained but not interpreted",
       "command": "POPS",
       "line": 378,
       "surface": 21
@@ -2505,14 +2419,6 @@
       "severity": "warning",
       "code": "uninterpreted_record",
       "message": "Record retained but not interpreted",
-      "command": "COAT",
-      "line": 385,
-      "surface": 22
-    },
-    {
-      "severity": "warning",
-      "code": "uninterpreted_record",
-      "message": "Record retained but not interpreted",
       "command": "HIDE",
       "line": 386,
       "surface": 22
@@ -2531,14 +2437,6 @@
       "message": "Record retained but not interpreted",
       "command": "SLAB",
       "line": 388,
-      "surface": 22
-    },
-    {
-      "severity": "warning",
-      "code": "uninterpreted_record",
-      "message": "Record retained but not interpreted",
-      "command": "MEMA",
-      "line": 391,
       "surface": 22
     },
     {
@@ -2593,14 +2491,6 @@
       "severity": "warning",
       "code": "uninterpreted_record",
       "message": "Record retained but not interpreted",
-      "command": "MEMA",
-      "line": 404,
-      "surface": 23
-    },
-    {
-      "severity": "warning",
-      "code": "uninterpreted_record",
-      "message": "Record retained but not interpreted",
       "command": "POPS",
       "line": 405,
       "surface": 23
@@ -2623,7 +2513,7 @@
     },
     {
       "severity": "info",
-      "code": "uninterpreted_record",
+      "code": "inert_record",
       "message": "Record retained but not interpreted",
       "command": "MNUM",
       "line": 408,
@@ -4276,41 +4166,6 @@
         "message": "Record retained but not interpreted"
       },
       {
-        "command": "NOTE",
-        "line": 6,
-        "surface": -1,
-        "severity": "info",
-        "message": "Record retained but not interpreted"
-      },
-      {
-        "command": "NOTE",
-        "line": 7,
-        "surface": -1,
-        "severity": "info",
-        "message": "Record retained but not interpreted"
-      },
-      {
-        "command": "NOTE",
-        "line": 8,
-        "surface": -1,
-        "severity": "info",
-        "message": "Record retained but not interpreted"
-      },
-      {
-        "command": "NOTE",
-        "line": 9,
-        "surface": -1,
-        "severity": "info",
-        "message": "Record retained but not interpreted"
-      },
-      {
-        "command": "NOTE",
-        "line": 10,
-        "surface": -1,
-        "severity": "info",
-        "message": "Record retained but not interpreted"
-      },
-      {
         "command": "PFIL",
         "line": 11,
         "surface": -1,
@@ -4479,13 +4334,6 @@
         "message": "Record retained but not interpreted"
       },
       {
-        "command": "MEMA",
-        "line": 78,
-        "surface": 0,
-        "severity": "warning",
-        "message": "Record retained but not interpreted"
-      },
-      {
         "command": "POPS",
         "line": 79,
         "surface": 0,
@@ -4528,13 +4376,6 @@
         "message": "Record retained but not interpreted"
       },
       {
-        "command": "MEMA",
-        "line": 91,
-        "surface": 1,
-        "severity": "warning",
-        "message": "Record retained but not interpreted"
-      },
-      {
         "command": "POPS",
         "line": 92,
         "surface": 1,
@@ -4551,13 +4392,6 @@
       {
         "command": "FIMP",
         "line": 96,
-        "surface": 2,
-        "severity": "warning",
-        "message": "Record retained but not interpreted"
-      },
-      {
-        "command": "COAT",
-        "line": 99,
         "surface": 2,
         "severity": "warning",
         "message": "Record retained but not interpreted"
@@ -4584,13 +4418,6 @@
         "message": "Record retained but not interpreted"
       },
       {
-        "command": "MEMA",
-        "line": 106,
-        "surface": 2,
-        "severity": "warning",
-        "message": "Record retained but not interpreted"
-      },
-      {
         "command": "POPS",
         "line": 107,
         "surface": 2,
@@ -4607,13 +4434,6 @@
       {
         "command": "FIMP",
         "line": 111,
-        "surface": 3,
-        "severity": "warning",
-        "message": "Record retained but not interpreted"
-      },
-      {
-        "command": "COAT",
-        "line": 114,
         "surface": 3,
         "severity": "warning",
         "message": "Record retained but not interpreted"
@@ -4640,13 +4460,6 @@
         "message": "Record retained but not interpreted"
       },
       {
-        "command": "MEMA",
-        "line": 120,
-        "surface": 3,
-        "severity": "warning",
-        "message": "Record retained but not interpreted"
-      },
-      {
         "command": "POPS",
         "line": 121,
         "surface": 3,
@@ -4668,13 +4481,6 @@
         "message": "Record retained but not interpreted"
       },
       {
-        "command": "COAT",
-        "line": 128,
-        "surface": 4,
-        "severity": "warning",
-        "message": "Record retained but not interpreted"
-      },
-      {
         "command": "HIDE",
         "line": 129,
         "surface": 4,
@@ -4691,13 +4497,6 @@
       {
         "command": "SLAB",
         "line": 131,
-        "surface": 4,
-        "severity": "warning",
-        "message": "Record retained but not interpreted"
-      },
-      {
-        "command": "MEMA",
-        "line": 135,
         "surface": 4,
         "severity": "warning",
         "message": "Record retained but not interpreted"
@@ -4745,13 +4544,6 @@
         "message": "Record retained but not interpreted"
       },
       {
-        "command": "MEMA",
-        "line": 149,
-        "surface": 5,
-        "severity": "warning",
-        "message": "Record retained but not interpreted"
-      },
-      {
         "command": "POPS",
         "line": 150,
         "surface": 5,
@@ -4768,13 +4560,6 @@
       {
         "command": "FIMP",
         "line": 154,
-        "surface": 6,
-        "severity": "warning",
-        "message": "Record retained but not interpreted"
-      },
-      {
-        "command": "COAT",
-        "line": 157,
         "surface": 6,
         "severity": "warning",
         "message": "Record retained but not interpreted"
@@ -4801,13 +4586,6 @@
         "message": "Record retained but not interpreted"
       },
       {
-        "command": "MEMA",
-        "line": 163,
-        "surface": 6,
-        "severity": "warning",
-        "message": "Record retained but not interpreted"
-      },
-      {
         "command": "POPS",
         "line": 164,
         "surface": 6,
@@ -4829,13 +4607,6 @@
         "message": "Record retained but not interpreted"
       },
       {
-        "command": "COAT",
-        "line": 171,
-        "surface": 7,
-        "severity": "warning",
-        "message": "Record retained but not interpreted"
-      },
-      {
         "command": "HIDE",
         "line": 172,
         "surface": 7,
@@ -4852,13 +4623,6 @@
       {
         "command": "SLAB",
         "line": 174,
-        "surface": 7,
-        "severity": "warning",
-        "message": "Record retained but not interpreted"
-      },
-      {
-        "command": "MEMA",
-        "line": 178,
         "surface": 7,
         "severity": "warning",
         "message": "Record retained but not interpreted"
@@ -4906,13 +4670,6 @@
         "message": "Record retained but not interpreted"
       },
       {
-        "command": "MEMA",
-        "line": 192,
-        "surface": 8,
-        "severity": "warning",
-        "message": "Record retained but not interpreted"
-      },
-      {
         "command": "POPS",
         "line": 193,
         "surface": 8,
@@ -4955,13 +4712,6 @@
         "message": "Record retained but not interpreted"
       },
       {
-        "command": "MEMA",
-        "line": 204,
-        "surface": 9,
-        "severity": "warning",
-        "message": "Record retained but not interpreted"
-      },
-      {
         "command": "POPS",
         "line": 205,
         "surface": 9,
@@ -4983,13 +4733,6 @@
         "message": "Record retained but not interpreted"
       },
       {
-        "command": "COAT",
-        "line": 212,
-        "surface": 10,
-        "severity": "warning",
-        "message": "Record retained but not interpreted"
-      },
-      {
         "command": "HIDE",
         "line": 213,
         "surface": 10,
@@ -5006,13 +4749,6 @@
       {
         "command": "SLAB",
         "line": 215,
-        "surface": 10,
-        "severity": "warning",
-        "message": "Record retained but not interpreted"
-      },
-      {
-        "command": "MEMA",
-        "line": 218,
         "surface": 10,
         "severity": "warning",
         "message": "Record retained but not interpreted"
@@ -5060,13 +4796,6 @@
         "message": "Record retained but not interpreted"
       },
       {
-        "command": "MEMA",
-        "line": 232,
-        "surface": 11,
-        "severity": "warning",
-        "message": "Record retained but not interpreted"
-      },
-      {
         "command": "POPS",
         "line": 233,
         "surface": 11,
@@ -5083,13 +4812,6 @@
       {
         "command": "FIMP",
         "line": 237,
-        "surface": 12,
-        "severity": "warning",
-        "message": "Record retained but not interpreted"
-      },
-      {
-        "command": "COAT",
-        "line": 240,
         "surface": 12,
         "severity": "warning",
         "message": "Record retained but not interpreted"
@@ -5116,13 +4838,6 @@
         "message": "Record retained but not interpreted"
       },
       {
-        "command": "MEMA",
-        "line": 247,
-        "surface": 12,
-        "severity": "warning",
-        "message": "Record retained but not interpreted"
-      },
-      {
         "command": "POPS",
         "line": 248,
         "surface": 12,
@@ -5139,13 +4854,6 @@
       {
         "command": "FIMP",
         "line": 252,
-        "surface": 13,
-        "severity": "warning",
-        "message": "Record retained but not interpreted"
-      },
-      {
-        "command": "COAT",
-        "line": 255,
         "surface": 13,
         "severity": "warning",
         "message": "Record retained but not interpreted"
@@ -5172,13 +4880,6 @@
         "message": "Record retained but not interpreted"
       },
       {
-        "command": "MEMA",
-        "line": 261,
-        "surface": 13,
-        "severity": "warning",
-        "message": "Record retained but not interpreted"
-      },
-      {
         "command": "POPS",
         "line": 262,
         "surface": 13,
@@ -5200,13 +4901,6 @@
         "message": "Record retained but not interpreted"
       },
       {
-        "command": "COAT",
-        "line": 269,
-        "surface": 14,
-        "severity": "warning",
-        "message": "Record retained but not interpreted"
-      },
-      {
         "command": "HIDE",
         "line": 270,
         "surface": 14,
@@ -5223,13 +4917,6 @@
       {
         "command": "SLAB",
         "line": 272,
-        "surface": 14,
-        "severity": "warning",
-        "message": "Record retained but not interpreted"
-      },
-      {
-        "command": "MEMA",
-        "line": 276,
         "surface": 14,
         "severity": "warning",
         "message": "Record retained but not interpreted"
@@ -5277,13 +4964,6 @@
         "message": "Record retained but not interpreted"
       },
       {
-        "command": "MEMA",
-        "line": 290,
-        "surface": 15,
-        "severity": "warning",
-        "message": "Record retained but not interpreted"
-      },
-      {
         "command": "POPS",
         "line": 291,
         "surface": 15,
@@ -5300,13 +4980,6 @@
       {
         "command": "FIMP",
         "line": 295,
-        "surface": 16,
-        "severity": "warning",
-        "message": "Record retained but not interpreted"
-      },
-      {
-        "command": "COAT",
-        "line": 298,
         "surface": 16,
         "severity": "warning",
         "message": "Record retained but not interpreted"
@@ -5333,13 +5006,6 @@
         "message": "Record retained but not interpreted"
       },
       {
-        "command": "MEMA",
-        "line": 304,
-        "surface": 16,
-        "severity": "warning",
-        "message": "Record retained but not interpreted"
-      },
-      {
         "command": "POPS",
         "line": 305,
         "surface": 16,
@@ -5356,13 +5022,6 @@
       {
         "command": "FIMP",
         "line": 309,
-        "surface": 17,
-        "severity": "warning",
-        "message": "Record retained but not interpreted"
-      },
-      {
-        "command": "COAT",
-        "line": 312,
         "surface": 17,
         "severity": "warning",
         "message": "Record retained but not interpreted"
@@ -5389,13 +5048,6 @@
         "message": "Record retained but not interpreted"
       },
       {
-        "command": "MEMA",
-        "line": 319,
-        "surface": 17,
-        "severity": "warning",
-        "message": "Record retained but not interpreted"
-      },
-      {
         "command": "POPS",
         "line": 320,
         "surface": 17,
@@ -5412,13 +5064,6 @@
       {
         "command": "FIMP",
         "line": 324,
-        "surface": 18,
-        "severity": "warning",
-        "message": "Record retained but not interpreted"
-      },
-      {
-        "command": "COAT",
-        "line": 327,
         "surface": 18,
         "severity": "warning",
         "message": "Record retained but not interpreted"
@@ -5445,13 +5090,6 @@
         "message": "Record retained but not interpreted"
       },
       {
-        "command": "MEMA",
-        "line": 333,
-        "surface": 18,
-        "severity": "warning",
-        "message": "Record retained but not interpreted"
-      },
-      {
         "command": "POPS",
         "line": 334,
         "surface": 18,
@@ -5468,13 +5106,6 @@
       {
         "command": "FIMP",
         "line": 338,
-        "surface": 19,
-        "severity": "warning",
-        "message": "Record retained but not interpreted"
-      },
-      {
-        "command": "COAT",
-        "line": 341,
         "surface": 19,
         "severity": "warning",
         "message": "Record retained but not interpreted"
@@ -5501,13 +5132,6 @@
         "message": "Record retained but not interpreted"
       },
       {
-        "command": "MEMA",
-        "line": 348,
-        "surface": 19,
-        "severity": "warning",
-        "message": "Record retained but not interpreted"
-      },
-      {
         "command": "POPS",
         "line": 349,
         "surface": 19,
@@ -5524,13 +5148,6 @@
       {
         "command": "FIMP",
         "line": 353,
-        "surface": 20,
-        "severity": "warning",
-        "message": "Record retained but not interpreted"
-      },
-      {
-        "command": "COAT",
-        "line": 356,
         "surface": 20,
         "severity": "warning",
         "message": "Record retained but not interpreted"
@@ -5557,13 +5174,6 @@
         "message": "Record retained but not interpreted"
       },
       {
-        "command": "MEMA",
-        "line": 362,
-        "surface": 20,
-        "severity": "warning",
-        "message": "Record retained but not interpreted"
-      },
-      {
         "command": "POPS",
         "line": 363,
         "surface": 20,
@@ -5580,13 +5190,6 @@
       {
         "command": "FIMP",
         "line": 367,
-        "surface": 21,
-        "severity": "warning",
-        "message": "Record retained but not interpreted"
-      },
-      {
-        "command": "COAT",
-        "line": 370,
         "surface": 21,
         "severity": "warning",
         "message": "Record retained but not interpreted"
@@ -5613,13 +5216,6 @@
         "message": "Record retained but not interpreted"
       },
       {
-        "command": "MEMA",
-        "line": 377,
-        "surface": 21,
-        "severity": "warning",
-        "message": "Record retained but not interpreted"
-      },
-      {
         "command": "POPS",
         "line": 378,
         "surface": 21,
@@ -5641,13 +5237,6 @@
         "message": "Record retained but not interpreted"
       },
       {
-        "command": "COAT",
-        "line": 385,
-        "surface": 22,
-        "severity": "warning",
-        "message": "Record retained but not interpreted"
-      },
-      {
         "command": "HIDE",
         "line": 386,
         "surface": 22,
@@ -5664,13 +5253,6 @@
       {
         "command": "SLAB",
         "line": 388,
-        "surface": 22,
-        "severity": "warning",
-        "message": "Record retained but not interpreted"
-      },
-      {
-        "command": "MEMA",
-        "line": 391,
         "surface": 22,
         "severity": "warning",
         "message": "Record retained but not interpreted"
@@ -5718,13 +5300,6 @@
         "message": "Record retained but not interpreted"
       },
       {
-        "command": "MEMA",
-        "line": 404,
-        "surface": 23,
-        "severity": "warning",
-        "message": "Record retained but not interpreted"
-      },
-      {
         "command": "POPS",
         "line": 405,
         "surface": 23,
@@ -5761,6 +5336,18 @@
       }
     ],
     "name": "100 deg Laikin wide angle lens",
+    "notes": [
+      "Notes..."
+    ],
+    "declarations": {
+      "units": "explicit",
+      "wavelengths": "explicit",
+      "wavelengthWeights": "explicit",
+      "primaryWavelength": "explicit",
+      "aperture": "explicit",
+      "fields": "explicit",
+      "terminator": "notApplicable"
+    },
     "aperture": {
       "EPD": 0.36
     },
@@ -5822,6 +5409,7 @@
     },
     "surfaces": {
       "0": {
+        "line": 67,
         "type": "standard",
         "is_stop": false,
         "conic": 0,
@@ -5833,9 +5421,11 @@
         "thickness": {
           "special": "positiveInfinity"
         },
-        "diameter": 0
+        "diameter": 0,
+        "mechanical_semi_diameter": 0
       },
       "1": {
+        "line": 80,
         "type": "standard",
         "is_stop": false,
         "conic": 0,
@@ -5845,9 +5435,11 @@
           "special": "positiveInfinity"
         },
         "thickness": 0.5,
-        "diameter": 0
+        "diameter": 0,
+        "mechanical_semi_diameter": 0
       },
       "2": {
+        "line": 93,
         "type": "standard",
         "is_stop": false,
         "conic": 0,
@@ -5863,22 +5455,28 @@
         },
         "aperture": null,
         "radius": -9.23619997425871,
+        "coating": "WAR",
         "thickness": 0.249,
         "index": 0,
         "abbe": 0,
-        "diameter": 1.2841571105002343
+        "diameter": 1.2841571105002343,
+        "mechanical_semi_diameter": 1.2841571105002343
       },
       "3": {
+        "line": 108,
         "type": "standard",
         "is_stop": false,
         "conic": 0,
         "material": "air",
         "aperture": null,
         "radius": 1.2896000002929973,
+        "coating": "WAR",
         "thickness": 0.092,
-        "diameter": 0.9511758445665289
+        "diameter": 0.9511758445665289,
+        "mechanical_semi_diameter": 1.2841571105002343
       },
       "4": {
+        "line": 122,
         "type": "standard",
         "is_stop": false,
         "conic": 0,
@@ -5894,12 +5492,15 @@
         },
         "aperture": null,
         "radius": 1.382000000854076,
+        "coating": "WAR",
         "thickness": 0.541,
         "index": 0,
         "abbe": 0,
-        "diameter": 0.9454361129744034
+        "diameter": 0.9454361129744034,
+        "mechanical_semi_diameter": 0.9454361129744034
       },
       "5": {
+        "line": 137,
         "type": "standard",
         "is_stop": false,
         "conic": 0,
@@ -5918,19 +5519,24 @@
         "thickness": 0.214,
         "index": 1.612720178898,
         "abbe": 58.62982920247,
-        "diameter": 0.9067998771838283
+        "diameter": 0.9067998771838283,
+        "mechanical_semi_diameter": 0.9454361129744034
       },
       "6": {
+        "line": 151,
         "type": "standard",
         "is_stop": false,
         "conic": 0,
         "material": "air",
         "aperture": null,
         "radius": 0.892600002329686,
+        "coating": "WAR",
         "thickness": 0.413,
-        "diameter": 0.6400367555456801
+        "diameter": 0.6400367555456801,
+        "mechanical_semi_diameter": 0.9454361129744034
       },
       "7": {
+        "line": 165,
         "type": "standard",
         "is_stop": false,
         "conic": 0,
@@ -5946,12 +5552,15 @@
         },
         "aperture": null,
         "radius": -1.8427000004020773,
+        "coating": "WAR",
         "thickness": 0.139,
         "index": 0,
         "abbe": 0,
-        "diameter": 0.6338107578867278
+        "diameter": 0.6338107578867278,
+        "mechanical_semi_diameter": 0.6412789480336455
       },
       "8": {
+        "line": 180,
         "type": "standard",
         "is_stop": false,
         "conic": 0,
@@ -5970,9 +5579,11 @@
         "thickness": 0.207,
         "index": 1.612720178898,
         "abbe": 58.62982920247,
-        "diameter": 0.6381950413951248
+        "diameter": 0.6381950413951248,
+        "mechanical_semi_diameter": 0.6412789480336455
       },
       "9": {
+        "line": 194,
         "type": "standard",
         "is_stop": false,
         "conic": 0,
@@ -5980,9 +5591,11 @@
         "aperture": null,
         "radius": -2.1834999992696194,
         "thickness": 0.2,
-        "diameter": 0.6412789480336455
+        "diameter": 0.6412789480336455,
+        "mechanical_semi_diameter": 0.6412789480336455
       },
       "10": {
+        "line": 206,
         "type": "standard",
         "is_stop": false,
         "conic": 0,
@@ -5991,10 +5604,13 @@
         "radius": {
           "special": "positiveInfinity"
         },
+        "coating": "WAR",
         "thickness": 0.936,
-        "diameter": 0.5892279027661356
+        "diameter": 0.5892279027661356,
+        "mechanical_semi_diameter": 0.5892279027661356
       },
       "11": {
+        "line": 220,
         "type": "standard",
         "is_stop": true,
         "conic": 0,
@@ -6004,9 +5620,11 @@
           "special": "positiveInfinity"
         },
         "thickness": 0.299,
-        "diameter": 0.4247967550238101
+        "diameter": 0.4247967550238101,
+        "mechanical_semi_diameter": 0.4247967550238101
       },
       "12": {
+        "line": 234,
         "type": "standard",
         "is_stop": false,
         "conic": 0,
@@ -6022,22 +5640,28 @@
         },
         "aperture": null,
         "radius": -6.624500001785303,
+        "coating": "WAR",
         "thickness": 0.226,
         "index": 1.612720178898,
         "abbe": 58.62982920247,
-        "diameter": 0.5537210614656932
+        "diameter": 0.5537210614656932,
+        "mechanical_semi_diameter": 0.6017508334417476
       },
       "13": {
+        "line": 249,
         "type": "standard",
         "is_stop": false,
         "conic": 0,
         "material": "air",
         "aperture": null,
         "radius": -1.9741000014428698,
+        "coating": "WAR",
         "thickness": 0.021,
-        "diameter": 0.6017508334417476
+        "diameter": 0.6017508334417476,
+        "mechanical_semi_diameter": 0.6017508334417476
       },
       "14": {
+        "line": 263,
         "type": "standard",
         "is_stop": false,
         "conic": 0,
@@ -6053,12 +5677,15 @@
         },
         "aperture": null,
         "radius": 25.668699987923134,
+        "coating": "WAR",
         "thickness": 0.34,
         "index": 1.612720178898,
         "abbe": 58.62982920247,
-        "diameter": 0.638979476533441
+        "diameter": 0.638979476533441,
+        "mechanical_semi_diameter": 0.7218435057910367
       },
       "15": {
+        "line": 278,
         "type": "standard",
         "is_stop": false,
         "conic": 0,
@@ -6077,19 +5704,24 @@
         "thickness": 0.146,
         "index": 0,
         "abbe": 0,
-        "diameter": 0.6559843075125322
+        "diameter": 0.6559843075125322,
+        "mechanical_semi_diameter": 0.7218435057910367
       },
       "16": {
+        "line": 292,
         "type": "standard",
         "is_stop": false,
         "conic": 0,
         "material": "air",
         "aperture": null,
         "radius": -4.201900000855927,
+        "coating": "WAR",
         "thickness": 0.758,
-        "diameter": 0.7218435057910367
+        "diameter": 0.7218435057910367,
+        "mechanical_semi_diameter": 0.7218435057910367
       },
       "17": {
+        "line": 306,
         "type": "standard",
         "is_stop": false,
         "conic": 0,
@@ -6105,22 +5737,28 @@
         },
         "aperture": null,
         "radius": 8.251799979570194,
+        "coating": "WAR",
         "thickness": 0.207,
         "index": 0,
         "abbe": 0,
-        "diameter": 0.9242298923848768
+        "diameter": 0.9242298923848768,
+        "mechanical_semi_diameter": 0.9535255360528592
       },
       "18": {
+        "line": 321,
         "type": "standard",
         "is_stop": false,
         "conic": 0,
         "material": "air",
         "aperture": null,
         "radius": 2.419300002543652,
+        "coating": "WAR",
         "thickness": 0.021,
-        "diameter": 0.9535255360528592
+        "diameter": 0.9535255360528592,
+        "mechanical_semi_diameter": 0.9535255360528592
       },
       "19": {
+        "line": 335,
         "type": "standard",
         "is_stop": false,
         "conic": 0,
@@ -6136,22 +5774,28 @@
         },
         "aperture": null,
         "radius": 2.4518000024567037,
+        "coating": "WAR",
         "thickness": 0.442,
         "index": 1.612720178898,
         "abbe": 58.62982920247,
-        "diameter": 0.9678069945214678
+        "diameter": 0.9678069945214678,
+        "mechanical_semi_diameter": 0.9796202755675041
       },
       "20": {
+        "line": 350,
         "type": "standard",
         "is_stop": false,
         "conic": 0,
         "material": "air",
         "aperture": null,
         "radius": -3.4262999992078393,
+        "coating": "WAR",
         "thickness": 0.071,
-        "diameter": 0.9796202755675041
+        "diameter": 0.9796202755675041,
+        "mechanical_semi_diameter": 0.9796202755675041
       },
       "21": {
+        "line": 364,
         "type": "standard",
         "is_stop": false,
         "conic": 0,
@@ -6167,22 +5811,28 @@
         },
         "aperture": null,
         "radius": 2.1699000021113126,
+        "coating": "WAR",
         "thickness": 0.317,
         "index": 1.612720178898,
         "abbe": 58.62982920247,
-        "diameter": 0.9840881202220816
+        "diameter": 0.9840881202220816,
+        "mechanical_semi_diameter": 0.9840881202220816
       },
       "22": {
+        "line": 379,
         "type": "standard",
         "is_stop": false,
         "conic": 0,
         "material": "air",
         "aperture": null,
         "radius": 33.665200050081694,
+        "coating": "WAR",
         "thickness": 1.56108721331,
-        "diameter": 0.9668236944345371
+        "diameter": 0.9668236944345371,
+        "mechanical_semi_diameter": 0.9840881202220816
       },
       "23": {
+        "line": 393,
         "type": "standard",
         "is_stop": false,
         "conic": 0,
@@ -6192,7 +5842,8 @@
           "special": "positiveInfinity"
         },
         "thickness": 0,
-        "diameter": 0.531721031596657
+        "diameter": 0.531721031596657,
+        "mechanical_semi_diameter": 0.531721031596657
       }
     },
     "glass_catalogs": [

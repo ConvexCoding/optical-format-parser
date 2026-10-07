@@ -1,5 +1,5 @@
 {
-  "schemaVersion": "2.0",
+  "schemaVersion": "1.0",
   "source": {
     "format": "oslo",
     "encoding": "utf-8",
@@ -7,6 +7,17 @@
   },
   "name": "LENS",
   "mode": "sequential",
+  "declarations": {
+    "units": "explicit",
+    "wavelengths": "explicit",
+    "wavelengthWeights": "explicit",
+    "primaryWavelength": "inferred",
+    "aperture": "explicit",
+    "fields": "explicit",
+    "terminator": "explicit"
+  },
+  "designer": "Optiland",
+  "notes": [],
   "units": {
     "length": "mm",
     "wavelength": "um",
@@ -58,6 +69,7 @@
   "surfaces": [
     {
       "index": 0,
+      "line": 2,
       "role": "object",
       "nativeType": "ADO",
       "radius": {
@@ -81,6 +93,13 @@
         "checkingEnabled": true
       },
       "semiDiameter": 10000000000,
+      "mechanicalSemiDiameter": null,
+      "comment": null,
+      "coating": null,
+      "coordinates": null,
+      "pickups": [],
+      "solves": [],
+      "unresolvedSag": [],
       "parameters": {
         "material": "AIR",
         "TH": 10000000000,
@@ -91,6 +110,7 @@
     },
     {
       "index": 1,
+      "line": 10,
       "role": "surface",
       "nativeType": "ADO",
       "radius": 20,
@@ -115,6 +135,13 @@
         "checkingEnabled": true
       },
       "semiDiameter": 10,
+      "mechanicalSemiDiameter": null,
+      "comment": null,
+      "coating": null,
+      "coordinates": null,
+      "pickups": [],
+      "solves": [],
+      "unresolvedSag": [],
       "parameters": {
         "material": "GLA N-SF11",
         "glass_wavelengths": [
@@ -157,6 +184,7 @@
     },
     {
       "index": 2,
+      "line": 19,
       "role": "surface",
       "nativeType": "ADO",
       "radius": {
@@ -170,6 +198,13 @@
       },
       "clearAperture": null,
       "semiDiameter": null,
+      "mechanicalSemiDiameter": null,
+      "comment": null,
+      "coating": null,
+      "coordinates": null,
+      "pickups": [],
+      "solves": [],
+      "unresolvedSag": [],
       "parameters": {
         "material": "AIR",
         "TH": 21.56201
@@ -178,6 +213,7 @@
     },
     {
       "index": 3,
+      "line": 22,
       "role": "image",
       "nativeType": "ADO",
       "radius": {
@@ -191,6 +227,13 @@
       },
       "clearAperture": null,
       "semiDiameter": null,
+      "mechanicalSemiDiameter": null,
+      "comment": null,
+      "coating": null,
+      "coordinates": null,
+      "pickups": [],
+      "solves": [],
+      "unresolvedSag": [],
       "parameters": {
         "material": "AIR",
         "TH": 0
@@ -230,12 +273,14 @@
     },
     "surfaces": {
       "0": {
+        "line": 2,
         "material": "AIR",
         "TH": 10000000000,
         "AP": 10000000000,
         "aperture_checked": false
       },
       "1": {
+        "line": 10,
         "material": "GLA N-SF11",
         "glass_wavelengths": [
           0.58756,
@@ -252,10 +297,12 @@
         "AG": 0
       },
       "2": {
+        "line": 19,
         "material": "AIR",
         "TH": 21.56201
       },
       "3": {
+        "line": 22,
         "material": "AIR",
         "TH": 0
       }
@@ -369,6 +416,15 @@
     ],
     "notes": {
       "DES": "Optiland"
+    },
+    "declarations": {
+      "units": "explicit",
+      "wavelengths": "explicit",
+      "wavelengthWeights": "explicit",
+      "primaryWavelength": "inferred",
+      "aperture": "explicit",
+      "fields": "explicit",
+      "terminator": "explicit"
     },
     "diagnostics": [],
     "settings": {},

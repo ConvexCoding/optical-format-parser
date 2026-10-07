@@ -72,12 +72,31 @@ const PICKUP_LENGTHS = new Map([
 const words = (list) => new Set(list.split(" "));
 const ONE_ARGUMENT = words("EBR FNO NAO NAP PUK UNI ANG OBH GIH RD RDF CV CVF TH THF CC CVX RDX AD AE AF AG DCX DCY DCZ TLA TLB TLC DT GC " +
     "TOX TOY TOZ APN PFL PFM GSP GOR TCE PY PYC PU PUC EC GTO TELE APCK");
-const NO_ARGUMENTS = words("AIR AIF RFL RFH AST BEN NXT ATD CXD APD GCD RCD BED PFD TDD CSD TSD");
+const NO_ARGUMENTS = words("AIR AIF RFL RFH AST BEN BCR NXT ATD CXD APD GCD RCD BED PFD TDD CSD TSD");
 const DELETIONS = words("ATD CXD APD GCD RCD BED PFD TDD CSD TSD");
 const COEFFICIENTS = new Set(OSLO_COEFFICIENTS);
 const KNOWN = words("LEN EBR OBH ANG GIH UNI AIR RFL RFH AIF GLA GLF RD RDF CV CVF RDX TH THF AP APF APCK ASP AST WV WW NXT GTO END " +
-    "PY PYC PU PUC EC PK FNO NAO NAP PUK TELE DES PFL NOT LMO RCO BEN");
+    "PY PYC PU PUC EC PK FNO NAO NAP PUK TELE DES PFL NOT LMO RCO BEN BCR");
 const DRAWING = words("DRW LDP CBK ELMDF1 ELMDF2 BDI BDD VX PF LMN LME");
+/**
+ * Operating conditions for lens drawings (`DLxx`), spot diagrams (`SDxx`) and optimization
+ * (`OPxx`, `OMxx`), as the OSLO Program Reference lists them. They configure analyses and cannot
+ * change the prescription.
+ */
+const INERT_FOOTER = words("DLAP DLAS DLCV DLFD DLFP DLFS DLHA DLHR DLID DLLS DLMN DLMX DLNF DLNR DLOS DLRI DLRS DLSP DLVA DLWN DLXF DLXS " +
+    "DLYF DLYS OMNA OMNG OMXA OMXG OPAC OPAR OPAT OPBW OPCT OPCW OPDF OPDI OPDM OPDS OPFW OPOC OPPW OPST OPVD OPVI " +
+    "OPZW SDAD SDAZ SDDE SDGX SDGY SDIS SDMS SDPC SDTF");
+/** `AD`..`AG` and `AS2`..`AS5` name the same four coefficients; declaring one replaces the other. */
+const COEFFICIENT_ALIASES = new Map([
+    ["AD", "AS2"],
+    ["AE", "AS3"],
+    ["AF", "AS4"],
+    ["AG", "AS5"],
+    ["AS2", "AD"],
+    ["AS3", "AE"],
+    ["AS4", "AF"],
+    ["AS5", "AG"],
+]);
 const ASPHERE_CODES = new Map([
     ["0", "ADO"],
     ["1", "ASR"],
@@ -90,7 +109,7 @@ const DELETED_KEYS = new Map([
     ["RCD", ["RCO"]],
     ["BED", ["BEN"]],
     ["PFD", ["PFL", "PFM"]],
-    ["TDD", ["DCX", "DCY", "DCZ", "TLA", "TLB", "TLC", "DT", "TOX", "TOY", "TOZ", "GC", "RCO", "BEN"]],
+    ["TDD", ["DCX", "DCY", "DCZ", "TLA", "TLB", "TLC", "DT", "TOX", "TOY", "TOZ", "GC", "RCO", "BEN", "BCR"]],
 ]);
 const DELETED_FAMILY = new Map([
     ["CSD", "CV"],
@@ -204,6 +223,16 @@ export function parseOslo(text) {
         units: 1,
         records: [],
         notes: {},
+        declarations: {
+            units: "defaulted",
+            wavelengths: "defaulted",
+            wavelengthWeights: "defaulted",
+            // OSLO has no primary-wavelength record: the first wavelength is the primary.
+            primaryWavelength: "inferred",
+            aperture: "absent",
+            fields: "defaulted",
+            terminator: "absent",
+        },
         diagnostics: [],
         settings: {},
         configurations: { 1: newConfiguration() },
@@ -214,14 +243,16 @@ export function parseOslo(text) {
     let weights = [];
     let lineNumber = 0;
     let ended = false;
-    let fieldTable = false;
+    let footerBlock = null;
     let ignoreFooter = false;
     let seenLen = false;
     let configTable = false;
     let seenConfig = false;
-    const coefficientLines = new Map();
-    const unsupported = (command, message = "unsupported command", line = lineNumber) => {
-        model.diagnostics.push({ command, line, surface, message });
+    const unsupported = (command, message = "unsupported command") => {
+        model.diagnostics.push({ command, line: lineNumber, surface, message });
+    };
+    const inert = (command, message) => {
+        model.diagnostics.push({ command, line: lineNumber, surface, message, severity: "info" });
     };
     const remove = (keys) => {
         const record = current;
@@ -231,9 +262,16 @@ export function parseOslo(text) {
     const clearConstraint = (kind) => {
         const family = FAMILIES.get(kind);
         if (current.pickups) {
-            current.pickups = current.pickups.filter((pickup) => FAMILIES.get((pickup[0] ?? "").toUpperCase()) !== family);
+            current.pickups = current.pickups.filter((pickup) => FAMILIES.get(pickup.type) !== family);
         }
-        remove(FAMILY_SOLVES.get(family ?? "") ?? []);
+        const solves = FAMILY_SOLVES.get(family ?? "") ?? [];
+        remove(solves);
+        const lines = current.solve_lines ?? {};
+        for (const solve of solves)
+            delete lines[solve];
+    };
+    const openSurface = (index) => {
+        current = model.surfaces[index] ?? { line: lineNumber };
     };
     const requireFiniteNumbers = (tokens) => {
         for (const token of tokens.slice(1)) {
@@ -287,6 +325,8 @@ export function parseOslo(text) {
         if (!numbers.length || numbers.some((value) => (wavelength ? value <= 0 : value < 0))) {
             throw new DeclarationError(`${command} requires positive wavelengths/nonnegative weights`);
         }
+        if (wavelength)
+            model.declarations.wavelengths = "explicit";
         if (command.length === 2) {
             if (wavelength)
                 values = numbers;
@@ -354,6 +394,19 @@ export function parseOslo(text) {
                 unsupported(command, "configuration override is not mapped");
             return;
         }
+        if (footerBlock) {
+            if (command === "END")
+                footerBlock = null;
+            else if (footerBlock === "RST" && command === "F")
+                readFieldRow(tokens);
+            else if (footerBlock === "RST" && command === "R")
+                inert(command, "ray-set row configures analysis only");
+            else if (footerBlock === "OPE" && command === "O")
+                inert(command, "optimization operand is not executed");
+            else
+                unsupported(command, "footer command retained but not interpreted");
+            return;
+        }
         if (command === "CFG") {
             if (tokens.map((token) => token.toUpperCase()).join(" ") !== "CFG NEW") {
                 ignoreFooter = true;
@@ -363,7 +416,6 @@ export function parseOslo(text) {
             if (seenConfig)
                 throw new DeclarationError("multiple CFG tables are not supported");
             seenConfig = configTable = true;
-            fieldTable = false;
         }
         else if (command === "CFWT" || command === "CFAC")
             readConfiguration(model, tokens);
@@ -371,15 +423,17 @@ export function parseOslo(text) {
             ignoreFooter = true;
             unsupported(command, "additional configurations are not imported");
         }
-        else if (command === "RST") {
-            fieldTable = tokens.length === 2 && tokens[1]?.toUpperCase() === "NEW";
-            if (fieldTable)
-                model.fields.points = {};
+        else if ((command === "RST" || command === "OPE") && tokens.length === 2 && tokens[1]?.toUpperCase() === "NEW") {
+            footerBlock = command;
+            if (command === "RST")
+                delete model.fields.points;
         }
         else if (command === "END")
-            fieldTable = false;
-        else if (command === "F" && fieldTable)
-            readFieldRow(tokens);
+            return;
+        else if (command === "RST" || command === "OPE")
+            inert(command, "displays the current ray set or operands");
+        else if (INERT_FOOTER.has(command))
+            inert(command, "display, spot-diagram or optimization setting");
         else
             unsupported(command, "footer command retained but not interpreted");
     };
@@ -392,6 +446,7 @@ export function parseOslo(text) {
                     throw new DeclarationError('LEN expects NEW "name" scaling surface-count');
                 }
                 seenLen = true;
+                current.line = lineNumber;
                 model.name = decodeText(tokens[2] ?? "");
                 model.scaling = num(3);
                 model.num_surfaces = parseInteger(tokens[4]);
@@ -400,31 +455,40 @@ export function parseOslo(text) {
                 }
                 break;
             case "EBR":
+                model.declarations.aperture = "explicit";
                 model.aperture = { EPD: 2 * num() };
                 break;
             case "FNO":
+                model.declarations.aperture = "explicit";
                 model.aperture = { FNO: num() };
                 break;
             case "NAO":
+                model.declarations.aperture = "explicit";
                 model.aperture = { NAO: num() };
                 break;
             case "NAP":
+                model.declarations.aperture = "explicit";
                 model.aperture = { NAP: num() };
                 break;
             case "PUK":
+                model.declarations.aperture = "explicit";
                 model.aperture = { PUK: Math.abs(num()) };
                 break;
             case "ANG":
+                model.declarations.fields = "explicit";
                 model.fields = { type: "angle", y: [num()] };
                 break;
             case "OBH":
+                model.declarations.fields = "explicit";
                 model.fields = { type: "object_height", y: [num()] };
                 break;
             case "GIH":
+                model.declarations.fields = "explicit";
                 model.fields = { type: "gaussian_image_height", y: [num()] };
                 break;
             case "UNI":
                 model.units = num();
+                model.declarations.units = "explicit";
                 if (model.units <= 0)
                     throw new DeclarationError("UNI must be positive (millimeters per lens unit)");
                 break;
@@ -506,6 +570,9 @@ export function parseOslo(text) {
             case "BEN":
                 current.BEN = true;
                 break;
+            case "BCR":
+                current.BCR = true;
+                break;
             case "WV":
             case "WW":
                 readSpectrum(tokens);
@@ -515,7 +582,7 @@ export function parseOslo(text) {
                 surface++;
                 if (surface > model.num_surfaces)
                     throw new DeclarationError("NXT exceeds LEN surface count");
-                current = model.surfaces[surface] ?? {};
+                openSurface(surface);
                 break;
             case "GTO":
                 model.surfaces[surface] = current;
@@ -523,7 +590,7 @@ export function parseOslo(text) {
                 if (surface < 0 || surface > model.num_surfaces) {
                     throw new DeclarationError("GTO surface is outside the declared lens");
                 }
-                current = model.surfaces[surface] ?? {};
+                openSurface(surface);
                 break;
             case "END":
                 readEnd(tokens);
@@ -532,12 +599,14 @@ export function parseOslo(text) {
             case "PUC":
                 clearConstraint("CV");
                 current[command] = num();
+                (current.solve_lines ??= {})[command] = lineNumber;
                 break;
             case "PY":
             case "PYC":
             case "EC":
                 clearConstraint("TH");
                 current[command] = num();
+                (current.solve_lines ??= {})[command] = lineNumber;
                 break;
             case "PK": {
                 if (tokens.length < 3)
@@ -553,7 +622,11 @@ export function parseOslo(text) {
                 if (["LN", "LNM"].includes(argument))
                     parseInteger(tokens[3]);
                 clearConstraint(argument);
-                (current.pickups ??= []).push(tokens.slice(1));
+                (current.pickups ??= []).push({
+                    type: argument,
+                    arguments: tokens.slice(2).map((token) => parseNumber(token)),
+                    line: lineNumber,
+                });
                 break;
             }
         }
@@ -580,7 +653,7 @@ export function parseOslo(text) {
             requireFiniteNumbers(tokens);
             requireLength(tokens, 2);
             current[command] = parseNumber(tokens[1]);
-            coefficientLines.set(`${surface}:${command}`, lineNumber);
+            remove([COEFFICIENT_ALIASES.get(command) ?? ""]);
             return;
         }
         if (DRAWING.has(command))
@@ -592,6 +665,7 @@ export function parseOslo(text) {
         if (isCoefficient(command)) {
             requireLength(tokens, 2);
             current[command] = parseNumber(tokens[1]);
+            remove([COEFFICIENT_ALIASES.get(command) ?? ""]);
             return;
         }
         if (DELETIONS.has(command)) {
@@ -625,7 +699,9 @@ export function parseOslo(text) {
     }
     if (configTable)
         throw new DeclarationError("unterminated CFG table");
-    if (!ended)
+    if (ended)
+        model.declarations.terminator = "explicit";
+    else
         readEnd(["END"]);
     if (!seenLen)
         throw new DeclarationError("missing LEN NEW prescription");
@@ -635,17 +711,10 @@ export function parseOslo(text) {
     if (indices.length !== model.num_surfaces + 1 || indices.some((value, i) => value !== i)) {
         throw new DeclarationError("surface records do not match LEN count");
     }
-    for (const index of indices) {
-        const data = model.surfaces[index] ?? {};
-        const coefficient = Object.keys(data).find(isGeneralCoefficient);
-        if ((data.ASP ?? "ADO") === "ADO" && coefficient !== undefined) {
-            surface = index;
-            const line = coefficientLines.get(`${index}:${coefficient}`) ?? lineNumber;
-            unsupported("ASn", "general coefficients require ASP ASR/ARA/ASX", line);
-        }
-    }
     model.wavelengths.values = values;
     model.wavelengths.weights = [...weights, ...Array(values.length).fill(1)].slice(0, values.length);
+    if (weights.length)
+        model.declarations.wavelengthWeights = weights.length < values.length ? "padded" : "explicit";
     if (!model.wavelengths.weights.some(Boolean)) {
         throw new DeclarationError("wavelength weights cannot all be zero");
     }

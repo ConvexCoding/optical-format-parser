@@ -1,12 +1,26 @@
 {
-  "schemaVersion": "2.0",
+  "schemaVersion": "1.0",
   "source": {
     "format": "zemax",
     "encoding": "iso-8859-1",
     "upstreamRevision": "4e893f53aee1312f2d091680b93dd2279711e197"
   },
-  "name": "AL1815-C Ø18 mm, f=15 mm, NA=0.534, S-LAH64 Aspheric Lens, ARC: 1050-1620 nm",
+  "name": "AL1815-C  Ø18 mm, f=15 mm, NA=0.534, S-LAH64 Aspheric Lens, ARC: 1050-1620 nm",
   "mode": "sequential",
+  "declarations": {
+    "units": "explicit",
+    "wavelengths": "explicit",
+    "wavelengthWeights": "explicit",
+    "primaryWavelength": "explicit",
+    "aperture": "explicit",
+    "fields": "explicit",
+    "terminator": "notApplicable"
+  },
+  "designer": null,
+  "notes": [
+    "FOR INFORMATION ONLY, NOT FOR MANUFACTURING.  ALL VALUES AND COATING(S) ARE TYPICAL AND THEORETICAL, ACTUAL PERFORMANCE MAY VARY.  FOR FURTHER INFORMATION CONTACT CUSTOMER SERVICE AT TECHSUPPORT@THORL",
+    "ABS.COM"
+  ],
   "units": {
     "length": "mm",
     "wavelength": "um",
@@ -82,6 +96,7 @@
   "surfaces": [
     {
       "index": 0,
+      "line": 57,
       "role": "object",
       "nativeType": "STANDARD",
       "radius": {
@@ -97,6 +112,13 @@
       },
       "clearAperture": null,
       "semiDiameter": 0,
+      "mechanicalSemiDiameter": null,
+      "comment": null,
+      "coating": null,
+      "coordinates": null,
+      "pickups": [],
+      "solves": [],
+      "unresolvedSag": [],
       "parameters": {
         "type": "standard",
         "is_stop": false,
@@ -115,6 +137,7 @@
     },
     {
       "index": 1,
+      "line": 66,
       "role": "surface",
       "nativeType": "EVENASPH",
       "radius": 11.65,
@@ -135,6 +158,13 @@
       },
       "clearAperture": null,
       "semiDiameter": 9,
+      "mechanicalSemiDiameter": null,
+      "comment": "AL1815-C",
+      "coating": "THORC",
+      "coordinates": null,
+      "pickups": [],
+      "solves": [],
+      "unresolvedSag": [],
       "parameters": {
         "type": "even_asphere",
         "is_stop": true,
@@ -152,7 +182,9 @@
           "resolution": "unresolved"
         },
         "aperture": null,
+        "comment": "AL1815-C",
         "radius": 11.65,
+        "coating": "THORC",
         "param_0": 0,
         "param_1": 0.0000369067205091,
         "param_2": -1.285461192617e-8,
@@ -212,6 +244,7 @@
     },
     {
       "index": 2,
+      "line": 89,
       "role": "surface",
       "nativeType": "STANDARD",
       "radius": {
@@ -225,6 +258,13 @@
       },
       "clearAperture": null,
       "semiDiameter": 7.258157225112,
+      "mechanicalSemiDiameter": null,
+      "comment": null,
+      "coating": "THORC",
+      "coordinates": null,
+      "pickups": [],
+      "solves": [],
+      "unresolvedSag": [],
       "parameters": {
         "type": "standard",
         "is_stop": false,
@@ -234,6 +274,7 @@
         "radius": {
           "special": "positiveInfinity"
         },
+        "coating": "THORC",
         "thickness": 11.50668035421,
         "diameter": 7.258157225112
       },
@@ -241,6 +282,7 @@
     },
     {
       "index": 3,
+      "line": 100,
       "role": "image",
       "nativeType": "STANDARD",
       "radius": {
@@ -254,6 +296,13 @@
       },
       "clearAperture": null,
       "semiDiameter": 1.028887908205e-8,
+      "mechanicalSemiDiameter": null,
+      "comment": null,
+      "coating": null,
+      "coordinates": null,
+      "pickups": [],
+      "solves": [],
+      "unresolvedSag": [],
       "parameters": {
         "type": "standard",
         "is_stop": false,
@@ -272,28 +321,14 @@
   "diagnostics": [
     {
       "severity": "info",
-      "code": "uninterpreted_record",
+      "code": "inert_record",
       "message": "Record retained but not interpreted",
       "command": "VERS",
       "line": 1
     },
     {
       "severity": "info",
-      "code": "uninterpreted_record",
-      "message": "Record retained but not interpreted",
-      "command": "NOTE",
-      "line": 4
-    },
-    {
-      "severity": "info",
-      "code": "uninterpreted_record",
-      "message": "Record retained but not interpreted",
-      "command": "NOTE",
-      "line": 5
-    },
-    {
-      "severity": "info",
-      "code": "uninterpreted_record",
+      "code": "inert_record",
       "message": "Record retained but not interpreted",
       "command": "PFIL",
       "line": 6
@@ -425,22 +460,6 @@
       "severity": "warning",
       "code": "uninterpreted_record",
       "message": "Record retained but not interpreted",
-      "command": "COMM",
-      "line": 67,
-      "surface": 1
-    },
-    {
-      "severity": "warning",
-      "code": "uninterpreted_record",
-      "message": "Record retained but not interpreted",
-      "command": "COAT",
-      "line": 71,
-      "surface": 1
-    },
-    {
-      "severity": "warning",
-      "code": "uninterpreted_record",
-      "message": "Record retained but not interpreted",
       "command": "HIDE",
       "line": 72,
       "surface": 1
@@ -476,14 +495,6 @@
       "command": "FLAP",
       "line": 88,
       "surface": 1
-    },
-    {
-      "severity": "warning",
-      "code": "uninterpreted_record",
-      "message": "Record retained but not interpreted",
-      "command": "COAT",
-      "line": 92,
-      "surface": 2
     },
     {
       "severity": "warning",
@@ -575,7 +586,7 @@
     },
     {
       "severity": "info",
-      "code": "uninterpreted_record",
+      "code": "inert_record",
       "message": "Record retained but not interpreted",
       "command": "MNUM",
       "line": 111,
@@ -1058,20 +1069,6 @@
         "message": "Record retained but not interpreted"
       },
       {
-        "command": "NOTE",
-        "line": 4,
-        "surface": -1,
-        "severity": "info",
-        "message": "Record retained but not interpreted"
-      },
-      {
-        "command": "NOTE",
-        "line": 5,
-        "surface": -1,
-        "severity": "info",
-        "message": "Record retained but not interpreted"
-      },
-      {
         "command": "PFIL",
         "line": 6,
         "surface": -1,
@@ -1198,20 +1195,6 @@
         "message": "Record retained but not interpreted"
       },
       {
-        "command": "COMM",
-        "line": 67,
-        "surface": 1,
-        "severity": "warning",
-        "message": "Record retained but not interpreted"
-      },
-      {
-        "command": "COAT",
-        "line": 71,
-        "surface": 1,
-        "severity": "warning",
-        "message": "Record retained but not interpreted"
-      },
-      {
         "command": "HIDE",
         "line": 72,
         "surface": 1,
@@ -1243,13 +1226,6 @@
         "command": "FLAP",
         "line": 88,
         "surface": 1,
-        "severity": "warning",
-        "message": "Record retained but not interpreted"
-      },
-      {
-        "command": "COAT",
-        "line": 92,
-        "surface": 2,
         "severity": "warning",
         "message": "Record retained but not interpreted"
       },
@@ -1345,7 +1321,20 @@
         "message": "Record retained but not interpreted"
       }
     ],
-    "name": "AL1815-C Ø18 mm, f=15 mm, NA=0.534, S-LAH64 Aspheric Lens, ARC: 1050-1620 nm",
+    "name": "AL1815-C  Ø18 mm, f=15 mm, NA=0.534, S-LAH64 Aspheric Lens, ARC: 1050-1620 nm",
+    "notes": [
+      "FOR INFORMATION ONLY, NOT FOR MANUFACTURING.  ALL VALUES AND COATING(S) ARE TYPICAL AND THEORETICAL, ACTUAL PERFORMANCE MAY VARY.  FOR FURTHER INFORMATION CONTACT CUSTOMER SERVICE AT TECHSUPPORT@THORL",
+      "ABS.COM"
+    ],
+    "declarations": {
+      "units": "explicit",
+      "wavelengths": "explicit",
+      "wavelengthWeights": "explicit",
+      "primaryWavelength": "explicit",
+      "aperture": "explicit",
+      "fields": "explicit",
+      "terminator": "notApplicable"
+    },
     "aperture": {
       "EPD": 16.5
     },
@@ -1391,6 +1380,7 @@
     },
     "surfaces": {
       "0": {
+        "line": 57,
         "type": "standard",
         "is_stop": false,
         "conic": 0,
@@ -1405,6 +1395,7 @@
         "diameter": 0
       },
       "1": {
+        "line": 66,
         "type": "even_asphere",
         "is_stop": true,
         "conic": -1.1,
@@ -1421,7 +1412,9 @@
           "resolution": "unresolved"
         },
         "aperture": null,
+        "comment": "AL1815-C",
         "radius": 11.65,
+        "coating": "THORC",
         "param_0": 0,
         "param_1": 0.0000369067205091,
         "param_2": -1.285461192617e-8,
@@ -1436,6 +1429,7 @@
         "diameter": 9
       },
       "2": {
+        "line": 89,
         "type": "standard",
         "is_stop": false,
         "conic": 0,
@@ -1444,10 +1438,12 @@
         "radius": {
           "special": "positiveInfinity"
         },
+        "coating": "THORC",
         "thickness": 11.50668035421,
         "diameter": 7.258157225112
       },
       "3": {
+        "line": 100,
         "type": "standard",
         "is_stop": false,
         "conic": 0,

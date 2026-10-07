@@ -1,11 +1,13 @@
 import { DeclarationError, PrescriptionParseError } from "./errors.js";
 import { toJsonObject } from "./json.js";
-import type { NativeDiagnostic, OsloModel, OsloSurface, ZemaxModel, ZemaxSurface } from "./models.js";
+import type { NativeDiagnostic, OsloModel, OsloSolve, OsloSurface, ZemaxModel, ZemaxSurface } from "./models.js";
 import { isNumberToken, parseNumber } from "./numbers.js";
 import { DEFAULT_WAVELENGTHS, decodeText, tokenize } from "./oslo.js";
 import type {
   AsphereTerm,
   ClearAperture,
+  CoordinateDeclaration,
+  Declarations,
   Diagnostic,
   DiagnosticCode,
   FieldKind,
@@ -15,6 +17,8 @@ import type {
   Material,
   NormalizedPrescription,
   NormalizedSurface,
+  Pickup,
+  Solve,
   SourceEncoding,
   SurfaceRole,
   SurfaceType,
@@ -44,7 +48,7 @@ class DiagnosticLog {
   constructor(native: readonly NativeDiagnostic[]) {
     this.items = native.map((entry) => ({
       severity: entry.severity ?? "warning",
-      code: "uninterpreted_record",
+      code: entry.severity === "info" ? "inert_record" : "uninterpreted_record",
       message: entry.message,
       command: entry.command,
       line: entry.line,
@@ -118,6 +122,18 @@ function wavelengths(
   return { values: [...values], weights: [...weights], primaryIndex };
 }
 
+/** Report every declaration the file left to a default, so none passes for a declared value. */
+function noteDefaults(declarations: Declarations, log: DiagnosticLog): void {
+  if (declarations.units === "defaulted") log.info("assumed_units", "No length unit record; assuming millimeters");
+  if (declarations.wavelengths === "defaulted") {
+    log.info("default_wavelengths", "No wavelengths declared; assuming the d, F and C lines");
+  }
+  if (declarations.wavelengthWeights === "padded") {
+    log.info("padded_wavelength_weights", "Fewer weights than wavelengths; missing weights reported as 1");
+  }
+  if (declarations.terminator === "absent") log.info("missing_end", "Prescription stops without END");
+}
+
 function surfaceIndices(surfaces: Readonly<Record<number, unknown>>): number[] {
   return Object.keys(surfaces)
     .map(Number)
@@ -139,9 +155,9 @@ function checkFinite(surface: object, index: number, unbounded: readonly string[
   }
 }
 
-function typedSurface(base: SurfaceBase, type: SurfaceType, terms: () => AsphereTerm[]): NormalizedSurface {
+function typedSurface(base: SurfaceBase, type: SurfaceType, terms: AsphereTerm[]): NormalizedSurface {
   if (type === "evenAsphere" || type === "oddAsphere") {
-    return { ...base, type, asphereTerms: terms().sort((a, b) => a.power - b.power) };
+    return { ...base, type, asphereTerms: terms.sort((a, b) => a.power - b.power) };
   }
   return { ...base, type };
 }
@@ -169,7 +185,10 @@ function finish(
   context: NormalizeContext,
   log: DiagnosticLog,
   model: ZemaxModel | OsloModel,
-  parts: Pick<NormalizedPrescription, "units" | "aperture" | "fields" | "wavelengths" | "surfaces">,
+  parts: Pick<
+    NormalizedPrescription,
+    "designer" | "notes" | "units" | "aperture" | "fields" | "wavelengths" | "surfaces"
+  >,
 ): NormalizedPrescription {
   if (!parts.surfaces.length) throw new DeclarationError("No optical surfaces parsed");
   const warnings = log.items.filter((entry) => entry.severity === "warning");
@@ -181,10 +200,11 @@ function finish(
     );
   }
   const prescription: NormalizedPrescription = {
-    schemaVersion: "2.0",
+    schemaVersion: "1.0",
     source: { format, encoding: context.encoding, upstreamRevision: UPSTREAM_REVISION },
     name: model.name,
     mode: "sequential",
+    declarations: { ...model.declarations },
     ...parts,
     diagnostics: log.items,
   };
@@ -290,6 +310,27 @@ function zemaxClearAperture(surface: ZemaxSurface, scale: number): ClearAperture
   };
 }
 
+/** A coordinate break's `PARM 1`..`PARM 6`: decenter x, y; tilt x, y, z; order flag. */
+function zemaxCoordinates(surface: ZemaxSurface, scale: number): CoordinateDeclaration {
+  const parameter = (number: number) => surface[`param_${number - 1}`] ?? 0;
+  return {
+    decenterX: parameter(1) * scale,
+    decenterY: parameter(2) * scale,
+    decenterZ: 0,
+    tiltX: parameter(3),
+    tiltY: parameter(4),
+    tiltZ: parameter(5),
+    order: parameter(6) === 0 ? "decenterThenTilt" : "tiltThenDecenter",
+    bend: false,
+    returnTo: null,
+    returnBase: false,
+    globalReference: null,
+    tiltOffsetX: 0,
+    tiltOffsetY: 0,
+    tiltOffsetZ: 0,
+  };
+}
+
 /** `PARM n` multiplies r^(2n) on an even asphere and r^n on an odd one. */
 function zemaxAsphereTerms(surface: ZemaxSurface, type: SurfaceType, scale: number): AsphereTerm[] {
   const terms: AsphereTerm[] = [];
@@ -309,9 +350,7 @@ export function normalizeZemax(model: ZemaxModel, context: NormalizeContext): No
   const scale = ZEMAX_UNITS[model.units];
   checkScale(scale);
   const units: Units = { length: "mm", wavelength: "um", angle: "deg", sourceLength: model.units, scaleToMm: scale };
-  if (!model.records.some((record) => record.text.startsWith("UNIT "))) {
-    log.info("assumed_units", "No UNIT record; assuming millimeters");
-  }
+  noteDefaults(model.declarations, log);
 
   const aperture = systemAperture({ ...model.aperture }, ZEMAX_APERTURES, scale, log);
   const fields = zemaxFields(model, scale, log);
@@ -339,8 +378,10 @@ export function normalizeZemax(model: ZemaxModel, context: NormalizeContext): No
     if (type === "coordinateBreak") {
       log.warn("unresolved_coordinates", "Coordinate declarations retained; no global frame is calculated", index);
     }
+    const { line, ...parameters } = native;
     const base: SurfaceBase = {
       index,
+      line,
       role: surfaceRole(type, index, lastIndex),
       nativeType: known?.native ?? native.type.toUpperCase(),
       radius: (native.radius ?? Infinity) * scale,
@@ -350,11 +391,27 @@ export function normalizeZemax(model: ZemaxModel, context: NormalizeContext): No
       material,
       clearAperture: zemaxClearAperture(native, scale),
       semiDiameter: native.diameter === undefined ? null : native.diameter * scale,
-      parameters: toJsonObject(native),
+      mechanicalSemiDiameter:
+        native.mechanical_semi_diameter === undefined ? null : native.mechanical_semi_diameter * scale,
+      comment: native.comment ?? null,
+      coating: native.coating ?? null,
+      coordinates: type === "coordinateBreak" ? zemaxCoordinates(native, scale) : null,
+      pickups: [],
+      solves: [],
+      unresolvedSag: [],
+      parameters: toJsonObject(parameters),
     };
-    surfaces.push(typedSurface(base, type, () => zemaxAsphereTerms(native, type, scale)));
+    surfaces.push(typedSurface(base, type, zemaxAsphereTerms(native, type, scale)));
   }
-  return finish("zemax", context, log, model, { units, aperture, fields, wavelengths: spectrum, surfaces });
+  return finish("zemax", context, log, model, {
+    designer: null,
+    notes: [...model.notes],
+    units,
+    aperture,
+    fields,
+    wavelengths: spectrum,
+    surfaces,
+  });
 }
 
 // ---------------------------------------------------------------------------------------------
@@ -379,14 +436,48 @@ const OSLO_ASPHERES = new Map<string, SurfaceType>([
   ["ARA", "oddAsphere"],
   ["ASX", "polynomial"],
 ]);
-/** The fixed-order conic asphere coefficients and the power of r each multiplies. */
-const OSLO_EVEN_TERMS = [
-  ["AD", 4],
-  ["AE", 6],
-  ["AF", 8],
-  ["AG", 10],
+/** `AD`..`AG` are the standard asphere's names for general coefficients 2..5. */
+const OSLO_STANDARD_SLOTS = new Map([
+  ["AD", 2],
+  ["AE", 3],
+  ["AF", 4],
+  ["AG", 5],
+]);
+const OSLO_COORDINATES = [
+  "DCX",
+  "DCY",
+  "DCZ",
+  "TLA",
+  "TLB",
+  "TLC",
+  "GC",
+  "RCO",
+  "BEN",
+  "BCR",
+  "TOX",
+  "TOY",
+  "TOZ",
 ] as const;
-const OSLO_COORDINATES = ["DCX", "DCY", "DCZ", "TLA", "TLB", "TLC", "GC", "RCO", "BEN", "TOX", "TOY", "TOZ"];
+const OSLO_PICKUPS = new Map<string, Pickup["property"]>([
+  ["CV", "curvature"],
+  ["CVM", "curvature"],
+  ["TH", "thickness"],
+  ["THM", "thickness"],
+  ["LN", "thickness"],
+  ["LNM", "thickness"],
+  ["AP", "aperture"],
+  ["GLA", "material"],
+  ["TD", "coordinates"],
+  ["TDM", "coordinates"],
+]);
+/** Each solve command, what it sets, and whether its target is a length. */
+const OSLO_SOLVES: readonly [OsloSolve, Solve["kind"], Solve["target"], boolean][] = [
+  ["PY", "axialRayHeight", "thickness", true],
+  ["PYC", "chiefRayHeight", "thickness", true],
+  ["EC", "edgeContact", "thickness", true],
+  ["PU", "axialRayAngle", "curvature", false],
+  ["PUC", "chiefRayAngle", "curvature", false],
+];
 const OSLO_CONSTRAINTS = ["pickups", "PY", "PYC", "PU", "PUC", "EC"];
 const OSLO_FEATURES = ["PFL", "PFM", "GSP", "GOR", "TCE"];
 /** OSLO writes "infinite" object and image distances as very large finite thicknesses. */
@@ -426,6 +517,9 @@ function osloFields(model: OsloModel, scale: number, log: DiagnosticLog): Fields
 
 /** Classify a surface's `AIR`/`RFL`/`GLA ...` declaration. */
 function osloMaterial(surface: OsloSurface): Material {
+  const pickup = surface.pickups?.find((entry) => entry.type === "GLA");
+  // Without a saved glass there is nothing to report but the pickup itself.
+  if (surface.material === undefined && pickup) return { kind: "pickup", reference: pickup.arguments[0] ?? 0 };
   const declaration = surface.material ?? "air";
   if (["AIR", "AIF"].includes(declaration.toUpperCase())) return { kind: "air" };
   if (["MIRROR", "RFL", "RFH"].includes(declaration.toUpperCase())) return { kind: "mirror" };
@@ -460,27 +554,85 @@ function osloMaterial(surface: OsloSurface): Material {
 function osloSurfaceType(surface: OsloSurface): SurfaceType {
   if (surface.PFL !== undefined) return "paraxial";
   if (surface.CVX !== undefined) return "toroidal";
-  if (OSLO_EVEN_TERMS.some(([key]) => surface[key] !== undefined)) return "evenAsphere";
-  return OSLO_ASPHERES.get(surface.ASP ?? "ADO") ?? "unknown";
+  const mode = surface.ASP ?? "ADO";
+  if (mode !== "ADO") return OSLO_ASPHERES.get(mode) ?? "unknown";
+  const standard = [...OSLO_STANDARD_SLOTS].some(([key, slot]) => key in surface || `AS${slot}` in surface);
+  return standard ? "evenAsphere" : "standard";
 }
 
 /**
- * `AD`..`AG` multiply r^4..r^10. General coefficients `ASn` multiply r^(2n) under `ASP ASR`
- * (even powers) and r^n under `ASP ARA` (all powers).
+ * Sort a surface's sag coefficients into normalized terms and the ones left uninterpreted.
+ *
+ * Per the OSLO Program Reference, general coefficient `ASn` multiplies r^(2n) on a symmetric
+ * general asphere (`ASP ASR`, eq. 3.9) and r^n on an all-orders asphere (`ASP ARA`, eq. 3.17), and
+ * `AD`..`AG` are the same coefficients as `AS2`..`AS5`. A standard asphere (no `ASP`) is the 10th
+ * order polynomial, so it has only those four: any other `ASn` on it is left unresolved, as is
+ * every coefficient of a surface type with no normalized terms.
  */
-function osloAsphereTerms(surface: OsloSurface, scale: number): AsphereTerm[] {
+function osloSag(surface: OsloSurface, type: SurfaceType, scale: number) {
+  const mode = surface.ASP ?? "ADO";
   const terms: AsphereTerm[] = [];
-  for (const [key, power] of OSLO_EVEN_TERMS) {
-    const value = surface[key];
-    if (value !== undefined) terms.push(asphereTerm(power, value, key, scale));
-  }
-  const step = surface.ASP === "ASR" ? 2 : surface.ASP === "ARA" ? 1 : null;
-  if (step === null) return terms;
+  const unresolved: string[] = [];
   for (const [key, value] of Object.entries(surface)) {
-    const match = /^AS(\d+)$/.exec(key);
-    if (match && typeof value === "number") terms.push(asphereTerm(step * Number(match[1]), value, key, scale));
+    const named = OSLO_STANDARD_SLOTS.get(key);
+    const general = /^AS(\d+)$/.exec(key);
+    const slot = named ?? (general ? Number(general[1]) : undefined);
+    if (slot === undefined || typeof value !== "number") continue;
+    let power: number | null = null;
+    if (type === "evenAsphere" && (mode === "ASR" || (slot >= 2 && slot <= 5))) power = 2 * slot;
+    else if (type === "oddAsphere" && named === undefined) power = slot;
+    if (power !== null) terms.push(asphereTerm(power, value, key, scale));
+    // A zero coefficient contributes nothing whatever power it would multiply.
+    else if (value !== 0) unresolved.push(key);
   }
-  return terms;
+  return { terms, unresolved };
+}
+
+function osloCoordinates(surface: OsloSurface, scale: number): CoordinateDeclaration | null {
+  if (surface.DT === undefined && !OSLO_COORDINATES.some((key) => key in surface)) return null;
+  return {
+    decenterX: (surface.DCX ?? 0) * scale,
+    decenterY: (surface.DCY ?? 0) * scale,
+    decenterZ: (surface.DCZ ?? 0) * scale,
+    tiltX: surface.TLA ?? 0,
+    tiltY: surface.TLB ?? 0,
+    tiltZ: surface.TLC ?? 0,
+    order: surface.DT === -1 ? "tiltThenDecenter" : "decenterThenTilt",
+    bend: surface.BEN ?? false,
+    returnTo: surface.RCO ?? null,
+    returnBase: surface.BCR ?? false,
+    globalReference: surface.GC ?? null,
+    tiltOffsetX: (surface.TOX ?? 0) * scale,
+    tiltOffsetY: (surface.TOY ?? 0) * scale,
+    tiltOffsetZ: (surface.TOZ ?? 0) * scale,
+  };
+}
+
+function osloPickups(surface: OsloSurface): Pickup[] {
+  return (surface.pickups ?? []).map((pickup) => ({
+    property: OSLO_PICKUPS.get(pickup.type) ?? "curvature",
+    native: pickup.type,
+    negated: pickup.type.endsWith("M"),
+    reference: pickup.arguments[0] ?? 0,
+    arguments: pickup.arguments.slice(1),
+    line: pickup.line,
+  }));
+}
+
+function osloSolves(surface: OsloSurface, scale: number): Solve[] {
+  const solves: Solve[] = [];
+  for (const [native, kind, target, isLength] of OSLO_SOLVES) {
+    const value = surface[native];
+    if (value === undefined) continue;
+    solves.push({
+      kind,
+      native,
+      target,
+      value: isLength ? value * scale : value,
+      line: surface.solve_lines?.[native] ?? 0,
+    });
+  }
+  return solves.sort((a, b) => a.line - b.line);
 }
 
 export function normalizeOslo(model: OsloModel, context: NormalizeContext): NormalizedPrescription {
@@ -488,6 +640,7 @@ export function normalizeOslo(model: OsloModel, context: NormalizeContext): Norm
   const scale = model.units;
   checkScale(scale);
   const units: Units = { length: "mm", wavelength: "um", angle: "deg", sourceLength: "lensUnit", scaleToMm: scale };
+  noteDefaults(model.declarations, log);
 
   const aperture = systemAperture({ ...model.aperture }, OSLO_APERTURES, scale, log);
   const fields = osloFields(model, scale, log);
@@ -514,6 +667,14 @@ export function normalizeOslo(model: OsloModel, context: NormalizeContext): Norm
     const material = osloMaterial(native);
     noteCommonWarnings(type, material, index, log);
     const declares = (keys: readonly string[]) => keys.some((key) => key in native);
+    const sag = osloSag(native, type, scale);
+    if (sag.unresolved.length) {
+      log.warn(
+        "unresolved_geometry",
+        `Sag coefficients ${sag.unresolved.join(", ")} retained without a normalized term; the surface is not the shape radius, conic and asphereTerms describe`,
+        index,
+      );
+    }
     if (declares(OSLO_COORDINATES)) {
       log.warn("unresolved_coordinates", "Coordinate declarations retained; no global frame is calculated", index);
     }
@@ -539,8 +700,10 @@ export function normalizeOslo(model: OsloModel, context: NormalizeContext): Norm
       );
     }
     const semiDiameter = native.AP === undefined ? null : native.AP * scale;
+    const { line = 0, solve_lines: _lines, ...parameters } = native;
     const base: SurfaceBase = {
       index,
+      line,
       role: surfaceRole(type, index, lastIndex),
       nativeType: native.ASP ?? "ADO",
       radius: (native.RD ?? Infinity) * scale,
@@ -562,9 +725,16 @@ export function normalizeOslo(model: OsloModel, context: NormalizeContext): Norm
               checkingEnabled: model.settings.aperture_check ?? true,
             },
       semiDiameter,
-      parameters: toJsonObject(native),
+      mechanicalSemiDiameter: null,
+      comment: native.note ?? null,
+      coating: null,
+      coordinates: osloCoordinates(native, scale),
+      pickups: osloPickups(native),
+      solves: osloSolves(native, scale),
+      unresolvedSag: sag.unresolved,
+      parameters: toJsonObject(parameters),
     };
-    surfaces.push(typedSurface(base, type, () => osloAsphereTerms(native, scale)));
+    surfaces.push(typedSurface(base, type, sag.terms));
   }
   if (Object.keys(model.configurations).length > 1) {
     log.warn(
@@ -572,5 +742,14 @@ export function normalizeOslo(model: OsloModel, context: NormalizeContext): Norm
       "Base prescription reported; alternative configuration overrides retained in raw.configurations",
     );
   }
-  return finish("oslo", context, log, model, { units, aperture, fields, wavelengths: spectrum, surfaces });
+  const { DES: designer = null, ...notes } = model.notes;
+  return finish("oslo", context, log, model, {
+    designer,
+    notes: Object.values(notes),
+    units,
+    aperture,
+    fields,
+    wavelengths: spectrum,
+    surfaces,
+  });
 }
