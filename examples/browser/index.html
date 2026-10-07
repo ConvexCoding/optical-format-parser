@@ -1,57 +1,129 @@
 <!doctype html>
 <html lang="en">
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Optical prescription → JSON</title>
-<style>
-  body { font: 16px system-ui, sans-serif; max-width: 1000px; margin: 48px auto; padding: 0 24px; color: #1c2833; background: #f7f9fb; }
-  h1 { font-size: 32px; } p { line-height: 1.6; }
-  button, input { font: inherit; padding: 10px; margin-right: 8px; }
-  button { cursor: pointer; } textarea { width: 100%; height: 450px; box-sizing: border-box; font: 13px ui-monospace, monospace; padding: 16px; background: white; border: 1px solid #b8c7d4; border-radius: 8px; }
-  #status { white-space: pre-wrap; } details { margin: 20px 0; } pre { white-space: pre-wrap; }
-</style>
-<h1>Optical prescription → JSON</h1>
-<p>Choose a Zemax .zmx or OSLO .len file to parse it locally in your browser. The JSON preserves prescription data and reports unresolved optical features.</p>
-<input id="file" type="file" accept=".zmx,.len" aria-label="Choose lens file">
-<button id="zemax">Try Zemax sample</button>
-<button id="oslo">Try OSLO sample</button>
-<button id="download" disabled>Download JSON</button>
-<p id="status" role="status">Ready.</p>
-<details><summary>Import diagnostics</summary><pre id="diagnostics"></pre></details>
-<textarea id="output" readonly aria-label="Normalized JSON output" placeholder="Your normalized JSON will appear here."></textarea>
-<script type="module">
-  import { parseBytes, stringify } from "../../dist/index.js";
-  let filename = "lens";
-  const output = document.querySelector("#output"), status = document.querySelector("#status");
-  const download = document.querySelector("#download");
-  async function show(bytes, name) {
-    try {
-      output.value = ""; download.disabled = true;
-      const format = name.toLowerCase().endsWith(".zmx") ? "zemax" : name.toLowerCase().endsWith(".len") ? "oslo" : null;
-      if (!format) throw new Error("Choose a .zmx or .len file.");
-      const data = parseBytes(bytes, { format, filename: name });
-      output.value = stringify(data); filename = name;
-      const warnings = data.diagnostics.filter(d => d.severity === "warning").length;
-      status.textContent = `${name}: ${data.surfaces.length} surface records, ${data.wavelengths.valuesUm.length} wavelengths, ${warnings} import warnings.\n${warnings ? "Some declarations remain uninterpreted. Review the diagnostics." : "Prescription parsed successfully."}`;
-      document.querySelector("#diagnostics").textContent = JSON.stringify(data.diagnostics, null, 2);
-      download.disabled = false;
-    } catch (error) { status.textContent = error.message; }
-  }
-  document.querySelector("#file").addEventListener("change", async event => {
-    const file = event.target.files[0]; if (!file) return;
-    if (file.size > 20 * 1024 * 1024) { status.textContent = "This demo accepts files up to 20 MB."; return; }
-    await show(new Uint8Array(await file.arrayBuffer()), file.name);
-  });
-  for (const [id, folder, name] of [["zemax", "zemax", "lens1.zmx"], ["oslo", "oslo", "test_achromat.len"]]) {
-    document.querySelector(`#${id}`).addEventListener("click", async () => {
-      try { const response = await fetch(`../../test/fixtures/${folder}/${name}`); if (!response.ok) throw new Error("Sample could not be loaded."); await show(new Uint8Array(await response.arrayBuffer()), name); }
-      catch (error) { status.textContent = error.message; }
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Optical prescription → JSON</title>
+  <style>
+    body {
+      font:
+        16px system-ui,
+        sans-serif;
+      max-width: 1000px;
+      margin: 48px auto;
+      padding: 0 24px;
+      color: #1c2833;
+      background: #f7f9fb;
+    }
+    h1 {
+      font-size: 32px;
+    }
+    p {
+      line-height: 1.6;
+    }
+    button,
+    input {
+      font: inherit;
+      padding: 10px;
+      margin-right: 8px;
+    }
+    button {
+      cursor: pointer;
+    }
+    textarea {
+      width: 100%;
+      height: 450px;
+      box-sizing: border-box;
+      font:
+        13px ui-monospace,
+        monospace;
+      padding: 16px;
+      background: white;
+      border: 1px solid #b8c7d4;
+      border-radius: 8px;
+    }
+    #status {
+      white-space: pre-wrap;
+    }
+    details {
+      margin: 20px 0;
+    }
+    pre {
+      white-space: pre-wrap;
+    }
+  </style>
+  <h1>Optical prescription → JSON</h1>
+  <p>
+    Choose a Zemax .zmx or OSLO .len file to parse it locally in your browser. The JSON preserves prescription data and
+    reports unresolved optical features.
+  </p>
+  <input id="file" type="file" accept=".zmx,.len" aria-label="Choose lens file" />
+  <button id="zemax">Try Zemax sample</button>
+  <button id="oslo">Try OSLO sample</button>
+  <button id="download" disabled>Download JSON</button>
+  <p id="status" role="status">Ready.</p>
+  <details>
+    <summary>Import diagnostics</summary>
+    <pre id="diagnostics"></pre>
+  </details>
+  <textarea
+    id="output"
+    readonly
+    aria-label="Normalized JSON output"
+    placeholder="Your normalized JSON will appear here."
+  ></textarea>
+  <script type="module">
+    import { formatFromFilename, parseBytes, stringify } from "../../dist/index.js";
+    let filename = "lens";
+    const output = document.querySelector("#output"),
+      status = document.querySelector("#status");
+    const download = document.querySelector("#download");
+    async function show(bytes, name) {
+      try {
+        output.value = "";
+        download.disabled = true;
+        const format = formatFromFilename(name);
+        if (!format) throw new Error("Choose a .zmx or .len file.");
+        const data = parseBytes(bytes, { format, filename: name });
+        output.value = stringify(data);
+        filename = name;
+        const warnings = data.diagnostics.filter((d) => d.severity === "warning").length;
+        status.textContent = `${name}: ${data.surfaces.length} surface records, ${data.wavelengths.valuesUm.length} wavelengths, ${warnings} import warnings.\n${warnings ? "Some declarations remain uninterpreted. Review the diagnostics." : "Prescription parsed successfully."}`;
+        document.querySelector("#diagnostics").textContent = JSON.stringify(data.diagnostics, null, 2);
+        download.disabled = false;
+      } catch (error) {
+        status.textContent = error.message;
+      }
+    }
+    document.querySelector("#file").addEventListener("change", async (event) => {
+      const file = event.target.files[0];
+      if (!file) return;
+      if (file.size > 20 * 1024 * 1024) {
+        status.textContent = "This demo accepts files up to 20 MB.";
+        return;
+      }
+      await show(new Uint8Array(await file.arrayBuffer()), file.name);
     });
-  }
-  download.addEventListener("click", () => {
-    const url = URL.createObjectURL(new Blob([output.value], { type: "application/json" }));
-    const link = document.createElement("a"); link.href = url; link.download = filename + ".json"; link.click();
-    setTimeout(() => URL.revokeObjectURL(url), 1000);
-  });
-</script>
+    for (const [id, folder, name] of [
+      ["zemax", "zemax", "lens1.zmx"],
+      ["oslo", "oslo", "test_achromat.len"],
+    ]) {
+      document.querySelector(`#${id}`).addEventListener("click", async () => {
+        try {
+          const response = await fetch(`../../test/fixtures/${folder}/${name}`);
+          if (!response.ok) throw new Error("Sample could not be loaded.");
+          await show(new Uint8Array(await response.arrayBuffer()), name);
+        } catch (error) {
+          status.textContent = error.message;
+        }
+      });
+    }
+    download.addEventListener("click", () => {
+      const url = URL.createObjectURL(new Blob([output.value], { type: "application/json" }));
+      const link = document.createElement("a");
+      link.href = url;
+      link.download = filename + ".json";
+      link.click();
+      setTimeout(() => URL.revokeObjectURL(url), 1000);
+    });
+  </script>
 </html>

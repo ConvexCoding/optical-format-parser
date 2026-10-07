@@ -1,133 +1,577 @@
-import { number } from "./numbers.js";
-import { decodeText, tokenize } from "./oslo.js";
-import type { Diagnostic, Format, JsonValue, NativeRecord, NormalizedPrescription } from "./types.js";
+import { DeclarationError, PrescriptionParseError } from "./errors.js";
+import { toJsonObject } from "./json.js";
+import type { NativeDiagnostic, OsloModel, OsloSurface, ZemaxModel, ZemaxSurface } from "./models.js";
+import { isNumberToken, parseNumber } from "./numbers.js";
+import { DEFAULT_WAVELENGTHS, decodeText, tokenize } from "./oslo.js";
+import type {
+  AsphereTerm,
+  ClearAperture,
+  Diagnostic,
+  DiagnosticCode,
+  FieldKind,
+  FieldPoint,
+  Fields,
+  Format,
+  Material,
+  NormalizedPrescription,
+  NormalizedSurface,
+  SourceEncoding,
+  SurfaceRole,
+  SurfaceType,
+  SystemAperture,
+  Units,
+  ValuedAperture,
+  Vignetting,
+  Wavelengths,
+} from "./types.js";
 
-const REVISION = "4e893f53aee1312f2d091680b93dd2279711e197";
-const scales: Record<string, number> = { MM: 1, CM: 10, M: 1000, IN: 25.4, INCH: 25.4 };
-export function jsonSafe(value: unknown, path = "$"): JsonValue {
-  if (typeof value === "number") {
-    if (Number.isNaN(value)) throw new Error(`${path}: NaN is not valid prescription data`);
-    if (!Number.isFinite(value)) return { special: value > 0 ? "positiveInfinity" : "negativeInfinity" };
-    return value;
-  }
-  if (value === null || typeof value === "string" || typeof value === "boolean") return value;
-  if (Array.isArray(value)) return value.map((v, i) => jsonSafe(v, `${path}[${i}]`));
-  if (typeof value === "object" && Object.getPrototypeOf(value) === Object.prototype) {
-    return Object.fromEntries(Object.entries(value).map(([k, v]) => [k, jsonSafe(v, `${path}.${k}`)]));
-  }
-  throw new Error(`${path}: cannot serialize ${typeof value}`);
+const UPSTREAM_REVISION = "4e893f53aee1312f2d091680b93dd2279711e197";
+
+export interface NormalizeContext {
+  filename: string;
+  encoding: SourceEncoding;
+  strict: boolean;
+  includeRaw: boolean;
 }
 
-function material(raw: any, surface: NativeRecord, fmt: Format): NativeRecord {
-  if (raw && typeof raw === "object") return { ...raw };
-  if (!raw || ["AIR", "AIF"].includes(String(raw).toUpperCase())) return { kind: "air" };
-  if (["MIRROR", "RFL", "RFH"].includes(String(raw).toUpperCase())) return { kind: "mirror" };
-  if (fmt === "zemax") return { kind: "catalog", name: String(raw), resolution: "unresolved" };
-  let parts = tokenize(String(raw));
-  if (!parts.length || parts[0] !== "GLA") return { kind: "unknown", raw: String(raw) };
+type SurfaceBase = Omit<NormalizedSurface, "type">;
+
+// ---------------------------------------------------------------------------------------------
+// Shared pieces
+
+class DiagnosticLog {
+  readonly items: Diagnostic[];
+
+  constructor(native: readonly NativeDiagnostic[]) {
+    this.items = native.map((entry) => ({
+      severity: entry.severity ?? "warning",
+      code: "uninterpreted_record",
+      message: entry.message,
+      command: entry.command,
+      line: entry.line,
+      ...(entry.surface >= 0 ? { surface: entry.surface } : {}),
+    }));
+  }
+  info(code: DiagnosticCode, message: string): void {
+    this.items.push({ severity: "info", code, message });
+  }
+  warn(code: DiagnosticCode, message: string, surface?: number): void {
+    this.items.push({ severity: "warning", code, message, ...(surface === undefined ? {} : { surface }) });
+  }
+}
+
+const NO_VIGNETTING: Vignetting = { decenterX: 0, decenterY: 0, compressX: 0, compressY: 0, tangentAngle: 0 };
+const HEIGHT_FIELDS: readonly FieldKind[] = [
+  "objectHeight",
+  "paraxialImageHeight",
+  "realImageHeight",
+  "gaussianImageHeight",
+];
+
+function checkScale(scale: number): void {
+  if (!Number.isFinite(scale) || scale <= 0)
+    throw new DeclarationError("Length scale must be a positive finite number");
+}
+
+/** The first declared aperture becomes the system aperture; the rest stay in `source`. */
+function systemAperture(
+  declarations: Readonly<Record<string, number | boolean>>,
+  kinds: ReadonlyMap<string, ValuedAperture["kind"]>,
+  scale: number,
+  log: DiagnosticLog,
+): SystemAperture {
+  const entries = Object.entries(declarations);
+  if (entries.some(([, value]) => typeof value !== "boolean" && (!Number.isFinite(value) || value < 0))) {
+    throw new DeclarationError("Aperture values must be finite and nonnegative");
+  }
+  if (entries.length > 1) {
+    log.warn("multiple_apertures", "Multiple aperture declarations retained; first is reported as the common aperture");
+  }
+  const source = toJsonObject(declarations);
+  const first = entries[0];
+  if (!first) return { kind: "unspecified", value: null, source };
+  const [key, value] = first;
+  const kind = kinds.get(key);
+  if (typeof value === "boolean") return { kind: "floatingStop", value: null, source };
+  if (kind === undefined) return { kind: "unspecified", value: null, source };
+  if (kind === "entrancePupilDiameter") return { kind, value: value * scale, source };
+  if (kind === "beamRadiusAtSurface1") return { kind, value: (value * scale) / 2, source };
+  return { kind, value, source };
+}
+
+function wavelengths(
+  values: number[],
+  weights: number[],
+  primaryIndex: number | null,
+  log: DiagnosticLog,
+): Wavelengths {
+  const valid =
+    values.length === weights.length &&
+    values.every((value) => Number.isFinite(value) && value > 0) &&
+    weights.every((weight) => Number.isFinite(weight) && weight >= 0);
+  if (!valid) throw new DeclarationError("Wavelength values/weights must align and be finite, positive/nonnegative");
+  if (primaryIndex !== null && (!Number.isInteger(primaryIndex) || primaryIndex < 0 || primaryIndex >= values.length)) {
+    throw new DeclarationError("Primary wavelength index is outside active wavelengths");
+  }
+  if (values.length && primaryIndex === null) {
+    log.warn("missing_primary_wavelength", "Declared primary wavelength is not in the active slots");
+  }
+  return { valuesUm: [...values], weights: [...weights], primaryIndex };
+}
+
+function surfaceIndices(surfaces: Readonly<Record<number, unknown>>): number[] {
+  return Object.keys(surfaces)
+    .map(Number)
+    .sort((a, b) => a - b);
+}
+
+function surfaceRole(type: SurfaceType, index: number, lastIndex: number): SurfaceRole {
+  if (type === "coordinateBreak") return "coordinateBreak";
+  if (index === 0) return "object";
+  return index === lastIndex ? "image" : "surface";
+}
+
+/** Radius and thickness may be infinite; no other declared number may be. */
+function checkFinite(surface: object, index: number, unbounded: readonly string[]): void {
+  for (const [key, value] of Object.entries(surface)) {
+    if (!unbounded.includes(key) && typeof value === "number" && !Number.isFinite(value)) {
+      throw new DeclarationError(`Surface ${index} ${key} must be finite`);
+    }
+  }
+}
+
+function typedSurface(base: SurfaceBase, type: SurfaceType, terms: () => AsphereTerm[]): NormalizedSurface {
+  if (type === "evenAsphere" || type === "oddAsphere") {
+    return { ...base, type, asphereTerms: terms().sort((a, b) => a.power - b.power) };
+  }
+  return { ...base, type };
+}
+
+/** A sag coefficient for `r^power` in source length units, re-expressed for `r` in millimeters. */
+function asphereTerm(power: number, coefficient: number, native: string, scale: number): AsphereTerm {
+  return { power, coefficient: coefficient * scale ** (1 - power), native };
+}
+
+function noteCommonWarnings(type: SurfaceType, material: Material, index: number, log: DiagnosticLog): void {
+  if (type === "unknown") {
+    log.warn("unresolved_surface_type", "Surface type retained without a common geometry interpretation", index);
+  }
+  if (material.kind === "catalog" || material.kind === "model") {
+    log.warn(
+      "unresolved_material",
+      "Material identity preserved; catalog lookup and dispersion fitting are not executed",
+      index,
+    );
+  }
+}
+
+function finish(
+  format: Format,
+  context: NormalizeContext,
+  log: DiagnosticLog,
+  model: ZemaxModel | OsloModel,
+  parts: Pick<NormalizedPrescription, "units" | "aperture" | "fields" | "wavelengths" | "surfaces">,
+): NormalizedPrescription {
+  if (!parts.surfaces.length) throw new DeclarationError("No optical surfaces parsed");
+  const warnings = log.items.filter((entry) => entry.severity === "warning");
+  if (context.strict && warnings[0]) {
+    throw new PrescriptionParseError(
+      "strict_violation",
+      `Strict import rejected ${warnings.length} warning(s); first: ${warnings[0].code}: ${warnings[0].message}`,
+      { filename: context.filename, diagnostics: log.items },
+    );
+  }
+  const prescription: NormalizedPrescription = {
+    schemaVersion: "2.0",
+    source: { format, filename: context.filename, encoding: context.encoding, upstreamRevision: UPSTREAM_REVISION },
+    name: model.name,
+    mode: "sequential",
+    ...parts,
+    diagnostics: log.items,
+  };
+  if (context.includeRaw) prescription.raw = toJsonObject(model);
+  return prescription;
+}
+
+// ---------------------------------------------------------------------------------------------
+// Zemax
+
+const ZEMAX_UNITS = { MM: 1, CM: 10, M: 1000, IN: 25.4, INCH: 25.4 } as const;
+const isZemaxUnit = (unit: string): unit is keyof typeof ZEMAX_UNITS => Object.hasOwn(ZEMAX_UNITS, unit);
+
+const ZEMAX_APERTURES = new Map<string, ValuedAperture["kind"]>([
+  ["EPD", "entrancePupilDiameter"],
+  ["imageFNO", "imageFNumber"],
+  ["paraxialImageFNO", "paraxialImageFNumber"],
+  ["objectNA", "objectNA"],
+  ["object_cone_angle", "objectConeAngle"],
+]);
+const ZEMAX_FIELDS = new Map<string, FieldKind>([
+  ["angle", "angle"],
+  ["object_height", "objectHeight"],
+  ["paraxial_image_height", "paraxialImageHeight"],
+  ["real_image_height", "realImageHeight"],
+  ["theodolite_angle", "theodoliteAngle"],
+]);
+/** Parser type name to normalized type and the type name as Zemax writes it. */
+const ZEMAX_SURFACES = new Map<string, { type: SurfaceType; native: string }>([
+  ["standard", { type: "standard", native: "STANDARD" }],
+  ["even_asphere", { type: "evenAsphere", native: "EVENASPH" }],
+  ["odd_asphere", { type: "oddAsphere", native: "ODDASPHE" }],
+  ["toroidal", { type: "toroidal", native: "TOROIDAL" }],
+  ["coordinate_break", { type: "coordinateBreak", native: "COORDBRK" }],
+  ["paraxial", { type: "paraxial", native: "PARAXIAL" }],
+  ["polynomial", { type: "polynomial", native: "POLYNOMIAL" }],
+]);
+const ZEMAX_VIGNETTING = [
+  ["decenterX", "vignette_decenter_x"],
+  ["decenterY", "vignette_decenter_y"],
+  ["compressX", "vignette_compress_x"],
+  ["compressY", "vignette_compress_y"],
+  ["tangentAngle", "vignette_tangent_angle"],
+] as const;
+
+function zemaxFields(model: ZemaxModel, scale: number, log: DiagnosticLog): Fields {
+  const source = model.fields;
+  const kind = ZEMAX_FIELDS.get(source.type ?? "angle") ?? "unknown";
+  for (const [key, column] of Object.entries(source)) {
+    if (Array.isArray(column) && column.some((value) => !Number.isFinite(value))) {
+      throw new DeclarationError(`Field ${key} must contain finite numbers`);
+    }
+  }
+  if (source.weights?.some((weight) => weight < 0)) throw new DeclarationError("Field weights must be nonnegative");
+
+  const xs = source.x ?? [];
+  const ys = source.y ?? [];
+  const extras = [source.weights, ...ZEMAX_VIGNETTING.map(([, column]) => source[column])];
+  if (
+    xs.length !== ys.length ||
+    extras.some((column) => column !== undefined && column.length !== xs.length) ||
+    (source.num_fields ?? xs.length) !== xs.length
+  ) {
+    log.warn("field_count_mismatch", "Declared and parsed field columns differ; raw columns retained");
+  }
+  const fieldScale = HEIGHT_FIELDS.includes(kind) ? scale : 1;
+  const points: FieldPoint[] = [];
+  for (let i = 0; i < Math.min(xs.length, ys.length); i++) {
+    const vignetting = { ...NO_VIGNETTING };
+    for (const [name, column] of ZEMAX_VIGNETTING) vignetting[name] = source[column]?.[i] ?? 0;
+    points.push({
+      x: (xs[i] ?? 0) * fieldScale,
+      y: (ys[i] ?? 0) * fieldScale,
+      weight: source.weights?.[i] ?? 1,
+      vignetting,
+    });
+  }
+  return { kind, specification: "pointList", points, relativePoints: [], source: toJsonObject(source) };
+}
+
+function zemaxMaterial(surface: ZemaxSurface): Material {
+  const native = surface.material;
+  if (native === "air") return { kind: "air" };
+  if (native.kind === "mirror") return { kind: "mirror" };
+  return { ...native, catalogs: [...native.catalogs] };
+}
+
+function zemaxClearAperture(surface: ZemaxSurface, scale: number): ClearAperture | null {
+  const native = surface.aperture;
+  if (!native) return null;
+  const numbers = [native.r_min, native.r_max, native.offset_x, native.offset_y];
+  if (numbers.some((value) => !Number.isFinite(value)) || !(0 <= native.r_min && native.r_min <= native.r_max)) {
+    throw new DeclarationError("Clear aperture radii/offsets must be finite with 0 <= r_min <= r_max");
+  }
+  return {
+    kind: "annulus",
+    minRadiusMm: native.r_min * scale,
+    maxRadiusMm: native.r_max * scale,
+    offsetXMm: native.offset_x * scale,
+    offsetYMm: native.offset_y * scale,
+    checked: null,
+    checkingEnabled: null,
+  };
+}
+
+/** `PARM n` multiplies r^(2n) on an even asphere and r^n on an odd one. */
+function zemaxAsphereTerms(surface: ZemaxSurface, type: SurfaceType, scale: number): AsphereTerm[] {
+  const terms: AsphereTerm[] = [];
+  for (const [key, value] of Object.entries(surface)) {
+    const match = /^param_(\d+)$/.exec(key);
+    if (!match || typeof value !== "number") continue;
+    const parameter = Number(match[1]) + 1;
+    const power = type === "evenAsphere" ? 2 * parameter : parameter;
+    terms.push(asphereTerm(power, value, `PARM ${parameter}`, scale));
+  }
+  return terms;
+}
+
+export function normalizeZemax(model: ZemaxModel, context: NormalizeContext): NormalizedPrescription {
+  const log = new DiagnosticLog(model.diagnostics);
+  if (!isZemaxUnit(model.units)) throw new DeclarationError(`Unsupported Zemax length unit: ${model.units}`);
+  const scale = ZEMAX_UNITS[model.units];
+  checkScale(scale);
+  const units: Units = { length: "mm", wavelength: "um", angle: "deg", sourceLength: model.units, scaleToMm: scale };
+  if (!model.records.some((record) => record.text.startsWith("UNIT "))) {
+    log.info("assumed_units", "No UNIT record; assuming millimeters");
+  }
+
+  const aperture = systemAperture({ ...model.aperture }, ZEMAX_APERTURES, scale, log);
+  const fields = zemaxFields(model, scale, log);
+  const declaredPrimary = model.wavelengths.primary_index;
+  const primaryIndex = declaredPrimary !== undefined ? declaredPrimary : model.wavelengths.data.length ? 0 : null;
+  const spectrum = wavelengths(model.wavelengths.data, model.wavelengths.weights, primaryIndex, log);
+  if (model.records.some((record) => record.text.startsWith("WAVL "))) {
+    log.warn(
+      "legacy_wavl",
+      "WAVL follows upstream legacy token consumption; vector WAVL/WWGT is not fully interpreted",
+    );
+  }
+
+  const indices = surfaceIndices(model.surfaces);
+  const lastIndex = Math.max(0, ...indices);
+  const surfaces: NormalizedSurface[] = [];
+  for (const index of indices) {
+    const native = model.surfaces[index];
+    if (!native) continue;
+    checkFinite(native, index, ["radius", "thickness"]);
+    const known = ZEMAX_SURFACES.get(native.type);
+    const type = known?.type ?? "unknown";
+    const material = zemaxMaterial(native);
+    noteCommonWarnings(type, material, index, log);
+    if (type === "coordinateBreak") {
+      log.warn("unresolved_coordinates", "Coordinate declarations retained; no global frame is calculated", index);
+    }
+    const base: SurfaceBase = {
+      index,
+      role: surfaceRole(type, index, lastIndex),
+      nativeType: known?.native ?? native.type.toUpperCase(),
+      radiusMm: (native.radius ?? Infinity) * scale,
+      thicknessMm: (native.thickness ?? 0) * scale,
+      conic: native.conic,
+      stop: native.is_stop,
+      material,
+      clearAperture: zemaxClearAperture(native, scale),
+      semiDiameterMm: native.diameter === undefined ? null : native.diameter * scale,
+      parameters: toJsonObject(native),
+    };
+    surfaces.push(typedSurface(base, type, () => zemaxAsphereTerms(native, type, scale)));
+  }
+  return finish("zemax", context, log, model, { units, aperture, fields, wavelengths: spectrum, surfaces });
+}
+
+// ---------------------------------------------------------------------------------------------
+// OSLO
+
+const OSLO_APERTURES = new Map<string, ValuedAperture["kind"]>([
+  // OSLO stores the entrance beam radius; the parser doubles it into an EPD-style diameter.
+  ["EPD", "beamRadiusAtSurface1"],
+  ["FNO", "imageFNumber"],
+  ["NAO", "objectNA"],
+  ["NAP", "imageNA"],
+  ["PUK", "imageSlope"],
+]);
+const OSLO_FIELDS = {
+  angle: "angle",
+  object_height: "objectHeight",
+  gaussian_image_height: "gaussianImageHeight",
+} as const;
+const OSLO_ASPHERES = new Map<string, SurfaceType>([
+  ["ADO", "standard"],
+  ["ASR", "evenAsphere"],
+  ["ARA", "oddAsphere"],
+  ["ASX", "polynomial"],
+]);
+/** The fixed-order conic asphere coefficients and the power of r each multiplies. */
+const OSLO_EVEN_TERMS = [
+  ["AD", 4],
+  ["AE", 6],
+  ["AF", 8],
+  ["AG", 10],
+] as const;
+const OSLO_COORDINATES = ["DCX", "DCY", "DCZ", "TLA", "TLB", "TLC", "GC", "RCO", "BEN", "TOX", "TOY", "TOZ"];
+const OSLO_CONSTRAINTS = ["pickups", "PY", "PYC", "PU", "PUC", "EC"];
+const OSLO_FEATURES = ["PFL", "PFM", "GSP", "GOR", "TCE"];
+/** OSLO writes "infinite" object and image distances as very large finite thicknesses. */
+const OSLO_INFINITE_OBJECT = 1e8;
+const OSLO_INFINITE_THICKNESS = 9.9e9;
+
+function osloFields(model: OsloModel, scale: number, log: DiagnosticLog): Fields {
+  const source = model.fields;
+  const kind = OSLO_FIELDS[source.type ?? "angle"];
+  if (source.y?.some((value) => !Number.isFinite(value)))
+    throw new DeclarationError("Field y must contain finite numbers");
+  if (source.points) {
+    log.warn(
+      "relative_field_table",
+      "OSLO field-table coordinates are retained as relative prescription data; no optical conversion is executed",
+    );
+  }
+  const fullField = (source.y?.[0] ?? 0) * (HEIGHT_FIELDS.includes(kind) ? scale : 1);
+  const relativePoints = Object.entries(source.points ?? {})
+    .map(([index, point]) => ({
+      index: Number(index),
+      x: point.x,
+      y: point.y,
+      weight: point.weight,
+      vignetteX: point.vx,
+      vignetteY: point.vy,
+    }))
+    .sort((a, b) => a.index - b.index);
+  return {
+    kind,
+    specification: "fullField",
+    points: [{ x: 0, y: fullField, weight: 1, vignetting: { ...NO_VIGNETTING } }],
+    relativePoints,
+    source: toJsonObject(source),
+  };
+}
+
+/** Classify a surface's `AIR`/`RFL`/`GLA ...` declaration. */
+function osloMaterial(surface: OsloSurface): Material {
+  const declaration = surface.material ?? "air";
+  if (["AIR", "AIF"].includes(declaration.toUpperCase())) return { kind: "air" };
+  if (["MIRROR", "RFL", "RFH"].includes(declaration.toUpperCase())) return { kind: "mirror" };
+  let parts = tokenize(declaration);
+  if (parts[0] !== "GLA") return { kind: "unknown", raw: declaration };
   parts = parts.slice(1);
-  const modeled = parts.length > 0 && parts[0].toUpperCase() === "MOD";
+  const modeled = parts[0]?.toUpperCase() === "MOD";
   if (modeled) parts = parts.slice(1);
   let name: string | null = null;
-  if (parts.length) {
-    try { number(parts[0]); } catch { name = decodeText(parts[0]); parts = parts.slice(1); }
+  if (parts[0] !== undefined && !isNumberToken(parts[0])) {
+    name = decodeText(parts[0]);
+    parts = parts.slice(1);
   }
   if (!parts.length) {
-    if (modeled || !name) throw new Error("GLA requires a catalog name or refractive-index data");
-    return { kind: "catalog", name, resolution: "unresolved" };
+    if (modeled || !name) throw new DeclarationError("GLA requires a catalog name or refractive-index data");
+    return { kind: "catalog", name, catalogs: [], nd: null, vd: null, resolution: "unresolved" };
   }
-  const indices = parts.map(number);
-  if (indices.some(v => !Number.isFinite(v) || v <= 0)) throw new Error("GLA indices must be positive finite numbers");
-  if (modeled && indices.length === 2) return { kind: "model", name, nd: indices[0], vd: indices[1], dispersion: "unspecified", resolution: "unresolved" };
-  if (new Set(indices).size === 1) return { kind: "constantIndex", name, index: indices[0] };
-  const wavelengths = surface.glass_wavelengths ?? [0.58756, 0.48613, 0.65627];
-  if (indices.length !== wavelengths.length) throw new Error("OSLO glass index/wavelength counts differ");
-  return { kind: "sampledIndex", name, wavelengthsUm: wavelengths, indices };
+  const indices = parts.map((token) => parseNumber(token));
+  if (indices.some((value) => !Number.isFinite(value) || value <= 0)) {
+    throw new DeclarationError("GLA indices must be positive finite numbers");
+  }
+  const [first, second] = indices;
+  if (modeled && indices.length === 2 && first !== undefined && second !== undefined) {
+    return { kind: "model", name, nd: first, vd: second, dispersion: "unspecified", resolution: "unresolved" };
+  }
+  if (first !== undefined && new Set(indices).size === 1) return { kind: "constantIndex", name, index: first };
+  const wavelengthsUm = surface.glass_wavelengths ?? DEFAULT_WAVELENGTHS;
+  if (indices.length !== wavelengthsUm.length) throw new DeclarationError("OSLO glass index/wavelength counts differ");
+  return { kind: "sampledIndex", name, wavelengthsUm: [...wavelengthsUm], indices };
 }
 
-export function normalize(model: NativeRecord, fmt: Format, filename: string, encoding: string, strict: boolean): NormalizedPrescription {
-  const diagnostics: Diagnostic[] = model.diagnostics.map((d: NativeRecord) => ({ severity: d.severity ?? "warning", code: "uninterpreted_record",
-    command: d.command, line: d.line, surface: d.surface, message: d.message }));
-  const warn = (code: string, message: string, location: Partial<Diagnostic> = {}) => { diagnostics.push({ severity: "warning", code, message, ...location }); };
-  const sourceUnit = fmt === "zemax" ? model.units : "lensUnit";
-  const scale = fmt === "zemax" ? scales[sourceUnit] : model.units;
-  if (scale === undefined) throw new Error(`Unsupported Zemax length unit: ${sourceUnit}`);
-  if (!Number.isFinite(scale) || scale <= 0) throw new Error("Length scale must be a positive finite number");
-  if (fmt === "zemax" && !model.records.some((r: NativeRecord) => r.text.startsWith("UNIT "))) diagnostics.push({ severity: "info", code: "assumed_units", message: "No UNIT record; assuming millimeters" });
+function osloSurfaceType(surface: OsloSurface): SurfaceType {
+  if (surface.PFL !== undefined) return "paraxial";
+  if (surface.CVX !== undefined) return "toroidal";
+  if (OSLO_EVEN_TERMS.some(([key]) => surface[key] !== undefined)) return "evenAsphere";
+  return OSLO_ASPHERES.get(surface.ASP ?? "ADO") ?? "unknown";
+}
 
-  const apertureSource = model.aperture;
-  if (Object.values(apertureSource).some((v: any) => typeof v !== "boolean" && (!Number.isFinite(v) || v < 0))) throw new Error("Aperture values must be finite and nonnegative");
-  const aperture: NativeRecord = { kind: "unspecified", value: null, source: apertureSource };
-  const keys = Object.keys(apertureSource);
-  if (keys.length) {
-    const key = keys[0];
-    if (fmt === "oslo" && key === "EPD") Object.assign(aperture, { kind: "beamRadiusAtSurface1", value: apertureSource[key] * scale / 2 });
-    else Object.assign(aperture, { kind: ({ EPD: "entrancePupilDiameter", FNO: "imageFNumber", imageFNO: "imageFNumber", paraxialImageFNO: "paraxialImageFNumber", NAO: "objectNA", objectNA: "objectNA", NAP: "imageNA", PUK: "imageSlope", floating_stop: "floatingStop" } as Record<string, string>)[key] ?? key,
-      value: typeof apertureSource[key] === "boolean" ? null : apertureSource[key] * (key === "EPD" ? scale : 1) });
+/**
+ * `AD`..`AG` multiply r^4..r^10. General coefficients `ASn` multiply r^(2n) under `ASP ASR`
+ * (even powers) and r^n under `ASP ARA` (all powers).
+ */
+function osloAsphereTerms(surface: OsloSurface, scale: number): AsphereTerm[] {
+  const terms: AsphereTerm[] = [];
+  for (const [key, power] of OSLO_EVEN_TERMS) {
+    const value = surface[key];
+    if (value !== undefined) terms.push(asphereTerm(power, value, key, scale));
   }
-  if (keys.length > 1) warn("multiple_apertures", "Multiple aperture declarations retained; first is reported as the common aperture");
+  const step = surface.ASP === "ASR" ? 2 : surface.ASP === "ARA" ? 1 : null;
+  if (step === null) return terms;
+  for (const [key, value] of Object.entries(surface)) {
+    const match = /^AS(\d+)$/.exec(key);
+    if (match && typeof value === "number") terms.push(asphereTerm(step * Number(match[1]), value, key, scale));
+  }
+  return terms;
+}
 
-  const fieldsSource = model.fields, fieldKind = fieldsSource.type ?? "angle";
-  for (const [key, column] of Object.entries(fieldsSource)) if (Array.isArray(column) && column.some(v => !Number.isFinite(v))) throw new Error(`Field ${key} must contain finite numbers`);
-  if ((fieldsSource.weights ?? []).some((w: number) => w < 0)) throw new Error("Field weights must be nonnegative");
-  const fieldScale = ["object_height", "paraxial_image_height", "real_image_height", "gaussian_image_height"].includes(fieldKind) ? scale : 1;
-  const points: NativeRecord[] = [];
-  if (fmt === "zemax") {
-    const xs = fieldsSource.x ?? [], ys = fieldsSource.y ?? [];
-    const extras = Object.fromEntries(["weights", "vignette_decenter_x", "vignette_decenter_y", "vignette_compress_x", "vignette_compress_y", "vignette_tangent_angle"].filter(k => k in fieldsSource).map(k => [k, fieldsSource[k]]));
-    if (xs.length !== ys.length || Object.values(extras).some(v => v.length !== xs.length) || (fieldsSource.num_fields ?? xs.length) !== xs.length) warn("field_count_mismatch", "Declared and parsed field columns differ; raw columns retained");
-    for (let i = 0; i < Math.min(xs.length, ys.length); i++) {
-      const point: NativeRecord = { x: xs[i] * fieldScale, y: ys[i] * fieldScale, weight: fieldsSource.weights?.[i] ?? 1 };
-      point.vignetting = Object.fromEntries(Object.entries(extras).filter(([key, values]) => key !== "weights" && i < values.length).map(([key, values]) => [key, values[i]]));
-      points.push(point);
-    }
-  } else if ("points" in fieldsSource) warn("relative_field_table", "OSLO field-table coordinates are retained as relative prescription data; no optical conversion is executed");
-  const fields = { kind: fieldKind, points, reference: fmt === "zemax" ? null : { y: (fieldsSource.y ?? [0])[0] * fieldScale, coordinates: "prescriptionExtent" }, source: fieldsSource };
+export function normalizeOslo(model: OsloModel, context: NormalizeContext): NormalizedPrescription {
+  const log = new DiagnosticLog(model.diagnostics);
+  const scale = model.units;
+  checkScale(scale);
+  const units: Units = { length: "mm", wavelength: "um", angle: "deg", sourceLength: "lensUnit", scaleToMm: scale };
 
-  const waves = model.wavelengths, values: number[] = waves[fmt === "zemax" ? "data" : "values"] ?? [], weights: number[] = waves.weights ?? [];
-  const primary = "primary_index" in waves ? waves.primary_index : values.length ? 0 : null;
-  if (values.length !== weights.length || values.some(v => !Number.isFinite(v) || v <= 0) || weights.some(w => !Number.isFinite(w) || w < 0)) throw new Error("Wavelength values/weights must align and be finite, positive/nonnegative");
-  if (primary !== null && (!Number.isInteger(primary) || primary < 0 || primary >= values.length)) throw new Error("Primary wavelength index is outside active wavelengths");
-  if (values.length && primary === null) warn("missing_primary_wavelength", "Declared primary wavelength is not in the active slots");
-  if (fmt === "zemax" && model.records.some((r: NativeRecord) => r.text.startsWith("WAVL "))) warn("legacy_wavl", "WAVL follows upstream legacy token consumption; vector WAVL/WWGT is not fully interpreted");
+  const aperture = systemAperture({ ...model.aperture }, OSLO_APERTURES, scale, log);
+  const fields = osloFields(model, scale, log);
+  const spectrum = wavelengths(
+    model.wavelengths.values,
+    model.wavelengths.weights,
+    model.wavelengths.primary_index,
+    log,
+  );
 
-  const surfaces: NativeRecord[] = [];
-  const indices = Object.keys(model.surfaces).map(Number).sort((a, b) => a - b), maxIndex = Math.max(0, ...indices);
-  const hasStop = Object.values(model.surfaces).some((s: any) => s.AST ?? false);
+  const indices = surfaceIndices(model.surfaces);
+  const lastIndex = Math.max(0, ...indices);
+  const declaresStop = Object.values(model.surfaces).some((surface) => surface.AST);
+  const surfaces: NormalizedSurface[] = [];
   for (const index of indices) {
-    const surface = model.surfaces[index], nativeType = surface.type ?? surface.ASP ?? "ADO";
-    for (const [key, value] of Object.entries(surface)) if (!["radius", "thickness", "RD", "TH"].includes(key) && typeof value === "number" && !Number.isFinite(value)) throw new Error(`Surface ${index} ${key} must be finite`);
-    let kind = fmt === "zemax" ? nativeType : ({ ADO: "standard", ASR: "even_asphere", ARA: "odd_asphere", ASX: "polynomial" } as Record<string, string>)[nativeType] ?? "unknown";
-    if (fmt === "oslo" && ["AD", "AE", "AF", "AG"].some(k => k in surface)) kind = "even_asphere";
-    if (fmt === "oslo" && "CVX" in surface) kind = "toroidal";
-    if (fmt === "oslo" && "PFL" in surface) kind = "paraxial";
-    if (!["standard", "even_asphere", "odd_asphere", "toroidal", "coordinate_break", "paraxial", "polynomial"].includes(kind)) warn("unresolved_surface_type", "Surface type retained without a common geometry interpretation", { surface: index });
-    const radius = surface[fmt === "zemax" ? "radius" : "RD"] ?? Infinity;
-    let thickness = surface[fmt === "zemax" ? "thickness" : "TH"] ?? 0;
-    if (fmt === "oslo" && Math.abs(thickness) >= (index === 0 ? 1e8 : 9.9e9)) thickness = thickness < 0 ? -Infinity : Infinity;
-    const mat = material(surface.material ?? "air", surface, fmt);
-    if (["catalog", "model"].includes(mat.kind)) warn("unresolved_material", "Material identity preserved; catalog lookup and dispersion fitting are not executed", { surface: index });
-    if (kind === "coordinate_break" || ["DCX", "DCY", "DCZ", "TLA", "TLB", "TLC", "GC", "RCO", "BEN", "TOX", "TOY", "TOZ"].some(k => k in surface)) warn("unresolved_coordinates", "Coordinate declarations retained; no global frame is calculated", { surface: index });
-    if (["pickups", "PY", "PYC", "PU", "PUC", "EC"].some(k => k in surface)) warn("unresolved_constraints", "Pickup/solve declarations retained; literal values are not a solved snapshot", { surface: index });
-    if (["PFL", "PFM", "GSP", "GOR", "TCE"].some(k => k in surface)) warn("unresolved_optical_feature", "Perfect-imagery, grating or thermal declarations retained without optical interpretation", { surface: index });
-    if (fmt === "oslo" && index === maxIndex && thickness) warn("image_focus_declaration", "Image TH is OSLO defocus, retained as a declaration rather than applied to the preceding gap", { surface: index });
-    let clear = surface.aperture ?? null;
-    if (clear !== null) {
-      if (["r_min", "r_max", "offset_x", "offset_y"].some(k => !Number.isFinite(clear[k])) || !(0 <= clear.r_min && clear.r_min <= clear.r_max)) throw new Error("Clear aperture radii/offsets must be finite with 0 <= r_min <= r_max");
-      clear = { ...clear, ...Object.fromEntries(["r_min", "r_max", "offset_x", "offset_y"].map(k => [k, clear[k] * scale])) };
+    const native = model.surfaces[index];
+    if (!native) continue;
+    checkFinite(native, index, ["RD", "TH"]);
+    const type = osloSurfaceType(native);
+    let thickness = native.TH ?? 0;
+    if (Math.abs(thickness) >= (index === 0 ? OSLO_INFINITE_OBJECT : OSLO_INFINITE_THICKNESS)) {
+      thickness = thickness < 0 ? -Infinity : Infinity;
     }
-    else if (fmt === "oslo" && "AP" in surface) clear = { kind: "annulus", r_min: 0, r_max: surface.AP * scale, offset_x: 0, offset_y: 0, checked: surface.aperture_checked ?? false, checkingEnabled: model.settings.aperture_check ?? true };
-    surfaces.push({ index, role: kind === "coordinate_break" ? "coordinateBreak" : index === 0 ? "object" : index === maxIndex ? "image" : "surface",
-      type: kind, radiusMm: radius * scale, thicknessMm: thickness * scale, conic: surface[fmt === "zemax" ? "conic" : "CC"] ?? 0,
-      stop: fmt === "zemax" ? surface.is_stop ?? false : surface.AST ?? (!hasStop && index === 1), material: mat, clearAperture: clear, parameters: surface });
+    const material = osloMaterial(native);
+    noteCommonWarnings(type, material, index, log);
+    const declares = (keys: readonly string[]) => keys.some((key) => key in native);
+    if (declares(OSLO_COORDINATES)) {
+      log.warn("unresolved_coordinates", "Coordinate declarations retained; no global frame is calculated", index);
+    }
+    if (declares(OSLO_CONSTRAINTS)) {
+      log.warn(
+        "unresolved_constraints",
+        "Pickup/solve declarations retained; literal values are not a solved snapshot",
+        index,
+      );
+    }
+    if (declares(OSLO_FEATURES)) {
+      log.warn(
+        "unresolved_optical_feature",
+        "Perfect-imagery, grating or thermal declarations retained without optical interpretation",
+        index,
+      );
+    }
+    if (index === lastIndex && thickness) {
+      log.warn(
+        "image_focus_declaration",
+        "Image TH is OSLO defocus, retained as a declaration rather than applied to the preceding gap",
+        index,
+      );
+    }
+    const semiDiameterMm = native.AP === undefined ? null : native.AP * scale;
+    const base: SurfaceBase = {
+      index,
+      role: surfaceRole(type, index, lastIndex),
+      nativeType: native.ASP ?? "ADO",
+      radiusMm: (native.RD ?? Infinity) * scale,
+      thicknessMm: thickness * scale,
+      conic: native.CC ?? 0,
+      // Without an explicit AST, OSLO takes surface 1 as the stop.
+      stop: native.AST ?? (!declaresStop && index === 1),
+      material,
+      clearAperture:
+        semiDiameterMm === null
+          ? null
+          : {
+              kind: "annulus",
+              minRadiusMm: 0,
+              maxRadiusMm: semiDiameterMm,
+              offsetXMm: 0,
+              offsetYMm: 0,
+              checked: native.aperture_checked ?? false,
+              checkingEnabled: model.settings.aperture_check ?? true,
+            },
+      semiDiameterMm,
+      parameters: toJsonObject(native),
+    };
+    surfaces.push(typedSurface(base, type, () => osloAsphereTerms(native, scale)));
   }
-  if (!surfaces.length) throw new Error("No optical surfaces parsed");
-  if (fmt === "oslo" && Object.keys(model.configurations).length > 1) warn("configuration_declarations", "Base prescription reported; alternative configuration overrides retained in raw.configurations");
-  if (strict && diagnostics.some(d => d.severity === "warning")) {
-    const first = diagnostics.find(d => d.severity === "warning")!;
-    throw new Error(`Strict import: ${first.code}: ${first.message}`);
+  if (Object.keys(model.configurations).length > 1) {
+    log.warn(
+      "configuration_declarations",
+      "Base prescription reported; alternative configuration overrides retained in raw.configurations",
+    );
   }
-  return jsonSafe({ schemaVersion: "1.0", source: { format: fmt, filename, encoding, upstreamRevision: REVISION }, name: model.name, mode: "sequential",
-    units: { length: "mm", wavelength: "um", angle: "deg", sourceLength: sourceUnit, scaleToMm: scale }, aperture, fields,
-    wavelengths: { valuesUm: values, weights, primaryIndex: primary }, surfaces, diagnostics, raw: model }) as unknown as NormalizedPrescription;
+  return finish("oslo", context, log, model, { units, aperture, fields, wavelengths: spectrum, surfaces });
 }

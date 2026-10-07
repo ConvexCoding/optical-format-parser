@@ -1,5 +1,5 @@
 {
-  "schemaVersion": "1.0",
+  "schemaVersion": "2.0",
   "source": {
     "format": "oslo",
     "filename": "test_asphere_singlet.len",
@@ -13,26 +13,37 @@
     "wavelength": "um",
     "angle": "deg",
     "sourceLength": "lensUnit",
-    "scaleToMm": 1.0
+    "scaleToMm": 1
   },
   "aperture": {
     "kind": "beamRadiusAtSurface1",
-    "value": 10.0,
+    "value": 10,
     "source": {
-      "EPD": 20.0
+      "EPD": 20
     }
   },
   "fields": {
     "kind": "angle",
-    "points": [],
-    "reference": {
-      "y": 0.0,
-      "coordinates": "prescriptionExtent"
-    },
+    "specification": "fullField",
+    "points": [
+      {
+        "x": 0,
+        "y": 0,
+        "weight": 1,
+        "vignetting": {
+          "decenterX": 0,
+          "decenterY": 0,
+          "compressX": 0,
+          "compressY": 0,
+          "tangentAngle": 0
+        }
+      }
+    ],
+    "relativePoints": [],
     "source": {
       "type": "angle",
       "y": [
-        0.0
+        0
       ]
     }
   },
@@ -41,7 +52,7 @@
       0.587
     ],
     "weights": [
-      1.0
+      1
     ],
     "primaryIndex": 0
   },
@@ -49,56 +60,62 @@
     {
       "index": 0,
       "role": "object",
-      "type": "standard",
+      "nativeType": "ADO",
       "radiusMm": {
         "special": "positiveInfinity"
       },
       "thicknessMm": {
         "special": "positiveInfinity"
       },
-      "conic": 0.0,
+      "conic": 0,
       "stop": false,
       "material": {
         "kind": "air"
       },
       "clearAperture": {
         "kind": "annulus",
-        "r_min": 0.0,
-        "r_max": 10000000000.0,
-        "offset_x": 0.0,
-        "offset_y": 0.0,
+        "minRadiusMm": 0,
+        "maxRadiusMm": 10000000000,
+        "offsetXMm": 0,
+        "offsetYMm": 0,
         "checked": false,
         "checkingEnabled": true
       },
+      "semiDiameterMm": 10000000000,
       "parameters": {
         "material": "AIR",
-        "TH": 10000000000.0,
-        "AP": 10000000000.0,
+        "TH": 10000000000,
+        "AP": 10000000000,
         "aperture_checked": false
-      }
+      },
+      "type": "standard"
     },
     {
       "index": 1,
       "role": "surface",
-      "type": "even_asphere",
-      "radiusMm": 20.0,
-      "thicknessMm": 7.0,
-      "conic": 0.0,
+      "nativeType": "ADO",
+      "radiusMm": 20,
+      "thicknessMm": 7,
+      "conic": 0,
       "stop": true,
       "material": {
         "kind": "catalog",
         "name": "N-SF11",
+        "catalogs": [],
+        "nd": null,
+        "vd": null,
         "resolution": "unresolved"
       },
       "clearAperture": {
         "kind": "annulus",
-        "r_min": 0.0,
-        "r_max": 10.0,
-        "offset_x": 0.0,
-        "offset_y": 0.0,
+        "minRadiusMm": 0,
+        "maxRadiusMm": 10,
+        "offsetXMm": 0,
+        "offsetYMm": 0,
         "checked": false,
         "checkingEnabled": true
       },
+      "semiDiameterMm": 10,
       "parameters": {
         "material": "GLA N-SF11",
         "glass_wavelengths": [
@@ -106,53 +123,80 @@
           0.48613,
           0.65627
         ],
-        "RD": 20.0,
-        "TH": 7.0,
-        "AP": 10.0,
+        "RD": 20,
+        "TH": 7,
+        "AP": 10,
         "aperture_checked": false,
         "AD": -0.0002248851,
-        "AE": -4.690412e-06,
-        "AF": -6.404376e-08,
-        "AG": 0.0
-      }
+        "AE": -0.000004690412,
+        "AF": -6.404376e-8,
+        "AG": 0
+      },
+      "type": "evenAsphere",
+      "asphereTerms": [
+        {
+          "power": 4,
+          "coefficient": -0.0002248851,
+          "native": "AD"
+        },
+        {
+          "power": 6,
+          "coefficient": -0.000004690412,
+          "native": "AE"
+        },
+        {
+          "power": 8,
+          "coefficient": -6.404376e-8,
+          "native": "AF"
+        },
+        {
+          "power": 10,
+          "coefficient": 0,
+          "native": "AG"
+        }
+      ]
     },
     {
       "index": 2,
       "role": "surface",
-      "type": "standard",
+      "nativeType": "ADO",
       "radiusMm": {
         "special": "positiveInfinity"
       },
       "thicknessMm": 21.56201,
-      "conic": 0.0,
+      "conic": 0,
       "stop": false,
       "material": {
         "kind": "air"
       },
       "clearAperture": null,
+      "semiDiameterMm": null,
       "parameters": {
         "material": "AIR",
         "TH": 21.56201
-      }
+      },
+      "type": "standard"
     },
     {
       "index": 3,
       "role": "image",
-      "type": "standard",
+      "nativeType": "ADO",
       "radiusMm": {
         "special": "positiveInfinity"
       },
-      "thicknessMm": 0.0,
-      "conic": 0.0,
+      "thicknessMm": 0,
+      "conic": 0,
       "stop": false,
       "material": {
         "kind": "air"
       },
       "clearAperture": null,
+      "semiDiameterMm": null,
       "parameters": {
         "material": "AIR",
-        "TH": 0.0
-      }
+        "TH": 0
+      },
+      "type": "standard"
     }
   ],
   "diagnostics": [
@@ -168,12 +212,12 @@
     "scaling": 25.48401,
     "num_surfaces": 3,
     "aperture": {
-      "EPD": 20.0
+      "EPD": 20
     },
     "fields": {
       "type": "angle",
       "y": [
-        0.0
+        0
       ]
     },
     "wavelengths": {
@@ -181,15 +225,15 @@
         0.587
       ],
       "weights": [
-        1.0
+        1
       ],
       "primary_index": 0
     },
     "surfaces": {
       "0": {
         "material": "AIR",
-        "TH": 10000000000.0,
-        "AP": 10000000000.0,
+        "TH": 10000000000,
+        "AP": 10000000000,
         "aperture_checked": false
       },
       "1": {
@@ -199,14 +243,14 @@
           0.48613,
           0.65627
         ],
-        "RD": 20.0,
-        "TH": 7.0,
-        "AP": 10.0,
+        "RD": 20,
+        "TH": 7,
+        "AP": 10,
         "aperture_checked": false,
         "AD": -0.0002248851,
-        "AE": -4.690412e-06,
-        "AF": -6.404376e-08,
-        "AG": 0.0
+        "AE": -0.000004690412,
+        "AF": -6.404376e-8,
+        "AG": 0
       },
       "2": {
         "material": "AIR",
@@ -214,10 +258,10 @@
       },
       "3": {
         "material": "AIR",
-        "TH": 0.0
+        "TH": 0
       }
     },
-    "units": 1.0,
+    "units": 1,
     "records": [
       {
         "line": 2,
@@ -334,7 +378,7 @@
         "thicknesses": {},
         "wavelengths": {},
         "wavelength_weights": {},
-        "weight": 1.0,
+        "weight": 1,
         "active": true
       }
     }

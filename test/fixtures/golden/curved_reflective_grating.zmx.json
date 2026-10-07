@@ -1,5 +1,5 @@
 {
-  "schemaVersion": "1.0",
+  "schemaVersion": "2.0",
   "source": {
     "format": "zemax",
     "filename": "curved_reflective_grating.zmx",
@@ -13,100 +13,101 @@
     "wavelength": "um",
     "angle": "deg",
     "sourceLength": "MM",
-    "scaleToMm": 1.0
+    "scaleToMm": 1
   },
   "aperture": {
     "kind": "entrancePupilDiameter",
-    "value": 15.0,
+    "value": 15,
     "source": {
-      "EPD": 15.0
+      "EPD": 15
     }
   },
   "fields": {
     "kind": "angle",
+    "specification": "pointList",
     "points": [
       {
-        "x": 0.0,
-        "y": 0.0,
-        "weight": 1.0,
+        "x": 0,
+        "y": 0,
+        "weight": 1,
         "vignetting": {
-          "vignette_decenter_x": 0.0,
-          "vignette_decenter_y": 0.0,
-          "vignette_compress_x": 0.0,
-          "vignette_compress_y": 0.0,
-          "vignette_tangent_angle": 0.0
+          "decenterX": 0,
+          "decenterY": 0,
+          "compressX": 0,
+          "compressY": 0,
+          "tangentAngle": 0
         }
       },
       {
-        "x": 10.0,
-        "y": 0.0,
-        "weight": 1.0,
+        "x": 10,
+        "y": 0,
+        "weight": 1,
         "vignetting": {
-          "vignette_decenter_x": 0.0,
-          "vignette_decenter_y": 0.0,
-          "vignette_compress_x": 0.0,
-          "vignette_compress_y": 0.0,
-          "vignette_tangent_angle": 0.0
+          "decenterX": 0,
+          "decenterY": 0,
+          "compressX": 0,
+          "compressY": 0,
+          "tangentAngle": 0
         }
       },
       {
-        "x": 0.0,
-        "y": 10.0,
-        "weight": 1.0,
+        "x": 0,
+        "y": 10,
+        "weight": 1,
         "vignetting": {
-          "vignette_decenter_x": 0.0,
-          "vignette_decenter_y": 0.0,
-          "vignette_compress_x": 0.0,
-          "vignette_compress_y": 0.0,
-          "vignette_tangent_angle": 0.0
+          "decenterX": 0,
+          "decenterY": 0,
+          "compressX": 0,
+          "compressY": 0,
+          "tangentAngle": 0
         }
       }
     ],
-    "reference": null,
+    "relativePoints": [],
     "source": {
       "type": "angle",
       "object_space_telecentric": false,
       "afocal_image_space": false,
       "x": [
-        0.0,
-        10.0,
-        0.0
+        0,
+        10,
+        0
       ],
       "y": [
-        0.0,
-        0.0,
-        10.0
+        0,
+        0,
+        10
       ],
       "num_fields": 3,
       "weights": [
-        1.0,
-        1.0,
-        1.0
+        1,
+        1,
+        1
       ],
       "vignette_decenter_x": [
-        0.0,
-        0.0,
-        0.0
+        0,
+        0,
+        0
       ],
       "vignette_decenter_y": [
-        0.0,
-        0.0,
-        0.0
+        0,
+        0,
+        0
       ],
       "vignette_compress_x": [
-        0.0,
-        0.0,
-        0.0
+        0,
+        0,
+        0
       ],
       "vignette_compress_y": [
-        0.0,
-        0.0,
-        0.0
+        0,
+        0,
+        0
       ],
       "vignette_tangent_angle": [
-        0.0,
-        0.0,
-        0.0
+        0,
+        0,
+        0
       ]
     }
   },
@@ -115,7 +116,7 @@
       0.587
     ],
     "weights": [
-      1.0
+      1
     ],
     "primaryIndex": 0
   },
@@ -123,23 +124,24 @@
     {
       "index": 0,
       "role": "object",
-      "type": "standard",
+      "nativeType": "STANDARD",
       "radiusMm": {
         "special": "positiveInfinity"
       },
       "thicknessMm": {
         "special": "positiveInfinity"
       },
-      "conic": 0.0,
+      "conic": 0,
       "stop": false,
       "material": {
         "kind": "air"
       },
       "clearAperture": null,
+      "semiDiameterMm": 0,
       "parameters": {
         "type": "standard",
         "is_stop": false,
-        "conic": 0.0,
+        "conic": 0,
         "material": "air",
         "aperture": null,
         "radius": {
@@ -148,440 +150,423 @@
         "thickness": {
           "special": "positiveInfinity"
         },
-        "diameter": 0.0
-      }
+        "diameter": 0
+      },
+      "type": "standard"
     },
     {
       "index": 1,
       "role": "surface",
-      "type": "dgrating",
-      "radiusMm": 70.0,
-      "thicknessMm": -30.0,
-      "conic": 0.0,
+      "nativeType": "DGRATING",
+      "radiusMm": 70,
+      "thicknessMm": -30,
+      "conic": 0,
       "stop": true,
       "material": {
         "kind": "mirror"
       },
       "clearAperture": null,
+      "semiDiameterMm": 7.5724332253219515,
       "parameters": {
         "type": "dgrating",
         "is_stop": true,
-        "conic": 0.0,
+        "conic": 0,
         "material": {
           "kind": "mirror"
         },
         "aperture": null,
-        "radius": 70.0,
+        "radius": 70,
         "param_0": 0.2,
-        "param_1": 1.0,
-        "thickness": -30.0,
+        "param_1": 1,
+        "thickness": -30,
         "diameter": 7.5724332253219515
-      }
+      },
+      "type": "unknown"
     },
     {
       "index": 2,
       "role": "image",
-      "type": "standard",
+      "nativeType": "STANDARD",
       "radiusMm": {
         "special": "positiveInfinity"
       },
-      "thicknessMm": 0.0,
-      "conic": 0.0,
+      "thicknessMm": 0,
+      "conic": 0,
       "stop": false,
       "material": {
         "kind": "air"
       },
       "clearAperture": null,
+      "semiDiameterMm": 24.79960969578915,
       "parameters": {
         "type": "standard",
         "is_stop": false,
-        "conic": 0.0,
+        "conic": 0,
         "material": "air",
         "aperture": null,
         "radius": {
           "special": "positiveInfinity"
         },
-        "thickness": 0.0,
+        "thickness": 0,
         "diameter": 24.79960969578915
-      }
+      },
+      "type": "standard"
     }
   ],
   "diagnostics": [
     {
       "severity": "info",
       "code": "uninterpreted_record",
+      "message": "Record retained but not interpreted",
       "command": "VERS",
-      "line": 1,
-      "surface": -1,
-      "message": "Record retained but not interpreted"
+      "line": 1
     },
     {
       "severity": "warning",
       "code": "uninterpreted_record",
+      "message": "Record retained but not interpreted",
       "command": "AUTH",
-      "line": 4,
-      "surface": -1,
-      "message": "Record retained but not interpreted"
+      "line": 4
     },
     {
       "severity": "warning",
       "code": "uninterpreted_record",
+      "message": "Record retained but not interpreted",
       "command": "IWDP",
-      "line": 5,
-      "surface": -1,
-      "message": "Record retained but not interpreted"
+      "line": 5
     },
     {
       "severity": "info",
       "code": "uninterpreted_record",
+      "message": "Record retained but not interpreted",
       "command": "PFIL",
-      "line": 6,
-      "surface": -1,
-      "message": "Record retained but not interpreted"
+      "line": 6
     },
     {
       "severity": "info",
       "code": "uninterpreted_record",
+      "message": "Record retained but not interpreted",
       "command": "LANG",
-      "line": 7,
-      "surface": -1,
-      "message": "Record retained but not interpreted"
+      "line": 7
     },
     {
       "severity": "warning",
       "code": "uninterpreted_record",
+      "message": "Record retained but not interpreted",
       "command": "ENVD",
-      "line": 10,
-      "surface": -1,
-      "message": "Record retained but not interpreted"
+      "line": 10
     },
     {
       "severity": "warning",
       "code": "uninterpreted_record",
+      "message": "Record retained but not interpreted",
       "command": "GFAC",
-      "line": 11,
-      "surface": -1,
-      "message": "Record retained but not interpreted"
+      "line": 11
     },
     {
       "severity": "warning",
       "code": "uninterpreted_record",
+      "message": "Record retained but not interpreted",
       "command": "RAIM",
-      "line": 13,
-      "surface": -1,
-      "message": "Record retained but not interpreted"
+      "line": 13
     },
     {
       "severity": "warning",
       "code": "uninterpreted_record",
+      "message": "Record retained but not interpreted",
       "command": "PUSH",
-      "line": 14,
-      "surface": -1,
-      "message": "Record retained but not interpreted"
+      "line": 14
     },
     {
       "severity": "warning",
       "code": "uninterpreted_record",
+      "message": "Record retained but not interpreted",
       "command": "SDMA",
-      "line": 15,
-      "surface": -1,
-      "message": "Record retained but not interpreted"
+      "line": 15
     },
     {
       "severity": "warning",
       "code": "uninterpreted_record",
+      "message": "Record retained but not interpreted",
       "command": "OMMA",
-      "line": 16,
-      "surface": -1,
-      "message": "Record retained but not interpreted"
+      "line": 16
     },
     {
       "severity": "warning",
       "code": "uninterpreted_record",
+      "message": "Record retained but not interpreted",
       "command": "ROPD",
-      "line": 18,
-      "surface": -1,
-      "message": "Record retained but not interpreted"
+      "line": 18
     },
     {
       "severity": "warning",
       "code": "uninterpreted_record",
+      "message": "Record retained but not interpreted",
       "command": "HYPR",
-      "line": 19,
-      "surface": -1,
-      "message": "Record retained but not interpreted"
+      "line": 19
     },
     {
       "severity": "warning",
       "code": "uninterpreted_record",
+      "message": "Record retained but not interpreted",
       "command": "PICB",
-      "line": 20,
-      "surface": -1,
-      "message": "Record retained but not interpreted"
+      "line": 20
     },
     {
       "severity": "warning",
       "code": "uninterpreted_record",
+      "message": "Record retained but not interpreted",
       "command": "POLS",
-      "line": 54,
-      "surface": -1,
-      "message": "Record retained but not interpreted"
+      "line": 54
     },
     {
       "severity": "warning",
       "code": "uninterpreted_record",
+      "message": "Record retained but not interpreted",
       "command": "GLRS",
-      "line": 55,
-      "surface": -1,
-      "message": "Record retained but not interpreted"
+      "line": 55
     },
     {
       "severity": "warning",
       "code": "uninterpreted_record",
+      "message": "Record retained but not interpreted",
       "command": "GSTD",
-      "line": 56,
-      "surface": -1,
-      "message": "Record retained but not interpreted"
+      "line": 56
     },
     {
       "severity": "warning",
       "code": "uninterpreted_record",
+      "message": "Record retained but not interpreted",
       "command": "NSCD",
-      "line": 57,
-      "surface": -1,
-      "message": "Record retained but not interpreted"
+      "line": 57
     },
     {
       "severity": "warning",
       "code": "uninterpreted_record",
+      "message": "Record retained but not interpreted",
       "command": "COFN",
-      "line": 58,
-      "surface": -1,
-      "message": "Record retained but not interpreted"
+      "line": 58
     },
     {
       "severity": "warning",
       "code": "uninterpreted_record",
+      "message": "Record retained but not interpreted",
       "command": "COFN",
-      "line": 59,
-      "surface": -1,
-      "message": "Record retained but not interpreted"
+      "line": 59
     },
     {
       "severity": "warning",
       "code": "uninterpreted_record",
+      "message": "Record retained but not interpreted",
       "command": "LUID",
-      "line": 60,
-      "surface": -1,
-      "message": "Record retained but not interpreted"
+      "line": 60
     },
     {
       "severity": "warning",
       "code": "uninterpreted_record",
+      "message": "Record retained but not interpreted",
       "command": "EERA",
-      "line": 61,
-      "surface": -1,
-      "message": "Record retained but not interpreted"
+      "line": 61
     },
     {
       "severity": "warning",
       "code": "uninterpreted_record",
+      "message": "Record retained but not interpreted",
       "command": "SSID",
       "line": 63,
-      "surface": 0,
-      "message": "Record retained but not interpreted"
+      "surface": 0
     },
     {
       "severity": "warning",
       "code": "uninterpreted_record",
+      "message": "Record retained but not interpreted",
       "command": "FIMP",
       "line": 65,
-      "surface": 0,
-      "message": "Record retained but not interpreted"
+      "surface": 0
     },
     {
       "severity": "warning",
       "code": "uninterpreted_record",
+      "message": "Record retained but not interpreted",
       "command": "HIDE",
       "line": 67,
-      "surface": 0,
-      "message": "Record retained but not interpreted"
+      "surface": 0
     },
     {
       "severity": "warning",
       "code": "uninterpreted_record",
+      "message": "Record retained but not interpreted",
       "command": "MIRR",
       "line": 68,
-      "surface": 0,
-      "message": "Record retained but not interpreted"
+      "surface": 0
     },
     {
       "severity": "warning",
       "code": "uninterpreted_record",
+      "message": "Record retained but not interpreted",
       "command": "SLAB",
       "line": 69,
-      "surface": 0,
-      "message": "Record retained but not interpreted"
+      "surface": 0
     },
     {
       "severity": "warning",
       "code": "uninterpreted_record",
+      "message": "Record retained but not interpreted",
       "command": "MEMA",
       "line": 72,
-      "surface": 0,
-      "message": "Record retained but not interpreted"
+      "surface": 0
     },
     {
       "severity": "warning",
       "code": "uninterpreted_record",
+      "message": "Record retained but not interpreted",
       "command": "POPS",
       "line": 73,
-      "surface": 0,
-      "message": "Record retained but not interpreted"
+      "surface": 0
     },
     {
       "severity": "warning",
       "code": "uninterpreted_record",
+      "message": "Record retained but not interpreted",
       "command": "SSID",
       "line": 75,
-      "surface": 1,
-      "message": "Record retained but not interpreted"
+      "surface": 1
     },
     {
       "severity": "warning",
       "code": "uninterpreted_record",
+      "message": "Record retained but not interpreted",
       "command": "FIMP",
       "line": 78,
-      "surface": 1,
-      "message": "Record retained but not interpreted"
+      "surface": 1
     },
     {
       "severity": "warning",
       "code": "uninterpreted_record",
+      "message": "Record retained but not interpreted",
       "command": "HIDE",
       "line": 80,
-      "surface": 1,
-      "message": "Record retained but not interpreted"
+      "surface": 1
     },
     {
       "severity": "warning",
       "code": "uninterpreted_record",
+      "message": "Record retained but not interpreted",
       "command": "MIRR",
       "line": 81,
-      "surface": 1,
-      "message": "Record retained but not interpreted"
+      "surface": 1
     },
     {
       "severity": "warning",
       "code": "uninterpreted_record",
+      "message": "Record retained but not interpreted",
       "command": "SLAB",
       "line": 82,
-      "surface": 1,
-      "message": "Record retained but not interpreted"
+      "surface": 1
     },
     {
       "severity": "warning",
       "code": "uninterpreted_record",
+      "message": "Record retained but not interpreted",
       "command": "MEMA",
       "line": 88,
-      "surface": 1,
-      "message": "Record retained but not interpreted"
+      "surface": 1
     },
     {
       "severity": "warning",
       "code": "uninterpreted_record",
+      "message": "Record retained but not interpreted",
       "command": "POPS",
       "line": 89,
-      "surface": 1,
-      "message": "Record retained but not interpreted"
+      "surface": 1
     },
     {
       "severity": "warning",
       "code": "uninterpreted_record",
+      "message": "Record retained but not interpreted",
       "command": "SSID",
       "line": 91,
-      "surface": 2,
-      "message": "Record retained but not interpreted"
+      "surface": 2
     },
     {
       "severity": "warning",
       "code": "uninterpreted_record",
+      "message": "Record retained but not interpreted",
       "command": "FIMP",
       "line": 93,
-      "surface": 2,
-      "message": "Record retained but not interpreted"
+      "surface": 2
     },
     {
       "severity": "warning",
       "code": "uninterpreted_record",
+      "message": "Record retained but not interpreted",
       "command": "HIDE",
       "line": 95,
-      "surface": 2,
-      "message": "Record retained but not interpreted"
+      "surface": 2
     },
     {
       "severity": "warning",
       "code": "uninterpreted_record",
+      "message": "Record retained but not interpreted",
       "command": "MIRR",
       "line": 96,
-      "surface": 2,
-      "message": "Record retained but not interpreted"
+      "surface": 2
     },
     {
       "severity": "warning",
       "code": "uninterpreted_record",
+      "message": "Record retained but not interpreted",
       "command": "SLAB",
       "line": 97,
-      "surface": 2,
-      "message": "Record retained but not interpreted"
+      "surface": 2
     },
     {
       "severity": "warning",
       "code": "uninterpreted_record",
+      "message": "Record retained but not interpreted",
       "command": "MEMA",
       "line": 100,
-      "surface": 2,
-      "message": "Record retained but not interpreted"
+      "surface": 2
     },
     {
       "severity": "warning",
       "code": "uninterpreted_record",
+      "message": "Record retained but not interpreted",
       "command": "POPS",
       "line": 101,
-      "surface": 2,
-      "message": "Record retained but not interpreted"
+      "surface": 2
     },
     {
       "severity": "warning",
       "code": "uninterpreted_record",
+      "message": "Record retained but not interpreted",
       "command": "BLNK",
       "line": 102,
-      "surface": 2,
-      "message": "Record retained but not interpreted"
+      "surface": 2
     },
     {
       "severity": "warning",
       "code": "uninterpreted_record",
+      "message": "Record retained but not interpreted",
       "command": "TOL",
       "line": 103,
-      "surface": 2,
-      "message": "Record retained but not interpreted"
+      "surface": 2
     },
     {
       "severity": "info",
       "code": "uninterpreted_record",
+      "message": "Record retained but not interpreted",
       "command": "MNUM",
       "line": 104,
-      "surface": 2,
-      "message": "Record retained but not interpreted"
+      "surface": 2
     },
     {
       "severity": "warning",
       "code": "uninterpreted_record",
+      "message": "Record retained but not interpreted",
       "command": "MOFF",
       "line": 105,
-      "surface": 2,
-      "message": "Record retained but not interpreted"
+      "surface": 2
     },
     {
       "severity": "warning",
@@ -1348,52 +1333,52 @@
     ],
     "name": "",
     "aperture": {
-      "EPD": 15.0
+      "EPD": 15
     },
     "fields": {
       "type": "angle",
       "object_space_telecentric": false,
       "afocal_image_space": false,
       "x": [
-        0.0,
-        10.0,
-        0.0
+        0,
+        10,
+        0
       ],
       "y": [
-        0.0,
-        0.0,
-        10.0
+        0,
+        0,
+        10
       ],
       "num_fields": 3,
       "weights": [
-        1.0,
-        1.0,
-        1.0
+        1,
+        1,
+        1
       ],
       "vignette_decenter_x": [
-        0.0,
-        0.0,
-        0.0
+        0,
+        0,
+        0
       ],
       "vignette_decenter_y": [
-        0.0,
-        0.0,
-        0.0
+        0,
+        0,
+        0
       ],
       "vignette_compress_x": [
-        0.0,
-        0.0,
-        0.0
+        0,
+        0,
+        0
       ],
       "vignette_compress_y": [
-        0.0,
-        0.0,
-        0.0
+        0,
+        0,
+        0
       ],
       "vignette_tangent_angle": [
-        0.0,
-        0.0,
-        0.0
+        0,
+        0,
+        0
       ]
     },
     "wavelengths": {
@@ -1401,7 +1386,7 @@
         0.587
       ],
       "weights": [
-        1.0
+        1
       ],
       "num_wavelengths": 1,
       "primary_index": 0
@@ -1410,7 +1395,7 @@
       "0": {
         "type": "standard",
         "is_stop": false,
-        "conic": 0.0,
+        "conic": 0,
         "material": "air",
         "aperture": null,
         "radius": {
@@ -1419,32 +1404,32 @@
         "thickness": {
           "special": "positiveInfinity"
         },
-        "diameter": 0.0
+        "diameter": 0
       },
       "1": {
         "type": "dgrating",
         "is_stop": true,
-        "conic": 0.0,
+        "conic": 0,
         "material": {
           "kind": "mirror"
         },
         "aperture": null,
-        "radius": 70.0,
+        "radius": 70,
         "param_0": 0.2,
-        "param_1": 1.0,
-        "thickness": -30.0,
+        "param_1": 1,
+        "thickness": -30,
         "diameter": 7.5724332253219515
       },
       "2": {
         "type": "standard",
         "is_stop": false,
-        "conic": 0.0,
+        "conic": 0,
         "material": "air",
         "aperture": null,
         "radius": {
           "special": "positiveInfinity"
         },
-        "thickness": 0.0,
+        "thickness": 0,
         "diameter": 24.79960969578915
       }
     },

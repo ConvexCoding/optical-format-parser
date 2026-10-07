@@ -1,5 +1,5 @@
 {
-  "schemaVersion": "1.0",
+  "schemaVersion": "2.0",
   "source": {
     "format": "oslo",
     "filename": "cox3_07.len",
@@ -13,7 +13,7 @@
     "wavelength": "um",
     "angle": "deg",
     "sourceLength": "lensUnit",
-    "scaleToMm": 1.0
+    "scaleToMm": 1
   },
   "aperture": {
     "kind": "beamRadiusAtSurface1",
@@ -23,12 +23,23 @@
     }
   },
   "fields": {
-    "kind": "object_height",
-    "points": [],
-    "reference": {
-      "y": -3639702342.9,
-      "coordinates": "prescriptionExtent"
-    },
+    "kind": "objectHeight",
+    "specification": "fullField",
+    "points": [
+      {
+        "x": 0,
+        "y": -3639702342.9,
+        "weight": 1,
+        "vignetting": {
+          "decenterX": 0,
+          "decenterY": 0,
+          "compressX": 0,
+          "compressY": 0,
+          "tangentAngle": 0
+        }
+      }
+    ],
+    "relativePoints": [],
     "source": {
       "type": "object_height",
       "y": [
@@ -43,9 +54,9 @@
       0.65627
     ],
     "weights": [
-      1.0,
-      1.0,
-      1.0
+      1,
+      1,
+      1
     ],
     "primaryIndex": 0
   },
@@ -53,41 +64,43 @@
     {
       "index": 0,
       "role": "object",
-      "type": "standard",
+      "nativeType": "ADO",
       "radiusMm": {
         "special": "positiveInfinity"
       },
       "thicknessMm": {
         "special": "positiveInfinity"
       },
-      "conic": 0.0,
+      "conic": 0,
       "stop": false,
       "material": {
         "kind": "air"
       },
       "clearAperture": {
         "kind": "annulus",
-        "r_min": 0.0,
-        "r_max": 3639702342.9,
-        "offset_x": 0.0,
-        "offset_y": 0.0,
+        "minRadiusMm": 0,
+        "maxRadiusMm": 3639702342.9,
+        "offsetXMm": 0,
+        "offsetYMm": 0,
         "checked": false,
         "checkingEnabled": true
       },
+      "semiDiameterMm": 3639702342.9,
       "parameters": {
         "material": "AIR",
-        "TH": 10000000000.0,
+        "TH": 10000000000,
         "AP": 3639702342.9,
         "aperture_checked": false
-      }
+      },
+      "type": "standard"
     },
     {
       "index": 1,
       "role": "surface",
-      "type": "standard",
-      "radiusMm": 1.0,
+      "nativeType": "ADO",
+      "radiusMm": 1,
       "thicknessMm": 0.165,
-      "conic": 0.0,
+      "conic": 0,
       "stop": false,
       "material": {
         "kind": "sampledIndex",
@@ -105,13 +118,14 @@
       },
       "clearAperture": {
         "kind": "annulus",
-        "r_min": 0.0,
-        "r_max": 0.33,
-        "offset_x": 0.0,
-        "offset_y": 0.0,
+        "minRadiusMm": 0,
+        "maxRadiusMm": 0.33,
+        "offsetXMm": 0,
+        "offsetYMm": 0,
         "checked": false,
         "checkingEnabled": true
       },
+      "semiDiameterMm": 0.33,
       "parameters": {
         "material": "GLA MOD G1 1.564 1.571047 1.56094",
         "glass_wavelengths": [
@@ -119,34 +133,39 @@
           0.48613,
           0.65627
         ],
-        "RD": 1.0,
+        "RD": 1,
         "TH": 0.165,
         "AP": 0.33,
         "aperture_checked": false
-      }
+      },
+      "type": "standard"
     },
     {
       "index": 2,
       "role": "surface",
-      "type": "standard",
+      "nativeType": "ADO",
       "radiusMm": -0.580686371291,
       "thicknessMm": 0.035,
-      "conic": 0.0,
+      "conic": 0,
       "stop": false,
       "material": {
         "kind": "catalog",
         "name": "SF5",
+        "catalogs": [],
+        "nd": null,
+        "vd": null,
         "resolution": "unresolved"
       },
       "clearAperture": {
         "kind": "annulus",
-        "r_min": 0.0,
-        "r_max": 0.33,
-        "offset_x": 0.0,
-        "offset_y": 0.0,
+        "minRadiusMm": 0,
+        "maxRadiusMm": 0.33,
+        "offsetXMm": 0,
+        "offsetYMm": 0,
         "checked": false,
         "checkingEnabled": true
       },
+      "semiDiameterMm": 0.33,
       "parameters": {
         "material": "GLA SF5",
         "glass_wavelengths": [
@@ -158,50 +177,57 @@
         "TH": 0.035,
         "AP": 0.33,
         "aperture_checked": false
-      }
+      },
+      "type": "standard"
     },
     {
       "index": 3,
       "role": "surface",
-      "type": "standard",
+      "nativeType": "ADO",
       "radiusMm": -2.314814814815,
       "thicknessMm": 0.002,
-      "conic": 0.0,
+      "conic": 0,
       "stop": false,
       "material": {
         "kind": "air"
       },
       "clearAperture": {
         "kind": "annulus",
-        "r_min": 0.0,
-        "r_max": 0.33,
-        "offset_x": 0.0,
-        "offset_y": 0.0,
+        "minRadiusMm": 0,
+        "maxRadiusMm": 0.33,
+        "offsetXMm": 0,
+        "offsetYMm": 0,
         "checked": false,
         "checkingEnabled": true
       },
+      "semiDiameterMm": 0.33,
       "parameters": {
         "material": "AIR",
         "RD": -2.314814814815,
         "TH": 0.002,
         "AP": 0.33,
         "aperture_checked": false
-      }
+      },
+      "type": "standard"
     },
     {
       "index": 4,
       "role": "surface",
-      "type": "standard",
+      "nativeType": "ADO",
       "radiusMm": 0.330600370272,
       "thicknessMm": 0.172,
-      "conic": 0.0,
+      "conic": 0,
       "stop": false,
       "material": {
         "kind": "catalog",
         "name": "F7",
+        "catalogs": [],
+        "nd": null,
+        "vd": null,
         "resolution": "unresolved"
       },
       "clearAperture": null,
+      "semiDiameterMm": null,
       "parameters": {
         "material": "GLA F7",
         "glass_wavelengths": [
@@ -211,68 +237,77 @@
         ],
         "RD": 0.330600370272,
         "TH": 0.172
-      }
+      },
+      "type": "standard"
     },
     {
       "index": 5,
       "role": "surface",
-      "type": "standard",
+      "nativeType": "ADO",
       "radiusMm": 0.224502166446,
       "thicknessMm": 0.132,
-      "conic": 0.0,
+      "conic": 0,
       "stop": false,
       "material": {
         "kind": "air"
       },
       "clearAperture": null,
+      "semiDiameterMm": null,
       "parameters": {
         "material": "AIR",
         "RD": 0.224502166446,
         "TH": 0.132
-      }
+      },
+      "type": "standard"
     },
     {
       "index": 6,
       "role": "surface",
-      "type": "standard",
+      "nativeType": "ADO",
       "radiusMm": {
         "special": "positiveInfinity"
       },
       "thicknessMm": 0.13,
-      "conic": 0.0,
+      "conic": 0,
       "stop": true,
       "material": {
         "kind": "air"
       },
       "clearAperture": null,
+      "semiDiameterMm": null,
       "parameters": {
         "material": "AIR",
         "TH": 0.13,
         "AST": true
-      }
+      },
+      "type": "standard"
     },
     {
       "index": 7,
       "role": "surface",
-      "type": "standard",
+      "nativeType": "ADO",
       "radiusMm": -0.311100049776,
       "thicknessMm": 0.052,
-      "conic": 0.0,
+      "conic": 0,
       "stop": false,
       "material": {
         "kind": "catalog",
         "name": "F8",
+        "catalogs": [],
+        "nd": null,
+        "vd": null,
         "resolution": "unresolved"
       },
       "clearAperture": {
         "kind": "annulus",
-        "r_min": 0.0,
-        "r_max": 0.255,
-        "offset_x": 0.0,
-        "offset_y": 0.0,
+        "minRadiusMm": 0,
+        "maxRadiusMm": 0.255,
+        "offsetXMm": 0,
+        "offsetYMm": 0,
         "checked": false,
         "checkingEnabled": true
       },
+      "semiDiameterMm": 0.255,
       "parameters": {
         "material": "GLA F8",
         "glass_wavelengths": [
@@ -284,30 +319,35 @@
         "TH": 0.052,
         "AP": 0.255,
         "aperture_checked": false
-      }
+      },
+      "type": "standard"
     },
     {
       "index": 8,
       "role": "surface",
-      "type": "standard",
+      "nativeType": "ADO",
       "radiusMm": 1.721170395869,
       "thicknessMm": 0.124,
-      "conic": 0.0,
+      "conic": 0,
       "stop": false,
       "material": {
         "kind": "catalog",
         "name": "SK16",
+        "catalogs": [],
+        "nd": null,
+        "vd": null,
         "resolution": "unresolved"
       },
       "clearAperture": {
         "kind": "annulus",
-        "r_min": 0.0,
-        "r_max": 0.255,
-        "offset_x": 0.0,
-        "offset_y": 0.0,
+        "minRadiusMm": 0,
+        "maxRadiusMm": 0.255,
+        "offsetXMm": 0,
+        "offsetYMm": 0,
         "checked": false,
         "checkingEnabled": true
       },
+      "semiDiameterMm": 0.255,
       "parameters": {
         "material": "GLA SK16",
         "glass_wavelengths": [
@@ -319,58 +359,65 @@
         "TH": 0.124,
         "AP": 0.255,
         "aperture_checked": false
-      }
+      },
+      "type": "standard"
     },
     {
       "index": 9,
       "role": "surface",
-      "type": "standard",
+      "nativeType": "ADO",
       "radiusMm": -0.387596899225,
       "thicknessMm": 0.002,
-      "conic": 0.0,
+      "conic": 0,
       "stop": false,
       "material": {
         "kind": "air"
       },
       "clearAperture": {
         "kind": "annulus",
-        "r_min": 0.0,
-        "r_max": 0.255,
-        "offset_x": 0.0,
-        "offset_y": 0.0,
+        "minRadiusMm": 0,
+        "maxRadiusMm": 0.255,
+        "offsetXMm": 0,
+        "offsetYMm": 0,
         "checked": false,
         "checkingEnabled": true
       },
+      "semiDiameterMm": 0.255,
       "parameters": {
         "material": "AIR",
         "RD": -0.387596899225,
         "TH": 0.002,
         "AP": 0.255,
         "aperture_checked": false
-      }
+      },
+      "type": "standard"
     },
     {
       "index": 10,
       "role": "surface",
-      "type": "standard",
+      "nativeType": "ADO",
       "radiusMm": 2.62467191601,
       "thicknessMm": 0.083,
-      "conic": 0.0,
+      "conic": 0,
       "stop": false,
       "material": {
         "kind": "catalog",
         "name": "SK16",
+        "catalogs": [],
+        "nd": null,
+        "vd": null,
         "resolution": "unresolved"
       },
       "clearAperture": {
         "kind": "annulus",
-        "r_min": 0.0,
-        "r_max": 0.3,
-        "offset_x": 0.0,
-        "offset_y": 0.0,
+        "minRadiusMm": 0,
+        "maxRadiusMm": 0.3,
+        "offsetXMm": 0,
+        "offsetYMm": 0,
         "checked": false,
         "checkingEnabled": true
       },
+      "semiDiameterMm": 0.3,
       "parameters": {
         "material": "GLA SK16",
         "glass_wavelengths": [
@@ -382,53 +429,58 @@
         "TH": 0.083,
         "AP": 0.3,
         "aperture_checked": false
-      }
+      },
+      "type": "standard"
     },
     {
       "index": 11,
       "role": "surface",
-      "type": "standard",
+      "nativeType": "ADO",
       "radiusMm": -0.865126741068,
-      "thicknessMm": 0.0,
-      "conic": 0.0,
+      "thicknessMm": 0,
+      "conic": 0,
       "stop": false,
       "material": {
         "kind": "air"
       },
       "clearAperture": {
         "kind": "annulus",
-        "r_min": 0.0,
-        "r_max": 0.3,
-        "offset_x": 0.0,
-        "offset_y": 0.0,
+        "minRadiusMm": 0,
+        "maxRadiusMm": 0.3,
+        "offsetXMm": 0,
+        "offsetYMm": 0,
         "checked": false,
         "checkingEnabled": true
       },
+      "semiDiameterMm": 0.3,
       "parameters": {
         "material": "AIR",
         "RD": -0.865126741068,
-        "PY": 0.0,
+        "PY": 0,
         "AP": 0.3,
         "aperture_checked": false
-      }
+      },
+      "type": "standard"
     },
     {
       "index": 12,
       "role": "image",
-      "type": "standard",
+      "nativeType": "ADO",
       "radiusMm": {
         "special": "positiveInfinity"
       },
-      "thicknessMm": 0.0,
-      "conic": 0.0,
+      "thicknessMm": 0,
+      "conic": 0,
       "stop": false,
       "material": {
         "kind": "air"
       },
       "clearAperture": null,
+      "semiDiameterMm": null,
       "parameters": {
         "material": "AIR"
-      }
+      },
+      "type": "standard"
     }
   ],
   "diagnostics": [
@@ -489,16 +541,16 @@
         0.65627
       ],
       "weights": [
-        1.0,
-        1.0,
-        1.0
+        1,
+        1,
+        1
       ],
       "primary_index": 0
     },
     "surfaces": {
       "0": {
         "material": "AIR",
-        "TH": 10000000000.0,
+        "TH": 10000000000,
         "AP": 3639702342.9,
         "aperture_checked": false
       },
@@ -509,7 +561,7 @@
           0.48613,
           0.65627
         ],
-        "RD": 1.0,
+        "RD": 1,
         "TH": 0.165,
         "AP": 0.33,
         "aperture_checked": false
@@ -599,7 +651,7 @@
       "11": {
         "material": "AIR",
         "RD": -0.865126741068,
-        "PY": 0.0,
+        "PY": 0,
         "AP": 0.3,
         "aperture_checked": false
       },
@@ -607,7 +659,7 @@
         "material": "AIR"
       }
     },
-    "units": 1.0,
+    "units": 1,
     "records": [
       {
         "line": 3,
@@ -907,7 +959,7 @@
         "thicknesses": {},
         "wavelengths": {},
         "wavelength_weights": {},
-        "weight": 1.0,
+        "weight": 1,
         "active": true
       }
     }

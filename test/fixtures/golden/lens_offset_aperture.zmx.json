@@ -1,5 +1,5 @@
 {
-  "schemaVersion": "1.0",
+  "schemaVersion": "2.0",
   "source": {
     "format": "zemax",
     "filename": "lens_offset_aperture.zmx",
@@ -13,35 +13,42 @@
     "wavelength": "um",
     "angle": "deg",
     "sourceLength": "MM",
-    "scaleToMm": 1.0
+    "scaleToMm": 1
   },
   "aperture": {
     "kind": "entrancePupilDiameter",
-    "value": 10.0,
+    "value": 10,
     "source": {
-      "EPD": 10.0
+      "EPD": 10
     }
   },
   "fields": {
     "kind": "angle",
+    "specification": "pointList",
     "points": [
       {
-        "x": 0.0,
-        "y": 0.0,
+        "x": 0,
+        "y": 0,
         "weight": 1,
-        "vignetting": {}
+        "vignetting": {
+          "decenterX": 0,
+          "decenterY": 0,
+          "compressX": 0,
+          "compressY": 0,
+          "tangentAngle": 0
+        }
       }
     ],
-    "reference": null,
+    "relativePoints": [],
     "source": {
       "type": "angle",
       "object_space_telecentric": false,
       "afocal_image_space": false,
       "x": [
-        0.0
+        0
       ],
       "y": [
-        0.0
+        0
       ],
       "num_fields": 1
     }
@@ -51,7 +58,7 @@
       0.55
     ],
     "weights": [
-      1.0
+      1
     ],
     "primaryIndex": 0
   },
@@ -59,23 +66,24 @@
     {
       "index": 0,
       "role": "object",
-      "type": "standard",
+      "nativeType": "STANDARD",
       "radiusMm": {
         "special": "positiveInfinity"
       },
       "thicknessMm": {
         "special": "positiveInfinity"
       },
-      "conic": 0.0,
+      "conic": 0,
       "stop": false,
       "material": {
         "kind": "air"
       },
       "clearAperture": null,
+      "semiDiameterMm": null,
       "parameters": {
         "type": "standard",
         "is_stop": false,
-        "conic": 0.0,
+        "conic": 0,
         "material": "air",
         "aperture": null,
         "radius": {
@@ -84,30 +92,34 @@
         "thickness": {
           "special": "positiveInfinity"
         }
-      }
+      },
+      "type": "standard"
     },
     {
       "index": 1,
       "role": "surface",
-      "type": "standard",
-      "radiusMm": 50.0,
-      "thicknessMm": 5.0,
-      "conic": 0.0,
+      "nativeType": "STANDARD",
+      "radiusMm": 50,
+      "thicknessMm": 5,
+      "conic": 0,
       "stop": true,
       "material": {
         "kind": "air"
       },
       "clearAperture": {
         "kind": "annulus",
-        "r_min": 1.5,
-        "r_max": 12.5,
-        "offset_x": 2.25,
-        "offset_y": -3.5
+        "minRadiusMm": 1.5,
+        "maxRadiusMm": 12.5,
+        "offsetXMm": 2.25,
+        "offsetYMm": -3.5,
+        "checked": null,
+        "checkingEnabled": null
       },
+      "semiDiameterMm": null,
       "parameters": {
         "type": "standard",
         "is_stop": true,
-        "conic": 0.0,
+        "conic": 0,
         "material": "air",
         "aperture": {
           "kind": "annulus",
@@ -116,35 +128,38 @@
           "offset_x": 2.25,
           "offset_y": -3.5
         },
-        "radius": 50.0,
-        "thickness": 5.0
-      }
+        "radius": 50,
+        "thickness": 5
+      },
+      "type": "standard"
     },
     {
       "index": 2,
       "role": "image",
-      "type": "standard",
+      "nativeType": "STANDARD",
       "radiusMm": {
         "special": "positiveInfinity"
       },
-      "thicknessMm": 0.0,
-      "conic": 0.0,
+      "thicknessMm": 0,
+      "conic": 0,
       "stop": false,
       "material": {
         "kind": "air"
       },
       "clearAperture": null,
+      "semiDiameterMm": null,
       "parameters": {
         "type": "standard",
         "is_stop": false,
-        "conic": 0.0,
+        "conic": 0,
         "material": "air",
         "aperture": null,
         "radius": {
           "special": "positiveInfinity"
         },
-        "thickness": 0.0
-      }
+        "thickness": 0
+      },
+      "type": "standard"
     }
   ],
   "diagnostics": [],
@@ -248,17 +263,17 @@
     "diagnostics": [],
     "name": null,
     "aperture": {
-      "EPD": 10.0
+      "EPD": 10
     },
     "fields": {
       "type": "angle",
       "object_space_telecentric": false,
       "afocal_image_space": false,
       "x": [
-        0.0
+        0
       ],
       "y": [
-        0.0
+        0
       ],
       "num_fields": 1
     },
@@ -267,7 +282,7 @@
         0.55
       ],
       "weights": [
-        1.0
+        1
       ],
       "num_wavelengths": 1,
       "primary_index": 0
@@ -276,7 +291,7 @@
       "0": {
         "type": "standard",
         "is_stop": false,
-        "conic": 0.0,
+        "conic": 0,
         "material": "air",
         "aperture": null,
         "radius": {
@@ -289,7 +304,7 @@
       "1": {
         "type": "standard",
         "is_stop": true,
-        "conic": 0.0,
+        "conic": 0,
         "material": "air",
         "aperture": {
           "kind": "annulus",
@@ -298,19 +313,19 @@
           "offset_x": 2.25,
           "offset_y": -3.5
         },
-        "radius": 50.0,
-        "thickness": 5.0
+        "radius": 50,
+        "thickness": 5
       },
       "2": {
         "type": "standard",
         "is_stop": false,
-        "conic": 0.0,
+        "conic": 0,
         "material": "air",
         "aperture": null,
         "radius": {
           "special": "positiveInfinity"
         },
-        "thickness": 0.0
+        "thickness": 0
       }
     }
   }

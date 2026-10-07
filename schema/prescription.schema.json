@@ -1,37 +1,30 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "urn:optical-format-import:prescription:1.0",
+  "$id": "urn:optical-format-import:prescription:2.0",
   "title": "Normalized optical prescription (declarations, not computed optics)",
+  "description": "The JSON written by stringify(). Infinite numbers appear as { \"special\": \"positiveInfinity\" | \"negativeInfinity\" }.",
   "type": "object",
   "properties": {
     "schemaVersion": {
-      "const": "1.0"
+      "const": "2.0"
     },
     "source": {
       "type": "object",
       "properties": {
         "format": {
-          "enum": [
-            "zemax",
-            "oslo"
-          ]
+          "enum": ["zemax", "oslo"]
         },
         "filename": {
           "type": "string"
         },
         "encoding": {
-          "type": "string"
+          "enum": ["text", "utf-8", "utf-16-le", "utf-16-be", "iso-8859-1", "cp1252"]
         },
         "upstreamRevision": {
           "type": "string"
         }
       },
-      "required": [
-        "format",
-        "filename",
-        "encoding",
-        "upstreamRevision"
-      ],
+      "required": ["format", "filename", "encoding", "upstreamRevision"],
       "additionalProperties": false
     },
     "name": {
@@ -60,57 +53,84 @@
           "const": "deg"
         },
         "sourceLength": {
-          "type": "string"
+          "enum": ["MM", "CM", "M", "IN", "INCH", "lensUnit"]
         },
         "scaleToMm": {
           "type": "number",
           "exclusiveMinimum": 0
         }
       },
-      "required": [
-        "length",
-        "wavelength",
-        "angle",
-        "sourceLength",
-        "scaleToMm"
-      ],
+      "required": ["length", "wavelength", "angle", "sourceLength", "scaleToMm"],
       "additionalProperties": false
     },
     "aperture": {
-      "type": "object",
-      "properties": {
-        "kind": {
-          "type": "string"
-        },
-        "value": {
-          "anyOf": [
-            {
-              "type": "number"
-            },
-            {
-              "type": "null"
-            }
-          ]
-        },
-        "source": {
+      "oneOf": [
+        {
           "type": "object",
-          "additionalProperties": {
-            "$ref": "#/$defs/jsonValue"
-          }
+          "properties": {
+            "kind": {
+              "enum": [
+                "entrancePupilDiameter",
+                "beamRadiusAtSurface1",
+                "imageFNumber",
+                "paraxialImageFNumber",
+                "objectNA",
+                "imageNA",
+                "objectConeAngle",
+                "imageSlope"
+              ]
+            },
+            "value": {
+              "type": "number",
+              "minimum": 0
+            },
+            "source": {
+              "type": "object",
+              "additionalProperties": {
+                "$ref": "#/$defs/jsonValue"
+              }
+            }
+          },
+          "required": ["kind", "value", "source"],
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "properties": {
+            "kind": {
+              "enum": ["floatingStop", "unspecified"]
+            },
+            "value": {
+              "type": "null"
+            },
+            "source": {
+              "type": "object",
+              "additionalProperties": {
+                "$ref": "#/$defs/jsonValue"
+              }
+            }
+          },
+          "required": ["kind", "value", "source"],
+          "additionalProperties": false
         }
-      },
-      "required": [
-        "kind",
-        "value",
-        "source"
-      ],
-      "additionalProperties": false
+      ]
     },
     "fields": {
       "type": "object",
       "properties": {
         "kind": {
-          "type": "string"
+          "enum": [
+            "angle",
+            "theodoliteAngle",
+            "objectHeight",
+            "paraxialImageHeight",
+            "realImageHeight",
+            "gaussianImageHeight",
+            "unknown"
+          ]
+        },
+        "specification": {
+          "enum": ["pointList", "fullField"]
         },
         "points": {
           "type": "array",
@@ -129,42 +149,60 @@
               },
               "vignetting": {
                 "type": "object",
-                "additionalProperties": {
-                  "$ref": "#/$defs/jsonValue"
-                }
+                "properties": {
+                  "decenterX": {
+                    "type": "number"
+                  },
+                  "decenterY": {
+                    "type": "number"
+                  },
+                  "compressX": {
+                    "type": "number"
+                  },
+                  "compressY": {
+                    "type": "number"
+                  },
+                  "tangentAngle": {
+                    "type": "number"
+                  }
+                },
+                "required": ["decenterX", "decenterY", "compressX", "compressY", "tangentAngle"],
+                "additionalProperties": false
               }
             },
-            "required": [
-              "x",
-              "y",
-              "weight",
-              "vignetting"
-            ],
+            "required": ["x", "y", "weight", "vignetting"],
             "additionalProperties": false
           }
         },
-        "reference": {
-          "anyOf": [
-            {
-              "type": "object",
-              "properties": {
-                "y": {
-                  "type": "number"
-                },
-                "coordinates": {
-                  "const": "prescriptionExtent"
-                }
+        "relativePoints": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "index": {
+                "type": "integer",
+                "minimum": 1
               },
-              "required": [
-                "y",
-                "coordinates"
-              ],
-              "additionalProperties": false
+              "x": {
+                "type": "number"
+              },
+              "y": {
+                "type": "number"
+              },
+              "weight": {
+                "type": "number",
+                "minimum": 0
+              },
+              "vignetteX": {
+                "type": "number"
+              },
+              "vignetteY": {
+                "type": "number"
+              }
             },
-            {
-              "type": "null"
-            }
-          ]
+            "required": ["index", "x", "y", "weight", "vignetteX", "vignetteY"],
+            "additionalProperties": false
+          }
         },
         "source": {
           "type": "object",
@@ -173,12 +211,7 @@
           }
         }
       },
-      "required": [
-        "kind",
-        "points",
-        "reference",
-        "source"
-      ],
+      "required": ["kind", "specification", "points", "relativePoints", "source"],
       "additionalProperties": false
     },
     "wavelengths": {
@@ -210,11 +243,7 @@
           ]
         }
       },
-      "required": [
-        "valuesUm",
-        "weights",
-        "primaryIndex"
-      ],
+      "required": ["valuesUm", "weights", "primaryIndex"],
       "additionalProperties": false
     },
     "surfaces": {
@@ -230,14 +259,25 @@
         "type": "object",
         "properties": {
           "severity": {
-            "enum": [
-              "info",
-              "warning",
-              "error"
-            ]
+            "enum": ["info", "warning"]
           },
           "code": {
-            "type": "string"
+            "enum": [
+              "uninterpreted_record",
+              "assumed_units",
+              "multiple_apertures",
+              "field_count_mismatch",
+              "relative_field_table",
+              "missing_primary_wavelength",
+              "legacy_wavl",
+              "unresolved_surface_type",
+              "unresolved_material",
+              "unresolved_coordinates",
+              "unresolved_constraints",
+              "unresolved_optical_feature",
+              "image_focus_declaration",
+              "configuration_declarations"
+            ]
           },
           "message": {
             "type": "string"
@@ -251,14 +291,10 @@
           },
           "surface": {
             "type": "integer",
-            "minimum": -1
+            "minimum": 0
           }
         },
-        "required": [
-          "severity",
-          "code",
-          "message"
-        ],
+        "required": ["severity", "code", "message"],
         "additionalProperties": false
       }
     },
@@ -279,20 +315,14 @@
     "fields",
     "wavelengths",
     "surfaces",
-    "diagnostics",
-    "raw"
+    "diagnostics"
   ],
   "additionalProperties": false,
   "$defs": {
     "jsonValue": {
       "anyOf": [
         {
-          "type": [
-            "string",
-            "number",
-            "boolean",
-            "null"
-          ]
+          "type": ["string", "number", "boolean", "null"]
         },
         {
           "type": "array",
@@ -317,15 +347,10 @@
           "type": "object",
           "properties": {
             "special": {
-              "enum": [
-                "positiveInfinity",
-                "negativeInfinity"
-              ]
+              "enum": ["positiveInfinity", "negativeInfinity"]
             }
           },
-          "required": [
-            "special"
-          ],
+          "required": ["special"],
           "additionalProperties": false
         }
       ]
@@ -338,14 +363,21 @@
           "minimum": 0
         },
         "role": {
-          "enum": [
-            "object",
-            "surface",
-            "image",
-            "coordinateBreak"
-          ]
+          "enum": ["object", "surface", "image", "coordinateBreak"]
         },
         "type": {
+          "enum": [
+            "standard",
+            "evenAsphere",
+            "oddAsphere",
+            "toroidal",
+            "coordinateBreak",
+            "paraxial",
+            "polynomial",
+            "unknown"
+          ]
+        },
+        "nativeType": {
           "type": "string"
         },
         "radiusMm": {
@@ -367,14 +399,90 @@
           "anyOf": [
             {
               "type": "object",
-              "additionalProperties": {
-                "$ref": "#/$defs/jsonValue"
-              }
+              "properties": {
+                "kind": {
+                  "const": "annulus"
+                },
+                "minRadiusMm": {
+                  "type": "number",
+                  "minimum": 0
+                },
+                "maxRadiusMm": {
+                  "type": "number",
+                  "minimum": 0
+                },
+                "offsetXMm": {
+                  "type": "number"
+                },
+                "offsetYMm": {
+                  "type": "number"
+                },
+                "checked": {
+                  "anyOf": [
+                    {
+                      "type": "boolean"
+                    },
+                    {
+                      "type": "null"
+                    }
+                  ]
+                },
+                "checkingEnabled": {
+                  "anyOf": [
+                    {
+                      "type": "boolean"
+                    },
+                    {
+                      "type": "null"
+                    }
+                  ]
+                }
+              },
+              "required": [
+                "kind",
+                "minRadiusMm",
+                "maxRadiusMm",
+                "offsetXMm",
+                "offsetYMm",
+                "checked",
+                "checkingEnabled"
+              ],
+              "additionalProperties": false
             },
             {
               "type": "null"
             }
           ]
+        },
+        "semiDiameterMm": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "asphereTerms": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "power": {
+                "type": "integer",
+                "minimum": 0
+              },
+              "coefficient": {
+                "type": "number"
+              },
+              "native": {
+                "type": "string"
+              }
+            },
+            "required": ["power", "coefficient", "native"],
+            "additionalProperties": false
+          }
         },
         "parameters": {
           "type": "object",
@@ -387,15 +495,39 @@
         "index",
         "role",
         "type",
+        "nativeType",
         "radiusMm",
         "thicknessMm",
         "conic",
         "stop",
         "material",
         "clearAperture",
+        "semiDiameterMm",
         "parameters"
       ],
-      "additionalProperties": false
+      "additionalProperties": false,
+      "if": {
+        "type": "object",
+        "properties": {
+          "type": {
+            "enum": ["evenAsphere", "oddAsphere"]
+          }
+        },
+        "required": ["type"]
+      },
+      "then": {
+        "type": "object",
+        "properties": {
+          "asphereTerms": true
+        },
+        "required": ["asphereTerms"]
+      },
+      "else": {
+        "type": "object",
+        "properties": {
+          "asphereTerms": false
+        }
+      }
     },
     "material": {
       "oneOf": [
@@ -406,9 +538,7 @@
               "const": "air"
             }
           },
-          "required": [
-            "kind"
-          ],
+          "required": ["kind"],
           "additionalProperties": false
         },
         {
@@ -418,9 +548,7 @@
               "const": "mirror"
             }
           },
-          "required": [
-            "kind"
-          ],
+          "required": ["kind"],
           "additionalProperties": false
         },
         {
@@ -431,9 +559,6 @@
             },
             "name": {
               "type": "string"
-            },
-            "resolution": {
-              "const": "unresolved"
             },
             "catalogs": {
               "type": "array",
@@ -460,13 +585,12 @@
                   "type": "null"
                 }
               ]
+            },
+            "resolution": {
+              "const": "unresolved"
             }
           },
-          "required": [
-            "kind",
-            "name",
-            "resolution"
-          ],
+          "required": ["kind", "name", "catalogs", "nd", "vd", "resolution"],
           "additionalProperties": false
         },
         {
@@ -500,14 +624,7 @@
               "const": "unresolved"
             }
           },
-          "required": [
-            "kind",
-            "name",
-            "nd",
-            "vd",
-            "dispersion",
-            "resolution"
-          ],
+          "required": ["kind", "name", "nd", "vd", "dispersion", "resolution"],
           "additionalProperties": false
         },
         {
@@ -531,11 +648,7 @@
               "exclusiveMinimum": 0
             }
           },
-          "required": [
-            "kind",
-            "name",
-            "index"
-          ],
+          "required": ["kind", "name", "index"],
           "additionalProperties": false
         },
         {
@@ -569,12 +682,7 @@
               }
             }
           },
-          "required": [
-            "kind",
-            "name",
-            "wavelengthsUm",
-            "indices"
-          ],
+          "required": ["kind", "name", "wavelengthsUm", "indices"],
           "additionalProperties": false
         },
         {
@@ -587,10 +695,7 @@
               "type": "string"
             }
           },
-          "required": [
-            "kind",
-            "raw"
-          ],
+          "required": ["kind", "raw"],
           "additionalProperties": false
         }
       ]

@@ -1,5 +1,5 @@
 {
-  "schemaVersion": "1.0",
+  "schemaVersion": "2.0",
   "source": {
     "format": "zemax",
     "filename": "lens2.zmx",
@@ -13,39 +13,46 @@
     "wavelength": "um",
     "angle": "deg",
     "sourceLength": "MM",
-    "scaleToMm": 1.0
+    "scaleToMm": 1
   },
   "aperture": {
     "kind": "entrancePupilDiameter",
-    "value": 15.0,
+    "value": 15,
     "source": {
-      "EPD": 15.0
+      "EPD": 15
     }
   },
   "fields": {
     "kind": "angle",
+    "specification": "pointList",
     "points": [
       {
-        "x": 0.0,
-        "y": 0.0,
-        "weight": 1.0,
-        "vignetting": {}
+        "x": 0,
+        "y": 0,
+        "weight": 1,
+        "vignetting": {
+          "decenterX": 0,
+          "decenterY": 0,
+          "compressX": 0,
+          "compressY": 0,
+          "tangentAngle": 0
+        }
       }
     ],
-    "reference": null,
+    "relativePoints": [],
     "source": {
       "type": "angle",
       "object_space_telecentric": false,
       "afocal_image_space": false,
       "x": [
-        0.0
+        0
       ],
       "y": [
-        0.0
+        0
       ],
       "num_fields": 1,
       "weights": [
-        1.0
+        1
       ]
     }
   },
@@ -54,7 +61,7 @@
       0.5876
     ],
     "weights": [
-      1.0
+      1
     ],
     "primaryIndex": 0
   },
@@ -62,23 +69,24 @@
     {
       "index": 0,
       "role": "object",
-      "type": "standard",
+      "nativeType": "STANDARD",
       "radiusMm": {
         "special": "positiveInfinity"
       },
       "thicknessMm": {
         "special": "positiveInfinity"
       },
-      "conic": 0.0,
+      "conic": 0,
       "stop": false,
       "material": {
         "kind": "air"
       },
       "clearAperture": null,
+      "semiDiameterMm": null,
       "parameters": {
         "type": "standard",
         "is_stop": false,
-        "conic": 0.0,
+        "conic": 0,
         "material": "air",
         "aperture": null,
         "radius": {
@@ -87,14 +95,15 @@
         "thickness": {
           "special": "positiveInfinity"
         }
-      }
+      },
+      "type": "standard"
     },
     {
       "index": 1,
       "role": "surface",
-      "type": "even_asphere",
+      "nativeType": "EVENASPH",
       "radiusMm": 13.255,
-      "thicknessMm": 4.0,
+      "thicknessMm": 4,
       "conic": -2.364143,
       "stop": true,
       "material": {
@@ -110,11 +119,14 @@
       },
       "clearAperture": {
         "kind": "annulus",
-        "r_min": 0.0,
-        "r_max": 6.75,
-        "offset_x": 0.0,
-        "offset_y": 0.0
+        "minRadiusMm": 0,
+        "maxRadiusMm": 6.75,
+        "offsetXMm": 0,
+        "offsetYMm": 0,
+        "checked": null,
+        "checkingEnabled": null
       },
+      "semiDiameterMm": 6.75,
       "parameters": {
         "type": "even_asphere",
         "is_stop": true,
@@ -132,300 +144,335 @@
         },
         "aperture": {
           "kind": "annulus",
-          "r_min": 0.0,
+          "r_min": 0,
           "r_max": 6.75,
-          "offset_x": 0.0,
-          "offset_y": 0.0
+          "offset_x": 0,
+          "offset_y": 0
         },
         "radius": 13.255,
-        "param_0": 0.0,
-        "param_1": 9.556697e-05,
-        "param_2": -2.609526e-07,
-        "param_3": 1.124621e-09,
+        "param_0": 0,
+        "param_1": 0.00009556697,
+        "param_2": -2.609526e-7,
+        "param_3": 1.124621e-9,
         "param_4": -2.998908e-12,
-        "param_5": 0.0,
-        "param_6": 0.0,
-        "param_7": 0.0,
-        "thickness": 4.0,
+        "param_5": 0,
+        "param_6": 0,
+        "param_7": 0,
+        "thickness": 4,
         "index": null,
         "abbe": null,
         "diameter": 6.75
-      }
+      },
+      "type": "evenAsphere",
+      "asphereTerms": [
+        {
+          "power": 2,
+          "coefficient": 0,
+          "native": "PARM 1"
+        },
+        {
+          "power": 4,
+          "coefficient": 0.00009556697,
+          "native": "PARM 2"
+        },
+        {
+          "power": 6,
+          "coefficient": -2.609526e-7,
+          "native": "PARM 3"
+        },
+        {
+          "power": 8,
+          "coefficient": 1.124621e-9,
+          "native": "PARM 4"
+        },
+        {
+          "power": 10,
+          "coefficient": -2.998908e-12,
+          "native": "PARM 5"
+        },
+        {
+          "power": 12,
+          "coefficient": 0,
+          "native": "PARM 6"
+        },
+        {
+          "power": 14,
+          "coefficient": 0,
+          "native": "PARM 7"
+        },
+        {
+          "power": 16,
+          "coefficient": 0,
+          "native": "PARM 8"
+        }
+      ]
     },
     {
       "index": 2,
       "role": "surface",
-      "type": "standard",
+      "nativeType": "STANDARD",
       "radiusMm": {
         "special": "positiveInfinity"
       },
       "thicknessMm": 19.982263937046813,
-      "conic": 0.0,
+      "conic": 0,
       "stop": false,
       "material": {
         "kind": "air"
       },
       "clearAperture": {
         "kind": "annulus",
-        "r_min": 0.0,
-        "r_max": 6.75,
-        "offset_x": 0.0,
-        "offset_y": 0.0
+        "minRadiusMm": 0,
+        "maxRadiusMm": 6.75,
+        "offsetXMm": 0,
+        "offsetYMm": 0,
+        "checked": null,
+        "checkingEnabled": null
       },
+      "semiDiameterMm": 6.75,
       "parameters": {
         "type": "standard",
         "is_stop": false,
-        "conic": 0.0,
+        "conic": 0,
         "material": "air",
         "aperture": {
           "kind": "annulus",
-          "r_min": 0.0,
+          "r_min": 0,
           "r_max": 6.75,
-          "offset_x": 0.0,
-          "offset_y": 0.0
+          "offset_x": 0,
+          "offset_y": 0
         },
         "radius": {
           "special": "positiveInfinity"
         },
         "thickness": 19.982263937046813,
         "diameter": 6.75
-      }
+      },
+      "type": "standard"
     },
     {
       "index": 3,
       "role": "image",
-      "type": "standard",
+      "nativeType": "STANDARD",
       "radiusMm": {
         "special": "positiveInfinity"
       },
-      "thicknessMm": 0.0,
-      "conic": 0.0,
+      "thicknessMm": 0,
+      "conic": 0,
       "stop": false,
       "material": {
         "kind": "air"
       },
       "clearAperture": null,
+      "semiDiameterMm": null,
       "parameters": {
         "type": "standard",
         "is_stop": false,
-        "conic": 0.0,
+        "conic": 0,
         "material": "air",
         "aperture": null,
         "radius": {
           "special": "positiveInfinity"
         },
-        "thickness": 0.0
-      }
+        "thickness": 0
+      },
+      "type": "standard"
     }
   ],
   "diagnostics": [
     {
       "severity": "info",
       "code": "uninterpreted_record",
+      "message": "Record retained but not interpreted",
       "command": "VERS",
-      "line": 1,
-      "surface": -1,
-      "message": "Record retained but not interpreted"
+      "line": 1
     },
     {
       "severity": "warning",
       "code": "uninterpreted_record",
+      "message": "Record retained but not interpreted",
       "command": "DBDT",
-      "line": 2,
-      "surface": -1,
-      "message": "Record retained but not interpreted"
+      "line": 2
     },
     {
       "severity": "warning",
       "code": "uninterpreted_record",
+      "message": "Record retained but not interpreted",
       "command": "DBDT",
-      "line": 3,
-      "surface": -1,
-      "message": "Record retained but not interpreted"
+      "line": 3
     },
     {
       "severity": "info",
       "code": "uninterpreted_record",
+      "message": "Record retained but not interpreted",
       "command": "NOTE",
-      "line": 6,
-      "surface": -1,
-      "message": "Record retained but not interpreted"
+      "line": 6
     },
     {
       "severity": "info",
       "code": "uninterpreted_record",
+      "message": "Record retained but not interpreted",
       "command": "PFIL",
-      "line": 7,
-      "surface": -1,
-      "message": "Record retained but not interpreted"
+      "line": 7
     },
     {
       "severity": "info",
       "code": "uninterpreted_record",
+      "message": "Record retained but not interpreted",
       "command": "LANG",
-      "line": 8,
-      "surface": -1,
-      "message": "Record retained but not interpreted"
+      "line": 8
     },
     {
       "severity": "warning",
       "code": "uninterpreted_record",
+      "message": "Record retained but not interpreted",
       "command": "ENVD",
-      "line": 11,
-      "surface": -1,
-      "message": "Record retained but not interpreted"
+      "line": 11
     },
     {
       "severity": "warning",
       "code": "uninterpreted_record",
+      "message": "Record retained but not interpreted",
       "command": "GFAC",
-      "line": 12,
-      "surface": -1,
-      "message": "Record retained but not interpreted"
+      "line": 12
     },
     {
       "severity": "warning",
       "code": "uninterpreted_record",
+      "message": "Record retained but not interpreted",
       "command": "SDMA",
-      "line": 14,
-      "surface": -1,
-      "message": "Record retained but not interpreted"
+      "line": 14
     },
     {
       "severity": "warning",
       "code": "uninterpreted_record",
+      "message": "Record retained but not interpreted",
       "command": "OMMA",
-      "line": 15,
-      "surface": -1,
-      "message": "Record retained but not interpreted"
+      "line": 15
     },
     {
       "severity": "warning",
       "code": "uninterpreted_record",
+      "message": "Record retained but not interpreted",
       "command": "ROPD",
-      "line": 17,
-      "surface": -1,
-      "message": "Record retained but not interpreted"
+      "line": 17
     },
     {
       "severity": "warning",
       "code": "uninterpreted_record",
+      "message": "Record retained but not interpreted",
       "command": "HYPR",
-      "line": 18,
-      "surface": -1,
-      "message": "Record retained but not interpreted"
+      "line": 18
     },
     {
       "severity": "warning",
       "code": "uninterpreted_record",
+      "message": "Record retained but not interpreted",
       "command": "PICB",
-      "line": 19,
-      "surface": -1,
-      "message": "Record retained but not interpreted"
+      "line": 19
     },
     {
       "severity": "warning",
       "code": "uninterpreted_record",
+      "message": "Record retained but not interpreted",
       "command": "GLRS",
-      "line": 25,
-      "surface": -1,
-      "message": "Record retained but not interpreted"
+      "line": 25
     },
     {
       "severity": "warning",
       "code": "uninterpreted_record",
+      "message": "Record retained but not interpreted",
       "command": "FIMP",
       "line": 27,
-      "surface": 0,
-      "message": "Record retained but not interpreted"
+      "surface": 0
     },
     {
       "severity": "warning",
       "code": "uninterpreted_record",
+      "message": "Record retained but not interpreted",
       "command": "MEMA",
       "line": 31,
-      "surface": 0,
-      "message": "Record retained but not interpreted"
+      "surface": 0
     },
     {
       "severity": "warning",
       "code": "uninterpreted_record",
+      "message": "Record retained but not interpreted",
       "command": "COMM",
       "line": 33,
-      "surface": 1,
-      "message": "Record retained but not interpreted"
+      "surface": 1
     },
     {
       "severity": "warning",
       "code": "uninterpreted_record",
+      "message": "Record retained but not interpreted",
       "command": "FIMP",
       "line": 36,
-      "surface": 1,
-      "message": "Record retained but not interpreted"
+      "surface": 1
     },
     {
       "severity": "warning",
       "code": "uninterpreted_record",
+      "message": "Record retained but not interpreted",
       "command": "OEMA",
       "line": 51,
-      "surface": 1,
-      "message": "Record retained but not interpreted"
+      "surface": 1
     },
     {
       "severity": "warning",
       "code": "uninterpreted_record",
+      "message": "Record retained but not interpreted",
       "command": "MEMA",
       "line": 52,
-      "surface": 1,
-      "message": "Record retained but not interpreted"
+      "surface": 1
     },
     {
       "severity": "warning",
       "code": "uninterpreted_record",
+      "message": "Record retained but not interpreted",
       "command": "FIMP",
       "line": 55,
-      "surface": 2,
-      "message": "Record retained but not interpreted"
+      "surface": 2
     },
     {
       "severity": "warning",
       "code": "uninterpreted_record",
+      "message": "Record retained but not interpreted",
       "command": "MAZH",
       "line": 59,
-      "surface": 2,
-      "message": "Record retained but not interpreted"
+      "surface": 2
     },
     {
       "severity": "warning",
       "code": "uninterpreted_record",
+      "message": "Record retained but not interpreted",
       "command": "OEMA",
       "line": 61,
-      "surface": 2,
-      "message": "Record retained but not interpreted"
+      "surface": 2
     },
     {
       "severity": "warning",
       "code": "uninterpreted_record",
+      "message": "Record retained but not interpreted",
       "command": "MEMA",
       "line": 62,
-      "surface": 2,
-      "message": "Record retained but not interpreted"
+      "surface": 2
     },
     {
       "severity": "warning",
       "code": "uninterpreted_record",
+      "message": "Record retained but not interpreted",
       "command": "FIMP",
       "line": 65,
-      "surface": 3,
-      "message": "Record retained but not interpreted"
+      "surface": 3
     },
     {
       "severity": "warning",
       "code": "uninterpreted_record",
+      "message": "Record retained but not interpreted",
       "command": "MEMA",
       "line": 69,
-      "surface": 3,
-      "message": "Record retained but not interpreted"
+      "surface": 3
     },
     {
       "severity": "warning",
@@ -885,21 +932,21 @@
     ],
     "name": "47728 Asphere F/1.5",
     "aperture": {
-      "EPD": 15.0
+      "EPD": 15
     },
     "fields": {
       "type": "angle",
       "object_space_telecentric": false,
       "afocal_image_space": false,
       "x": [
-        0.0
+        0
       ],
       "y": [
-        0.0
+        0
       ],
       "num_fields": 1,
       "weights": [
-        1.0
+        1
       ]
     },
     "wavelengths": {
@@ -907,7 +954,7 @@
         0.5876
       ],
       "weights": [
-        1.0
+        1
       ],
       "num_wavelengths": 1,
       "primary_index": 0
@@ -916,7 +963,7 @@
       "0": {
         "type": "standard",
         "is_stop": false,
-        "conic": 0.0,
+        "conic": 0,
         "material": "air",
         "aperture": null,
         "radius": {
@@ -943,21 +990,21 @@
         },
         "aperture": {
           "kind": "annulus",
-          "r_min": 0.0,
+          "r_min": 0,
           "r_max": 6.75,
-          "offset_x": 0.0,
-          "offset_y": 0.0
+          "offset_x": 0,
+          "offset_y": 0
         },
         "radius": 13.255,
-        "param_0": 0.0,
-        "param_1": 9.556697e-05,
-        "param_2": -2.609526e-07,
-        "param_3": 1.124621e-09,
+        "param_0": 0,
+        "param_1": 0.00009556697,
+        "param_2": -2.609526e-7,
+        "param_3": 1.124621e-9,
         "param_4": -2.998908e-12,
-        "param_5": 0.0,
-        "param_6": 0.0,
-        "param_7": 0.0,
-        "thickness": 4.0,
+        "param_5": 0,
+        "param_6": 0,
+        "param_7": 0,
+        "thickness": 4,
         "index": null,
         "abbe": null,
         "diameter": 6.75
@@ -965,14 +1012,14 @@
       "2": {
         "type": "standard",
         "is_stop": false,
-        "conic": 0.0,
+        "conic": 0,
         "material": "air",
         "aperture": {
           "kind": "annulus",
-          "r_min": 0.0,
+          "r_min": 0,
           "r_max": 6.75,
-          "offset_x": 0.0,
-          "offset_y": 0.0
+          "offset_x": 0,
+          "offset_y": 0
         },
         "radius": {
           "special": "positiveInfinity"
@@ -983,13 +1030,13 @@
       "3": {
         "type": "standard",
         "is_stop": false,
-        "conic": 0.0,
+        "conic": 0,
         "material": "air",
         "aperture": null,
         "radius": {
           "special": "positiveInfinity"
         },
-        "thickness": 0.0
+        "thickness": 0
       }
     },
     "glass_catalogs": [

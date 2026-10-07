@@ -1,5 +1,5 @@
 {
-  "schemaVersion": "1.0",
+  "schemaVersion": "2.0",
   "source": {
     "format": "zemax",
     "filename": "lens1.zmx",
@@ -13,7 +13,7 @@
     "wavelength": "um",
     "angle": "deg",
     "sourceLength": "MM",
-    "scaleToMm": 1.0
+    "scaleToMm": 1
   },
   "aperture": {
     "kind": "entrancePupilDiameter",
@@ -24,38 +24,57 @@
   },
   "fields": {
     "kind": "angle",
+    "specification": "pointList",
     "points": [
       {
-        "x": 0.0,
-        "y": 0.0,
+        "x": 0,
+        "y": 0,
         "weight": 1,
-        "vignetting": {}
+        "vignetting": {
+          "decenterX": 0,
+          "decenterY": 0,
+          "compressX": 0,
+          "compressY": 0,
+          "tangentAngle": 0
+        }
       },
       {
-        "x": 0.0,
+        "x": 0,
         "y": 8.485281610363037,
         "weight": 1,
-        "vignetting": {}
+        "vignetting": {
+          "decenterX": 0,
+          "decenterY": 0,
+          "compressX": 0,
+          "compressY": 0,
+          "tangentAngle": 0
+        }
       },
       {
-        "x": 0.0,
+        "x": 0,
         "y": 12.000000333930423,
         "weight": 1,
-        "vignetting": {}
+        "vignetting": {
+          "decenterX": 0,
+          "decenterY": 0,
+          "compressX": 0,
+          "compressY": 0,
+          "tangentAngle": 0
+        }
       }
     ],
-    "reference": null,
+    "relativePoints": [],
     "source": {
       "type": "angle",
       "object_space_telecentric": false,
       "afocal_image_space": false,
       "x": [
-        0.0,
-        0.0,
-        0.0
+        0,
+        0,
+        0
       ],
       "y": [
-        0.0,
+        0,
         8.485281610363037,
         12.000000333930423
       ],
@@ -69,9 +88,9 @@
       0.6562725
     ],
     "weights": [
-      1.0,
-      1.0,
-      1.0
+      1,
+      1,
+      1
     ],
     "primaryIndex": 1
   },
@@ -79,23 +98,24 @@
     {
       "index": 0,
       "role": "object",
-      "type": "standard",
+      "nativeType": "STANDARD",
       "radiusMm": {
         "special": "positiveInfinity"
       },
       "thicknessMm": {
         "special": "positiveInfinity"
       },
-      "conic": 0.0,
+      "conic": 0,
       "stop": false,
       "material": {
         "kind": "air"
       },
       "clearAperture": null,
+      "semiDiameterMm": null,
       "parameters": {
         "type": "standard",
         "is_stop": false,
-        "conic": 0.0,
+        "conic": 0,
         "material": "air",
         "aperture": null,
         "radius": {
@@ -104,15 +124,16 @@
         "thickness": {
           "special": "positiveInfinity"
         }
-      }
+      },
+      "type": "standard"
     },
     {
       "index": 1,
       "role": "surface",
-      "type": "standard",
+      "nativeType": "STANDARD",
       "radiusMm": 12.439788347626695,
       "thicknessMm": 5.514017105102539,
-      "conic": 0.0,
+      "conic": 0,
       "stop": false,
       "material": {
         "kind": "catalog",
@@ -125,10 +146,11 @@
         "resolution": "unresolved"
       },
       "clearAperture": null,
+      "semiDiameterMm": null,
       "parameters": {
         "type": "standard",
         "is_stop": false,
-        "conic": 0.0,
+        "conic": 0,
         "material": {
           "kind": "catalog",
           "name": "N-SK16",
@@ -144,37 +166,40 @@
         "thickness": 5.514017105102539,
         "index": 1.6207046508789062,
         "abbe": 60.27947998046875
-      }
+      },
+      "type": "standard"
     },
     {
       "index": 2,
       "role": "surface",
-      "type": "standard",
+      "nativeType": "STANDARD",
       "radiusMm": -181.2574754401636,
       "thicknessMm": 2.6377501487731934,
-      "conic": 0.0,
+      "conic": 0,
       "stop": false,
       "material": {
         "kind": "air"
       },
       "clearAperture": null,
+      "semiDiameterMm": null,
       "parameters": {
         "type": "standard",
         "is_stop": false,
-        "conic": 0.0,
+        "conic": 0,
         "material": "air",
         "aperture": null,
         "radius": -181.2574754401636,
         "thickness": 2.6377501487731934
-      }
+      },
+      "type": "standard"
     },
     {
       "index": 3,
       "role": "surface",
-      "type": "standard",
+      "nativeType": "STANDARD",
       "radiusMm": -12.362402664694592,
       "thicknessMm": 1.017357349395752,
-      "conic": 0.0,
+      "conic": 0,
       "stop": false,
       "material": {
         "kind": "catalog",
@@ -187,10 +212,11 @@
         "resolution": "unresolved"
       },
       "clearAperture": null,
+      "semiDiameterMm": null,
       "parameters": {
         "type": "standard",
         "is_stop": false,
-        "conic": 0.0,
+        "conic": 0,
         "material": {
           "kind": "catalog",
           "name": "N-SF2",
@@ -206,63 +232,68 @@
         "thickness": 1.017357349395752,
         "index": 1.6476432085037231,
         "abbe": 33.838470458984375
-      }
+      },
+      "type": "standard"
     },
     {
       "index": 4,
       "role": "surface",
-      "type": "standard",
+      "nativeType": "STANDARD",
       "radiusMm": 10.181895642830472,
       "thicknessMm": 0.7544687986373901,
-      "conic": 0.0,
+      "conic": 0,
       "stop": false,
       "material": {
         "kind": "air"
       },
       "clearAperture": null,
+      "semiDiameterMm": null,
       "parameters": {
         "type": "standard",
         "is_stop": false,
-        "conic": 0.0,
+        "conic": 0,
         "material": "air",
         "aperture": null,
         "radius": 10.181895642830472,
         "thickness": 0.7544687986373901
-      }
+      },
+      "type": "standard"
     },
     {
       "index": 5,
       "role": "surface",
-      "type": "standard",
+      "nativeType": "STANDARD",
       "radiusMm": {
         "special": "positiveInfinity"
       },
       "thicknessMm": 1.6761058568954468,
-      "conic": 0.0,
+      "conic": 0,
       "stop": true,
       "material": {
         "kind": "air"
       },
       "clearAperture": null,
+      "semiDiameterMm": null,
       "parameters": {
         "type": "standard",
         "is_stop": true,
-        "conic": 0.0,
+        "conic": 0,
         "material": "air",
         "aperture": null,
         "radius": {
           "special": "positiveInfinity"
         },
         "thickness": 1.6761058568954468
-      }
+      },
+      "type": "standard"
     },
     {
       "index": 6,
       "role": "surface",
-      "type": "standard",
+      "nativeType": "STANDARD",
       "radiusMm": 25.4625317208055,
       "thicknessMm": 1.6096280813217163,
-      "conic": 0.0,
+      "conic": 0,
       "stop": false,
       "material": {
         "kind": "catalog",
@@ -275,10 +306,11 @@
         "resolution": "unresolved"
       },
       "clearAperture": null,
+      "semiDiameterMm": null,
       "parameters": {
         "type": "standard",
         "is_stop": false,
-        "conic": 0.0,
+        "conic": 0,
         "material": {
           "kind": "catalog",
           "name": "N-LAK9",
@@ -294,89 +326,90 @@
         "thickness": 1.6096280813217163,
         "index": 1.6906219720840454,
         "abbe": 54.711463928222656
-      }
+      },
+      "type": "standard"
     },
     {
       "index": 7,
       "role": "surface",
-      "type": "standard",
+      "nativeType": "STANDARD",
       "radiusMm": -11.16160011921875,
       "thicknessMm": 18.660079956054688,
-      "conic": 0.0,
+      "conic": 0,
       "stop": false,
       "material": {
         "kind": "air"
       },
       "clearAperture": null,
+      "semiDiameterMm": null,
       "parameters": {
         "type": "standard",
         "is_stop": false,
-        "conic": 0.0,
+        "conic": 0,
         "material": "air",
         "aperture": null,
         "radius": -11.16160011921875,
         "thickness": 18.660079956054688
-      }
+      },
+      "type": "standard"
     },
     {
       "index": 8,
       "role": "image",
-      "type": "standard",
+      "nativeType": "STANDARD",
       "radiusMm": {
         "special": "positiveInfinity"
       },
-      "thicknessMm": 0.0,
-      "conic": 0.0,
+      "thicknessMm": 0,
+      "conic": 0,
       "stop": false,
       "material": {
         "kind": "air"
       },
       "clearAperture": null,
+      "semiDiameterMm": null,
       "parameters": {
         "type": "standard",
         "is_stop": false,
-        "conic": 0.0,
+        "conic": 0,
         "material": "air",
         "aperture": null,
         "radius": {
           "special": "positiveInfinity"
         },
-        "thickness": 0.0
-      }
+        "thickness": 0
+      },
+      "type": "standard"
     }
   ],
   "diagnostics": [
     {
       "severity": "warning",
       "code": "uninterpreted_record",
+      "message": "Record retained but not interpreted",
       "command": "ZVCY",
-      "line": 8,
-      "surface": -1,
-      "message": "Record retained but not interpreted"
+      "line": 8
     },
     {
       "severity": "warning",
       "code": "uninterpreted_record",
+      "message": "Record retained but not interpreted",
       "command": "ZVDY",
-      "line": 9,
-      "surface": -1,
-      "message": "Record retained but not interpreted"
+      "line": 9
     },
     {
       "severity": "warning",
       "code": "uninterpreted_record",
+      "message": "Record retained but not interpreted",
       "command": "ZVCX",
-      "line": 10,
-      "surface": -1,
-      "message": "Record retained but not interpreted"
+      "line": 10
     },
     {
       "severity": "warning",
       "code": "uninterpreted_record",
+      "message": "Record retained but not interpreted",
       "command": "ZVDX",
-      "line": 11,
-      "surface": -1,
-      "message": "Record retained but not interpreted"
+      "line": 11
     },
     {
       "severity": "warning",
@@ -661,12 +694,12 @@
       "object_space_telecentric": false,
       "afocal_image_space": false,
       "x": [
-        0.0,
-        0.0,
-        0.0
+        0,
+        0,
+        0
       ],
       "y": [
-        0.0,
+        0,
         8.485281610363037,
         12.000000333930423
       ],
@@ -679,9 +712,9 @@
         0.6562725
       ],
       "weights": [
-        1.0,
-        1.0,
-        1.0
+        1,
+        1,
+        1
       ],
       "num_wavelengths": 3,
       "primary_index": 1
@@ -690,7 +723,7 @@
       "0": {
         "type": "standard",
         "is_stop": false,
-        "conic": 0.0,
+        "conic": 0,
         "material": "air",
         "aperture": null,
         "radius": {
@@ -703,7 +736,7 @@
       "1": {
         "type": "standard",
         "is_stop": false,
-        "conic": 0.0,
+        "conic": 0,
         "material": {
           "kind": "catalog",
           "name": "N-SK16",
@@ -723,7 +756,7 @@
       "2": {
         "type": "standard",
         "is_stop": false,
-        "conic": 0.0,
+        "conic": 0,
         "material": "air",
         "aperture": null,
         "radius": -181.2574754401636,
@@ -732,7 +765,7 @@
       "3": {
         "type": "standard",
         "is_stop": false,
-        "conic": 0.0,
+        "conic": 0,
         "material": {
           "kind": "catalog",
           "name": "N-SF2",
@@ -752,7 +785,7 @@
       "4": {
         "type": "standard",
         "is_stop": false,
-        "conic": 0.0,
+        "conic": 0,
         "material": "air",
         "aperture": null,
         "radius": 10.181895642830472,
@@ -761,7 +794,7 @@
       "5": {
         "type": "standard",
         "is_stop": true,
-        "conic": 0.0,
+        "conic": 0,
         "material": "air",
         "aperture": null,
         "radius": {
@@ -772,7 +805,7 @@
       "6": {
         "type": "standard",
         "is_stop": false,
-        "conic": 0.0,
+        "conic": 0,
         "material": {
           "kind": "catalog",
           "name": "N-LAK9",
@@ -792,7 +825,7 @@
       "7": {
         "type": "standard",
         "is_stop": false,
-        "conic": 0.0,
+        "conic": 0,
         "material": "air",
         "aperture": null,
         "radius": -11.16160011921875,
@@ -801,13 +834,13 @@
       "8": {
         "type": "standard",
         "is_stop": false,
-        "conic": 0.0,
+        "conic": 0,
         "material": "air",
         "aperture": null,
         "radius": {
           "special": "positiveInfinity"
         },
-        "thickness": 0.0
+        "thickness": 0
       }
     },
     "glass_catalogs": [
