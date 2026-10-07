@@ -1,0 +1,24 @@
+{
+  "repository": "https://github.com/optiland/optiland",
+  "branch": "master",
+  "revision": "4e893f53aee1312f2d091680b93dd2279711e197",
+  "checkedOn": "2026-10-07",
+  "license": "MIT",
+  "runtimeDependency": false,
+  "sources": [
+    "optiland/fileio/zemax/model.py",
+    "optiland/fileio/zemax/reader/parser.py",
+    "optiland/fileio/oslo/model.py",
+    "optiland/fileio/oslo/reader/parser.py",
+    "optiland/fileio/oslo/constants.py",
+    "optiland/fileio/oslo/syntax.py",
+    "optiland/fileio/oslo/reader/configurations.py"
+  ],
+  "adaptations": [
+    "Standalone package imports and inert initializers",
+    "Plain Zemax material/aperture records; no catalog lookup",
+    "Inline OSLO solve-name constants without solver execution",
+    "Byte/text API, explicit encoding, diagnostics and strict JSON normalization",
+    "TypeScript implementation derived from the same parser behavior"
+  ]
+}
