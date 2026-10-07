@@ -1,0 +1,436 @@
+{
+  "schemaVersion": "1.0",
+  "source": {
+    "format": "zemax",
+    "filename": "lens_floa.zmx",
+    "encoding": "utf-8",
+    "upstreamRevision": "4e893f53aee1312f2d091680b93dd2279711e197"
+  },
+  "name": null,
+  "mode": "sequential",
+  "units": {
+    "length": "mm",
+    "wavelength": "um",
+    "angle": "deg",
+    "sourceLength": "MM",
+    "scaleToMm": 1.0
+  },
+  "aperture": {
+    "kind": "floatingStop",
+    "value": null,
+    "source": {
+      "floating_stop": true
+    }
+  },
+  "fields": {
+    "kind": "angle",
+    "points": [
+      {
+        "x": 0.0,
+        "y": 0.0,
+        "weight": 1,
+        "vignetting": {}
+      }
+    ],
+    "reference": null,
+    "source": {
+      "type": "angle",
+      "object_space_telecentric": false,
+      "afocal_image_space": false,
+      "x": [
+        0.0
+      ],
+      "y": [
+        0.0
+      ],
+      "num_fields": 3
+    }
+  },
+  "wavelengths": {
+    "valuesUm": [
+      0.5876
+    ],
+    "weights": [
+      1.0
+    ],
+    "primaryIndex": 0
+  },
+  "surfaces": [
+    {
+      "index": 0,
+      "role": "object",
+      "type": "standard",
+      "radiusMm": {
+        "special": "positiveInfinity"
+      },
+      "thicknessMm": {
+        "special": "positiveInfinity"
+      },
+      "conic": 0.0,
+      "stop": false,
+      "material": {
+        "kind": "air"
+      },
+      "clearAperture": null,
+      "parameters": {
+        "type": "standard",
+        "is_stop": false,
+        "conic": 0.0,
+        "material": "air",
+        "aperture": null,
+        "radius": {
+          "special": "positiveInfinity"
+        },
+        "thickness": {
+          "special": "positiveInfinity"
+        }
+      }
+    },
+    {
+      "index": 1,
+      "role": "surface",
+      "type": "standard",
+      "radiusMm": 20.0,
+      "thicknessMm": 5.0,
+      "conic": 0.0,
+      "stop": false,
+      "material": {
+        "kind": "catalog",
+        "name": "N-BK7",
+        "catalogs": [],
+        "nd": 1.5168,
+        "vd": 64.17,
+        "resolution": "unresolved"
+      },
+      "clearAperture": null,
+      "parameters": {
+        "type": "standard",
+        "is_stop": false,
+        "conic": 0.0,
+        "material": {
+          "kind": "catalog",
+          "name": "N-BK7",
+          "catalogs": [],
+          "nd": 1.5168,
+          "vd": 64.17,
+          "resolution": "unresolved"
+        },
+        "aperture": null,
+        "radius": 20.0,
+        "thickness": 5.0,
+        "index": 1.5168,
+        "abbe": 64.17
+      }
+    },
+    {
+      "index": 2,
+      "role": "surface",
+      "type": "standard",
+      "radiusMm": -20.0,
+      "thicknessMm": 10.0,
+      "conic": 0.0,
+      "stop": false,
+      "material": {
+        "kind": "air"
+      },
+      "clearAperture": null,
+      "parameters": {
+        "type": "standard",
+        "is_stop": false,
+        "conic": 0.0,
+        "material": "air",
+        "aperture": null,
+        "radius": -20.0,
+        "thickness": 10.0
+      }
+    },
+    {
+      "index": 3,
+      "role": "surface",
+      "type": "standard",
+      "radiusMm": {
+        "special": "positiveInfinity"
+      },
+      "thicknessMm": 20.0,
+      "conic": 0.0,
+      "stop": true,
+      "material": {
+        "kind": "air"
+      },
+      "clearAperture": null,
+      "parameters": {
+        "type": "standard",
+        "is_stop": true,
+        "conic": 0.0,
+        "material": "air",
+        "aperture": null,
+        "radius": {
+          "special": "positiveInfinity"
+        },
+        "thickness": 20.0,
+        "diameter": 8.5
+      }
+    },
+    {
+      "index": 4,
+      "role": "image",
+      "type": "standard",
+      "radiusMm": {
+        "special": "positiveInfinity"
+      },
+      "thicknessMm": 0.0,
+      "conic": 0.0,
+      "stop": false,
+      "material": {
+        "kind": "air"
+      },
+      "clearAperture": null,
+      "parameters": {
+        "type": "standard",
+        "is_stop": false,
+        "conic": 0.0,
+        "material": "air",
+        "aperture": null,
+        "radius": {
+          "special": "positiveInfinity"
+        },
+        "thickness": 0.0
+      }
+    }
+  ],
+  "diagnostics": [
+    {
+      "severity": "warning",
+      "code": "field_count_mismatch",
+      "message": "Declared and parsed field columns differ; raw columns retained"
+    },
+    {
+      "severity": "warning",
+      "code": "unresolved_material",
+      "message": "Material identity preserved; catalog lookup and dispersion fitting are not executed",
+      "surface": 1
+    }
+  ],
+  "raw": {
+    "mode": "Sequential",
+    "units": "MM",
+    "records": [
+      {
+        "line": 1,
+        "text": "MODE SEQ"
+      },
+      {
+        "line": 2,
+        "text": "UNIT MM X W X CM MR CPMM"
+      },
+      {
+        "line": 3,
+        "text": "FLOA"
+      },
+      {
+        "line": 4,
+        "text": "FTYP 0 0 3 1 0 0 0"
+      },
+      {
+        "line": 5,
+        "text": "XFLN 0."
+      },
+      {
+        "line": 6,
+        "text": "YFLN 0.0"
+      },
+      {
+        "line": 7,
+        "text": "PWAV 1"
+      },
+      {
+        "line": 8,
+        "text": "WAVM 1 0.5876 1"
+      },
+      {
+        "line": 9,
+        "text": "SURF 0"
+      },
+      {
+        "line": 10,
+        "text": "TYPE STANDARD"
+      },
+      {
+        "line": 11,
+        "text": "CURV 0."
+      },
+      {
+        "line": 12,
+        "text": "DISZ INFINITY"
+      },
+      {
+        "line": 13,
+        "text": "SURF 1"
+      },
+      {
+        "line": 14,
+        "text": "TYPE STANDARD"
+      },
+      {
+        "line": 15,
+        "text": "CURV 0.05"
+      },
+      {
+        "line": 16,
+        "text": "DISZ 5.0"
+      },
+      {
+        "line": 17,
+        "text": "GLAS N-BK7 1 0 1.5168 64.17"
+      },
+      {
+        "line": 18,
+        "text": "SURF 2"
+      },
+      {
+        "line": 19,
+        "text": "TYPE STANDARD"
+      },
+      {
+        "line": 20,
+        "text": "CURV -0.05"
+      },
+      {
+        "line": 21,
+        "text": "DISZ 10.0"
+      },
+      {
+        "line": 22,
+        "text": "SURF 3"
+      },
+      {
+        "line": 23,
+        "text": "STOP"
+      },
+      {
+        "line": 24,
+        "text": "TYPE STANDARD"
+      },
+      {
+        "line": 25,
+        "text": "CURV 0.0"
+      },
+      {
+        "line": 26,
+        "text": "DISZ 20.0"
+      },
+      {
+        "line": 27,
+        "text": "DIAM 8.5 1 0 0 1 \"\""
+      },
+      {
+        "line": 28,
+        "text": "SURF 4"
+      },
+      {
+        "line": 29,
+        "text": "TYPE STANDARD"
+      },
+      {
+        "line": 30,
+        "text": "CURV 0."
+      },
+      {
+        "line": 31,
+        "text": "DISZ 0."
+      }
+    ],
+    "diagnostics": [],
+    "name": null,
+    "aperture": {
+      "floating_stop": true
+    },
+    "fields": {
+      "type": "angle",
+      "object_space_telecentric": false,
+      "afocal_image_space": false,
+      "x": [
+        0.0
+      ],
+      "y": [
+        0.0
+      ],
+      "num_fields": 3
+    },
+    "wavelengths": {
+      "data": [
+        0.5876
+      ],
+      "weights": [
+        1.0
+      ],
+      "num_wavelengths": 1,
+      "primary_index": 0
+    },
+    "surfaces": {
+      "0": {
+        "type": "standard",
+        "is_stop": false,
+        "conic": 0.0,
+        "material": "air",
+        "aperture": null,
+        "radius": {
+          "special": "positiveInfinity"
+        },
+        "thickness": {
+          "special": "positiveInfinity"
+        }
+      },
+      "1": {
+        "type": "standard",
+        "is_stop": false,
+        "conic": 0.0,
+        "material": {
+          "kind": "catalog",
+          "name": "N-BK7",
+          "catalogs": [],
+          "nd": 1.5168,
+          "vd": 64.17,
+          "resolution": "unresolved"
+        },
+        "aperture": null,
+        "radius": 20.0,
+        "thickness": 5.0,
+        "index": 1.5168,
+        "abbe": 64.17
+      },
+      "2": {
+        "type": "standard",
+        "is_stop": false,
+        "conic": 0.0,
+        "material": "air",
+        "aperture": null,
+        "radius": -20.0,
+        "thickness": 10.0
+      },
+      "3": {
+        "type": "standard",
+        "is_stop": true,
+        "conic": 0.0,
+        "material": "air",
+        "aperture": null,
+        "radius": {
+          "special": "positiveInfinity"
+        },
+        "thickness": 20.0,
+        "diameter": 8.5
+      },
+      "4": {
+        "type": "standard",
+        "is_stop": false,
+        "conic": 0.0,
+        "material": "air",
+        "aperture": null,
+        "radius": {
+          "special": "positiveInfinity"
+        },
+        "thickness": 0.0
+      }
+    }
+  }
+}

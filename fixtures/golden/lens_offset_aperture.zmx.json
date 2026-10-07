@@ -1,0 +1,317 @@
+{
+  "schemaVersion": "1.0",
+  "source": {
+    "format": "zemax",
+    "filename": "lens_offset_aperture.zmx",
+    "encoding": "utf-8",
+    "upstreamRevision": "4e893f53aee1312f2d091680b93dd2279711e197"
+  },
+  "name": null,
+  "mode": "sequential",
+  "units": {
+    "length": "mm",
+    "wavelength": "um",
+    "angle": "deg",
+    "sourceLength": "MM",
+    "scaleToMm": 1.0
+  },
+  "aperture": {
+    "kind": "entrancePupilDiameter",
+    "value": 10.0,
+    "source": {
+      "EPD": 10.0
+    }
+  },
+  "fields": {
+    "kind": "angle",
+    "points": [
+      {
+        "x": 0.0,
+        "y": 0.0,
+        "weight": 1,
+        "vignetting": {}
+      }
+    ],
+    "reference": null,
+    "source": {
+      "type": "angle",
+      "object_space_telecentric": false,
+      "afocal_image_space": false,
+      "x": [
+        0.0
+      ],
+      "y": [
+        0.0
+      ],
+      "num_fields": 1
+    }
+  },
+  "wavelengths": {
+    "valuesUm": [
+      0.55
+    ],
+    "weights": [
+      1.0
+    ],
+    "primaryIndex": 0
+  },
+  "surfaces": [
+    {
+      "index": 0,
+      "role": "object",
+      "type": "standard",
+      "radiusMm": {
+        "special": "positiveInfinity"
+      },
+      "thicknessMm": {
+        "special": "positiveInfinity"
+      },
+      "conic": 0.0,
+      "stop": false,
+      "material": {
+        "kind": "air"
+      },
+      "clearAperture": null,
+      "parameters": {
+        "type": "standard",
+        "is_stop": false,
+        "conic": 0.0,
+        "material": "air",
+        "aperture": null,
+        "radius": {
+          "special": "positiveInfinity"
+        },
+        "thickness": {
+          "special": "positiveInfinity"
+        }
+      }
+    },
+    {
+      "index": 1,
+      "role": "surface",
+      "type": "standard",
+      "radiusMm": 50.0,
+      "thicknessMm": 5.0,
+      "conic": 0.0,
+      "stop": true,
+      "material": {
+        "kind": "air"
+      },
+      "clearAperture": {
+        "kind": "annulus",
+        "r_min": 1.5,
+        "r_max": 12.5,
+        "offset_x": 2.25,
+        "offset_y": -3.5
+      },
+      "parameters": {
+        "type": "standard",
+        "is_stop": true,
+        "conic": 0.0,
+        "material": "air",
+        "aperture": {
+          "kind": "annulus",
+          "r_min": 1.5,
+          "r_max": 12.5,
+          "offset_x": 2.25,
+          "offset_y": -3.5
+        },
+        "radius": 50.0,
+        "thickness": 5.0
+      }
+    },
+    {
+      "index": 2,
+      "role": "image",
+      "type": "standard",
+      "radiusMm": {
+        "special": "positiveInfinity"
+      },
+      "thicknessMm": 0.0,
+      "conic": 0.0,
+      "stop": false,
+      "material": {
+        "kind": "air"
+      },
+      "clearAperture": null,
+      "parameters": {
+        "type": "standard",
+        "is_stop": false,
+        "conic": 0.0,
+        "material": "air",
+        "aperture": null,
+        "radius": {
+          "special": "positiveInfinity"
+        },
+        "thickness": 0.0
+      }
+    }
+  ],
+  "diagnostics": [],
+  "raw": {
+    "mode": "Sequential",
+    "units": "MM",
+    "records": [
+      {
+        "line": 1,
+        "text": "MODE SEQ"
+      },
+      {
+        "line": 2,
+        "text": "UNIT MM X W X CM MR CPMM"
+      },
+      {
+        "line": 3,
+        "text": "ENPD 10"
+      },
+      {
+        "line": 4,
+        "text": "FTYP 0 0 1 1 0 0 0"
+      },
+      {
+        "line": 5,
+        "text": "XFLN 0"
+      },
+      {
+        "line": 6,
+        "text": "YFLN 0"
+      },
+      {
+        "line": 7,
+        "text": "PWAV 1"
+      },
+      {
+        "line": 8,
+        "text": "WAVM 1 0.55 1"
+      },
+      {
+        "line": 9,
+        "text": "SURF 0"
+      },
+      {
+        "line": 10,
+        "text": "TYPE STANDARD"
+      },
+      {
+        "line": 11,
+        "text": "CURV 0"
+      },
+      {
+        "line": 12,
+        "text": "DISZ INFINITY"
+      },
+      {
+        "line": 13,
+        "text": "SURF 1"
+      },
+      {
+        "line": 14,
+        "text": "STOP"
+      },
+      {
+        "line": 15,
+        "text": "TYPE STANDARD"
+      },
+      {
+        "line": 16,
+        "text": "CURV 0.02"
+      },
+      {
+        "line": 17,
+        "text": "DISZ 5"
+      },
+      {
+        "line": 18,
+        "text": "CLAP 1.5 12.5 0"
+      },
+      {
+        "line": 19,
+        "text": "OBDC 2.25 -3.5"
+      },
+      {
+        "line": 20,
+        "text": "SURF 2"
+      },
+      {
+        "line": 21,
+        "text": "TYPE STANDARD"
+      },
+      {
+        "line": 22,
+        "text": "CURV 0"
+      },
+      {
+        "line": 23,
+        "text": "DISZ 0"
+      }
+    ],
+    "diagnostics": [],
+    "name": null,
+    "aperture": {
+      "EPD": 10.0
+    },
+    "fields": {
+      "type": "angle",
+      "object_space_telecentric": false,
+      "afocal_image_space": false,
+      "x": [
+        0.0
+      ],
+      "y": [
+        0.0
+      ],
+      "num_fields": 1
+    },
+    "wavelengths": {
+      "data": [
+        0.55
+      ],
+      "weights": [
+        1.0
+      ],
+      "num_wavelengths": 1,
+      "primary_index": 0
+    },
+    "surfaces": {
+      "0": {
+        "type": "standard",
+        "is_stop": false,
+        "conic": 0.0,
+        "material": "air",
+        "aperture": null,
+        "radius": {
+          "special": "positiveInfinity"
+        },
+        "thickness": {
+          "special": "positiveInfinity"
+        }
+      },
+      "1": {
+        "type": "standard",
+        "is_stop": true,
+        "conic": 0.0,
+        "material": "air",
+        "aperture": {
+          "kind": "annulus",
+          "r_min": 1.5,
+          "r_max": 12.5,
+          "offset_x": 2.25,
+          "offset_y": -3.5
+        },
+        "radius": 50.0,
+        "thickness": 5.0
+      },
+      "2": {
+        "type": "standard",
+        "is_stop": false,
+        "conic": 0.0,
+        "material": "air",
+        "aperture": null,
+        "radius": {
+          "special": "positiveInfinity"
+        },
+        "thickness": 0.0
+      }
+    }
+  }
+}

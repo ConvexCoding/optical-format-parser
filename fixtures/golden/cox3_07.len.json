@@ -1,0 +1,915 @@
+{
+  "schemaVersion": "1.0",
+  "source": {
+    "format": "oslo",
+    "filename": "cox3_07.len",
+    "encoding": "utf-8",
+    "upstreamRevision": "4e893f53aee1312f2d091680b93dd2279711e197"
+  },
+  "name": "COX PROBLEM 3-07",
+  "mode": "sequential",
+  "units": {
+    "length": "mm",
+    "wavelength": "um",
+    "angle": "deg",
+    "sourceLength": "lensUnit",
+    "scaleToMm": 1.0
+  },
+  "aperture": {
+    "kind": "beamRadiusAtSurface1",
+    "value": 0.329999999979,
+    "source": {
+      "EPD": 0.659999999958
+    }
+  },
+  "fields": {
+    "kind": "object_height",
+    "points": [],
+    "reference": {
+      "y": -3639702342.9,
+      "coordinates": "prescriptionExtent"
+    },
+    "source": {
+      "type": "object_height",
+      "y": [
+        -3639702342.9
+      ]
+    }
+  },
+  "wavelengths": {
+    "valuesUm": [
+      0.58756,
+      0.48613,
+      0.65627
+    ],
+    "weights": [
+      1.0,
+      1.0,
+      1.0
+    ],
+    "primaryIndex": 0
+  },
+  "surfaces": [
+    {
+      "index": 0,
+      "role": "object",
+      "type": "standard",
+      "radiusMm": {
+        "special": "positiveInfinity"
+      },
+      "thicknessMm": {
+        "special": "positiveInfinity"
+      },
+      "conic": 0.0,
+      "stop": false,
+      "material": {
+        "kind": "air"
+      },
+      "clearAperture": {
+        "kind": "annulus",
+        "r_min": 0.0,
+        "r_max": 3639702342.9,
+        "offset_x": 0.0,
+        "offset_y": 0.0,
+        "checked": false,
+        "checkingEnabled": true
+      },
+      "parameters": {
+        "material": "AIR",
+        "TH": 10000000000.0,
+        "AP": 3639702342.9,
+        "aperture_checked": false
+      }
+    },
+    {
+      "index": 1,
+      "role": "surface",
+      "type": "standard",
+      "radiusMm": 1.0,
+      "thicknessMm": 0.165,
+      "conic": 0.0,
+      "stop": false,
+      "material": {
+        "kind": "sampledIndex",
+        "name": "G1",
+        "wavelengthsUm": [
+          0.58756,
+          0.48613,
+          0.65627
+        ],
+        "indices": [
+          1.564,
+          1.571047,
+          1.56094
+        ]
+      },
+      "clearAperture": {
+        "kind": "annulus",
+        "r_min": 0.0,
+        "r_max": 0.33,
+        "offset_x": 0.0,
+        "offset_y": 0.0,
+        "checked": false,
+        "checkingEnabled": true
+      },
+      "parameters": {
+        "material": "GLA MOD G1 1.564 1.571047 1.56094",
+        "glass_wavelengths": [
+          0.58756,
+          0.48613,
+          0.65627
+        ],
+        "RD": 1.0,
+        "TH": 0.165,
+        "AP": 0.33,
+        "aperture_checked": false
+      }
+    },
+    {
+      "index": 2,
+      "role": "surface",
+      "type": "standard",
+      "radiusMm": -0.580686371291,
+      "thicknessMm": 0.035,
+      "conic": 0.0,
+      "stop": false,
+      "material": {
+        "kind": "catalog",
+        "name": "SF5",
+        "resolution": "unresolved"
+      },
+      "clearAperture": {
+        "kind": "annulus",
+        "r_min": 0.0,
+        "r_max": 0.33,
+        "offset_x": 0.0,
+        "offset_y": 0.0,
+        "checked": false,
+        "checkingEnabled": true
+      },
+      "parameters": {
+        "material": "GLA SF5",
+        "glass_wavelengths": [
+          0.58756,
+          0.48613,
+          0.65627
+        ],
+        "RD": -0.580686371291,
+        "TH": 0.035,
+        "AP": 0.33,
+        "aperture_checked": false
+      }
+    },
+    {
+      "index": 3,
+      "role": "surface",
+      "type": "standard",
+      "radiusMm": -2.314814814815,
+      "thicknessMm": 0.002,
+      "conic": 0.0,
+      "stop": false,
+      "material": {
+        "kind": "air"
+      },
+      "clearAperture": {
+        "kind": "annulus",
+        "r_min": 0.0,
+        "r_max": 0.33,
+        "offset_x": 0.0,
+        "offset_y": 0.0,
+        "checked": false,
+        "checkingEnabled": true
+      },
+      "parameters": {
+        "material": "AIR",
+        "RD": -2.314814814815,
+        "TH": 0.002,
+        "AP": 0.33,
+        "aperture_checked": false
+      }
+    },
+    {
+      "index": 4,
+      "role": "surface",
+      "type": "standard",
+      "radiusMm": 0.330600370272,
+      "thicknessMm": 0.172,
+      "conic": 0.0,
+      "stop": false,
+      "material": {
+        "kind": "catalog",
+        "name": "F7",
+        "resolution": "unresolved"
+      },
+      "clearAperture": null,
+      "parameters": {
+        "material": "GLA F7",
+        "glass_wavelengths": [
+          0.58756,
+          0.48613,
+          0.65627
+        ],
+        "RD": 0.330600370272,
+        "TH": 0.172
+      }
+    },
+    {
+      "index": 5,
+      "role": "surface",
+      "type": "standard",
+      "radiusMm": 0.224502166446,
+      "thicknessMm": 0.132,
+      "conic": 0.0,
+      "stop": false,
+      "material": {
+        "kind": "air"
+      },
+      "clearAperture": null,
+      "parameters": {
+        "material": "AIR",
+        "RD": 0.224502166446,
+        "TH": 0.132
+      }
+    },
+    {
+      "index": 6,
+      "role": "surface",
+      "type": "standard",
+      "radiusMm": {
+        "special": "positiveInfinity"
+      },
+      "thicknessMm": 0.13,
+      "conic": 0.0,
+      "stop": true,
+      "material": {
+        "kind": "air"
+      },
+      "clearAperture": null,
+      "parameters": {
+        "material": "AIR",
+        "TH": 0.13,
+        "AST": true
+      }
+    },
+    {
+      "index": 7,
+      "role": "surface",
+      "type": "standard",
+      "radiusMm": -0.311100049776,
+      "thicknessMm": 0.052,
+      "conic": 0.0,
+      "stop": false,
+      "material": {
+        "kind": "catalog",
+        "name": "F8",
+        "resolution": "unresolved"
+      },
+      "clearAperture": {
+        "kind": "annulus",
+        "r_min": 0.0,
+        "r_max": 0.255,
+        "offset_x": 0.0,
+        "offset_y": 0.0,
+        "checked": false,
+        "checkingEnabled": true
+      },
+      "parameters": {
+        "material": "GLA F8",
+        "glass_wavelengths": [
+          0.58756,
+          0.48613,
+          0.65627
+        ],
+        "RD": -0.311100049776,
+        "TH": 0.052,
+        "AP": 0.255,
+        "aperture_checked": false
+      }
+    },
+    {
+      "index": 8,
+      "role": "surface",
+      "type": "standard",
+      "radiusMm": 1.721170395869,
+      "thicknessMm": 0.124,
+      "conic": 0.0,
+      "stop": false,
+      "material": {
+        "kind": "catalog",
+        "name": "SK16",
+        "resolution": "unresolved"
+      },
+      "clearAperture": {
+        "kind": "annulus",
+        "r_min": 0.0,
+        "r_max": 0.255,
+        "offset_x": 0.0,
+        "offset_y": 0.0,
+        "checked": false,
+        "checkingEnabled": true
+      },
+      "parameters": {
+        "material": "GLA SK16",
+        "glass_wavelengths": [
+          0.58756,
+          0.48613,
+          0.65627
+        ],
+        "RD": 1.721170395869,
+        "TH": 0.124,
+        "AP": 0.255,
+        "aperture_checked": false
+      }
+    },
+    {
+      "index": 9,
+      "role": "surface",
+      "type": "standard",
+      "radiusMm": -0.387596899225,
+      "thicknessMm": 0.002,
+      "conic": 0.0,
+      "stop": false,
+      "material": {
+        "kind": "air"
+      },
+      "clearAperture": {
+        "kind": "annulus",
+        "r_min": 0.0,
+        "r_max": 0.255,
+        "offset_x": 0.0,
+        "offset_y": 0.0,
+        "checked": false,
+        "checkingEnabled": true
+      },
+      "parameters": {
+        "material": "AIR",
+        "RD": -0.387596899225,
+        "TH": 0.002,
+        "AP": 0.255,
+        "aperture_checked": false
+      }
+    },
+    {
+      "index": 10,
+      "role": "surface",
+      "type": "standard",
+      "radiusMm": 2.62467191601,
+      "thicknessMm": 0.083,
+      "conic": 0.0,
+      "stop": false,
+      "material": {
+        "kind": "catalog",
+        "name": "SK16",
+        "resolution": "unresolved"
+      },
+      "clearAperture": {
+        "kind": "annulus",
+        "r_min": 0.0,
+        "r_max": 0.3,
+        "offset_x": 0.0,
+        "offset_y": 0.0,
+        "checked": false,
+        "checkingEnabled": true
+      },
+      "parameters": {
+        "material": "GLA SK16",
+        "glass_wavelengths": [
+          0.58756,
+          0.48613,
+          0.65627
+        ],
+        "RD": 2.62467191601,
+        "TH": 0.083,
+        "AP": 0.3,
+        "aperture_checked": false
+      }
+    },
+    {
+      "index": 11,
+      "role": "surface",
+      "type": "standard",
+      "radiusMm": -0.865126741068,
+      "thicknessMm": 0.0,
+      "conic": 0.0,
+      "stop": false,
+      "material": {
+        "kind": "air"
+      },
+      "clearAperture": {
+        "kind": "annulus",
+        "r_min": 0.0,
+        "r_max": 0.3,
+        "offset_x": 0.0,
+        "offset_y": 0.0,
+        "checked": false,
+        "checkingEnabled": true
+      },
+      "parameters": {
+        "material": "AIR",
+        "RD": -0.865126741068,
+        "PY": 0.0,
+        "AP": 0.3,
+        "aperture_checked": false
+      }
+    },
+    {
+      "index": 12,
+      "role": "image",
+      "type": "standard",
+      "radiusMm": {
+        "special": "positiveInfinity"
+      },
+      "thicknessMm": 0.0,
+      "conic": 0.0,
+      "stop": false,
+      "material": {
+        "kind": "air"
+      },
+      "clearAperture": null,
+      "parameters": {
+        "material": "AIR"
+      }
+    }
+  ],
+  "diagnostics": [
+    {
+      "severity": "warning",
+      "code": "unresolved_material",
+      "message": "Material identity preserved; catalog lookup and dispersion fitting are not executed",
+      "surface": 2
+    },
+    {
+      "severity": "warning",
+      "code": "unresolved_material",
+      "message": "Material identity preserved; catalog lookup and dispersion fitting are not executed",
+      "surface": 4
+    },
+    {
+      "severity": "warning",
+      "code": "unresolved_material",
+      "message": "Material identity preserved; catalog lookup and dispersion fitting are not executed",
+      "surface": 7
+    },
+    {
+      "severity": "warning",
+      "code": "unresolved_material",
+      "message": "Material identity preserved; catalog lookup and dispersion fitting are not executed",
+      "surface": 8
+    },
+    {
+      "severity": "warning",
+      "code": "unresolved_material",
+      "message": "Material identity preserved; catalog lookup and dispersion fitting are not executed",
+      "surface": 10
+    },
+    {
+      "severity": "warning",
+      "code": "unresolved_constraints",
+      "message": "Pickup/solve declarations retained; literal values are not a solved snapshot",
+      "surface": 11
+    }
+  ],
+  "raw": {
+    "name": "COX PROBLEM 3-07",
+    "scaling": 1.0011,
+    "num_surfaces": 12,
+    "aperture": {
+      "EPD": 0.659999999958
+    },
+    "fields": {
+      "type": "object_height",
+      "y": [
+        -3639702342.9
+      ]
+    },
+    "wavelengths": {
+      "values": [
+        0.58756,
+        0.48613,
+        0.65627
+      ],
+      "weights": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "primary_index": 0
+    },
+    "surfaces": {
+      "0": {
+        "material": "AIR",
+        "TH": 10000000000.0,
+        "AP": 3639702342.9,
+        "aperture_checked": false
+      },
+      "1": {
+        "material": "GLA MOD G1 1.564 1.571047 1.56094",
+        "glass_wavelengths": [
+          0.58756,
+          0.48613,
+          0.65627
+        ],
+        "RD": 1.0,
+        "TH": 0.165,
+        "AP": 0.33,
+        "aperture_checked": false
+      },
+      "2": {
+        "material": "GLA SF5",
+        "glass_wavelengths": [
+          0.58756,
+          0.48613,
+          0.65627
+        ],
+        "RD": -0.580686371291,
+        "TH": 0.035,
+        "AP": 0.33,
+        "aperture_checked": false
+      },
+      "3": {
+        "material": "AIR",
+        "RD": -2.314814814815,
+        "TH": 0.002,
+        "AP": 0.33,
+        "aperture_checked": false
+      },
+      "4": {
+        "material": "GLA F7",
+        "glass_wavelengths": [
+          0.58756,
+          0.48613,
+          0.65627
+        ],
+        "RD": 0.330600370272,
+        "TH": 0.172
+      },
+      "5": {
+        "material": "AIR",
+        "RD": 0.224502166446,
+        "TH": 0.132
+      },
+      "6": {
+        "material": "AIR",
+        "TH": 0.13,
+        "AST": true
+      },
+      "7": {
+        "material": "GLA F8",
+        "glass_wavelengths": [
+          0.58756,
+          0.48613,
+          0.65627
+        ],
+        "RD": -0.311100049776,
+        "TH": 0.052,
+        "AP": 0.255,
+        "aperture_checked": false
+      },
+      "8": {
+        "material": "GLA SK16",
+        "glass_wavelengths": [
+          0.58756,
+          0.48613,
+          0.65627
+        ],
+        "RD": 1.721170395869,
+        "TH": 0.124,
+        "AP": 0.255,
+        "aperture_checked": false
+      },
+      "9": {
+        "material": "AIR",
+        "RD": -0.387596899225,
+        "TH": 0.002,
+        "AP": 0.255,
+        "aperture_checked": false
+      },
+      "10": {
+        "material": "GLA SK16",
+        "glass_wavelengths": [
+          0.58756,
+          0.48613,
+          0.65627
+        ],
+        "RD": 2.62467191601,
+        "TH": 0.083,
+        "AP": 0.3,
+        "aperture_checked": false
+      },
+      "11": {
+        "material": "AIR",
+        "RD": -0.865126741068,
+        "PY": 0.0,
+        "AP": 0.3,
+        "aperture_checked": false
+      },
+      "12": {
+        "material": "AIR"
+      }
+    },
+    "units": 1.0,
+    "records": [
+      {
+        "line": 3,
+        "text": "LEN NEW \"COX PROBLEM 3-07\" 1.0011 12"
+      },
+      {
+        "line": 4,
+        "text": "EBR  0.329999999979"
+      },
+      {
+        "line": 5,
+        "text": "OBH  -3.6397023429e+09"
+      },
+      {
+        "line": 6,
+        "text": "DES  \"\""
+      },
+      {
+        "line": 7,
+        "text": "UNI  1.0"
+      },
+      {
+        "line": 8,
+        "text": "SNO1 \"COX PROBLEM 3-07\""
+      },
+      {
+        "line": 9,
+        "text": "SNO2 \"IDN   17\""
+      },
+      {
+        "line": 10,
+        "text": "SNO10 \"DOUBLE GAUSS\""
+      },
+      {
+        "line": 11,
+        "text": "AIR"
+      },
+      {
+        "line": 12,
+        "text": "TH   1.0e+10"
+      },
+      {
+        "line": 13,
+        "text": "AP  3.6397023429e+09"
+      },
+      {
+        "line": 14,
+        "text": "NXT"
+      },
+      {
+        "line": 15,
+        "text": "WV 0.58756"
+      },
+      {
+        "line": 16,
+        "text": "WV2 0.48613"
+      },
+      {
+        "line": 17,
+        "text": "WV3 0.65627"
+      },
+      {
+        "line": 18,
+        "text": "GLA MOD G1         1.564 1.571047 1.56094"
+      },
+      {
+        "line": 19,
+        "text": "RD   1.0"
+      },
+      {
+        "line": 20,
+        "text": "TH   0.165"
+      },
+      {
+        "line": 21,
+        "text": "AP  0.33"
+      },
+      {
+        "line": 22,
+        "text": "NXT"
+      },
+      {
+        "line": 23,
+        "text": "GLA SF5"
+      },
+      {
+        "line": 24,
+        "text": "RD   -0.580686371291"
+      },
+      {
+        "line": 25,
+        "text": "TH   0.035"
+      },
+      {
+        "line": 26,
+        "text": "AP  0.33"
+      },
+      {
+        "line": 27,
+        "text": "NXT"
+      },
+      {
+        "line": 28,
+        "text": "AIR"
+      },
+      {
+        "line": 29,
+        "text": "RD   -2.314814814815"
+      },
+      {
+        "line": 30,
+        "text": "TH   0.002"
+      },
+      {
+        "line": 31,
+        "text": "AP  0.33"
+      },
+      {
+        "line": 32,
+        "text": "NXT"
+      },
+      {
+        "line": 33,
+        "text": "GLA F7"
+      },
+      {
+        "line": 34,
+        "text": "RD   0.330600370272"
+      },
+      {
+        "line": 35,
+        "text": "TH   0.172"
+      },
+      {
+        "line": 36,
+        "text": "NXT"
+      },
+      {
+        "line": 37,
+        "text": "AIR"
+      },
+      {
+        "line": 38,
+        "text": "RD   0.224502166446"
+      },
+      {
+        "line": 39,
+        "text": "TH   0.132"
+      },
+      {
+        "line": 40,
+        "text": "NXT"
+      },
+      {
+        "line": 41,
+        "text": "AIR"
+      },
+      {
+        "line": 42,
+        "text": "TH   0.13"
+      },
+      {
+        "line": 43,
+        "text": "AST"
+      },
+      {
+        "line": 44,
+        "text": "NXT"
+      },
+      {
+        "line": 45,
+        "text": "GLA F8"
+      },
+      {
+        "line": 46,
+        "text": "RD   -0.311100049776"
+      },
+      {
+        "line": 47,
+        "text": "TH   0.052"
+      },
+      {
+        "line": 48,
+        "text": "AP  0.255"
+      },
+      {
+        "line": 49,
+        "text": "NXT"
+      },
+      {
+        "line": 50,
+        "text": "GLA SK16"
+      },
+      {
+        "line": 51,
+        "text": "RD   1.721170395869"
+      },
+      {
+        "line": 52,
+        "text": "TH   0.124"
+      },
+      {
+        "line": 53,
+        "text": "AP  0.255"
+      },
+      {
+        "line": 54,
+        "text": "NXT"
+      },
+      {
+        "line": 55,
+        "text": "AIR"
+      },
+      {
+        "line": 56,
+        "text": "RD   -0.387596899225"
+      },
+      {
+        "line": 57,
+        "text": "TH   0.002"
+      },
+      {
+        "line": 58,
+        "text": "AP  0.255"
+      },
+      {
+        "line": 59,
+        "text": "NXT"
+      },
+      {
+        "line": 60,
+        "text": "GLA SK16"
+      },
+      {
+        "line": 61,
+        "text": "RD   2.62467191601"
+      },
+      {
+        "line": 62,
+        "text": "TH   0.083"
+      },
+      {
+        "line": 63,
+        "text": "AP  0.3"
+      },
+      {
+        "line": 64,
+        "text": "NXT"
+      },
+      {
+        "line": 65,
+        "text": "AIR"
+      },
+      {
+        "line": 66,
+        "text": "RD   -0.865126741068"
+      },
+      {
+        "line": 67,
+        "text": "PY   0.0"
+      },
+      {
+        "line": 68,
+        "text": "AP  0.3"
+      },
+      {
+        "line": 69,
+        "text": "NXT"
+      },
+      {
+        "line": 70,
+        "text": "AIR"
+      },
+      {
+        "line": 71,
+        "text": "WV 0.58756 0.48613 0.65627"
+      },
+      {
+        "line": 72,
+        "text": "WW 1.0 1.0 1.0"
+      },
+      {
+        "line": 73,
+        "text": "END  12"
+      }
+    ],
+    "notes": {
+      "DES": "",
+      "SNO1": "COX PROBLEM 3-07",
+      "SNO2": "IDN   17",
+      "SNO10": "DOUBLE GAUSS"
+    },
+    "diagnostics": [],
+    "settings": {},
+    "configurations": {
+      "1": {
+        "thicknesses": {},
+        "wavelengths": {},
+        "wavelength_weights": {},
+        "weight": 1.0,
+        "active": true
+      }
+    }
+  }
+}

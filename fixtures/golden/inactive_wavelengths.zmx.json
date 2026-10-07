@@ -1,0 +1,349 @@
+{
+  "schemaVersion": "1.0",
+  "source": {
+    "format": "zemax",
+    "filename": "inactive_wavelengths.zmx",
+    "encoding": "utf-8",
+    "upstreamRevision": "4e893f53aee1312f2d091680b93dd2279711e197"
+  },
+  "name": "SyntheticFTYP",
+  "mode": "sequential",
+  "units": {
+    "length": "mm",
+    "wavelength": "um",
+    "angle": "deg",
+    "sourceLength": "MM",
+    "scaleToMm": 1.0
+  },
+  "aperture": {
+    "kind": "entrancePupilDiameter",
+    "value": 4.0,
+    "source": {
+      "EPD": 4.0
+    }
+  },
+  "fields": {
+    "kind": "object_height",
+    "points": [
+      {
+        "x": 0.0,
+        "y": 0.0,
+        "weight": 1.0,
+        "vignetting": {}
+      }
+    ],
+    "reference": null,
+    "source": {
+      "type": "object_height",
+      "object_space_telecentric": false,
+      "afocal_image_space": false,
+      "x": [
+        0.0
+      ],
+      "y": [
+        0.0
+      ],
+      "num_fields": 1,
+      "weights": [
+        1.0
+      ]
+    }
+  },
+  "wavelengths": {
+    "valuesUm": [
+      0.78
+    ],
+    "weights": [
+      1.0
+    ],
+    "primaryIndex": 0
+  },
+  "surfaces": [
+    {
+      "index": 0,
+      "role": "object",
+      "type": "standard",
+      "radiusMm": {
+        "special": "positiveInfinity"
+      },
+      "thicknessMm": 10.0,
+      "conic": 0.0,
+      "stop": false,
+      "material": {
+        "kind": "air"
+      },
+      "clearAperture": null,
+      "parameters": {
+        "type": "standard",
+        "is_stop": false,
+        "conic": 0.0,
+        "material": "air",
+        "aperture": null,
+        "radius": {
+          "special": "positiveInfinity"
+        },
+        "thickness": 10.0
+      }
+    },
+    {
+      "index": 1,
+      "role": "surface",
+      "type": "standard",
+      "radiusMm": {
+        "special": "positiveInfinity"
+      },
+      "thicknessMm": 20.0,
+      "conic": 0.0,
+      "stop": true,
+      "material": {
+        "kind": "air"
+      },
+      "clearAperture": null,
+      "parameters": {
+        "type": "standard",
+        "is_stop": true,
+        "conic": 0.0,
+        "material": "air",
+        "aperture": null,
+        "radius": {
+          "special": "positiveInfinity"
+        },
+        "thickness": 20.0,
+        "diameter": 2.0
+      }
+    },
+    {
+      "index": 2,
+      "role": "image",
+      "type": "standard",
+      "radiusMm": {
+        "special": "positiveInfinity"
+      },
+      "thicknessMm": 0.0,
+      "conic": 0.0,
+      "stop": false,
+      "material": {
+        "kind": "air"
+      },
+      "clearAperture": null,
+      "parameters": {
+        "type": "standard",
+        "is_stop": false,
+        "conic": 0.0,
+        "material": "air",
+        "aperture": null,
+        "radius": {
+          "special": "positiveInfinity"
+        },
+        "thickness": 0.0
+      }
+    }
+  ],
+  "diagnostics": [
+    {
+      "severity": "info",
+      "code": "uninterpreted_record",
+      "command": "VERS",
+      "line": 1,
+      "surface": -1,
+      "message": "Record retained but not interpreted"
+    },
+    {
+      "severity": "info",
+      "code": "assumed_units",
+      "message": "No UNIT record; assuming millimeters"
+    }
+  ],
+  "raw": {
+    "mode": "Sequential",
+    "units": "MM",
+    "records": [
+      {
+        "line": 1,
+        "text": "VERS 240823"
+      },
+      {
+        "line": 2,
+        "text": "MODE SEQ"
+      },
+      {
+        "line": 3,
+        "text": "NAME SyntheticFTYP"
+      },
+      {
+        "line": 4,
+        "text": "ENPD 4"
+      },
+      {
+        "line": 5,
+        "text": "FTYP 1 0 1 1 0 0 0 1"
+      },
+      {
+        "line": 6,
+        "text": "XFLN 0"
+      },
+      {
+        "line": 7,
+        "text": "YFLN 0"
+      },
+      {
+        "line": 8,
+        "text": "FWGN 1"
+      },
+      {
+        "line": 9,
+        "text": "WAVM 1 .7800000 1"
+      },
+      {
+        "line": 10,
+        "text": "WAVM 2 .4350000 .1"
+      },
+      {
+        "line": 11,
+        "text": "WAVM 3 .6438469 .5"
+      },
+      {
+        "line": 12,
+        "text": "WAVM 4 .5460740 1"
+      },
+      {
+        "line": 13,
+        "text": "WAVM 5 .6500000 .7"
+      },
+      {
+        "line": 14,
+        "text": "PWAV 1"
+      },
+      {
+        "line": 15,
+        "text": "SURF 0"
+      },
+      {
+        "line": 16,
+        "text": "TYPE STANDARD"
+      },
+      {
+        "line": 17,
+        "text": "CURV 0"
+      },
+      {
+        "line": 18,
+        "text": "DISZ 10"
+      },
+      {
+        "line": 19,
+        "text": "SURF 1"
+      },
+      {
+        "line": 20,
+        "text": "TYPE STANDARD"
+      },
+      {
+        "line": 21,
+        "text": "STOP"
+      },
+      {
+        "line": 22,
+        "text": "CURV 0"
+      },
+      {
+        "line": 23,
+        "text": "DISZ 20"
+      },
+      {
+        "line": 24,
+        "text": "DIAM 2"
+      },
+      {
+        "line": 25,
+        "text": "SURF 2"
+      },
+      {
+        "line": 26,
+        "text": "TYPE STANDARD"
+      },
+      {
+        "line": 27,
+        "text": "CURV 0"
+      },
+      {
+        "line": 28,
+        "text": "DISZ 0"
+      }
+    ],
+    "diagnostics": [
+      {
+        "command": "VERS",
+        "line": 1,
+        "surface": -1,
+        "severity": "info",
+        "message": "Record retained but not interpreted"
+      }
+    ],
+    "name": "SyntheticFTYP",
+    "aperture": {
+      "EPD": 4.0
+    },
+    "fields": {
+      "type": "object_height",
+      "object_space_telecentric": false,
+      "afocal_image_space": false,
+      "x": [
+        0.0
+      ],
+      "y": [
+        0.0
+      ],
+      "num_fields": 1,
+      "weights": [
+        1.0
+      ]
+    },
+    "wavelengths": {
+      "data": [
+        0.78
+      ],
+      "weights": [
+        1.0
+      ],
+      "num_wavelengths": 1,
+      "primary_index": 0
+    },
+    "surfaces": {
+      "0": {
+        "type": "standard",
+        "is_stop": false,
+        "conic": 0.0,
+        "material": "air",
+        "aperture": null,
+        "radius": {
+          "special": "positiveInfinity"
+        },
+        "thickness": 10.0
+      },
+      "1": {
+        "type": "standard",
+        "is_stop": true,
+        "conic": 0.0,
+        "material": "air",
+        "aperture": null,
+        "radius": {
+          "special": "positiveInfinity"
+        },
+        "thickness": 20.0,
+        "diameter": 2.0
+      },
+      "2": {
+        "type": "standard",
+        "is_stop": false,
+        "conic": 0.0,
+        "material": "air",
+        "aperture": null,
+        "radius": {
+          "special": "positiveInfinity"
+        },
+        "thickness": 0.0
+      }
+    }
+  }
+}

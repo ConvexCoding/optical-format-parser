@@ -1,0 +1,528 @@
+{
+  "schemaVersion": "1.0",
+  "source": {
+    "format": "oslo",
+    "filename": "test_cooke_triplet.len",
+    "encoding": "utf-8",
+    "upstreamRevision": "4e893f53aee1312f2d091680b93dd2279711e197"
+  },
+  "name": "LENS",
+  "mode": "sequential",
+  "units": {
+    "length": "mm",
+    "wavelength": "um",
+    "angle": "deg",
+    "sourceLength": "lensUnit",
+    "scaleToMm": 1.0
+  },
+  "aperture": {
+    "kind": "beamRadiusAtSurface1",
+    "value": 5.0,
+    "source": {
+      "EPD": 10.0
+    }
+  },
+  "fields": {
+    "kind": "angle",
+    "points": [],
+    "reference": {
+      "y": 20.0,
+      "coordinates": "prescriptionExtent"
+    },
+    "source": {
+      "type": "angle",
+      "y": [
+        20.0
+      ]
+    }
+  },
+  "wavelengths": {
+    "valuesUm": [
+      0.48,
+      0.55,
+      0.65
+    ],
+    "weights": [
+      1.0,
+      1.0,
+      1.0
+    ],
+    "primaryIndex": 0
+  },
+  "surfaces": [
+    {
+      "index": 0,
+      "role": "object",
+      "type": "standard",
+      "radiusMm": {
+        "special": "positiveInfinity"
+      },
+      "thicknessMm": {
+        "special": "positiveInfinity"
+      },
+      "conic": 0.0,
+      "stop": false,
+      "material": {
+        "kind": "air"
+      },
+      "clearAperture": {
+        "kind": "annulus",
+        "r_min": 0.0,
+        "r_max": 3639702000.0,
+        "offset_x": 0.0,
+        "offset_y": 0.0,
+        "checked": false,
+        "checkingEnabled": true
+      },
+      "parameters": {
+        "material": "AIR",
+        "TH": 10000000000.0,
+        "AP": 3639702000.0,
+        "aperture_checked": false
+      }
+    },
+    {
+      "index": 1,
+      "role": "surface",
+      "type": "standard",
+      "radiusMm": 22.01359,
+      "thicknessMm": 3.25896,
+      "conic": 0.0,
+      "stop": false,
+      "material": {
+        "kind": "catalog",
+        "name": "SK16",
+        "resolution": "unresolved"
+      },
+      "clearAperture": null,
+      "parameters": {
+        "material": "GLA SK16",
+        "glass_wavelengths": [
+          0.58756,
+          0.48613,
+          0.65627
+        ],
+        "RD": 22.01359,
+        "TH": 3.25896
+      }
+    },
+    {
+      "index": 2,
+      "role": "surface",
+      "type": "standard",
+      "radiusMm": -435.7604,
+      "thicknessMm": 6.00755,
+      "conic": 0.0,
+      "stop": false,
+      "material": {
+        "kind": "air"
+      },
+      "clearAperture": null,
+      "parameters": {
+        "material": "AIR",
+        "RD": -435.7604,
+        "TH": 6.00755
+      }
+    },
+    {
+      "index": 3,
+      "role": "surface",
+      "type": "standard",
+      "radiusMm": -22.21328,
+      "thicknessMm": 0.99997,
+      "conic": 0.0,
+      "stop": false,
+      "material": {
+        "kind": "catalog",
+        "name": "F2",
+        "resolution": "unresolved"
+      },
+      "clearAperture": null,
+      "parameters": {
+        "material": "GLA F2",
+        "glass_wavelengths": [
+          0.58756,
+          0.48613,
+          0.65627
+        ],
+        "RD": -22.21328,
+        "TH": 0.99997
+      }
+    },
+    {
+      "index": 4,
+      "role": "surface",
+      "type": "standard",
+      "radiusMm": 20.29192,
+      "thicknessMm": 4.75041,
+      "conic": 0.0,
+      "stop": true,
+      "material": {
+        "kind": "air"
+      },
+      "clearAperture": {
+        "kind": "annulus",
+        "r_min": 0.0,
+        "r_max": 5.0,
+        "offset_x": 0.0,
+        "offset_y": 0.0,
+        "checked": false,
+        "checkingEnabled": true
+      },
+      "parameters": {
+        "material": "AIR",
+        "RD": 20.29192,
+        "TH": 4.75041,
+        "AP": 5.0,
+        "aperture_checked": false,
+        "AST": true
+      }
+    },
+    {
+      "index": 5,
+      "role": "surface",
+      "type": "standard",
+      "radiusMm": 79.6836,
+      "thicknessMm": 2.95208,
+      "conic": 0.0,
+      "stop": false,
+      "material": {
+        "kind": "catalog",
+        "name": "SK16",
+        "resolution": "unresolved"
+      },
+      "clearAperture": null,
+      "parameters": {
+        "material": "GLA SK16",
+        "glass_wavelengths": [
+          0.58756,
+          0.48613,
+          0.65627
+        ],
+        "RD": 79.6836,
+        "TH": 2.95208
+      }
+    },
+    {
+      "index": 6,
+      "role": "surface",
+      "type": "standard",
+      "radiusMm": -18.39533,
+      "thicknessMm": 42.20778,
+      "conic": 0.0,
+      "stop": false,
+      "material": {
+        "kind": "air"
+      },
+      "clearAperture": null,
+      "parameters": {
+        "material": "AIR",
+        "RD": -18.39533,
+        "TH": 42.20778
+      }
+    },
+    {
+      "index": 7,
+      "role": "image",
+      "type": "standard",
+      "radiusMm": {
+        "special": "positiveInfinity"
+      },
+      "thicknessMm": 0.0,
+      "conic": 0.0,
+      "stop": false,
+      "material": {
+        "kind": "air"
+      },
+      "clearAperture": null,
+      "parameters": {
+        "material": "AIR",
+        "TH": 0.0
+      }
+    }
+  ],
+  "diagnostics": [
+    {
+      "severity": "warning",
+      "code": "unresolved_material",
+      "message": "Material identity preserved; catalog lookup and dispersion fitting are not executed",
+      "surface": 1
+    },
+    {
+      "severity": "warning",
+      "code": "unresolved_material",
+      "message": "Material identity preserved; catalog lookup and dispersion fitting are not executed",
+      "surface": 3
+    },
+    {
+      "severity": "warning",
+      "code": "unresolved_material",
+      "message": "Material identity preserved; catalog lookup and dispersion fitting are not executed",
+      "surface": 5
+    }
+  ],
+  "raw": {
+    "name": "LENS",
+    "scaling": 49.99978,
+    "num_surfaces": 7,
+    "aperture": {
+      "EPD": 10.0
+    },
+    "fields": {
+      "type": "angle",
+      "y": [
+        20.0
+      ]
+    },
+    "wavelengths": {
+      "values": [
+        0.48,
+        0.55,
+        0.65
+      ],
+      "weights": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "primary_index": 0
+    },
+    "surfaces": {
+      "0": {
+        "material": "AIR",
+        "TH": 10000000000.0,
+        "AP": 3639702000.0,
+        "aperture_checked": false
+      },
+      "1": {
+        "material": "GLA SK16",
+        "glass_wavelengths": [
+          0.58756,
+          0.48613,
+          0.65627
+        ],
+        "RD": 22.01359,
+        "TH": 3.25896
+      },
+      "2": {
+        "material": "AIR",
+        "RD": -435.7604,
+        "TH": 6.00755
+      },
+      "3": {
+        "material": "GLA F2",
+        "glass_wavelengths": [
+          0.58756,
+          0.48613,
+          0.65627
+        ],
+        "RD": -22.21328,
+        "TH": 0.99997
+      },
+      "4": {
+        "material": "AIR",
+        "RD": 20.29192,
+        "TH": 4.75041,
+        "AP": 5.0,
+        "aperture_checked": false,
+        "AST": true
+      },
+      "5": {
+        "material": "GLA SK16",
+        "glass_wavelengths": [
+          0.58756,
+          0.48613,
+          0.65627
+        ],
+        "RD": 79.6836,
+        "TH": 2.95208
+      },
+      "6": {
+        "material": "AIR",
+        "RD": -18.39533,
+        "TH": 42.20778
+      },
+      "7": {
+        "material": "AIR",
+        "TH": 0.0
+      }
+    },
+    "units": 1.0,
+    "records": [
+      {
+        "line": 2,
+        "text": "LEN NEW \"LENS\" 49.99978 7"
+      },
+      {
+        "line": 3,
+        "text": "EBR 5"
+      },
+      {
+        "line": 4,
+        "text": "DES \"Optiland\""
+      },
+      {
+        "line": 5,
+        "text": "UNI 1"
+      },
+      {
+        "line": 6,
+        "text": "ANG 20"
+      },
+      {
+        "line": 7,
+        "text": "AIR"
+      },
+      {
+        "line": 8,
+        "text": "TH 1e+10"
+      },
+      {
+        "line": 9,
+        "text": "AP 3.639702e+09"
+      },
+      {
+        "line": 10,
+        "text": "NXT"
+      },
+      {
+        "line": 11,
+        "text": "GLA SK16"
+      },
+      {
+        "line": 12,
+        "text": "RD 22.01359"
+      },
+      {
+        "line": 13,
+        "text": "TH 3.25896"
+      },
+      {
+        "line": 14,
+        "text": "NXT"
+      },
+      {
+        "line": 15,
+        "text": "AIR"
+      },
+      {
+        "line": 16,
+        "text": "RD -435.7604"
+      },
+      {
+        "line": 17,
+        "text": "TH 6.00755"
+      },
+      {
+        "line": 18,
+        "text": "NXT"
+      },
+      {
+        "line": 19,
+        "text": "GLA F2"
+      },
+      {
+        "line": 20,
+        "text": "RD -22.21328"
+      },
+      {
+        "line": 21,
+        "text": "TH 0.99997"
+      },
+      {
+        "line": 22,
+        "text": "NXT"
+      },
+      {
+        "line": 23,
+        "text": "AIR"
+      },
+      {
+        "line": 24,
+        "text": "RD 20.29192"
+      },
+      {
+        "line": 25,
+        "text": "TH 4.75041"
+      },
+      {
+        "line": 26,
+        "text": "AP 5"
+      },
+      {
+        "line": 27,
+        "text": "AST"
+      },
+      {
+        "line": 28,
+        "text": "NXT"
+      },
+      {
+        "line": 29,
+        "text": "GLA SK16"
+      },
+      {
+        "line": 30,
+        "text": "RD 79.6836"
+      },
+      {
+        "line": 31,
+        "text": "TH 2.95208"
+      },
+      {
+        "line": 32,
+        "text": "NXT"
+      },
+      {
+        "line": 33,
+        "text": "AIR"
+      },
+      {
+        "line": 34,
+        "text": "RD -18.39533"
+      },
+      {
+        "line": 35,
+        "text": "TH 42.20778"
+      },
+      {
+        "line": 36,
+        "text": "NXT"
+      },
+      {
+        "line": 37,
+        "text": "AIR"
+      },
+      {
+        "line": 38,
+        "text": "TH 0"
+      },
+      {
+        "line": 39,
+        "text": "WV 0.48 0.55 0.65"
+      },
+      {
+        "line": 40,
+        "text": "WW 1 1 1"
+      },
+      {
+        "line": 41,
+        "text": "END 7"
+      }
+    ],
+    "notes": {
+      "DES": "Optiland"
+    },
+    "diagnostics": [],
+    "settings": {},
+    "configurations": {
+      "1": {
+        "thicknesses": {},
+        "wavelengths": {},
+        "wavelength_weights": {},
+        "weight": 1.0,
+        "active": true
+      }
+    }
+  }
+}

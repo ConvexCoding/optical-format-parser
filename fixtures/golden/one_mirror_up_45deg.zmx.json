@@ -1,0 +1,2315 @@
+{
+  "schemaVersion": "1.0",
+  "source": {
+    "format": "zemax",
+    "filename": "one_mirror_up_45deg.zmx",
+    "encoding": "utf-16-le",
+    "upstreamRevision": "4e893f53aee1312f2d091680b93dd2279711e197"
+  },
+  "name": "",
+  "mode": "sequential",
+  "units": {
+    "length": "mm",
+    "wavelength": "um",
+    "angle": "deg",
+    "sourceLength": "MM",
+    "scaleToMm": 1.0
+  },
+  "aperture": {
+    "kind": "entrancePupilDiameter",
+    "value": 20.0,
+    "source": {
+      "EPD": 20.0
+    }
+  },
+  "fields": {
+    "kind": "angle",
+    "points": [
+      {
+        "x": 0.0,
+        "y": 0.0,
+        "weight": 1.0,
+        "vignetting": {
+          "vignette_decenter_x": 0.0,
+          "vignette_decenter_y": 0.0,
+          "vignette_compress_x": 0.0,
+          "vignette_compress_y": 0.0,
+          "vignette_tangent_angle": 0.0
+        }
+      }
+    ],
+    "reference": null,
+    "source": {
+      "type": "angle",
+      "object_space_telecentric": false,
+      "afocal_image_space": false,
+      "x": [
+        0.0
+      ],
+      "y": [
+        0.0
+      ],
+      "num_fields": 1,
+      "weights": [
+        1.0
+      ],
+      "vignette_decenter_x": [
+        0.0
+      ],
+      "vignette_decenter_y": [
+        0.0
+      ],
+      "vignette_compress_x": [
+        0.0
+      ],
+      "vignette_compress_y": [
+        0.0
+      ],
+      "vignette_tangent_angle": [
+        0.0
+      ]
+    }
+  },
+  "wavelengths": {
+    "valuesUm": [
+      0.55
+    ],
+    "weights": [
+      1.0
+    ],
+    "primaryIndex": 0
+  },
+  "surfaces": [
+    {
+      "index": 0,
+      "role": "object",
+      "type": "standard",
+      "radiusMm": {
+        "special": "positiveInfinity"
+      },
+      "thicknessMm": {
+        "special": "positiveInfinity"
+      },
+      "conic": 0.0,
+      "stop": false,
+      "material": {
+        "kind": "air"
+      },
+      "clearAperture": null,
+      "parameters": {
+        "type": "standard",
+        "is_stop": false,
+        "conic": 0.0,
+        "material": "air",
+        "aperture": null,
+        "radius": {
+          "special": "positiveInfinity"
+        },
+        "thickness": {
+          "special": "positiveInfinity"
+        },
+        "diameter": 0.0
+      }
+    },
+    {
+      "index": 1,
+      "role": "surface",
+      "type": "standard",
+      "radiusMm": {
+        "special": "positiveInfinity"
+      },
+      "thicknessMm": 10.0,
+      "conic": 0.0,
+      "stop": false,
+      "material": {
+        "kind": "air"
+      },
+      "clearAperture": null,
+      "parameters": {
+        "type": "standard",
+        "is_stop": false,
+        "conic": 0.0,
+        "material": "air",
+        "aperture": null,
+        "radius": {
+          "special": "positiveInfinity"
+        },
+        "thickness": 10.0,
+        "diameter": 10.0
+      }
+    },
+    {
+      "index": 2,
+      "role": "surface",
+      "type": "standard",
+      "radiusMm": {
+        "special": "positiveInfinity"
+      },
+      "thicknessMm": 30.0,
+      "conic": 0.0,
+      "stop": true,
+      "material": {
+        "kind": "air"
+      },
+      "clearAperture": null,
+      "parameters": {
+        "type": "standard",
+        "is_stop": true,
+        "conic": 0.0,
+        "material": "air",
+        "aperture": null,
+        "radius": {
+          "special": "positiveInfinity"
+        },
+        "thickness": 30.0,
+        "diameter": 10.0
+      }
+    },
+    {
+      "index": 3,
+      "role": "coordinateBreak",
+      "type": "coordinate_break",
+      "radiusMm": {
+        "special": "positiveInfinity"
+      },
+      "thicknessMm": 0.0,
+      "conic": 0.0,
+      "stop": false,
+      "material": {
+        "kind": "air"
+      },
+      "clearAperture": null,
+      "parameters": {
+        "type": "coordinate_break",
+        "is_stop": false,
+        "conic": 0.0,
+        "material": "air",
+        "aperture": null,
+        "radius": {
+          "special": "positiveInfinity"
+        },
+        "param_0": 0.0,
+        "param_1": 0.0,
+        "param_2": 45.0,
+        "param_3": 0.0,
+        "param_4": 0.0,
+        "param_5": 0.0,
+        "thickness": 0.0,
+        "diameter": 0.0
+      }
+    },
+    {
+      "index": 4,
+      "role": "surface",
+      "type": "standard",
+      "radiusMm": {
+        "special": "positiveInfinity"
+      },
+      "thicknessMm": 0.0,
+      "conic": 0.0,
+      "stop": false,
+      "material": {
+        "kind": "mirror"
+      },
+      "clearAperture": null,
+      "parameters": {
+        "type": "standard",
+        "is_stop": false,
+        "conic": 0.0,
+        "material": {
+          "kind": "mirror"
+        },
+        "aperture": null,
+        "radius": {
+          "special": "positiveInfinity"
+        },
+        "thickness": 0.0,
+        "diameter": 14.142135623730955
+      }
+    },
+    {
+      "index": 5,
+      "role": "coordinateBreak",
+      "type": "coordinate_break",
+      "radiusMm": {
+        "special": "positiveInfinity"
+      },
+      "thicknessMm": -20.0,
+      "conic": 0.0,
+      "stop": false,
+      "material": {
+        "kind": "air"
+      },
+      "clearAperture": null,
+      "parameters": {
+        "type": "coordinate_break",
+        "is_stop": false,
+        "conic": 0.0,
+        "material": "air",
+        "aperture": null,
+        "radius": {
+          "special": "positiveInfinity"
+        },
+        "param_0": 0.0,
+        "param_1": 0.0,
+        "param_2": 45.0,
+        "param_3": 0.0,
+        "param_4": 0.0,
+        "param_5": 0.0,
+        "thickness": -20.0,
+        "diameter": 0.0
+      }
+    },
+    {
+      "index": 6,
+      "role": "image",
+      "type": "standard",
+      "radiusMm": {
+        "special": "positiveInfinity"
+      },
+      "thicknessMm": 0.0,
+      "conic": 0.0,
+      "stop": false,
+      "material": {
+        "kind": "air"
+      },
+      "clearAperture": null,
+      "parameters": {
+        "type": "standard",
+        "is_stop": false,
+        "conic": 0.0,
+        "material": "air",
+        "aperture": null,
+        "radius": {
+          "special": "positiveInfinity"
+        },
+        "thickness": 0.0,
+        "diameter": 10.000000000000005
+      }
+    }
+  ],
+  "diagnostics": [
+    {
+      "severity": "info",
+      "code": "uninterpreted_record",
+      "command": "VERS",
+      "line": 1,
+      "surface": -1,
+      "message": "Record retained but not interpreted"
+    },
+    {
+      "severity": "warning",
+      "code": "uninterpreted_record",
+      "command": "AUTH",
+      "line": 4,
+      "surface": -1,
+      "message": "Record retained but not interpreted"
+    },
+    {
+      "severity": "warning",
+      "code": "uninterpreted_record",
+      "command": "IWDP",
+      "line": 5,
+      "surface": -1,
+      "message": "Record retained but not interpreted"
+    },
+    {
+      "severity": "warning",
+      "code": "uninterpreted_record",
+      "command": "STUD",
+      "line": 6,
+      "surface": -1,
+      "message": "Record retained but not interpreted"
+    },
+    {
+      "severity": "info",
+      "code": "uninterpreted_record",
+      "command": "PFIL",
+      "line": 7,
+      "surface": -1,
+      "message": "Record retained but not interpreted"
+    },
+    {
+      "severity": "info",
+      "code": "uninterpreted_record",
+      "command": "LANG",
+      "line": 8,
+      "surface": -1,
+      "message": "Record retained but not interpreted"
+    },
+    {
+      "severity": "warning",
+      "code": "uninterpreted_record",
+      "command": "ENVD",
+      "line": 11,
+      "surface": -1,
+      "message": "Record retained but not interpreted"
+    },
+    {
+      "severity": "warning",
+      "code": "uninterpreted_record",
+      "command": "GFAC",
+      "line": 12,
+      "surface": -1,
+      "message": "Record retained but not interpreted"
+    },
+    {
+      "severity": "warning",
+      "code": "uninterpreted_record",
+      "command": "RAIM",
+      "line": 14,
+      "surface": -1,
+      "message": "Record retained but not interpreted"
+    },
+    {
+      "severity": "warning",
+      "code": "uninterpreted_record",
+      "command": "PUSH",
+      "line": 15,
+      "surface": -1,
+      "message": "Record retained but not interpreted"
+    },
+    {
+      "severity": "warning",
+      "code": "uninterpreted_record",
+      "command": "SDMA",
+      "line": 16,
+      "surface": -1,
+      "message": "Record retained but not interpreted"
+    },
+    {
+      "severity": "warning",
+      "code": "uninterpreted_record",
+      "command": "OMMA",
+      "line": 17,
+      "surface": -1,
+      "message": "Record retained but not interpreted"
+    },
+    {
+      "severity": "warning",
+      "code": "uninterpreted_record",
+      "command": "ROPD",
+      "line": 19,
+      "surface": -1,
+      "message": "Record retained but not interpreted"
+    },
+    {
+      "severity": "warning",
+      "code": "uninterpreted_record",
+      "command": "HYPR",
+      "line": 20,
+      "surface": -1,
+      "message": "Record retained but not interpreted"
+    },
+    {
+      "severity": "warning",
+      "code": "uninterpreted_record",
+      "command": "PICB",
+      "line": 21,
+      "surface": -1,
+      "message": "Record retained but not interpreted"
+    },
+    {
+      "severity": "warning",
+      "code": "uninterpreted_record",
+      "command": "POLS",
+      "line": 55,
+      "surface": -1,
+      "message": "Record retained but not interpreted"
+    },
+    {
+      "severity": "warning",
+      "code": "uninterpreted_record",
+      "command": "GLRS",
+      "line": 56,
+      "surface": -1,
+      "message": "Record retained but not interpreted"
+    },
+    {
+      "severity": "warning",
+      "code": "uninterpreted_record",
+      "command": "GSTD",
+      "line": 57,
+      "surface": -1,
+      "message": "Record retained but not interpreted"
+    },
+    {
+      "severity": "warning",
+      "code": "uninterpreted_record",
+      "command": "NSCD",
+      "line": 58,
+      "surface": -1,
+      "message": "Record retained but not interpreted"
+    },
+    {
+      "severity": "warning",
+      "code": "uninterpreted_record",
+      "command": "COFN",
+      "line": 59,
+      "surface": -1,
+      "message": "Record retained but not interpreted"
+    },
+    {
+      "severity": "warning",
+      "code": "uninterpreted_record",
+      "command": "COFN",
+      "line": 60,
+      "surface": -1,
+      "message": "Record retained but not interpreted"
+    },
+    {
+      "severity": "warning",
+      "code": "uninterpreted_record",
+      "command": "LUID",
+      "line": 61,
+      "surface": -1,
+      "message": "Record retained but not interpreted"
+    },
+    {
+      "severity": "warning",
+      "code": "uninterpreted_record",
+      "command": "EERA",
+      "line": 62,
+      "surface": -1,
+      "message": "Record retained but not interpreted"
+    },
+    {
+      "severity": "warning",
+      "code": "uninterpreted_record",
+      "command": "SSID",
+      "line": 64,
+      "surface": 0,
+      "message": "Record retained but not interpreted"
+    },
+    {
+      "severity": "warning",
+      "code": "uninterpreted_record",
+      "command": "FIMP",
+      "line": 66,
+      "surface": 0,
+      "message": "Record retained but not interpreted"
+    },
+    {
+      "severity": "warning",
+      "code": "uninterpreted_record",
+      "command": "HIDE",
+      "line": 69,
+      "surface": 0,
+      "message": "Record retained but not interpreted"
+    },
+    {
+      "severity": "warning",
+      "code": "uninterpreted_record",
+      "command": "MIRR",
+      "line": 70,
+      "surface": 0,
+      "message": "Record retained but not interpreted"
+    },
+    {
+      "severity": "warning",
+      "code": "uninterpreted_record",
+      "command": "SLAB",
+      "line": 71,
+      "surface": 0,
+      "message": "Record retained but not interpreted"
+    },
+    {
+      "severity": "warning",
+      "code": "uninterpreted_record",
+      "command": "MEMA",
+      "line": 74,
+      "surface": 0,
+      "message": "Record retained but not interpreted"
+    },
+    {
+      "severity": "warning",
+      "code": "uninterpreted_record",
+      "command": "POPS",
+      "line": 75,
+      "surface": 0,
+      "message": "Record retained but not interpreted"
+    },
+    {
+      "severity": "warning",
+      "code": "uninterpreted_record",
+      "command": "SSID",
+      "line": 77,
+      "surface": 1,
+      "message": "Record retained but not interpreted"
+    },
+    {
+      "severity": "warning",
+      "code": "uninterpreted_record",
+      "command": "COMM",
+      "line": 78,
+      "surface": 1,
+      "message": "Record retained but not interpreted"
+    },
+    {
+      "severity": "warning",
+      "code": "uninterpreted_record",
+      "command": "FIMP",
+      "line": 80,
+      "surface": 1,
+      "message": "Record retained but not interpreted"
+    },
+    {
+      "severity": "warning",
+      "code": "uninterpreted_record",
+      "command": "HIDE",
+      "line": 83,
+      "surface": 1,
+      "message": "Record retained but not interpreted"
+    },
+    {
+      "severity": "warning",
+      "code": "uninterpreted_record",
+      "command": "MIRR",
+      "line": 84,
+      "surface": 1,
+      "message": "Record retained but not interpreted"
+    },
+    {
+      "severity": "warning",
+      "code": "uninterpreted_record",
+      "command": "SLAB",
+      "line": 85,
+      "surface": 1,
+      "message": "Record retained but not interpreted"
+    },
+    {
+      "severity": "warning",
+      "code": "uninterpreted_record",
+      "command": "MEMA",
+      "line": 88,
+      "surface": 1,
+      "message": "Record retained but not interpreted"
+    },
+    {
+      "severity": "warning",
+      "code": "uninterpreted_record",
+      "command": "POPS",
+      "line": 89,
+      "surface": 1,
+      "message": "Record retained but not interpreted"
+    },
+    {
+      "severity": "warning",
+      "code": "uninterpreted_record",
+      "command": "SSID",
+      "line": 91,
+      "surface": 2,
+      "message": "Record retained but not interpreted"
+    },
+    {
+      "severity": "warning",
+      "code": "uninterpreted_record",
+      "command": "FIMP",
+      "line": 94,
+      "surface": 2,
+      "message": "Record retained but not interpreted"
+    },
+    {
+      "severity": "warning",
+      "code": "uninterpreted_record",
+      "command": "HIDE",
+      "line": 97,
+      "surface": 2,
+      "message": "Record retained but not interpreted"
+    },
+    {
+      "severity": "warning",
+      "code": "uninterpreted_record",
+      "command": "MIRR",
+      "line": 98,
+      "surface": 2,
+      "message": "Record retained but not interpreted"
+    },
+    {
+      "severity": "warning",
+      "code": "uninterpreted_record",
+      "command": "SLAB",
+      "line": 99,
+      "surface": 2,
+      "message": "Record retained but not interpreted"
+    },
+    {
+      "severity": "warning",
+      "code": "uninterpreted_record",
+      "command": "MEMA",
+      "line": 102,
+      "surface": 2,
+      "message": "Record retained but not interpreted"
+    },
+    {
+      "severity": "warning",
+      "code": "uninterpreted_record",
+      "command": "POPS",
+      "line": 103,
+      "surface": 2,
+      "message": "Record retained but not interpreted"
+    },
+    {
+      "severity": "warning",
+      "code": "uninterpreted_record",
+      "command": "SSID",
+      "line": 105,
+      "surface": 3,
+      "message": "Record retained but not interpreted"
+    },
+    {
+      "severity": "warning",
+      "code": "uninterpreted_record",
+      "command": "FIMP",
+      "line": 107,
+      "surface": 3,
+      "message": "Record retained but not interpreted"
+    },
+    {
+      "severity": "warning",
+      "code": "uninterpreted_record",
+      "command": "HIDE",
+      "line": 110,
+      "surface": 3,
+      "message": "Record retained but not interpreted"
+    },
+    {
+      "severity": "warning",
+      "code": "uninterpreted_record",
+      "command": "MIRR",
+      "line": 111,
+      "surface": 3,
+      "message": "Record retained but not interpreted"
+    },
+    {
+      "severity": "warning",
+      "code": "uninterpreted_record",
+      "command": "SLAB",
+      "line": 112,
+      "surface": 3,
+      "message": "Record retained but not interpreted"
+    },
+    {
+      "severity": "warning",
+      "code": "uninterpreted_record",
+      "command": "MEMA",
+      "line": 121,
+      "surface": 3,
+      "message": "Record retained but not interpreted"
+    },
+    {
+      "severity": "warning",
+      "code": "uninterpreted_record",
+      "command": "POPS",
+      "line": 122,
+      "surface": 3,
+      "message": "Record retained but not interpreted"
+    },
+    {
+      "severity": "warning",
+      "code": "uninterpreted_record",
+      "command": "SSID",
+      "line": 124,
+      "surface": 4,
+      "message": "Record retained but not interpreted"
+    },
+    {
+      "severity": "warning",
+      "code": "uninterpreted_record",
+      "command": "COMM",
+      "line": 125,
+      "surface": 4,
+      "message": "Record retained but not interpreted"
+    },
+    {
+      "severity": "warning",
+      "code": "uninterpreted_record",
+      "command": "FIMP",
+      "line": 127,
+      "surface": 4,
+      "message": "Record retained but not interpreted"
+    },
+    {
+      "severity": "warning",
+      "code": "uninterpreted_record",
+      "command": "HIDE",
+      "line": 130,
+      "surface": 4,
+      "message": "Record retained but not interpreted"
+    },
+    {
+      "severity": "warning",
+      "code": "uninterpreted_record",
+      "command": "MIRR",
+      "line": 131,
+      "surface": 4,
+      "message": "Record retained but not interpreted"
+    },
+    {
+      "severity": "warning",
+      "code": "uninterpreted_record",
+      "command": "SLAB",
+      "line": 132,
+      "surface": 4,
+      "message": "Record retained but not interpreted"
+    },
+    {
+      "severity": "warning",
+      "code": "uninterpreted_record",
+      "command": "MEMA",
+      "line": 136,
+      "surface": 4,
+      "message": "Record retained but not interpreted"
+    },
+    {
+      "severity": "warning",
+      "code": "uninterpreted_record",
+      "command": "POPS",
+      "line": 137,
+      "surface": 4,
+      "message": "Record retained but not interpreted"
+    },
+    {
+      "severity": "warning",
+      "code": "uninterpreted_record",
+      "command": "SSID",
+      "line": 139,
+      "surface": 5,
+      "message": "Record retained but not interpreted"
+    },
+    {
+      "severity": "warning",
+      "code": "uninterpreted_record",
+      "command": "FIMP",
+      "line": 141,
+      "surface": 5,
+      "message": "Record retained but not interpreted"
+    },
+    {
+      "severity": "warning",
+      "code": "uninterpreted_record",
+      "command": "HIDE",
+      "line": 144,
+      "surface": 5,
+      "message": "Record retained but not interpreted"
+    },
+    {
+      "severity": "warning",
+      "code": "uninterpreted_record",
+      "command": "MIRR",
+      "line": 145,
+      "surface": 5,
+      "message": "Record retained but not interpreted"
+    },
+    {
+      "severity": "warning",
+      "code": "uninterpreted_record",
+      "command": "SLAB",
+      "line": 146,
+      "surface": 5,
+      "message": "Record retained but not interpreted"
+    },
+    {
+      "severity": "warning",
+      "code": "uninterpreted_record",
+      "command": "PPAR",
+      "line": 150,
+      "surface": 5,
+      "message": "Record retained but not interpreted"
+    },
+    {
+      "severity": "warning",
+      "code": "uninterpreted_record",
+      "command": "MEMA",
+      "line": 156,
+      "surface": 5,
+      "message": "Record retained but not interpreted"
+    },
+    {
+      "severity": "warning",
+      "code": "uninterpreted_record",
+      "command": "POPS",
+      "line": 157,
+      "surface": 5,
+      "message": "Record retained but not interpreted"
+    },
+    {
+      "severity": "warning",
+      "code": "uninterpreted_record",
+      "command": "SSID",
+      "line": 159,
+      "surface": 6,
+      "message": "Record retained but not interpreted"
+    },
+    {
+      "severity": "warning",
+      "code": "uninterpreted_record",
+      "command": "FIMP",
+      "line": 161,
+      "surface": 6,
+      "message": "Record retained but not interpreted"
+    },
+    {
+      "severity": "warning",
+      "code": "uninterpreted_record",
+      "command": "HIDE",
+      "line": 164,
+      "surface": 6,
+      "message": "Record retained but not interpreted"
+    },
+    {
+      "severity": "warning",
+      "code": "uninterpreted_record",
+      "command": "MIRR",
+      "line": 165,
+      "surface": 6,
+      "message": "Record retained but not interpreted"
+    },
+    {
+      "severity": "warning",
+      "code": "uninterpreted_record",
+      "command": "SLAB",
+      "line": 166,
+      "surface": 6,
+      "message": "Record retained but not interpreted"
+    },
+    {
+      "severity": "warning",
+      "code": "uninterpreted_record",
+      "command": "MEMA",
+      "line": 169,
+      "surface": 6,
+      "message": "Record retained but not interpreted"
+    },
+    {
+      "severity": "warning",
+      "code": "uninterpreted_record",
+      "command": "POPS",
+      "line": 170,
+      "surface": 6,
+      "message": "Record retained but not interpreted"
+    },
+    {
+      "severity": "warning",
+      "code": "uninterpreted_record",
+      "command": "BLNK",
+      "line": 171,
+      "surface": 6,
+      "message": "Record retained but not interpreted"
+    },
+    {
+      "severity": "warning",
+      "code": "uninterpreted_record",
+      "command": "TOL",
+      "line": 172,
+      "surface": 6,
+      "message": "Record retained but not interpreted"
+    },
+    {
+      "severity": "info",
+      "code": "uninterpreted_record",
+      "command": "MNUM",
+      "line": 173,
+      "surface": 6,
+      "message": "Record retained but not interpreted"
+    },
+    {
+      "severity": "warning",
+      "code": "uninterpreted_record",
+      "command": "MOFF",
+      "line": 174,
+      "surface": 6,
+      "message": "Record retained but not interpreted"
+    },
+    {
+      "severity": "warning",
+      "code": "unresolved_coordinates",
+      "message": "Coordinate declarations retained; no global frame is calculated",
+      "surface": 3
+    },
+    {
+      "severity": "warning",
+      "code": "unresolved_coordinates",
+      "message": "Coordinate declarations retained; no global frame is calculated",
+      "surface": 5
+    }
+  ],
+  "raw": {
+    "mode": "Sequential",
+    "units": "MM",
+    "records": [
+      {
+        "line": 1,
+        "text": "VERS 240823 36 1055371 1055371"
+      },
+      {
+        "line": 2,
+        "text": "MODE SEQ"
+      },
+      {
+        "line": 3,
+        "text": "NAME"
+      },
+      {
+        "line": 4,
+        "text": "AUTH"
+      },
+      {
+        "line": 5,
+        "text": "IWDP 0"
+      },
+      {
+        "line": 6,
+        "text": "STUD 1"
+      },
+      {
+        "line": 7,
+        "text": "PFIL 0 0 0"
+      },
+      {
+        "line": 8,
+        "text": "LANG 0"
+      },
+      {
+        "line": 9,
+        "text": "UNIT MM X W X CM MR CPMM LU"
+      },
+      {
+        "line": 10,
+        "text": "ENPD 20"
+      },
+      {
+        "line": 11,
+        "text": "ENVD 20 1 0"
+      },
+      {
+        "line": 12,
+        "text": "GFAC 0 0"
+      },
+      {
+        "line": 13,
+        "text": "GCAT SCHOTT"
+      },
+      {
+        "line": 14,
+        "text": "RAIM 0 0 1 1 0 0 0 0 0 1"
+      },
+      {
+        "line": 15,
+        "text": "PUSH 0 0 0 0 0 0"
+      },
+      {
+        "line": 16,
+        "text": "SDMA 0 1 0"
+      },
+      {
+        "line": 17,
+        "text": "OMMA 0 0"
+      },
+      {
+        "line": 18,
+        "text": "FTYP 0 0 1 1 0 0 0 1"
+      },
+      {
+        "line": 19,
+        "text": "ROPD 2"
+      },
+      {
+        "line": 20,
+        "text": "HYPR 0"
+      },
+      {
+        "line": 21,
+        "text": "PICB 1"
+      },
+      {
+        "line": 22,
+        "text": "XFLN 0"
+      },
+      {
+        "line": 23,
+        "text": "YFLN 0"
+      },
+      {
+        "line": 24,
+        "text": "FWGN 1"
+      },
+      {
+        "line": 25,
+        "text": "VDXN 0"
+      },
+      {
+        "line": 26,
+        "text": "VDYN 0"
+      },
+      {
+        "line": 27,
+        "text": "VCXN 0"
+      },
+      {
+        "line": 28,
+        "text": "VCYN 0"
+      },
+      {
+        "line": 29,
+        "text": "VANN 0"
+      },
+      {
+        "line": 30,
+        "text": "WAVM 1 0.55000000000000004 1"
+      },
+      {
+        "line": 31,
+        "text": "WAVM 2 0.55000000000000004 1"
+      },
+      {
+        "line": 32,
+        "text": "WAVM 3 0.55000000000000004 1"
+      },
+      {
+        "line": 33,
+        "text": "WAVM 4 0.55000000000000004 1"
+      },
+      {
+        "line": 34,
+        "text": "WAVM 5 0.55000000000000004 1"
+      },
+      {
+        "line": 35,
+        "text": "WAVM 6 0.55000000000000004 1"
+      },
+      {
+        "line": 36,
+        "text": "WAVM 7 0.55000000000000004 1"
+      },
+      {
+        "line": 37,
+        "text": "WAVM 8 0.55000000000000004 1"
+      },
+      {
+        "line": 38,
+        "text": "WAVM 9 0.55000000000000004 1"
+      },
+      {
+        "line": 39,
+        "text": "WAVM 10 0.55000000000000004 1"
+      },
+      {
+        "line": 40,
+        "text": "WAVM 11 0.55000000000000004 1"
+      },
+      {
+        "line": 41,
+        "text": "WAVM 12 0.55000000000000004 1"
+      },
+      {
+        "line": 42,
+        "text": "WAVM 13 0.55000000000000004 1"
+      },
+      {
+        "line": 43,
+        "text": "WAVM 14 0.55000000000000004 1"
+      },
+      {
+        "line": 44,
+        "text": "WAVM 15 0.55000000000000004 1"
+      },
+      {
+        "line": 45,
+        "text": "WAVM 16 0.55000000000000004 1"
+      },
+      {
+        "line": 46,
+        "text": "WAVM 17 0.55000000000000004 1"
+      },
+      {
+        "line": 47,
+        "text": "WAVM 18 0.55000000000000004 1"
+      },
+      {
+        "line": 48,
+        "text": "WAVM 19 0.55000000000000004 1"
+      },
+      {
+        "line": 49,
+        "text": "WAVM 20 0.55000000000000004 1"
+      },
+      {
+        "line": 50,
+        "text": "WAVM 21 0.55000000000000004 1"
+      },
+      {
+        "line": 51,
+        "text": "WAVM 22 0.55000000000000004 1"
+      },
+      {
+        "line": 52,
+        "text": "WAVM 23 0.55000000000000004 1"
+      },
+      {
+        "line": 53,
+        "text": "WAVM 24 0.55000000000000004 1"
+      },
+      {
+        "line": 54,
+        "text": "PWAV 1"
+      },
+      {
+        "line": 55,
+        "text": "POLS 1 0 1 0 0 1 0"
+      },
+      {
+        "line": 56,
+        "text": "GLRS 2 0"
+      },
+      {
+        "line": 57,
+        "text": "GSTD 0 100.000 100.000 100.000 100.000 100.000 100.000 0 1 1 0 0 1 1 1 1 1 1"
+      },
+      {
+        "line": 58,
+        "text": "NSCD 100 500 0 0.001 10 9.9999999999999995e-07 0 0 0 0 0 0 1000000 0 2"
+      },
+      {
+        "line": 59,
+        "text": "COFN QF \"COATING.DAT\" \"SCATTER_PROFILE.DAT\" \"ABG_DATA.DAT\" \"PROFILE.GRD\""
+      },
+      {
+        "line": 60,
+        "text": "COFN COATING.DAT SCATTER_PROFILE.DAT ABG_DATA.DAT PROFILE.GRD"
+      },
+      {
+        "line": 61,
+        "text": "LUID 11"
+      },
+      {
+        "line": 62,
+        "text": "EERA 0 0 0 10"
+      },
+      {
+        "line": 63,
+        "text": "SURF 0"
+      },
+      {
+        "line": 64,
+        "text": "SSID 0"
+      },
+      {
+        "line": 65,
+        "text": "TYPE STANDARD"
+      },
+      {
+        "line": 66,
+        "text": "FIMP"
+      },
+      {
+        "line": 68,
+        "text": "CURV 0.0 0 0 0 0 \"\""
+      },
+      {
+        "line": 69,
+        "text": "HIDE 0 0 0 0 0 0 0 0 0 0 0 0"
+      },
+      {
+        "line": 70,
+        "text": "MIRR 2 0"
+      },
+      {
+        "line": 71,
+        "text": "SLAB 11"
+      },
+      {
+        "line": 72,
+        "text": "DISZ INFINITY"
+      },
+      {
+        "line": 73,
+        "text": "DIAM 0 0 0 0 1 \"\""
+      },
+      {
+        "line": 74,
+        "text": "MEMA 0 0 0 0 1 \"\""
+      },
+      {
+        "line": 75,
+        "text": "POPS 0 0 0 0 0 0 0 0 1 1 1 1 0 0 0 0"
+      },
+      {
+        "line": 76,
+        "text": "SURF 1"
+      },
+      {
+        "line": 77,
+        "text": "SSID 1"
+      },
+      {
+        "line": 78,
+        "text": "COMM dummy"
+      },
+      {
+        "line": 79,
+        "text": "TYPE STANDARD"
+      },
+      {
+        "line": 80,
+        "text": "FIMP"
+      },
+      {
+        "line": 82,
+        "text": "CURV 0.0 0 0 0 0 \"\""
+      },
+      {
+        "line": 83,
+        "text": "HIDE 0 0 0 0 0 0 0 0 0 0 0 0"
+      },
+      {
+        "line": 84,
+        "text": "MIRR 2 0"
+      },
+      {
+        "line": 85,
+        "text": "SLAB 1"
+      },
+      {
+        "line": 86,
+        "text": "DISZ 10"
+      },
+      {
+        "line": 87,
+        "text": "DIAM 10 0 0 0 1 \"\""
+      },
+      {
+        "line": 88,
+        "text": "MEMA 10 0 0 0 1 \"\""
+      },
+      {
+        "line": 89,
+        "text": "POPS 0 0 0 0 0 0 0 0 1 1 1 1 0 0 0 0"
+      },
+      {
+        "line": 90,
+        "text": "SURF 2"
+      },
+      {
+        "line": 91,
+        "text": "SSID 2"
+      },
+      {
+        "line": 92,
+        "text": "STOP"
+      },
+      {
+        "line": 93,
+        "text": "TYPE STANDARD"
+      },
+      {
+        "line": 94,
+        "text": "FIMP"
+      },
+      {
+        "line": 96,
+        "text": "CURV 0.0 0 0 0 0 \"\""
+      },
+      {
+        "line": 97,
+        "text": "HIDE 0 0 0 0 0 0 0 0 0 0 0 0"
+      },
+      {
+        "line": 98,
+        "text": "MIRR 2 0"
+      },
+      {
+        "line": 99,
+        "text": "SLAB 12"
+      },
+      {
+        "line": 100,
+        "text": "DISZ 30"
+      },
+      {
+        "line": 101,
+        "text": "DIAM 10 0 0 0 1 \"\""
+      },
+      {
+        "line": 102,
+        "text": "MEMA 10 0 0 0 1 \"\""
+      },
+      {
+        "line": 103,
+        "text": "POPS 0 0 0 0 0 0 0 0 1 1 1 1 0 0 0 0"
+      },
+      {
+        "line": 104,
+        "text": "SURF 3"
+      },
+      {
+        "line": 105,
+        "text": "SSID 3"
+      },
+      {
+        "line": 106,
+        "text": "TYPE COORDBRK"
+      },
+      {
+        "line": 107,
+        "text": "FIMP"
+      },
+      {
+        "line": 109,
+        "text": "CURV 0.0 0 0.0 0.0 0"
+      },
+      {
+        "line": 110,
+        "text": "HIDE 0 0 0 0 0 0 0 0 0 0 0 0"
+      },
+      {
+        "line": 111,
+        "text": "MIRR 2 0"
+      },
+      {
+        "line": 112,
+        "text": "SLAB 4"
+      },
+      {
+        "line": 113,
+        "text": "PARM 1 0"
+      },
+      {
+        "line": 114,
+        "text": "PARM 2 0"
+      },
+      {
+        "line": 115,
+        "text": "PARM 3 45"
+      },
+      {
+        "line": 116,
+        "text": "PARM 4 0"
+      },
+      {
+        "line": 117,
+        "text": "PARM 5 0"
+      },
+      {
+        "line": 118,
+        "text": "PARM 6 0"
+      },
+      {
+        "line": 119,
+        "text": "DISZ 0"
+      },
+      {
+        "line": 120,
+        "text": "DIAM 0 0 0 0 1 \"\""
+      },
+      {
+        "line": 121,
+        "text": "MEMA 0 0 0 0 1 \"\""
+      },
+      {
+        "line": 122,
+        "text": "POPS 0 0 0 0 0 0 0 0 1 1 1 1 0 0 0 0"
+      },
+      {
+        "line": 123,
+        "text": "SURF 4"
+      },
+      {
+        "line": 124,
+        "text": "SSID 4"
+      },
+      {
+        "line": 125,
+        "text": "COMM M1"
+      },
+      {
+        "line": 126,
+        "text": "TYPE STANDARD"
+      },
+      {
+        "line": 127,
+        "text": "FIMP"
+      },
+      {
+        "line": 129,
+        "text": "CURV 0.0 0 0 0 0 \"\""
+      },
+      {
+        "line": 130,
+        "text": "HIDE 0 0 0 0 0 0 0 0 0 0 0 0"
+      },
+      {
+        "line": 131,
+        "text": "MIRR 1 0"
+      },
+      {
+        "line": 132,
+        "text": "SLAB 2"
+      },
+      {
+        "line": 133,
+        "text": "DISZ 0"
+      },
+      {
+        "line": 134,
+        "text": "GLAS MIRROR 0 0 1.5 40 0 0 0 0 0 0"
+      },
+      {
+        "line": 135,
+        "text": "DIAM 14.142135623730955 0 0 0 1 \"\""
+      },
+      {
+        "line": 136,
+        "text": "MEMA 14.142135623730955 0 0 0 1 \"\""
+      },
+      {
+        "line": 137,
+        "text": "POPS 0 0 0 0 0 0 0 0 1 1 1 1 0 0 0 0"
+      },
+      {
+        "line": 138,
+        "text": "SURF 5"
+      },
+      {
+        "line": 139,
+        "text": "SSID 5"
+      },
+      {
+        "line": 140,
+        "text": "TYPE COORDBRK"
+      },
+      {
+        "line": 141,
+        "text": "FIMP"
+      },
+      {
+        "line": 143,
+        "text": "CURV 0.0 0 0.0 0.0 0"
+      },
+      {
+        "line": 144,
+        "text": "HIDE 0 0 0 0 0 0 0 0 0 0 0 0"
+      },
+      {
+        "line": 145,
+        "text": "MIRR 2 0"
+      },
+      {
+        "line": 146,
+        "text": "SLAB 5"
+      },
+      {
+        "line": 147,
+        "text": "PARM 1 0"
+      },
+      {
+        "line": 148,
+        "text": "PARM 2 0"
+      },
+      {
+        "line": 149,
+        "text": "PARM 3 45"
+      },
+      {
+        "line": 150,
+        "text": "PPAR 3 3 1.000000000000E+00 0.000000000000E+00 0"
+      },
+      {
+        "line": 151,
+        "text": "PARM 4 0"
+      },
+      {
+        "line": 152,
+        "text": "PARM 5 0"
+      },
+      {
+        "line": 153,
+        "text": "PARM 6 0"
+      },
+      {
+        "line": 154,
+        "text": "DISZ -20"
+      },
+      {
+        "line": 155,
+        "text": "DIAM 0 0 0 0 1 \"\""
+      },
+      {
+        "line": 156,
+        "text": "MEMA 0 0 0 0 1 \"\""
+      },
+      {
+        "line": 157,
+        "text": "POPS 0 0 0 0 0 0 0 0 1 1 1 1 0 0 0 0"
+      },
+      {
+        "line": 158,
+        "text": "SURF 6"
+      },
+      {
+        "line": 159,
+        "text": "SSID 11"
+      },
+      {
+        "line": 160,
+        "text": "TYPE STANDARD"
+      },
+      {
+        "line": 161,
+        "text": "FIMP"
+      },
+      {
+        "line": 163,
+        "text": "CURV -0.0 0 0 0 0 \"\""
+      },
+      {
+        "line": 164,
+        "text": "HIDE 0 0 0 0 0 0 0 0 0 0 0 0"
+      },
+      {
+        "line": 165,
+        "text": "MIRR 2 0"
+      },
+      {
+        "line": 166,
+        "text": "SLAB 10"
+      },
+      {
+        "line": 167,
+        "text": "DISZ 0"
+      },
+      {
+        "line": 168,
+        "text": "DIAM 10.000000000000005 0 0 0 1 \"\""
+      },
+      {
+        "line": 169,
+        "text": "MEMA 10.000000000000005 0 0 0 1 \"\""
+      },
+      {
+        "line": 170,
+        "text": "POPS 0 0 0 0 0 0 0 0 1 1 1 1 0 0 0 0"
+      },
+      {
+        "line": 171,
+        "text": "BLNK"
+      },
+      {
+        "line": 172,
+        "text": "TOL TOFF   0   0 0.0000000000000000E+00 0.0000000000000000E+00   0 0 0 0 0"
+      },
+      {
+        "line": 173,
+        "text": "MNUM 1 1"
+      },
+      {
+        "line": 174,
+        "text": "MOFF   0   1 \"\" 0 0 0 1 1 0 0.0 \"\" 0"
+      }
+    ],
+    "diagnostics": [
+      {
+        "command": "VERS",
+        "line": 1,
+        "surface": -1,
+        "severity": "info",
+        "message": "Record retained but not interpreted"
+      },
+      {
+        "command": "AUTH",
+        "line": 4,
+        "surface": -1,
+        "severity": "warning",
+        "message": "Record retained but not interpreted"
+      },
+      {
+        "command": "IWDP",
+        "line": 5,
+        "surface": -1,
+        "severity": "warning",
+        "message": "Record retained but not interpreted"
+      },
+      {
+        "command": "STUD",
+        "line": 6,
+        "surface": -1,
+        "severity": "warning",
+        "message": "Record retained but not interpreted"
+      },
+      {
+        "command": "PFIL",
+        "line": 7,
+        "surface": -1,
+        "severity": "info",
+        "message": "Record retained but not interpreted"
+      },
+      {
+        "command": "LANG",
+        "line": 8,
+        "surface": -1,
+        "severity": "info",
+        "message": "Record retained but not interpreted"
+      },
+      {
+        "command": "ENVD",
+        "line": 11,
+        "surface": -1,
+        "severity": "warning",
+        "message": "Record retained but not interpreted"
+      },
+      {
+        "command": "GFAC",
+        "line": 12,
+        "surface": -1,
+        "severity": "warning",
+        "message": "Record retained but not interpreted"
+      },
+      {
+        "command": "RAIM",
+        "line": 14,
+        "surface": -1,
+        "severity": "warning",
+        "message": "Record retained but not interpreted"
+      },
+      {
+        "command": "PUSH",
+        "line": 15,
+        "surface": -1,
+        "severity": "warning",
+        "message": "Record retained but not interpreted"
+      },
+      {
+        "command": "SDMA",
+        "line": 16,
+        "surface": -1,
+        "severity": "warning",
+        "message": "Record retained but not interpreted"
+      },
+      {
+        "command": "OMMA",
+        "line": 17,
+        "surface": -1,
+        "severity": "warning",
+        "message": "Record retained but not interpreted"
+      },
+      {
+        "command": "ROPD",
+        "line": 19,
+        "surface": -1,
+        "severity": "warning",
+        "message": "Record retained but not interpreted"
+      },
+      {
+        "command": "HYPR",
+        "line": 20,
+        "surface": -1,
+        "severity": "warning",
+        "message": "Record retained but not interpreted"
+      },
+      {
+        "command": "PICB",
+        "line": 21,
+        "surface": -1,
+        "severity": "warning",
+        "message": "Record retained but not interpreted"
+      },
+      {
+        "command": "POLS",
+        "line": 55,
+        "surface": -1,
+        "severity": "warning",
+        "message": "Record retained but not interpreted"
+      },
+      {
+        "command": "GLRS",
+        "line": 56,
+        "surface": -1,
+        "severity": "warning",
+        "message": "Record retained but not interpreted"
+      },
+      {
+        "command": "GSTD",
+        "line": 57,
+        "surface": -1,
+        "severity": "warning",
+        "message": "Record retained but not interpreted"
+      },
+      {
+        "command": "NSCD",
+        "line": 58,
+        "surface": -1,
+        "severity": "warning",
+        "message": "Record retained but not interpreted"
+      },
+      {
+        "command": "COFN",
+        "line": 59,
+        "surface": -1,
+        "severity": "warning",
+        "message": "Record retained but not interpreted"
+      },
+      {
+        "command": "COFN",
+        "line": 60,
+        "surface": -1,
+        "severity": "warning",
+        "message": "Record retained but not interpreted"
+      },
+      {
+        "command": "LUID",
+        "line": 61,
+        "surface": -1,
+        "severity": "warning",
+        "message": "Record retained but not interpreted"
+      },
+      {
+        "command": "EERA",
+        "line": 62,
+        "surface": -1,
+        "severity": "warning",
+        "message": "Record retained but not interpreted"
+      },
+      {
+        "command": "SSID",
+        "line": 64,
+        "surface": 0,
+        "severity": "warning",
+        "message": "Record retained but not interpreted"
+      },
+      {
+        "command": "FIMP",
+        "line": 66,
+        "surface": 0,
+        "severity": "warning",
+        "message": "Record retained but not interpreted"
+      },
+      {
+        "command": "HIDE",
+        "line": 69,
+        "surface": 0,
+        "severity": "warning",
+        "message": "Record retained but not interpreted"
+      },
+      {
+        "command": "MIRR",
+        "line": 70,
+        "surface": 0,
+        "severity": "warning",
+        "message": "Record retained but not interpreted"
+      },
+      {
+        "command": "SLAB",
+        "line": 71,
+        "surface": 0,
+        "severity": "warning",
+        "message": "Record retained but not interpreted"
+      },
+      {
+        "command": "MEMA",
+        "line": 74,
+        "surface": 0,
+        "severity": "warning",
+        "message": "Record retained but not interpreted"
+      },
+      {
+        "command": "POPS",
+        "line": 75,
+        "surface": 0,
+        "severity": "warning",
+        "message": "Record retained but not interpreted"
+      },
+      {
+        "command": "SSID",
+        "line": 77,
+        "surface": 1,
+        "severity": "warning",
+        "message": "Record retained but not interpreted"
+      },
+      {
+        "command": "COMM",
+        "line": 78,
+        "surface": 1,
+        "severity": "warning",
+        "message": "Record retained but not interpreted"
+      },
+      {
+        "command": "FIMP",
+        "line": 80,
+        "surface": 1,
+        "severity": "warning",
+        "message": "Record retained but not interpreted"
+      },
+      {
+        "command": "HIDE",
+        "line": 83,
+        "surface": 1,
+        "severity": "warning",
+        "message": "Record retained but not interpreted"
+      },
+      {
+        "command": "MIRR",
+        "line": 84,
+        "surface": 1,
+        "severity": "warning",
+        "message": "Record retained but not interpreted"
+      },
+      {
+        "command": "SLAB",
+        "line": 85,
+        "surface": 1,
+        "severity": "warning",
+        "message": "Record retained but not interpreted"
+      },
+      {
+        "command": "MEMA",
+        "line": 88,
+        "surface": 1,
+        "severity": "warning",
+        "message": "Record retained but not interpreted"
+      },
+      {
+        "command": "POPS",
+        "line": 89,
+        "surface": 1,
+        "severity": "warning",
+        "message": "Record retained but not interpreted"
+      },
+      {
+        "command": "SSID",
+        "line": 91,
+        "surface": 2,
+        "severity": "warning",
+        "message": "Record retained but not interpreted"
+      },
+      {
+        "command": "FIMP",
+        "line": 94,
+        "surface": 2,
+        "severity": "warning",
+        "message": "Record retained but not interpreted"
+      },
+      {
+        "command": "HIDE",
+        "line": 97,
+        "surface": 2,
+        "severity": "warning",
+        "message": "Record retained but not interpreted"
+      },
+      {
+        "command": "MIRR",
+        "line": 98,
+        "surface": 2,
+        "severity": "warning",
+        "message": "Record retained but not interpreted"
+      },
+      {
+        "command": "SLAB",
+        "line": 99,
+        "surface": 2,
+        "severity": "warning",
+        "message": "Record retained but not interpreted"
+      },
+      {
+        "command": "MEMA",
+        "line": 102,
+        "surface": 2,
+        "severity": "warning",
+        "message": "Record retained but not interpreted"
+      },
+      {
+        "command": "POPS",
+        "line": 103,
+        "surface": 2,
+        "severity": "warning",
+        "message": "Record retained but not interpreted"
+      },
+      {
+        "command": "SSID",
+        "line": 105,
+        "surface": 3,
+        "severity": "warning",
+        "message": "Record retained but not interpreted"
+      },
+      {
+        "command": "FIMP",
+        "line": 107,
+        "surface": 3,
+        "severity": "warning",
+        "message": "Record retained but not interpreted"
+      },
+      {
+        "command": "HIDE",
+        "line": 110,
+        "surface": 3,
+        "severity": "warning",
+        "message": "Record retained but not interpreted"
+      },
+      {
+        "command": "MIRR",
+        "line": 111,
+        "surface": 3,
+        "severity": "warning",
+        "message": "Record retained but not interpreted"
+      },
+      {
+        "command": "SLAB",
+        "line": 112,
+        "surface": 3,
+        "severity": "warning",
+        "message": "Record retained but not interpreted"
+      },
+      {
+        "command": "MEMA",
+        "line": 121,
+        "surface": 3,
+        "severity": "warning",
+        "message": "Record retained but not interpreted"
+      },
+      {
+        "command": "POPS",
+        "line": 122,
+        "surface": 3,
+        "severity": "warning",
+        "message": "Record retained but not interpreted"
+      },
+      {
+        "command": "SSID",
+        "line": 124,
+        "surface": 4,
+        "severity": "warning",
+        "message": "Record retained but not interpreted"
+      },
+      {
+        "command": "COMM",
+        "line": 125,
+        "surface": 4,
+        "severity": "warning",
+        "message": "Record retained but not interpreted"
+      },
+      {
+        "command": "FIMP",
+        "line": 127,
+        "surface": 4,
+        "severity": "warning",
+        "message": "Record retained but not interpreted"
+      },
+      {
+        "command": "HIDE",
+        "line": 130,
+        "surface": 4,
+        "severity": "warning",
+        "message": "Record retained but not interpreted"
+      },
+      {
+        "command": "MIRR",
+        "line": 131,
+        "surface": 4,
+        "severity": "warning",
+        "message": "Record retained but not interpreted"
+      },
+      {
+        "command": "SLAB",
+        "line": 132,
+        "surface": 4,
+        "severity": "warning",
+        "message": "Record retained but not interpreted"
+      },
+      {
+        "command": "MEMA",
+        "line": 136,
+        "surface": 4,
+        "severity": "warning",
+        "message": "Record retained but not interpreted"
+      },
+      {
+        "command": "POPS",
+        "line": 137,
+        "surface": 4,
+        "severity": "warning",
+        "message": "Record retained but not interpreted"
+      },
+      {
+        "command": "SSID",
+        "line": 139,
+        "surface": 5,
+        "severity": "warning",
+        "message": "Record retained but not interpreted"
+      },
+      {
+        "command": "FIMP",
+        "line": 141,
+        "surface": 5,
+        "severity": "warning",
+        "message": "Record retained but not interpreted"
+      },
+      {
+        "command": "HIDE",
+        "line": 144,
+        "surface": 5,
+        "severity": "warning",
+        "message": "Record retained but not interpreted"
+      },
+      {
+        "command": "MIRR",
+        "line": 145,
+        "surface": 5,
+        "severity": "warning",
+        "message": "Record retained but not interpreted"
+      },
+      {
+        "command": "SLAB",
+        "line": 146,
+        "surface": 5,
+        "severity": "warning",
+        "message": "Record retained but not interpreted"
+      },
+      {
+        "command": "PPAR",
+        "line": 150,
+        "surface": 5,
+        "severity": "warning",
+        "message": "Record retained but not interpreted"
+      },
+      {
+        "command": "MEMA",
+        "line": 156,
+        "surface": 5,
+        "severity": "warning",
+        "message": "Record retained but not interpreted"
+      },
+      {
+        "command": "POPS",
+        "line": 157,
+        "surface": 5,
+        "severity": "warning",
+        "message": "Record retained but not interpreted"
+      },
+      {
+        "command": "SSID",
+        "line": 159,
+        "surface": 6,
+        "severity": "warning",
+        "message": "Record retained but not interpreted"
+      },
+      {
+        "command": "FIMP",
+        "line": 161,
+        "surface": 6,
+        "severity": "warning",
+        "message": "Record retained but not interpreted"
+      },
+      {
+        "command": "HIDE",
+        "line": 164,
+        "surface": 6,
+        "severity": "warning",
+        "message": "Record retained but not interpreted"
+      },
+      {
+        "command": "MIRR",
+        "line": 165,
+        "surface": 6,
+        "severity": "warning",
+        "message": "Record retained but not interpreted"
+      },
+      {
+        "command": "SLAB",
+        "line": 166,
+        "surface": 6,
+        "severity": "warning",
+        "message": "Record retained but not interpreted"
+      },
+      {
+        "command": "MEMA",
+        "line": 169,
+        "surface": 6,
+        "severity": "warning",
+        "message": "Record retained but not interpreted"
+      },
+      {
+        "command": "POPS",
+        "line": 170,
+        "surface": 6,
+        "severity": "warning",
+        "message": "Record retained but not interpreted"
+      },
+      {
+        "command": "BLNK",
+        "line": 171,
+        "surface": 6,
+        "severity": "warning",
+        "message": "Record retained but not interpreted"
+      },
+      {
+        "command": "TOL",
+        "line": 172,
+        "surface": 6,
+        "severity": "warning",
+        "message": "Record retained but not interpreted"
+      },
+      {
+        "command": "MNUM",
+        "line": 173,
+        "surface": 6,
+        "severity": "info",
+        "message": "Record retained but not interpreted"
+      },
+      {
+        "command": "MOFF",
+        "line": 174,
+        "surface": 6,
+        "severity": "warning",
+        "message": "Record retained but not interpreted"
+      }
+    ],
+    "name": "",
+    "aperture": {
+      "EPD": 20.0
+    },
+    "fields": {
+      "type": "angle",
+      "object_space_telecentric": false,
+      "afocal_image_space": false,
+      "x": [
+        0.0
+      ],
+      "y": [
+        0.0
+      ],
+      "num_fields": 1,
+      "weights": [
+        1.0
+      ],
+      "vignette_decenter_x": [
+        0.0
+      ],
+      "vignette_decenter_y": [
+        0.0
+      ],
+      "vignette_compress_x": [
+        0.0
+      ],
+      "vignette_compress_y": [
+        0.0
+      ],
+      "vignette_tangent_angle": [
+        0.0
+      ]
+    },
+    "wavelengths": {
+      "data": [
+        0.55
+      ],
+      "weights": [
+        1.0
+      ],
+      "num_wavelengths": 1,
+      "primary_index": 0
+    },
+    "surfaces": {
+      "0": {
+        "type": "standard",
+        "is_stop": false,
+        "conic": 0.0,
+        "material": "air",
+        "aperture": null,
+        "radius": {
+          "special": "positiveInfinity"
+        },
+        "thickness": {
+          "special": "positiveInfinity"
+        },
+        "diameter": 0.0
+      },
+      "1": {
+        "type": "standard",
+        "is_stop": false,
+        "conic": 0.0,
+        "material": "air",
+        "aperture": null,
+        "radius": {
+          "special": "positiveInfinity"
+        },
+        "thickness": 10.0,
+        "diameter": 10.0
+      },
+      "2": {
+        "type": "standard",
+        "is_stop": true,
+        "conic": 0.0,
+        "material": "air",
+        "aperture": null,
+        "radius": {
+          "special": "positiveInfinity"
+        },
+        "thickness": 30.0,
+        "diameter": 10.0
+      },
+      "3": {
+        "type": "coordinate_break",
+        "is_stop": false,
+        "conic": 0.0,
+        "material": "air",
+        "aperture": null,
+        "radius": {
+          "special": "positiveInfinity"
+        },
+        "param_0": 0.0,
+        "param_1": 0.0,
+        "param_2": 45.0,
+        "param_3": 0.0,
+        "param_4": 0.0,
+        "param_5": 0.0,
+        "thickness": 0.0,
+        "diameter": 0.0
+      },
+      "4": {
+        "type": "standard",
+        "is_stop": false,
+        "conic": 0.0,
+        "material": {
+          "kind": "mirror"
+        },
+        "aperture": null,
+        "radius": {
+          "special": "positiveInfinity"
+        },
+        "thickness": 0.0,
+        "diameter": 14.142135623730955
+      },
+      "5": {
+        "type": "coordinate_break",
+        "is_stop": false,
+        "conic": 0.0,
+        "material": "air",
+        "aperture": null,
+        "radius": {
+          "special": "positiveInfinity"
+        },
+        "param_0": 0.0,
+        "param_1": 0.0,
+        "param_2": 45.0,
+        "param_3": 0.0,
+        "param_4": 0.0,
+        "param_5": 0.0,
+        "thickness": -20.0,
+        "diameter": 0.0
+      },
+      "6": {
+        "type": "standard",
+        "is_stop": false,
+        "conic": 0.0,
+        "material": "air",
+        "aperture": null,
+        "radius": {
+          "special": "positiveInfinity"
+        },
+        "thickness": 0.0,
+        "diameter": 10.000000000000005
+      }
+    },
+    "glass_catalogs": [
+      "SCHOTT"
+    ]
+  }
+}

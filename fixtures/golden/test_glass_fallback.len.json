@@ -1,0 +1,492 @@
+{
+  "schemaVersion": "1.0",
+  "source": {
+    "format": "oslo",
+    "filename": "test_glass_fallback.len",
+    "encoding": "utf-8",
+    "upstreamRevision": "4e893f53aee1312f2d091680b93dd2279711e197"
+  },
+  "name": "glass_fallback_test",
+  "mode": "sequential",
+  "units": {
+    "length": "mm",
+    "wavelength": "um",
+    "angle": "deg",
+    "sourceLength": "lensUnit",
+    "scaleToMm": 1.0
+  },
+  "aperture": {
+    "kind": "beamRadiusAtSurface1",
+    "value": 2.0,
+    "source": {
+      "EPD": 4.0
+    }
+  },
+  "fields": {
+    "kind": "angle",
+    "points": [],
+    "reference": {
+      "y": 5.0,
+      "coordinates": "prescriptionExtent"
+    },
+    "source": {
+      "type": "angle",
+      "y": [
+        5.0
+      ]
+    }
+  },
+  "wavelengths": {
+    "valuesUm": [
+      0.58756,
+      0.48613,
+      0.65627
+    ],
+    "weights": [
+      1.0,
+      1.0,
+      1.0
+    ],
+    "primaryIndex": 0
+  },
+  "surfaces": [
+    {
+      "index": 0,
+      "role": "object",
+      "type": "standard",
+      "radiusMm": {
+        "special": "positiveInfinity"
+      },
+      "thicknessMm": {
+        "special": "positiveInfinity"
+      },
+      "conic": 0.0,
+      "stop": false,
+      "material": {
+        "kind": "air"
+      },
+      "clearAperture": {
+        "kind": "annulus",
+        "r_min": 0.0,
+        "r_max": 874886600.0,
+        "offset_x": 0.0,
+        "offset_y": 0.0,
+        "checked": false,
+        "checkingEnabled": true
+      },
+      "parameters": {
+        "material": "AIR",
+        "TH": 10000000000.0,
+        "AP": 874886600.0,
+        "aperture_checked": false
+      }
+    },
+    {
+      "index": 1,
+      "role": "surface",
+      "type": "standard",
+      "radiusMm": 100.0,
+      "thicknessMm": 5.0,
+      "conic": 0.0,
+      "stop": true,
+      "material": {
+        "kind": "catalog",
+        "name": "LAKN6",
+        "resolution": "unresolved"
+      },
+      "clearAperture": {
+        "kind": "annulus",
+        "r_min": 0.0,
+        "r_max": 2.0,
+        "offset_x": 0.0,
+        "offset_y": 0.0,
+        "checked": false,
+        "checkingEnabled": true
+      },
+      "parameters": {
+        "material": "GLA LAKN6",
+        "glass_wavelengths": [
+          0.58756,
+          0.48613,
+          0.65627
+        ],
+        "RD": 100.0,
+        "TH": 5.0,
+        "AP": 2.0,
+        "aperture_checked": false
+      }
+    },
+    {
+      "index": 2,
+      "role": "surface",
+      "type": "standard",
+      "radiusMm": -80.0,
+      "thicknessMm": 2.0,
+      "conic": 0.0,
+      "stop": false,
+      "material": {
+        "kind": "catalog",
+        "name": "SF18",
+        "resolution": "unresolved"
+      },
+      "clearAperture": {
+        "kind": "annulus",
+        "r_min": 0.0,
+        "r_max": 2.0,
+        "offset_x": 0.0,
+        "offset_y": 0.0,
+        "checked": false,
+        "checkingEnabled": true
+      },
+      "parameters": {
+        "material": "GLA SF18",
+        "glass_wavelengths": [
+          0.58756,
+          0.48613,
+          0.65627
+        ],
+        "RD": -80.0,
+        "TH": 2.0,
+        "AP": 2.0,
+        "aperture_checked": false
+      }
+    },
+    {
+      "index": 3,
+      "role": "surface",
+      "type": "standard",
+      "radiusMm": -200.0,
+      "thicknessMm": 1.0,
+      "conic": 0.0,
+      "stop": false,
+      "material": {
+        "kind": "air"
+      },
+      "clearAperture": {
+        "kind": "annulus",
+        "r_min": 0.0,
+        "r_max": 2.0,
+        "offset_x": 0.0,
+        "offset_y": 0.0,
+        "checked": false,
+        "checkingEnabled": true
+      },
+      "parameters": {
+        "material": "AIR",
+        "RD": -200.0,
+        "TH": 1.0,
+        "AP": 2.0,
+        "aperture_checked": false
+      }
+    },
+    {
+      "index": 4,
+      "role": "surface",
+      "type": "standard",
+      "radiusMm": 60.0,
+      "thicknessMm": 4.0,
+      "conic": 0.0,
+      "stop": false,
+      "material": {
+        "kind": "catalog",
+        "name": "H_LAF2",
+        "resolution": "unresolved"
+      },
+      "clearAperture": {
+        "kind": "annulus",
+        "r_min": 0.0,
+        "r_max": 2.0,
+        "offset_x": 0.0,
+        "offset_y": 0.0,
+        "checked": false,
+        "checkingEnabled": true
+      },
+      "parameters": {
+        "material": "GLA H_LAF2",
+        "glass_wavelengths": [
+          0.58756,
+          0.48613,
+          0.65627
+        ],
+        "RD": 60.0,
+        "TH": 4.0,
+        "AP": 2.0,
+        "aperture_checked": false
+      }
+    },
+    {
+      "index": 5,
+      "role": "image",
+      "type": "standard",
+      "radiusMm": {
+        "special": "positiveInfinity"
+      },
+      "thicknessMm": 0.0,
+      "conic": 0.0,
+      "stop": false,
+      "material": {
+        "kind": "air"
+      },
+      "clearAperture": null,
+      "parameters": {
+        "material": "AIR",
+        "TH": 0.0
+      }
+    }
+  ],
+  "diagnostics": [
+    {
+      "severity": "warning",
+      "code": "unresolved_material",
+      "message": "Material identity preserved; catalog lookup and dispersion fitting are not executed",
+      "surface": 1
+    },
+    {
+      "severity": "warning",
+      "code": "unresolved_material",
+      "message": "Material identity preserved; catalog lookup and dispersion fitting are not executed",
+      "surface": 2
+    },
+    {
+      "severity": "warning",
+      "code": "unresolved_material",
+      "message": "Material identity preserved; catalog lookup and dispersion fitting are not executed",
+      "surface": 4
+    }
+  ],
+  "raw": {
+    "name": "glass_fallback_test",
+    "scaling": 10.0,
+    "num_surfaces": 5,
+    "aperture": {
+      "EPD": 4.0
+    },
+    "fields": {
+      "type": "angle",
+      "y": [
+        5.0
+      ]
+    },
+    "wavelengths": {
+      "values": [
+        0.58756,
+        0.48613,
+        0.65627
+      ],
+      "weights": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "primary_index": 0
+    },
+    "surfaces": {
+      "0": {
+        "material": "AIR",
+        "TH": 10000000000.0,
+        "AP": 874886600.0,
+        "aperture_checked": false
+      },
+      "1": {
+        "material": "GLA LAKN6",
+        "glass_wavelengths": [
+          0.58756,
+          0.48613,
+          0.65627
+        ],
+        "RD": 100.0,
+        "TH": 5.0,
+        "AP": 2.0,
+        "aperture_checked": false
+      },
+      "2": {
+        "material": "GLA SF18",
+        "glass_wavelengths": [
+          0.58756,
+          0.48613,
+          0.65627
+        ],
+        "RD": -80.0,
+        "TH": 2.0,
+        "AP": 2.0,
+        "aperture_checked": false
+      },
+      "3": {
+        "material": "AIR",
+        "RD": -200.0,
+        "TH": 1.0,
+        "AP": 2.0,
+        "aperture_checked": false
+      },
+      "4": {
+        "material": "GLA H_LAF2",
+        "glass_wavelengths": [
+          0.58756,
+          0.48613,
+          0.65627
+        ],
+        "RD": 60.0,
+        "TH": 4.0,
+        "AP": 2.0,
+        "aperture_checked": false
+      },
+      "5": {
+        "material": "AIR",
+        "TH": 0.0
+      }
+    },
+    "units": 1.0,
+    "records": [
+      {
+        "line": 4,
+        "text": "LEN NEW \"glass_fallback_test\" 10.0 5"
+      },
+      {
+        "line": 5,
+        "text": "EBR  2.0"
+      },
+      {
+        "line": 6,
+        "text": "ANG  5.0"
+      },
+      {
+        "line": 7,
+        "text": "DES  \"\""
+      },
+      {
+        "line": 8,
+        "text": "UNI  1.0"
+      },
+      {
+        "line": 9,
+        "text": "AIR"
+      },
+      {
+        "line": 10,
+        "text": "TH   1.0e+10"
+      },
+      {
+        "line": 11,
+        "text": "AP  8.748866e+08"
+      },
+      {
+        "line": 12,
+        "text": "NXT"
+      },
+      {
+        "line": 13,
+        "text": "GLA LAKN6"
+      },
+      {
+        "line": 14,
+        "text": "RD   100.0"
+      },
+      {
+        "line": 15,
+        "text": "TH   5.0"
+      },
+      {
+        "line": 16,
+        "text": "AP  2.0"
+      },
+      {
+        "line": 17,
+        "text": "NXT"
+      },
+      {
+        "line": 18,
+        "text": "GLA SF18"
+      },
+      {
+        "line": 19,
+        "text": "RD   -80.0"
+      },
+      {
+        "line": 20,
+        "text": "TH   2.0"
+      },
+      {
+        "line": 21,
+        "text": "AP  2.0"
+      },
+      {
+        "line": 22,
+        "text": "NXT"
+      },
+      {
+        "line": 23,
+        "text": "AIR"
+      },
+      {
+        "line": 24,
+        "text": "RD   -200.0"
+      },
+      {
+        "line": 25,
+        "text": "TH   1.0"
+      },
+      {
+        "line": 26,
+        "text": "AP  2.0"
+      },
+      {
+        "line": 27,
+        "text": "NXT"
+      },
+      {
+        "line": 28,
+        "text": "GLA H_LAF2"
+      },
+      {
+        "line": 29,
+        "text": "RD   60.0"
+      },
+      {
+        "line": 30,
+        "text": "TH   4.0"
+      },
+      {
+        "line": 31,
+        "text": "AP  2.0"
+      },
+      {
+        "line": 32,
+        "text": "NXT"
+      },
+      {
+        "line": 33,
+        "text": "AIR"
+      },
+      {
+        "line": 34,
+        "text": "TH   0.0"
+      },
+      {
+        "line": 35,
+        "text": "WV 0.58756 0.48613 0.65627"
+      },
+      {
+        "line": 36,
+        "text": "WW 1.0 1.0 1.0"
+      },
+      {
+        "line": 37,
+        "text": "END  5"
+      }
+    ],
+    "notes": {
+      "DES": ""
+    },
+    "diagnostics": [],
+    "settings": {},
+    "configurations": {
+      "1": {
+        "thicknesses": {},
+        "wavelengths": {},
+        "wavelength_weights": {},
+        "weight": 1.0,
+        "active": true
+      }
+    }
+  }
+}

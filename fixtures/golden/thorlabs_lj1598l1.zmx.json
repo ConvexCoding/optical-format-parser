@@ -1,0 +1,1538 @@
+{
+  "schemaVersion": "1.0",
+  "source": {
+    "format": "zemax",
+    "filename": "thorlabs_lj1598l1.zmx",
+    "encoding": "utf-8",
+    "upstreamRevision": "4e893f53aee1312f2d091680b93dd2279711e197"
+  },
+  "name": "LJ1598L1 - Plano-Convex Cylindrical Lens - N-BK7",
+  "mode": "sequential",
+  "units": {
+    "length": "mm",
+    "wavelength": "um",
+    "angle": "deg",
+    "sourceLength": "MM",
+    "scaleToMm": 1.0
+  },
+  "aperture": {
+    "kind": "entrancePupilDiameter",
+    "value": 3.2,
+    "source": {
+      "EPD": 3.2
+    }
+  },
+  "fields": {
+    "kind": "angle",
+    "points": [
+      {
+        "x": 0.0,
+        "y": 0.0,
+        "weight": 1.0,
+        "vignetting": {
+          "vignette_decenter_x": 0.0,
+          "vignette_decenter_y": 0.0,
+          "vignette_compress_x": 0.0,
+          "vignette_compress_y": 0.0,
+          "vignette_tangent_angle": 0.0
+        }
+      }
+    ],
+    "reference": null,
+    "source": {
+      "type": "angle",
+      "object_space_telecentric": false,
+      "afocal_image_space": false,
+      "x": [
+        0.0
+      ],
+      "y": [
+        0.0
+      ],
+      "num_fields": 1,
+      "weights": [
+        1.0
+      ],
+      "vignette_decenter_x": [
+        0.0
+      ],
+      "vignette_decenter_y": [
+        0.0
+      ],
+      "vignette_compress_x": [
+        0.0
+      ],
+      "vignette_compress_y": [
+        0.0
+      ],
+      "vignette_tangent_angle": [
+        0.0
+      ]
+    }
+  },
+  "wavelengths": {
+    "valuesUm": [
+      0.4861,
+      0.5876,
+      0.6563
+    ],
+    "weights": [
+      1.0,
+      1.0,
+      1.0
+    ],
+    "primaryIndex": 1
+  },
+  "surfaces": [
+    {
+      "index": 0,
+      "role": "object",
+      "type": "standard",
+      "radiusMm": {
+        "special": "positiveInfinity"
+      },
+      "thicknessMm": {
+        "special": "positiveInfinity"
+      },
+      "conic": 0.0,
+      "stop": false,
+      "material": {
+        "kind": "air"
+      },
+      "clearAperture": null,
+      "parameters": {
+        "type": "standard",
+        "is_stop": false,
+        "conic": 0.0,
+        "material": "air",
+        "aperture": null,
+        "radius": {
+          "special": "positiveInfinity"
+        },
+        "thickness": {
+          "special": "positiveInfinity"
+        },
+        "diameter": 0.0
+      }
+    },
+    {
+      "index": 1,
+      "role": "surface",
+      "type": "toroidal",
+      "radiusMm": 2.0199999999999996,
+      "thicknessMm": 3.8,
+      "conic": 0.0,
+      "stop": true,
+      "material": {
+        "kind": "catalog",
+        "name": "N-BK7",
+        "catalogs": [
+          "SCHOTT",
+          "INFRARED",
+          "MISC"
+        ],
+        "nd": 0.0,
+        "vd": 0.0,
+        "resolution": "unresolved"
+      },
+      "clearAperture": null,
+      "parameters": {
+        "type": "toroidal",
+        "is_stop": true,
+        "conic": 0.0,
+        "material": {
+          "kind": "catalog",
+          "name": "N-BK7",
+          "catalogs": [
+            "SCHOTT",
+            "INFRARED",
+            "MISC"
+          ],
+          "nd": 0.0,
+          "vd": 0.0,
+          "resolution": "unresolved"
+        },
+        "aperture": null,
+        "radius": 2.0199999999999996,
+        "param_-1": 0.0,
+        "param_0": 0.0,
+        "param_1": 0.0,
+        "param_2": 0.0,
+        "param_3": 0.0,
+        "param_4": 0.0,
+        "param_5": 0.0,
+        "param_6": 0.0,
+        "param_7": 0.0,
+        "thickness": 3.8,
+        "index": 0.0,
+        "abbe": 0.0,
+        "diameter": 2.0
+      }
+    },
+    {
+      "index": 2,
+      "role": "surface",
+      "type": "toroidal",
+      "radiusMm": {
+        "special": "positiveInfinity"
+      },
+      "thicknessMm": 1.035445081706,
+      "conic": 0.0,
+      "stop": false,
+      "material": {
+        "kind": "air"
+      },
+      "clearAperture": null,
+      "parameters": {
+        "type": "toroidal",
+        "is_stop": false,
+        "conic": 0.0,
+        "material": "air",
+        "aperture": null,
+        "radius": {
+          "special": "positiveInfinity"
+        },
+        "param_-1": 0.0,
+        "param_0": 0.0,
+        "param_1": 0.0,
+        "param_2": 0.0,
+        "param_3": 0.0,
+        "param_4": 0.0,
+        "param_5": 0.0,
+        "param_6": 0.0,
+        "param_7": 0.0,
+        "thickness": 1.035445081706,
+        "diameter": 2.0
+      }
+    },
+    {
+      "index": 3,
+      "role": "image",
+      "type": "standard",
+      "radiusMm": {
+        "special": "positiveInfinity"
+      },
+      "thicknessMm": 0.0,
+      "conic": 0.0,
+      "stop": false,
+      "material": {
+        "kind": "air"
+      },
+      "clearAperture": null,
+      "parameters": {
+        "type": "standard",
+        "is_stop": false,
+        "conic": 0.0,
+        "material": "air",
+        "aperture": null,
+        "radius": {
+          "special": "positiveInfinity"
+        },
+        "thickness": 0.0,
+        "diameter": 0.2336290250042
+      }
+    }
+  ],
+  "diagnostics": [
+    {
+      "severity": "info",
+      "code": "uninterpreted_record",
+      "command": "VERS",
+      "line": 1,
+      "surface": -1,
+      "message": "Record retained but not interpreted"
+    },
+    {
+      "severity": "info",
+      "code": "uninterpreted_record",
+      "command": "NOTE",
+      "line": 4,
+      "surface": -1,
+      "message": "Record retained but not interpreted"
+    },
+    {
+      "severity": "info",
+      "code": "uninterpreted_record",
+      "command": "NOTE",
+      "line": 5,
+      "surface": -1,
+      "message": "Record retained but not interpreted"
+    },
+    {
+      "severity": "info",
+      "code": "uninterpreted_record",
+      "command": "PFIL",
+      "line": 6,
+      "surface": -1,
+      "message": "Record retained but not interpreted"
+    },
+    {
+      "severity": "warning",
+      "code": "uninterpreted_record",
+      "command": "ENVD",
+      "line": 9,
+      "surface": -1,
+      "message": "Record retained but not interpreted"
+    },
+    {
+      "severity": "warning",
+      "code": "uninterpreted_record",
+      "command": "GFAC",
+      "line": 10,
+      "surface": -1,
+      "message": "Record retained but not interpreted"
+    },
+    {
+      "severity": "warning",
+      "code": "uninterpreted_record",
+      "command": "RAIM",
+      "line": 12,
+      "surface": -1,
+      "message": "Record retained but not interpreted"
+    },
+    {
+      "severity": "warning",
+      "code": "uninterpreted_record",
+      "command": "PUSH",
+      "line": 13,
+      "surface": -1,
+      "message": "Record retained but not interpreted"
+    },
+    {
+      "severity": "warning",
+      "code": "uninterpreted_record",
+      "command": "SDMA",
+      "line": 14,
+      "surface": -1,
+      "message": "Record retained but not interpreted"
+    },
+    {
+      "severity": "warning",
+      "code": "uninterpreted_record",
+      "command": "ROPD",
+      "line": 16,
+      "surface": -1,
+      "message": "Record retained but not interpreted"
+    },
+    {
+      "severity": "warning",
+      "code": "uninterpreted_record",
+      "command": "PICB",
+      "line": 17,
+      "surface": -1,
+      "message": "Record retained but not interpreted"
+    },
+    {
+      "severity": "warning",
+      "code": "uninterpreted_record",
+      "command": "POLS",
+      "line": 51,
+      "surface": -1,
+      "message": "Record retained but not interpreted"
+    },
+    {
+      "severity": "warning",
+      "code": "uninterpreted_record",
+      "command": "GLRS",
+      "line": 52,
+      "surface": -1,
+      "message": "Record retained but not interpreted"
+    },
+    {
+      "severity": "warning",
+      "code": "uninterpreted_record",
+      "command": "GSTD",
+      "line": 53,
+      "surface": -1,
+      "message": "Record retained but not interpreted"
+    },
+    {
+      "severity": "warning",
+      "code": "uninterpreted_record",
+      "command": "NSCD",
+      "line": 54,
+      "surface": -1,
+      "message": "Record retained but not interpreted"
+    },
+    {
+      "severity": "warning",
+      "code": "uninterpreted_record",
+      "command": "COFN",
+      "line": 55,
+      "surface": -1,
+      "message": "Record retained but not interpreted"
+    },
+    {
+      "severity": "warning",
+      "code": "uninterpreted_record",
+      "command": "COFN",
+      "line": 56,
+      "surface": -1,
+      "message": "Record retained but not interpreted"
+    },
+    {
+      "severity": "warning",
+      "code": "uninterpreted_record",
+      "command": "HIDE",
+      "line": 60,
+      "surface": 0,
+      "message": "Record retained but not interpreted"
+    },
+    {
+      "severity": "warning",
+      "code": "uninterpreted_record",
+      "command": "MIRR",
+      "line": 61,
+      "surface": 0,
+      "message": "Record retained but not interpreted"
+    },
+    {
+      "severity": "warning",
+      "code": "uninterpreted_record",
+      "command": "SLAB",
+      "line": 62,
+      "surface": 0,
+      "message": "Record retained but not interpreted"
+    },
+    {
+      "severity": "warning",
+      "code": "uninterpreted_record",
+      "command": "POPS",
+      "line": 65,
+      "surface": 0,
+      "message": "Record retained but not interpreted"
+    },
+    {
+      "severity": "warning",
+      "code": "uninterpreted_record",
+      "command": "COMM",
+      "line": 67,
+      "surface": 1,
+      "message": "Record retained but not interpreted"
+    },
+    {
+      "severity": "warning",
+      "code": "uninterpreted_record",
+      "command": "HIDE",
+      "line": 71,
+      "surface": 1,
+      "message": "Record retained but not interpreted"
+    },
+    {
+      "severity": "warning",
+      "code": "uninterpreted_record",
+      "command": "MIRR",
+      "line": 72,
+      "surface": 1,
+      "message": "Record retained but not interpreted"
+    },
+    {
+      "severity": "warning",
+      "code": "uninterpreted_record",
+      "command": "SLAB",
+      "line": 73,
+      "surface": 1,
+      "message": "Record retained but not interpreted"
+    },
+    {
+      "severity": "warning",
+      "code": "uninterpreted_record",
+      "command": "XDAT",
+      "line": 83,
+      "surface": 1,
+      "message": "Record retained but not interpreted"
+    },
+    {
+      "severity": "warning",
+      "code": "uninterpreted_record",
+      "command": "XDAT",
+      "line": 84,
+      "surface": 1,
+      "message": "Record retained but not interpreted"
+    },
+    {
+      "severity": "warning",
+      "code": "uninterpreted_record",
+      "command": "POPS",
+      "line": 88,
+      "surface": 1,
+      "message": "Record retained but not interpreted"
+    },
+    {
+      "severity": "warning",
+      "code": "uninterpreted_record",
+      "command": "SQAP",
+      "line": 89,
+      "surface": 1,
+      "message": "Record retained but not interpreted"
+    },
+    {
+      "severity": "warning",
+      "code": "uninterpreted_record",
+      "command": "HIDE",
+      "line": 93,
+      "surface": 2,
+      "message": "Record retained but not interpreted"
+    },
+    {
+      "severity": "warning",
+      "code": "uninterpreted_record",
+      "command": "MIRR",
+      "line": 94,
+      "surface": 2,
+      "message": "Record retained but not interpreted"
+    },
+    {
+      "severity": "warning",
+      "code": "uninterpreted_record",
+      "command": "SLAB",
+      "line": 95,
+      "surface": 2,
+      "message": "Record retained but not interpreted"
+    },
+    {
+      "severity": "warning",
+      "code": "uninterpreted_record",
+      "command": "XDAT",
+      "line": 105,
+      "surface": 2,
+      "message": "Record retained but not interpreted"
+    },
+    {
+      "severity": "warning",
+      "code": "uninterpreted_record",
+      "command": "XDAT",
+      "line": 106,
+      "surface": 2,
+      "message": "Record retained but not interpreted"
+    },
+    {
+      "severity": "warning",
+      "code": "uninterpreted_record",
+      "command": "POPS",
+      "line": 109,
+      "surface": 2,
+      "message": "Record retained but not interpreted"
+    },
+    {
+      "severity": "warning",
+      "code": "uninterpreted_record",
+      "command": "SQAP",
+      "line": 110,
+      "surface": 2,
+      "message": "Record retained but not interpreted"
+    },
+    {
+      "severity": "warning",
+      "code": "uninterpreted_record",
+      "command": "HIDE",
+      "line": 114,
+      "surface": 3,
+      "message": "Record retained but not interpreted"
+    },
+    {
+      "severity": "warning",
+      "code": "uninterpreted_record",
+      "command": "MIRR",
+      "line": 115,
+      "surface": 3,
+      "message": "Record retained but not interpreted"
+    },
+    {
+      "severity": "warning",
+      "code": "uninterpreted_record",
+      "command": "SLAB",
+      "line": 116,
+      "surface": 3,
+      "message": "Record retained but not interpreted"
+    },
+    {
+      "severity": "warning",
+      "code": "uninterpreted_record",
+      "command": "POPS",
+      "line": 119,
+      "surface": 3,
+      "message": "Record retained but not interpreted"
+    },
+    {
+      "severity": "warning",
+      "code": "uninterpreted_record",
+      "command": "BLNK",
+      "line": 120,
+      "surface": 3,
+      "message": "Record retained but not interpreted"
+    },
+    {
+      "severity": "warning",
+      "code": "uninterpreted_record",
+      "command": "TOL",
+      "line": 121,
+      "surface": 3,
+      "message": "Record retained but not interpreted"
+    },
+    {
+      "severity": "info",
+      "code": "uninterpreted_record",
+      "command": "MNUM",
+      "line": 122,
+      "surface": 3,
+      "message": "Record retained but not interpreted"
+    },
+    {
+      "severity": "warning",
+      "code": "uninterpreted_record",
+      "command": "MOFF",
+      "line": 123,
+      "surface": 3,
+      "message": "Record retained but not interpreted"
+    },
+    {
+      "severity": "warning",
+      "code": "unresolved_material",
+      "message": "Material identity preserved; catalog lookup and dispersion fitting are not executed",
+      "surface": 1
+    }
+  ],
+  "raw": {
+    "mode": "Sequential",
+    "units": "MM",
+    "records": [
+      {
+        "line": 1,
+        "text": "VERS 120928 0 30221"
+      },
+      {
+        "line": 2,
+        "text": "MODE SEQ"
+      },
+      {
+        "line": 3,
+        "text": "NAME LJ1598L1 - Plano-Convex Cylindrical Lens - N-BK7"
+      },
+      {
+        "line": 4,
+        "text": "NOTE 0 FOR INFORMATION ONLY, NOT FOR MANUFACTURING.  ALL VALUES AND COATING(S) ARE TYPICAL AND THEORETICAL, ACTUAL PERFORMANCE MAY VARY.  FOR FURTHER INFORMATION CONTACT CUSTOMER SERVICE AT TECHSUPPORT@THORL"
+      },
+      {
+        "line": 5,
+        "text": "NOTE 0 ABS.COM"
+      },
+      {
+        "line": 6,
+        "text": "PFIL 0 0 0"
+      },
+      {
+        "line": 7,
+        "text": "UNIT MM X W X CM MR CPMM"
+      },
+      {
+        "line": 8,
+        "text": "ENPD 3.2"
+      },
+      {
+        "line": 9,
+        "text": "ENVD 2.0E+1 1 0"
+      },
+      {
+        "line": 10,
+        "text": "GFAC 0 0"
+      },
+      {
+        "line": 11,
+        "text": "GCAT SCHOTT INFRARED MISC"
+      },
+      {
+        "line": 12,
+        "text": "RAIM 0 0 1 1 0 0 0 0 0"
+      },
+      {
+        "line": 13,
+        "text": "PUSH 0 0 0 0 0 0"
+      },
+      {
+        "line": 14,
+        "text": "SDMA 0 1 0"
+      },
+      {
+        "line": 15,
+        "text": "FTYP 0 0 1 3 0 0 0"
+      },
+      {
+        "line": 16,
+        "text": "ROPD 2"
+      },
+      {
+        "line": 17,
+        "text": "PICB 1"
+      },
+      {
+        "line": 18,
+        "text": "XFLN 0 0 0 0 0 0 0 0 0 0 0 0"
+      },
+      {
+        "line": 19,
+        "text": "YFLN 0 0 0 0 0 0 0 0 0 0 0 0"
+      },
+      {
+        "line": 20,
+        "text": "FWGN 1 0 0 0 0 0 0 0 0 0 0 0"
+      },
+      {
+        "line": 21,
+        "text": "VDXN 0 0 0 0 0 0 0 0 0 0 0 0"
+      },
+      {
+        "line": 22,
+        "text": "VDYN 0 0 0 0 0 0 0 0 0 0 0 0"
+      },
+      {
+        "line": 23,
+        "text": "VCXN 0 0 0 0 0 0 0 0 0 0 0 0"
+      },
+      {
+        "line": 24,
+        "text": "VCYN 0 0 0 0 0 0 0 0 0 0 0 0"
+      },
+      {
+        "line": 25,
+        "text": "VANN 0 0 0 0 0 0 0 0 0 0 0 0"
+      },
+      {
+        "line": 26,
+        "text": "WAVM 1 4.861E-1 1"
+      },
+      {
+        "line": 27,
+        "text": "WAVM 2 5.876E-1 1"
+      },
+      {
+        "line": 28,
+        "text": "WAVM 3 6.563E-1 1"
+      },
+      {
+        "line": 29,
+        "text": "WAVM 4 5.5E-1 1"
+      },
+      {
+        "line": 30,
+        "text": "WAVM 5 5.5E-1 1"
+      },
+      {
+        "line": 31,
+        "text": "WAVM 6 5.5E-1 1"
+      },
+      {
+        "line": 32,
+        "text": "WAVM 7 5.5E-1 1"
+      },
+      {
+        "line": 33,
+        "text": "WAVM 8 5.5E-1 1"
+      },
+      {
+        "line": 34,
+        "text": "WAVM 9 5.5E-1 1"
+      },
+      {
+        "line": 35,
+        "text": "WAVM 10 5.5E-1 1"
+      },
+      {
+        "line": 36,
+        "text": "WAVM 11 5.5E-1 1"
+      },
+      {
+        "line": 37,
+        "text": "WAVM 12 5.5E-1 1"
+      },
+      {
+        "line": 38,
+        "text": "WAVM 13 5.5E-1 1"
+      },
+      {
+        "line": 39,
+        "text": "WAVM 14 5.5E-1 1"
+      },
+      {
+        "line": 40,
+        "text": "WAVM 15 5.5E-1 1"
+      },
+      {
+        "line": 41,
+        "text": "WAVM 16 5.5E-1 1"
+      },
+      {
+        "line": 42,
+        "text": "WAVM 17 5.5E-1 1"
+      },
+      {
+        "line": 43,
+        "text": "WAVM 18 5.5E-1 1"
+      },
+      {
+        "line": 44,
+        "text": "WAVM 19 5.5E-1 1"
+      },
+      {
+        "line": 45,
+        "text": "WAVM 20 5.5E-1 1"
+      },
+      {
+        "line": 46,
+        "text": "WAVM 21 5.5E-1 1"
+      },
+      {
+        "line": 47,
+        "text": "WAVM 22 5.5E-1 1"
+      },
+      {
+        "line": 48,
+        "text": "WAVM 23 5.5E-1 1"
+      },
+      {
+        "line": 49,
+        "text": "WAVM 24 5.5E-1 1"
+      },
+      {
+        "line": 50,
+        "text": "PWAV 2"
+      },
+      {
+        "line": 51,
+        "text": "POLS 1 0 1 0 0 1 0"
+      },
+      {
+        "line": 52,
+        "text": "GLRS 1 0"
+      },
+      {
+        "line": 53,
+        "text": "GSTD 0 100.000 100.000 100.000 100.000 100.000 100.000 0 1 1 0 0 1 1 1 1 1 1"
+      },
+      {
+        "line": 54,
+        "text": "NSCD 100 500 0 1.0E-3 5 1.0E-6 0 0 0 0 0 0 1000000 0 2"
+      },
+      {
+        "line": 55,
+        "text": "COFN QF \"COATINGTHOR.DAT\" \"SCATTER_PROFILE.DAT\" \"ABG_DATA.DAT\" \"PROFILE.GRD\""
+      },
+      {
+        "line": 56,
+        "text": "COFN COATINGTHOR.DAT SCATTER_PROFILE.DAT ABG_DATA.DAT PROFILE.GRD"
+      },
+      {
+        "line": 57,
+        "text": "SURF 0"
+      },
+      {
+        "line": 58,
+        "text": "TYPE STANDARD"
+      },
+      {
+        "line": 59,
+        "text": "CURV 0.0 0 0 0 0 \"\""
+      },
+      {
+        "line": 60,
+        "text": "HIDE 0 0 0 0 0 0 0 0 0 0"
+      },
+      {
+        "line": 61,
+        "text": "MIRR 2 0"
+      },
+      {
+        "line": 62,
+        "text": "SLAB 2"
+      },
+      {
+        "line": 63,
+        "text": "DISZ INFINITY"
+      },
+      {
+        "line": 64,
+        "text": "DIAM 0 0 0 0 1 \"\""
+      },
+      {
+        "line": 65,
+        "text": "POPS 0 0 0 0 0 0 0 0 1 1 1 1 0 0 0"
+      },
+      {
+        "line": 66,
+        "text": "SURF 1"
+      },
+      {
+        "line": 67,
+        "text": "COMM LJ1598L1"
+      },
+      {
+        "line": 68,
+        "text": "STOP"
+      },
+      {
+        "line": 69,
+        "text": "TYPE TOROIDAL"
+      },
+      {
+        "line": 70,
+        "text": "CURV 4.950495049504951000E-001 0 0 0 0 \"\""
+      },
+      {
+        "line": 71,
+        "text": "HIDE 0 0 0 0 0 0 0 0 0 0"
+      },
+      {
+        "line": 72,
+        "text": "MIRR 2 0"
+      },
+      {
+        "line": 73,
+        "text": "SLAB 3"
+      },
+      {
+        "line": 74,
+        "text": "PARM 0 0"
+      },
+      {
+        "line": 75,
+        "text": "PARM 1 0"
+      },
+      {
+        "line": 76,
+        "text": "PARM 2 0"
+      },
+      {
+        "line": 77,
+        "text": "PARM 3 0"
+      },
+      {
+        "line": 78,
+        "text": "PARM 4 0"
+      },
+      {
+        "line": 79,
+        "text": "PARM 5 0"
+      },
+      {
+        "line": 80,
+        "text": "PARM 6 0"
+      },
+      {
+        "line": 81,
+        "text": "PARM 7 0"
+      },
+      {
+        "line": 82,
+        "text": "PARM 8 0"
+      },
+      {
+        "line": 83,
+        "text": "XDAT 1 0.000000000000E+000 0 0 1.000000000000E+000 0.000000000000E+000 0 \"\""
+      },
+      {
+        "line": 84,
+        "text": "XDAT 2 1.000000000000E+002 0 0 1.000000000000E+000 0.000000000000E+000 0 \"\""
+      },
+      {
+        "line": 85,
+        "text": "DISZ 3.8"
+      },
+      {
+        "line": 86,
+        "text": "GLAS N-BK7 0 0 0 0 0 0 0 0 0 0"
+      },
+      {
+        "line": 87,
+        "text": "DIAM 2 1 0 0 1 \"\""
+      },
+      {
+        "line": 88,
+        "text": "POPS 0 0 0 0 0 0 0 0 1 1 1 1 0 0 0"
+      },
+      {
+        "line": 89,
+        "text": "SQAP 3.0 2 0"
+      },
+      {
+        "line": 90,
+        "text": "SURF 2"
+      },
+      {
+        "line": 91,
+        "text": "TYPE TOROIDAL"
+      },
+      {
+        "line": 92,
+        "text": "CURV 0.0 0 0 0 0 \"\""
+      },
+      {
+        "line": 93,
+        "text": "HIDE 0 0 0 0 0 0 0 0 0 0"
+      },
+      {
+        "line": 94,
+        "text": "MIRR 2 0"
+      },
+      {
+        "line": 95,
+        "text": "SLAB 4"
+      },
+      {
+        "line": 96,
+        "text": "PARM 0 0"
+      },
+      {
+        "line": 97,
+        "text": "PARM 1 0"
+      },
+      {
+        "line": 98,
+        "text": "PARM 2 0"
+      },
+      {
+        "line": 99,
+        "text": "PARM 3 0"
+      },
+      {
+        "line": 100,
+        "text": "PARM 4 0"
+      },
+      {
+        "line": 101,
+        "text": "PARM 5 0"
+      },
+      {
+        "line": 102,
+        "text": "PARM 6 0"
+      },
+      {
+        "line": 103,
+        "text": "PARM 7 0"
+      },
+      {
+        "line": 104,
+        "text": "PARM 8 0"
+      },
+      {
+        "line": 105,
+        "text": "XDAT 1 0.000000000000E+000 0 0 1.000000000000E+000 0.000000000000E+000 0 \"\""
+      },
+      {
+        "line": 106,
+        "text": "XDAT 2 1.000000000000E+002 0 0 1.000000000000E+000 0.000000000000E+000 0 \"\""
+      },
+      {
+        "line": 107,
+        "text": "DISZ 1.035445081706"
+      },
+      {
+        "line": 108,
+        "text": "DIAM 2 1 0 0 1 \"\""
+      },
+      {
+        "line": 109,
+        "text": "POPS 0 0 0 0 0 0 0 0 1 1 1 1 0 0 0"
+      },
+      {
+        "line": 110,
+        "text": "SQAP 3.0 2 0"
+      },
+      {
+        "line": 111,
+        "text": "SURF 3"
+      },
+      {
+        "line": 112,
+        "text": "TYPE STANDARD"
+      },
+      {
+        "line": 113,
+        "text": "CURV 0.0 0 0 0 0 \"\""
+      },
+      {
+        "line": 114,
+        "text": "HIDE 0 0 0 0 0 0 0 0 0 0"
+      },
+      {
+        "line": 115,
+        "text": "MIRR 2 0"
+      },
+      {
+        "line": 116,
+        "text": "SLAB 1"
+      },
+      {
+        "line": 117,
+        "text": "DISZ 0"
+      },
+      {
+        "line": 118,
+        "text": "DIAM 2.336290250042E-1 0 0 0 1 \"\""
+      },
+      {
+        "line": 119,
+        "text": "POPS 0 0 0 0 0 0 0 0 1 1 1 1 0 0 0"
+      },
+      {
+        "line": 120,
+        "text": "BLNK"
+      },
+      {
+        "line": 121,
+        "text": "TOL TOFF   0   0              0              0   0 0 0"
+      },
+      {
+        "line": 122,
+        "text": "MNUM 1 1"
+      },
+      {
+        "line": 123,
+        "text": "MOFF   0   1 \"\" 0 0 0 1 1 0 0.0 \"\""
+      }
+    ],
+    "diagnostics": [
+      {
+        "command": "VERS",
+        "line": 1,
+        "surface": -1,
+        "severity": "info",
+        "message": "Record retained but not interpreted"
+      },
+      {
+        "command": "NOTE",
+        "line": 4,
+        "surface": -1,
+        "severity": "info",
+        "message": "Record retained but not interpreted"
+      },
+      {
+        "command": "NOTE",
+        "line": 5,
+        "surface": -1,
+        "severity": "info",
+        "message": "Record retained but not interpreted"
+      },
+      {
+        "command": "PFIL",
+        "line": 6,
+        "surface": -1,
+        "severity": "info",
+        "message": "Record retained but not interpreted"
+      },
+      {
+        "command": "ENVD",
+        "line": 9,
+        "surface": -1,
+        "severity": "warning",
+        "message": "Record retained but not interpreted"
+      },
+      {
+        "command": "GFAC",
+        "line": 10,
+        "surface": -1,
+        "severity": "warning",
+        "message": "Record retained but not interpreted"
+      },
+      {
+        "command": "RAIM",
+        "line": 12,
+        "surface": -1,
+        "severity": "warning",
+        "message": "Record retained but not interpreted"
+      },
+      {
+        "command": "PUSH",
+        "line": 13,
+        "surface": -1,
+        "severity": "warning",
+        "message": "Record retained but not interpreted"
+      },
+      {
+        "command": "SDMA",
+        "line": 14,
+        "surface": -1,
+        "severity": "warning",
+        "message": "Record retained but not interpreted"
+      },
+      {
+        "command": "ROPD",
+        "line": 16,
+        "surface": -1,
+        "severity": "warning",
+        "message": "Record retained but not interpreted"
+      },
+      {
+        "command": "PICB",
+        "line": 17,
+        "surface": -1,
+        "severity": "warning",
+        "message": "Record retained but not interpreted"
+      },
+      {
+        "command": "POLS",
+        "line": 51,
+        "surface": -1,
+        "severity": "warning",
+        "message": "Record retained but not interpreted"
+      },
+      {
+        "command": "GLRS",
+        "line": 52,
+        "surface": -1,
+        "severity": "warning",
+        "message": "Record retained but not interpreted"
+      },
+      {
+        "command": "GSTD",
+        "line": 53,
+        "surface": -1,
+        "severity": "warning",
+        "message": "Record retained but not interpreted"
+      },
+      {
+        "command": "NSCD",
+        "line": 54,
+        "surface": -1,
+        "severity": "warning",
+        "message": "Record retained but not interpreted"
+      },
+      {
+        "command": "COFN",
+        "line": 55,
+        "surface": -1,
+        "severity": "warning",
+        "message": "Record retained but not interpreted"
+      },
+      {
+        "command": "COFN",
+        "line": 56,
+        "surface": -1,
+        "severity": "warning",
+        "message": "Record retained but not interpreted"
+      },
+      {
+        "command": "HIDE",
+        "line": 60,
+        "surface": 0,
+        "severity": "warning",
+        "message": "Record retained but not interpreted"
+      },
+      {
+        "command": "MIRR",
+        "line": 61,
+        "surface": 0,
+        "severity": "warning",
+        "message": "Record retained but not interpreted"
+      },
+      {
+        "command": "SLAB",
+        "line": 62,
+        "surface": 0,
+        "severity": "warning",
+        "message": "Record retained but not interpreted"
+      },
+      {
+        "command": "POPS",
+        "line": 65,
+        "surface": 0,
+        "severity": "warning",
+        "message": "Record retained but not interpreted"
+      },
+      {
+        "command": "COMM",
+        "line": 67,
+        "surface": 1,
+        "severity": "warning",
+        "message": "Record retained but not interpreted"
+      },
+      {
+        "command": "HIDE",
+        "line": 71,
+        "surface": 1,
+        "severity": "warning",
+        "message": "Record retained but not interpreted"
+      },
+      {
+        "command": "MIRR",
+        "line": 72,
+        "surface": 1,
+        "severity": "warning",
+        "message": "Record retained but not interpreted"
+      },
+      {
+        "command": "SLAB",
+        "line": 73,
+        "surface": 1,
+        "severity": "warning",
+        "message": "Record retained but not interpreted"
+      },
+      {
+        "command": "XDAT",
+        "line": 83,
+        "surface": 1,
+        "severity": "warning",
+        "message": "Record retained but not interpreted"
+      },
+      {
+        "command": "XDAT",
+        "line": 84,
+        "surface": 1,
+        "severity": "warning",
+        "message": "Record retained but not interpreted"
+      },
+      {
+        "command": "POPS",
+        "line": 88,
+        "surface": 1,
+        "severity": "warning",
+        "message": "Record retained but not interpreted"
+      },
+      {
+        "command": "SQAP",
+        "line": 89,
+        "surface": 1,
+        "severity": "warning",
+        "message": "Record retained but not interpreted"
+      },
+      {
+        "command": "HIDE",
+        "line": 93,
+        "surface": 2,
+        "severity": "warning",
+        "message": "Record retained but not interpreted"
+      },
+      {
+        "command": "MIRR",
+        "line": 94,
+        "surface": 2,
+        "severity": "warning",
+        "message": "Record retained but not interpreted"
+      },
+      {
+        "command": "SLAB",
+        "line": 95,
+        "surface": 2,
+        "severity": "warning",
+        "message": "Record retained but not interpreted"
+      },
+      {
+        "command": "XDAT",
+        "line": 105,
+        "surface": 2,
+        "severity": "warning",
+        "message": "Record retained but not interpreted"
+      },
+      {
+        "command": "XDAT",
+        "line": 106,
+        "surface": 2,
+        "severity": "warning",
+        "message": "Record retained but not interpreted"
+      },
+      {
+        "command": "POPS",
+        "line": 109,
+        "surface": 2,
+        "severity": "warning",
+        "message": "Record retained but not interpreted"
+      },
+      {
+        "command": "SQAP",
+        "line": 110,
+        "surface": 2,
+        "severity": "warning",
+        "message": "Record retained but not interpreted"
+      },
+      {
+        "command": "HIDE",
+        "line": 114,
+        "surface": 3,
+        "severity": "warning",
+        "message": "Record retained but not interpreted"
+      },
+      {
+        "command": "MIRR",
+        "line": 115,
+        "surface": 3,
+        "severity": "warning",
+        "message": "Record retained but not interpreted"
+      },
+      {
+        "command": "SLAB",
+        "line": 116,
+        "surface": 3,
+        "severity": "warning",
+        "message": "Record retained but not interpreted"
+      },
+      {
+        "command": "POPS",
+        "line": 119,
+        "surface": 3,
+        "severity": "warning",
+        "message": "Record retained but not interpreted"
+      },
+      {
+        "command": "BLNK",
+        "line": 120,
+        "surface": 3,
+        "severity": "warning",
+        "message": "Record retained but not interpreted"
+      },
+      {
+        "command": "TOL",
+        "line": 121,
+        "surface": 3,
+        "severity": "warning",
+        "message": "Record retained but not interpreted"
+      },
+      {
+        "command": "MNUM",
+        "line": 122,
+        "surface": 3,
+        "severity": "info",
+        "message": "Record retained but not interpreted"
+      },
+      {
+        "command": "MOFF",
+        "line": 123,
+        "surface": 3,
+        "severity": "warning",
+        "message": "Record retained but not interpreted"
+      }
+    ],
+    "name": "LJ1598L1 - Plano-Convex Cylindrical Lens - N-BK7",
+    "aperture": {
+      "EPD": 3.2
+    },
+    "fields": {
+      "type": "angle",
+      "object_space_telecentric": false,
+      "afocal_image_space": false,
+      "x": [
+        0.0
+      ],
+      "y": [
+        0.0
+      ],
+      "num_fields": 1,
+      "weights": [
+        1.0
+      ],
+      "vignette_decenter_x": [
+        0.0
+      ],
+      "vignette_decenter_y": [
+        0.0
+      ],
+      "vignette_compress_x": [
+        0.0
+      ],
+      "vignette_compress_y": [
+        0.0
+      ],
+      "vignette_tangent_angle": [
+        0.0
+      ]
+    },
+    "wavelengths": {
+      "data": [
+        0.4861,
+        0.5876,
+        0.6563
+      ],
+      "weights": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "num_wavelengths": 3,
+      "primary_index": 1
+    },
+    "surfaces": {
+      "0": {
+        "type": "standard",
+        "is_stop": false,
+        "conic": 0.0,
+        "material": "air",
+        "aperture": null,
+        "radius": {
+          "special": "positiveInfinity"
+        },
+        "thickness": {
+          "special": "positiveInfinity"
+        },
+        "diameter": 0.0
+      },
+      "1": {
+        "type": "toroidal",
+        "is_stop": true,
+        "conic": 0.0,
+        "material": {
+          "kind": "catalog",
+          "name": "N-BK7",
+          "catalogs": [
+            "SCHOTT",
+            "INFRARED",
+            "MISC"
+          ],
+          "nd": 0.0,
+          "vd": 0.0,
+          "resolution": "unresolved"
+        },
+        "aperture": null,
+        "radius": 2.0199999999999996,
+        "param_-1": 0.0,
+        "param_0": 0.0,
+        "param_1": 0.0,
+        "param_2": 0.0,
+        "param_3": 0.0,
+        "param_4": 0.0,
+        "param_5": 0.0,
+        "param_6": 0.0,
+        "param_7": 0.0,
+        "thickness": 3.8,
+        "index": 0.0,
+        "abbe": 0.0,
+        "diameter": 2.0
+      },
+      "2": {
+        "type": "toroidal",
+        "is_stop": false,
+        "conic": 0.0,
+        "material": "air",
+        "aperture": null,
+        "radius": {
+          "special": "positiveInfinity"
+        },
+        "param_-1": 0.0,
+        "param_0": 0.0,
+        "param_1": 0.0,
+        "param_2": 0.0,
+        "param_3": 0.0,
+        "param_4": 0.0,
+        "param_5": 0.0,
+        "param_6": 0.0,
+        "param_7": 0.0,
+        "thickness": 1.035445081706,
+        "diameter": 2.0
+      },
+      "3": {
+        "type": "standard",
+        "is_stop": false,
+        "conic": 0.0,
+        "material": "air",
+        "aperture": null,
+        "radius": {
+          "special": "positiveInfinity"
+        },
+        "thickness": 0.0,
+        "diameter": 0.2336290250042
+      }
+    },
+    "glass_catalogs": [
+      "SCHOTT",
+      "INFRARED",
+      "MISC"
+    ]
+  }
+}

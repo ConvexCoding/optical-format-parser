@@ -1,0 +1,325 @@
+{
+  "schemaVersion": "1.0",
+  "source": {
+    "format": "oslo",
+    "filename": "test_cassegrain.len",
+    "encoding": "utf-8",
+    "upstreamRevision": "4e893f53aee1312f2d091680b93dd2279711e197"
+  },
+  "name": "Cassegrain Telescope",
+  "mode": "sequential",
+  "units": {
+    "length": "mm",
+    "wavelength": "um",
+    "angle": "deg",
+    "sourceLength": "lensUnit",
+    "scaleToMm": 1.0
+  },
+  "aperture": {
+    "kind": "beamRadiusAtSurface1",
+    "value": 200.0,
+    "source": {
+      "EPD": 400.0
+    }
+  },
+  "fields": {
+    "kind": "angle",
+    "points": [],
+    "reference": {
+      "y": 0.1,
+      "coordinates": "prescriptionExtent"
+    },
+    "source": {
+      "type": "angle",
+      "y": [
+        0.1
+      ]
+    }
+  },
+  "wavelengths": {
+    "valuesUm": [
+      0.55
+    ],
+    "weights": [
+      1.0
+    ],
+    "primaryIndex": 0
+  },
+  "surfaces": [
+    {
+      "index": 0,
+      "role": "object",
+      "type": "standard",
+      "radiusMm": {
+        "special": "positiveInfinity"
+      },
+      "thicknessMm": {
+        "special": "positiveInfinity"
+      },
+      "conic": 0.0,
+      "stop": false,
+      "material": {
+        "kind": "air"
+      },
+      "clearAperture": {
+        "kind": "annulus",
+        "r_min": 0.0,
+        "r_max": 17453310.0,
+        "offset_x": 0.0,
+        "offset_y": 0.0,
+        "checked": false,
+        "checkingEnabled": true
+      },
+      "parameters": {
+        "material": "AIR",
+        "RD": {
+          "special": "positiveInfinity"
+        },
+        "TH": 10000000000.0,
+        "AP": 17453310.0,
+        "aperture_checked": false
+      }
+    },
+    {
+      "index": 1,
+      "role": "surface",
+      "type": "standard",
+      "radiusMm": -4000.0,
+      "thicknessMm": -1800.0,
+      "conic": -1.0,
+      "stop": true,
+      "material": {
+        "kind": "mirror"
+      },
+      "clearAperture": {
+        "kind": "annulus",
+        "r_min": 0.0,
+        "r_max": 200.0,
+        "offset_x": 0.0,
+        "offset_y": 0.0,
+        "checked": false,
+        "checkingEnabled": true
+      },
+      "parameters": {
+        "material": "RFL",
+        "RD": -4000.0,
+        "TH": -1800.0,
+        "AP": 200.0,
+        "aperture_checked": false,
+        "CC": -1.0
+      }
+    },
+    {
+      "index": 2,
+      "role": "surface",
+      "type": "standard",
+      "radiusMm": 1400.0,
+      "thicknessMm": 2200.0,
+      "conic": -2.5,
+      "stop": false,
+      "material": {
+        "kind": "mirror"
+      },
+      "clearAperture": null,
+      "parameters": {
+        "material": "RFL",
+        "RD": 1400.0,
+        "TH": 2200.0,
+        "CC": -2.5
+      }
+    },
+    {
+      "index": 3,
+      "role": "image",
+      "type": "standard",
+      "radiusMm": {
+        "special": "positiveInfinity"
+      },
+      "thicknessMm": 0.0,
+      "conic": 0.0,
+      "stop": false,
+      "material": {
+        "kind": "air"
+      },
+      "clearAperture": null,
+      "parameters": {
+        "material": "AIR",
+        "TH": 0.0
+      }
+    }
+  ],
+  "diagnostics": [],
+  "raw": {
+    "name": "Cassegrain Telescope",
+    "scaling": 1555.556,
+    "num_surfaces": 3,
+    "aperture": {
+      "EPD": 400.0
+    },
+    "fields": {
+      "type": "angle",
+      "y": [
+        0.1
+      ]
+    },
+    "wavelengths": {
+      "values": [
+        0.55
+      ],
+      "weights": [
+        1.0
+      ],
+      "primary_index": 0
+    },
+    "surfaces": {
+      "0": {
+        "material": "AIR",
+        "RD": {
+          "special": "positiveInfinity"
+        },
+        "TH": 10000000000.0,
+        "AP": 17453310.0,
+        "aperture_checked": false
+      },
+      "1": {
+        "material": "RFL",
+        "RD": -4000.0,
+        "TH": -1800.0,
+        "AP": 200.0,
+        "aperture_checked": false,
+        "CC": -1.0
+      },
+      "2": {
+        "material": "RFL",
+        "RD": 1400.0,
+        "TH": 2200.0,
+        "CC": -2.5
+      },
+      "3": {
+        "material": "AIR",
+        "TH": 0.0
+      }
+    },
+    "units": 1.0,
+    "records": [
+      {
+        "line": 2,
+        "text": "LEN NEW \"Cassegrain Telescope\" 1555.556 3"
+      },
+      {
+        "line": 3,
+        "text": "EBR 200"
+      },
+      {
+        "line": 4,
+        "text": "DES \"Optiland\""
+      },
+      {
+        "line": 5,
+        "text": "UNI 1"
+      },
+      {
+        "line": 6,
+        "text": "ANG 0.1"
+      },
+      {
+        "line": 7,
+        "text": "AIR"
+      },
+      {
+        "line": 8,
+        "text": "RD 0"
+      },
+      {
+        "line": 9,
+        "text": "TH 1e+10"
+      },
+      {
+        "line": 10,
+        "text": "AP 1.745331e+07"
+      },
+      {
+        "line": 11,
+        "text": "NXT"
+      },
+      {
+        "line": 12,
+        "text": "RFL"
+      },
+      {
+        "line": 13,
+        "text": "RD -4000"
+      },
+      {
+        "line": 14,
+        "text": "TH -1800"
+      },
+      {
+        "line": 15,
+        "text": "AP 200"
+      },
+      {
+        "line": 16,
+        "text": "CC -1"
+      },
+      {
+        "line": 17,
+        "text": "NXT"
+      },
+      {
+        "line": 18,
+        "text": "RFL"
+      },
+      {
+        "line": 19,
+        "text": "RD 1400"
+      },
+      {
+        "line": 20,
+        "text": "TH 2200"
+      },
+      {
+        "line": 21,
+        "text": "CC -2.5"
+      },
+      {
+        "line": 22,
+        "text": "NXT"
+      },
+      {
+        "line": 23,
+        "text": "AIR"
+      },
+      {
+        "line": 24,
+        "text": "TH 0"
+      },
+      {
+        "line": 25,
+        "text": "WV 0.55"
+      },
+      {
+        "line": 26,
+        "text": "WW 1"
+      },
+      {
+        "line": 27,
+        "text": "END 3"
+      }
+    ],
+    "notes": {
+      "DES": "Optiland"
+    },
+    "diagnostics": [],
+    "settings": {},
+    "configurations": {
+      "1": {
+        "thicknesses": {},
+        "wavelengths": {},
+        "wavelength_weights": {},
+        "weight": 1.0,
+        "active": true
+      }
+    }
+  }
+}

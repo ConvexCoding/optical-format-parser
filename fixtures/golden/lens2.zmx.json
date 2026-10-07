@@ -1,0 +1,1000 @@
+{
+  "schemaVersion": "1.0",
+  "source": {
+    "format": "zemax",
+    "filename": "lens2.zmx",
+    "encoding": "utf-16-le",
+    "upstreamRevision": "4e893f53aee1312f2d091680b93dd2279711e197"
+  },
+  "name": "47728 Asphere F/1.5",
+  "mode": "sequential",
+  "units": {
+    "length": "mm",
+    "wavelength": "um",
+    "angle": "deg",
+    "sourceLength": "MM",
+    "scaleToMm": 1.0
+  },
+  "aperture": {
+    "kind": "entrancePupilDiameter",
+    "value": 15.0,
+    "source": {
+      "EPD": 15.0
+    }
+  },
+  "fields": {
+    "kind": "angle",
+    "points": [
+      {
+        "x": 0.0,
+        "y": 0.0,
+        "weight": 1.0,
+        "vignetting": {}
+      }
+    ],
+    "reference": null,
+    "source": {
+      "type": "angle",
+      "object_space_telecentric": false,
+      "afocal_image_space": false,
+      "x": [
+        0.0
+      ],
+      "y": [
+        0.0
+      ],
+      "num_fields": 1,
+      "weights": [
+        1.0
+      ]
+    }
+  },
+  "wavelengths": {
+    "valuesUm": [
+      0.5876
+    ],
+    "weights": [
+      1.0
+    ],
+    "primaryIndex": 0
+  },
+  "surfaces": [
+    {
+      "index": 0,
+      "role": "object",
+      "type": "standard",
+      "radiusMm": {
+        "special": "positiveInfinity"
+      },
+      "thicknessMm": {
+        "special": "positiveInfinity"
+      },
+      "conic": 0.0,
+      "stop": false,
+      "material": {
+        "kind": "air"
+      },
+      "clearAperture": null,
+      "parameters": {
+        "type": "standard",
+        "is_stop": false,
+        "conic": 0.0,
+        "material": "air",
+        "aperture": null,
+        "radius": {
+          "special": "positiveInfinity"
+        },
+        "thickness": {
+          "special": "positiveInfinity"
+        }
+      }
+    },
+    {
+      "index": 1,
+      "role": "surface",
+      "type": "even_asphere",
+      "radiusMm": 13.255,
+      "thicknessMm": 4.0,
+      "conic": -2.364143,
+      "stop": true,
+      "material": {
+        "kind": "catalog",
+        "name": "L-BAL35",
+        "catalogs": [
+          "SCHOTT",
+          "OHARA"
+        ],
+        "nd": null,
+        "vd": null,
+        "resolution": "unresolved"
+      },
+      "clearAperture": {
+        "kind": "annulus",
+        "r_min": 0.0,
+        "r_max": 6.75,
+        "offset_x": 0.0,
+        "offset_y": 0.0
+      },
+      "parameters": {
+        "type": "even_asphere",
+        "is_stop": true,
+        "conic": -2.364143,
+        "material": {
+          "kind": "catalog",
+          "name": "L-BAL35",
+          "catalogs": [
+            "SCHOTT",
+            "OHARA"
+          ],
+          "nd": null,
+          "vd": null,
+          "resolution": "unresolved"
+        },
+        "aperture": {
+          "kind": "annulus",
+          "r_min": 0.0,
+          "r_max": 6.75,
+          "offset_x": 0.0,
+          "offset_y": 0.0
+        },
+        "radius": 13.255,
+        "param_0": 0.0,
+        "param_1": 9.556697e-05,
+        "param_2": -2.609526e-07,
+        "param_3": 1.124621e-09,
+        "param_4": -2.998908e-12,
+        "param_5": 0.0,
+        "param_6": 0.0,
+        "param_7": 0.0,
+        "thickness": 4.0,
+        "index": null,
+        "abbe": null,
+        "diameter": 6.75
+      }
+    },
+    {
+      "index": 2,
+      "role": "surface",
+      "type": "standard",
+      "radiusMm": {
+        "special": "positiveInfinity"
+      },
+      "thicknessMm": 19.982263937046813,
+      "conic": 0.0,
+      "stop": false,
+      "material": {
+        "kind": "air"
+      },
+      "clearAperture": {
+        "kind": "annulus",
+        "r_min": 0.0,
+        "r_max": 6.75,
+        "offset_x": 0.0,
+        "offset_y": 0.0
+      },
+      "parameters": {
+        "type": "standard",
+        "is_stop": false,
+        "conic": 0.0,
+        "material": "air",
+        "aperture": {
+          "kind": "annulus",
+          "r_min": 0.0,
+          "r_max": 6.75,
+          "offset_x": 0.0,
+          "offset_y": 0.0
+        },
+        "radius": {
+          "special": "positiveInfinity"
+        },
+        "thickness": 19.982263937046813,
+        "diameter": 6.75
+      }
+    },
+    {
+      "index": 3,
+      "role": "image",
+      "type": "standard",
+      "radiusMm": {
+        "special": "positiveInfinity"
+      },
+      "thicknessMm": 0.0,
+      "conic": 0.0,
+      "stop": false,
+      "material": {
+        "kind": "air"
+      },
+      "clearAperture": null,
+      "parameters": {
+        "type": "standard",
+        "is_stop": false,
+        "conic": 0.0,
+        "material": "air",
+        "aperture": null,
+        "radius": {
+          "special": "positiveInfinity"
+        },
+        "thickness": 0.0
+      }
+    }
+  ],
+  "diagnostics": [
+    {
+      "severity": "info",
+      "code": "uninterpreted_record",
+      "command": "VERS",
+      "line": 1,
+      "surface": -1,
+      "message": "Record retained but not interpreted"
+    },
+    {
+      "severity": "warning",
+      "code": "uninterpreted_record",
+      "command": "DBDT",
+      "line": 2,
+      "surface": -1,
+      "message": "Record retained but not interpreted"
+    },
+    {
+      "severity": "warning",
+      "code": "uninterpreted_record",
+      "command": "DBDT",
+      "line": 3,
+      "surface": -1,
+      "message": "Record retained but not interpreted"
+    },
+    {
+      "severity": "info",
+      "code": "uninterpreted_record",
+      "command": "NOTE",
+      "line": 6,
+      "surface": -1,
+      "message": "Record retained but not interpreted"
+    },
+    {
+      "severity": "info",
+      "code": "uninterpreted_record",
+      "command": "PFIL",
+      "line": 7,
+      "surface": -1,
+      "message": "Record retained but not interpreted"
+    },
+    {
+      "severity": "info",
+      "code": "uninterpreted_record",
+      "command": "LANG",
+      "line": 8,
+      "surface": -1,
+      "message": "Record retained but not interpreted"
+    },
+    {
+      "severity": "warning",
+      "code": "uninterpreted_record",
+      "command": "ENVD",
+      "line": 11,
+      "surface": -1,
+      "message": "Record retained but not interpreted"
+    },
+    {
+      "severity": "warning",
+      "code": "uninterpreted_record",
+      "command": "GFAC",
+      "line": 12,
+      "surface": -1,
+      "message": "Record retained but not interpreted"
+    },
+    {
+      "severity": "warning",
+      "code": "uninterpreted_record",
+      "command": "SDMA",
+      "line": 14,
+      "surface": -1,
+      "message": "Record retained but not interpreted"
+    },
+    {
+      "severity": "warning",
+      "code": "uninterpreted_record",
+      "command": "OMMA",
+      "line": 15,
+      "surface": -1,
+      "message": "Record retained but not interpreted"
+    },
+    {
+      "severity": "warning",
+      "code": "uninterpreted_record",
+      "command": "ROPD",
+      "line": 17,
+      "surface": -1,
+      "message": "Record retained but not interpreted"
+    },
+    {
+      "severity": "warning",
+      "code": "uninterpreted_record",
+      "command": "HYPR",
+      "line": 18,
+      "surface": -1,
+      "message": "Record retained but not interpreted"
+    },
+    {
+      "severity": "warning",
+      "code": "uninterpreted_record",
+      "command": "PICB",
+      "line": 19,
+      "surface": -1,
+      "message": "Record retained but not interpreted"
+    },
+    {
+      "severity": "warning",
+      "code": "uninterpreted_record",
+      "command": "GLRS",
+      "line": 25,
+      "surface": -1,
+      "message": "Record retained but not interpreted"
+    },
+    {
+      "severity": "warning",
+      "code": "uninterpreted_record",
+      "command": "FIMP",
+      "line": 27,
+      "surface": 0,
+      "message": "Record retained but not interpreted"
+    },
+    {
+      "severity": "warning",
+      "code": "uninterpreted_record",
+      "command": "MEMA",
+      "line": 31,
+      "surface": 0,
+      "message": "Record retained but not interpreted"
+    },
+    {
+      "severity": "warning",
+      "code": "uninterpreted_record",
+      "command": "COMM",
+      "line": 33,
+      "surface": 1,
+      "message": "Record retained but not interpreted"
+    },
+    {
+      "severity": "warning",
+      "code": "uninterpreted_record",
+      "command": "FIMP",
+      "line": 36,
+      "surface": 1,
+      "message": "Record retained but not interpreted"
+    },
+    {
+      "severity": "warning",
+      "code": "uninterpreted_record",
+      "command": "OEMA",
+      "line": 51,
+      "surface": 1,
+      "message": "Record retained but not interpreted"
+    },
+    {
+      "severity": "warning",
+      "code": "uninterpreted_record",
+      "command": "MEMA",
+      "line": 52,
+      "surface": 1,
+      "message": "Record retained but not interpreted"
+    },
+    {
+      "severity": "warning",
+      "code": "uninterpreted_record",
+      "command": "FIMP",
+      "line": 55,
+      "surface": 2,
+      "message": "Record retained but not interpreted"
+    },
+    {
+      "severity": "warning",
+      "code": "uninterpreted_record",
+      "command": "MAZH",
+      "line": 59,
+      "surface": 2,
+      "message": "Record retained but not interpreted"
+    },
+    {
+      "severity": "warning",
+      "code": "uninterpreted_record",
+      "command": "OEMA",
+      "line": 61,
+      "surface": 2,
+      "message": "Record retained but not interpreted"
+    },
+    {
+      "severity": "warning",
+      "code": "uninterpreted_record",
+      "command": "MEMA",
+      "line": 62,
+      "surface": 2,
+      "message": "Record retained but not interpreted"
+    },
+    {
+      "severity": "warning",
+      "code": "uninterpreted_record",
+      "command": "FIMP",
+      "line": 65,
+      "surface": 3,
+      "message": "Record retained but not interpreted"
+    },
+    {
+      "severity": "warning",
+      "code": "uninterpreted_record",
+      "command": "MEMA",
+      "line": 69,
+      "surface": 3,
+      "message": "Record retained but not interpreted"
+    },
+    {
+      "severity": "warning",
+      "code": "unresolved_material",
+      "message": "Material identity preserved; catalog lookup and dispersion fitting are not executed",
+      "surface": 1
+    }
+  ],
+  "raw": {
+    "mode": "Sequential",
+    "units": "MM",
+    "records": [
+      {
+        "line": 1,
+        "text": "VERS 171115"
+      },
+      {
+        "line": 2,
+        "text": "DBDT 0 47728 2.250E+01 1.500E+01"
+      },
+      {
+        "line": 3,
+        "text": "DBDT 1 1 1 3 0 1 0"
+      },
+      {
+        "line": 4,
+        "text": "MODE SEQ"
+      },
+      {
+        "line": 5,
+        "text": "NAME 47728 Asphere F/1.5"
+      },
+      {
+        "line": 6,
+        "text": "NOTE 0 Lens Asphere 15mm F/1.5 UNCTD"
+      },
+      {
+        "line": 7,
+        "text": "PFIL 0 0 0"
+      },
+      {
+        "line": 8,
+        "text": "LANG 0"
+      },
+      {
+        "line": 9,
+        "text": "UNIT MM X W X CM MR CPMM"
+      },
+      {
+        "line": 10,
+        "text": "ENPD 15"
+      },
+      {
+        "line": 11,
+        "text": "ENVD 20 1 0"
+      },
+      {
+        "line": 12,
+        "text": "GFAC 0 0"
+      },
+      {
+        "line": 13,
+        "text": "GCAT SCHOTT OHARA"
+      },
+      {
+        "line": 14,
+        "text": "SDMA 0 1 0"
+      },
+      {
+        "line": 15,
+        "text": "OMMA 1 1"
+      },
+      {
+        "line": 16,
+        "text": "FTYP 0 0 1 1 0 0 0 1"
+      },
+      {
+        "line": 17,
+        "text": "ROPD 2"
+      },
+      {
+        "line": 18,
+        "text": "HYPR 0"
+      },
+      {
+        "line": 19,
+        "text": "PICB 1"
+      },
+      {
+        "line": 20,
+        "text": "XFLN 0"
+      },
+      {
+        "line": 21,
+        "text": "YFLN 0"
+      },
+      {
+        "line": 22,
+        "text": "FWGN 1"
+      },
+      {
+        "line": 23,
+        "text": "WAVM 1 0.58760000000000001 1"
+      },
+      {
+        "line": 24,
+        "text": "PWAV 1"
+      },
+      {
+        "line": 25,
+        "text": "GLRS 1 0"
+      },
+      {
+        "line": 26,
+        "text": "SURF 0"
+      },
+      {
+        "line": 27,
+        "text": "FIMP"
+      },
+      {
+        "line": 29,
+        "text": "CURV 0.0"
+      },
+      {
+        "line": 30,
+        "text": "DISZ INFINITY"
+      },
+      {
+        "line": 31,
+        "text": "MEMA 0 0 0 0 1 \"\""
+      },
+      {
+        "line": 32,
+        "text": "SURF 1"
+      },
+      {
+        "line": 33,
+        "text": "COMM 47728"
+      },
+      {
+        "line": 34,
+        "text": "STOP"
+      },
+      {
+        "line": 35,
+        "text": "TYPE EVENASPH"
+      },
+      {
+        "line": 36,
+        "text": "FIMP"
+      },
+      {
+        "line": 38,
+        "text": "CURV 7.544322897019992147E-02"
+      },
+      {
+        "line": 39,
+        "text": "PARM 1 0"
+      },
+      {
+        "line": 40,
+        "text": "PARM 2 9.556697e-05"
+      },
+      {
+        "line": 41,
+        "text": "PARM 3 -2.6095260000000003e-07"
+      },
+      {
+        "line": 42,
+        "text": "PARM 4 1.1246210000000001e-09"
+      },
+      {
+        "line": 43,
+        "text": "PARM 5 -2.9989079999999998e-12"
+      },
+      {
+        "line": 44,
+        "text": "PARM 6 0"
+      },
+      {
+        "line": 45,
+        "text": "PARM 7 0"
+      },
+      {
+        "line": 46,
+        "text": "PARM 8 0"
+      },
+      {
+        "line": 47,
+        "text": "DISZ 4"
+      },
+      {
+        "line": 48,
+        "text": "GLAS L-BAL35"
+      },
+      {
+        "line": 49,
+        "text": "CONI -2.3641429999999999"
+      },
+      {
+        "line": 50,
+        "text": "DIAM 6.75 1 0 0 1 \"\""
+      },
+      {
+        "line": 51,
+        "text": "OEMA 0.75 0 0 0 1 \"\""
+      },
+      {
+        "line": 52,
+        "text": "MEMA 7.5 1 0 0 1 \"\""
+      },
+      {
+        "line": 53,
+        "text": "CLAP 0 6.75 0"
+      },
+      {
+        "line": 54,
+        "text": "SURF 2"
+      },
+      {
+        "line": 55,
+        "text": "FIMP"
+      },
+      {
+        "line": 57,
+        "text": "CURV 0.0"
+      },
+      {
+        "line": 58,
+        "text": "DISZ 19.982263937046813"
+      },
+      {
+        "line": 59,
+        "text": "MAZH 0 0"
+      },
+      {
+        "line": 60,
+        "text": "DIAM 6.75 1 0 0 1 \"\""
+      },
+      {
+        "line": 61,
+        "text": "OEMA 0.75 0 0 0 1 \"\""
+      },
+      {
+        "line": 62,
+        "text": "MEMA 7.5 1 0 0 1 \"\""
+      },
+      {
+        "line": 63,
+        "text": "CLAP 0 6.75 0"
+      },
+      {
+        "line": 64,
+        "text": "SURF 3"
+      },
+      {
+        "line": 65,
+        "text": "FIMP"
+      },
+      {
+        "line": 67,
+        "text": "CURV 0.0"
+      },
+      {
+        "line": 68,
+        "text": "DISZ 0"
+      },
+      {
+        "line": 69,
+        "text": "MEMA 0.0010092192841524295 0 0 0 1 \"\""
+      }
+    ],
+    "diagnostics": [
+      {
+        "command": "VERS",
+        "line": 1,
+        "surface": -1,
+        "severity": "info",
+        "message": "Record retained but not interpreted"
+      },
+      {
+        "command": "DBDT",
+        "line": 2,
+        "surface": -1,
+        "severity": "warning",
+        "message": "Record retained but not interpreted"
+      },
+      {
+        "command": "DBDT",
+        "line": 3,
+        "surface": -1,
+        "severity": "warning",
+        "message": "Record retained but not interpreted"
+      },
+      {
+        "command": "NOTE",
+        "line": 6,
+        "surface": -1,
+        "severity": "info",
+        "message": "Record retained but not interpreted"
+      },
+      {
+        "command": "PFIL",
+        "line": 7,
+        "surface": -1,
+        "severity": "info",
+        "message": "Record retained but not interpreted"
+      },
+      {
+        "command": "LANG",
+        "line": 8,
+        "surface": -1,
+        "severity": "info",
+        "message": "Record retained but not interpreted"
+      },
+      {
+        "command": "ENVD",
+        "line": 11,
+        "surface": -1,
+        "severity": "warning",
+        "message": "Record retained but not interpreted"
+      },
+      {
+        "command": "GFAC",
+        "line": 12,
+        "surface": -1,
+        "severity": "warning",
+        "message": "Record retained but not interpreted"
+      },
+      {
+        "command": "SDMA",
+        "line": 14,
+        "surface": -1,
+        "severity": "warning",
+        "message": "Record retained but not interpreted"
+      },
+      {
+        "command": "OMMA",
+        "line": 15,
+        "surface": -1,
+        "severity": "warning",
+        "message": "Record retained but not interpreted"
+      },
+      {
+        "command": "ROPD",
+        "line": 17,
+        "surface": -1,
+        "severity": "warning",
+        "message": "Record retained but not interpreted"
+      },
+      {
+        "command": "HYPR",
+        "line": 18,
+        "surface": -1,
+        "severity": "warning",
+        "message": "Record retained but not interpreted"
+      },
+      {
+        "command": "PICB",
+        "line": 19,
+        "surface": -1,
+        "severity": "warning",
+        "message": "Record retained but not interpreted"
+      },
+      {
+        "command": "GLRS",
+        "line": 25,
+        "surface": -1,
+        "severity": "warning",
+        "message": "Record retained but not interpreted"
+      },
+      {
+        "command": "FIMP",
+        "line": 27,
+        "surface": 0,
+        "severity": "warning",
+        "message": "Record retained but not interpreted"
+      },
+      {
+        "command": "MEMA",
+        "line": 31,
+        "surface": 0,
+        "severity": "warning",
+        "message": "Record retained but not interpreted"
+      },
+      {
+        "command": "COMM",
+        "line": 33,
+        "surface": 1,
+        "severity": "warning",
+        "message": "Record retained but not interpreted"
+      },
+      {
+        "command": "FIMP",
+        "line": 36,
+        "surface": 1,
+        "severity": "warning",
+        "message": "Record retained but not interpreted"
+      },
+      {
+        "command": "OEMA",
+        "line": 51,
+        "surface": 1,
+        "severity": "warning",
+        "message": "Record retained but not interpreted"
+      },
+      {
+        "command": "MEMA",
+        "line": 52,
+        "surface": 1,
+        "severity": "warning",
+        "message": "Record retained but not interpreted"
+      },
+      {
+        "command": "FIMP",
+        "line": 55,
+        "surface": 2,
+        "severity": "warning",
+        "message": "Record retained but not interpreted"
+      },
+      {
+        "command": "MAZH",
+        "line": 59,
+        "surface": 2,
+        "severity": "warning",
+        "message": "Record retained but not interpreted"
+      },
+      {
+        "command": "OEMA",
+        "line": 61,
+        "surface": 2,
+        "severity": "warning",
+        "message": "Record retained but not interpreted"
+      },
+      {
+        "command": "MEMA",
+        "line": 62,
+        "surface": 2,
+        "severity": "warning",
+        "message": "Record retained but not interpreted"
+      },
+      {
+        "command": "FIMP",
+        "line": 65,
+        "surface": 3,
+        "severity": "warning",
+        "message": "Record retained but not interpreted"
+      },
+      {
+        "command": "MEMA",
+        "line": 69,
+        "surface": 3,
+        "severity": "warning",
+        "message": "Record retained but not interpreted"
+      }
+    ],
+    "name": "47728 Asphere F/1.5",
+    "aperture": {
+      "EPD": 15.0
+    },
+    "fields": {
+      "type": "angle",
+      "object_space_telecentric": false,
+      "afocal_image_space": false,
+      "x": [
+        0.0
+      ],
+      "y": [
+        0.0
+      ],
+      "num_fields": 1,
+      "weights": [
+        1.0
+      ]
+    },
+    "wavelengths": {
+      "data": [
+        0.5876
+      ],
+      "weights": [
+        1.0
+      ],
+      "num_wavelengths": 1,
+      "primary_index": 0
+    },
+    "surfaces": {
+      "0": {
+        "type": "standard",
+        "is_stop": false,
+        "conic": 0.0,
+        "material": "air",
+        "aperture": null,
+        "radius": {
+          "special": "positiveInfinity"
+        },
+        "thickness": {
+          "special": "positiveInfinity"
+        }
+      },
+      "1": {
+        "type": "even_asphere",
+        "is_stop": true,
+        "conic": -2.364143,
+        "material": {
+          "kind": "catalog",
+          "name": "L-BAL35",
+          "catalogs": [
+            "SCHOTT",
+            "OHARA"
+          ],
+          "nd": null,
+          "vd": null,
+          "resolution": "unresolved"
+        },
+        "aperture": {
+          "kind": "annulus",
+          "r_min": 0.0,
+          "r_max": 6.75,
+          "offset_x": 0.0,
+          "offset_y": 0.0
+        },
+        "radius": 13.255,
+        "param_0": 0.0,
+        "param_1": 9.556697e-05,
+        "param_2": -2.609526e-07,
+        "param_3": 1.124621e-09,
+        "param_4": -2.998908e-12,
+        "param_5": 0.0,
+        "param_6": 0.0,
+        "param_7": 0.0,
+        "thickness": 4.0,
+        "index": null,
+        "abbe": null,
+        "diameter": 6.75
+      },
+      "2": {
+        "type": "standard",
+        "is_stop": false,
+        "conic": 0.0,
+        "material": "air",
+        "aperture": {
+          "kind": "annulus",
+          "r_min": 0.0,
+          "r_max": 6.75,
+          "offset_x": 0.0,
+          "offset_y": 0.0
+        },
+        "radius": {
+          "special": "positiveInfinity"
+        },
+        "thickness": 19.982263937046813,
+        "diameter": 6.75
+      },
+      "3": {
+        "type": "standard",
+        "is_stop": false,
+        "conic": 0.0,
+        "material": "air",
+        "aperture": null,
+        "radius": {
+          "special": "positiveInfinity"
+        },
+        "thickness": 0.0
+      }
+    },
+    "glass_catalogs": [
+      "SCHOTT",
+      "OHARA"
+    ]
+  }
+}

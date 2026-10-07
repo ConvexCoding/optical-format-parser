@@ -1,0 +1,342 @@
+{
+  "schemaVersion": "1.0",
+  "source": {
+    "format": "oslo",
+    "filename": "test_asphere_singlet.len",
+    "encoding": "utf-8",
+    "upstreamRevision": "4e893f53aee1312f2d091680b93dd2279711e197"
+  },
+  "name": "LENS",
+  "mode": "sequential",
+  "units": {
+    "length": "mm",
+    "wavelength": "um",
+    "angle": "deg",
+    "sourceLength": "lensUnit",
+    "scaleToMm": 1.0
+  },
+  "aperture": {
+    "kind": "beamRadiusAtSurface1",
+    "value": 10.0,
+    "source": {
+      "EPD": 20.0
+    }
+  },
+  "fields": {
+    "kind": "angle",
+    "points": [],
+    "reference": {
+      "y": 0.0,
+      "coordinates": "prescriptionExtent"
+    },
+    "source": {
+      "type": "angle",
+      "y": [
+        0.0
+      ]
+    }
+  },
+  "wavelengths": {
+    "valuesUm": [
+      0.587
+    ],
+    "weights": [
+      1.0
+    ],
+    "primaryIndex": 0
+  },
+  "surfaces": [
+    {
+      "index": 0,
+      "role": "object",
+      "type": "standard",
+      "radiusMm": {
+        "special": "positiveInfinity"
+      },
+      "thicknessMm": {
+        "special": "positiveInfinity"
+      },
+      "conic": 0.0,
+      "stop": false,
+      "material": {
+        "kind": "air"
+      },
+      "clearAperture": {
+        "kind": "annulus",
+        "r_min": 0.0,
+        "r_max": 10000000000.0,
+        "offset_x": 0.0,
+        "offset_y": 0.0,
+        "checked": false,
+        "checkingEnabled": true
+      },
+      "parameters": {
+        "material": "AIR",
+        "TH": 10000000000.0,
+        "AP": 10000000000.0,
+        "aperture_checked": false
+      }
+    },
+    {
+      "index": 1,
+      "role": "surface",
+      "type": "even_asphere",
+      "radiusMm": 20.0,
+      "thicknessMm": 7.0,
+      "conic": 0.0,
+      "stop": true,
+      "material": {
+        "kind": "catalog",
+        "name": "N-SF11",
+        "resolution": "unresolved"
+      },
+      "clearAperture": {
+        "kind": "annulus",
+        "r_min": 0.0,
+        "r_max": 10.0,
+        "offset_x": 0.0,
+        "offset_y": 0.0,
+        "checked": false,
+        "checkingEnabled": true
+      },
+      "parameters": {
+        "material": "GLA N-SF11",
+        "glass_wavelengths": [
+          0.58756,
+          0.48613,
+          0.65627
+        ],
+        "RD": 20.0,
+        "TH": 7.0,
+        "AP": 10.0,
+        "aperture_checked": false,
+        "AD": -0.0002248851,
+        "AE": -4.690412e-06,
+        "AF": -6.404376e-08,
+        "AG": 0.0
+      }
+    },
+    {
+      "index": 2,
+      "role": "surface",
+      "type": "standard",
+      "radiusMm": {
+        "special": "positiveInfinity"
+      },
+      "thicknessMm": 21.56201,
+      "conic": 0.0,
+      "stop": false,
+      "material": {
+        "kind": "air"
+      },
+      "clearAperture": null,
+      "parameters": {
+        "material": "AIR",
+        "TH": 21.56201
+      }
+    },
+    {
+      "index": 3,
+      "role": "image",
+      "type": "standard",
+      "radiusMm": {
+        "special": "positiveInfinity"
+      },
+      "thicknessMm": 0.0,
+      "conic": 0.0,
+      "stop": false,
+      "material": {
+        "kind": "air"
+      },
+      "clearAperture": null,
+      "parameters": {
+        "material": "AIR",
+        "TH": 0.0
+      }
+    }
+  ],
+  "diagnostics": [
+    {
+      "severity": "warning",
+      "code": "unresolved_material",
+      "message": "Material identity preserved; catalog lookup and dispersion fitting are not executed",
+      "surface": 1
+    }
+  ],
+  "raw": {
+    "name": "LENS",
+    "scaling": 25.48401,
+    "num_surfaces": 3,
+    "aperture": {
+      "EPD": 20.0
+    },
+    "fields": {
+      "type": "angle",
+      "y": [
+        0.0
+      ]
+    },
+    "wavelengths": {
+      "values": [
+        0.587
+      ],
+      "weights": [
+        1.0
+      ],
+      "primary_index": 0
+    },
+    "surfaces": {
+      "0": {
+        "material": "AIR",
+        "TH": 10000000000.0,
+        "AP": 10000000000.0,
+        "aperture_checked": false
+      },
+      "1": {
+        "material": "GLA N-SF11",
+        "glass_wavelengths": [
+          0.58756,
+          0.48613,
+          0.65627
+        ],
+        "RD": 20.0,
+        "TH": 7.0,
+        "AP": 10.0,
+        "aperture_checked": false,
+        "AD": -0.0002248851,
+        "AE": -4.690412e-06,
+        "AF": -6.404376e-08,
+        "AG": 0.0
+      },
+      "2": {
+        "material": "AIR",
+        "TH": 21.56201
+      },
+      "3": {
+        "material": "AIR",
+        "TH": 0.0
+      }
+    },
+    "units": 1.0,
+    "records": [
+      {
+        "line": 2,
+        "text": "LEN NEW \"LENS\" 25.48401 3"
+      },
+      {
+        "line": 3,
+        "text": "EBR 10"
+      },
+      {
+        "line": 4,
+        "text": "DES \"Optiland\""
+      },
+      {
+        "line": 5,
+        "text": "UNI 1"
+      },
+      {
+        "line": 6,
+        "text": "ANG 0"
+      },
+      {
+        "line": 7,
+        "text": "AIR"
+      },
+      {
+        "line": 8,
+        "text": "TH 1e+10"
+      },
+      {
+        "line": 9,
+        "text": "AP 1e+10"
+      },
+      {
+        "line": 10,
+        "text": "NXT"
+      },
+      {
+        "line": 11,
+        "text": "GLA N-SF11"
+      },
+      {
+        "line": 12,
+        "text": "RD 20"
+      },
+      {
+        "line": 13,
+        "text": "TH 7"
+      },
+      {
+        "line": 14,
+        "text": "AP 10"
+      },
+      {
+        "line": 15,
+        "text": "AD -0.0002248851"
+      },
+      {
+        "line": 16,
+        "text": "AE -4.690412e-06"
+      },
+      {
+        "line": 17,
+        "text": "AF -6.404376e-08"
+      },
+      {
+        "line": 18,
+        "text": "AG 0"
+      },
+      {
+        "line": 19,
+        "text": "NXT"
+      },
+      {
+        "line": 20,
+        "text": "AIR"
+      },
+      {
+        "line": 21,
+        "text": "TH 21.56201"
+      },
+      {
+        "line": 22,
+        "text": "NXT"
+      },
+      {
+        "line": 23,
+        "text": "AIR"
+      },
+      {
+        "line": 24,
+        "text": "TH 0"
+      },
+      {
+        "line": 25,
+        "text": "WV 0.587"
+      },
+      {
+        "line": 26,
+        "text": "WW 1"
+      },
+      {
+        "line": 27,
+        "text": "END 3"
+      }
+    ],
+    "notes": {
+      "DES": "Optiland"
+    },
+    "diagnostics": [],
+    "settings": {},
+    "configurations": {
+      "1": {
+        "thicknesses": {},
+        "wavelengths": {},
+        "wavelength_weights": {},
+        "weight": 1.0,
+        "active": true
+      }
+    }
+  }
+}

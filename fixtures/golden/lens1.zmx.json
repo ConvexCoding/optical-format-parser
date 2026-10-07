@@ -1,0 +1,817 @@
+{
+  "schemaVersion": "1.0",
+  "source": {
+    "format": "zemax",
+    "filename": "lens1.zmx",
+    "encoding": "utf-8",
+    "upstreamRevision": "4e893f53aee1312f2d091680b93dd2279711e197"
+  },
+  "name": null,
+  "mode": "sequential",
+  "units": {
+    "length": "mm",
+    "wavelength": "um",
+    "angle": "deg",
+    "sourceLength": "MM",
+    "scaleToMm": 1.0
+  },
+  "aperture": {
+    "kind": "entrancePupilDiameter",
+    "value": 8.333333969116211,
+    "source": {
+      "EPD": 8.333333969116211
+    }
+  },
+  "fields": {
+    "kind": "angle",
+    "points": [
+      {
+        "x": 0.0,
+        "y": 0.0,
+        "weight": 1,
+        "vignetting": {}
+      },
+      {
+        "x": 0.0,
+        "y": 8.485281610363037,
+        "weight": 1,
+        "vignetting": {}
+      },
+      {
+        "x": 0.0,
+        "y": 12.000000333930423,
+        "weight": 1,
+        "vignetting": {}
+      }
+    ],
+    "reference": null,
+    "source": {
+      "type": "angle",
+      "object_space_telecentric": false,
+      "afocal_image_space": false,
+      "x": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "y": [
+        0.0,
+        8.485281610363037,
+        12.000000333930423
+      ],
+      "num_fields": 3
+    }
+  },
+  "wavelengths": {
+    "valuesUm": [
+      0.4861327,
+      0.5875618,
+      0.6562725
+    ],
+    "weights": [
+      1.0,
+      1.0,
+      1.0
+    ],
+    "primaryIndex": 1
+  },
+  "surfaces": [
+    {
+      "index": 0,
+      "role": "object",
+      "type": "standard",
+      "radiusMm": {
+        "special": "positiveInfinity"
+      },
+      "thicknessMm": {
+        "special": "positiveInfinity"
+      },
+      "conic": 0.0,
+      "stop": false,
+      "material": {
+        "kind": "air"
+      },
+      "clearAperture": null,
+      "parameters": {
+        "type": "standard",
+        "is_stop": false,
+        "conic": 0.0,
+        "material": "air",
+        "aperture": null,
+        "radius": {
+          "special": "positiveInfinity"
+        },
+        "thickness": {
+          "special": "positiveInfinity"
+        }
+      }
+    },
+    {
+      "index": 1,
+      "role": "surface",
+      "type": "standard",
+      "radiusMm": 12.439788347626695,
+      "thicknessMm": 5.514017105102539,
+      "conic": 0.0,
+      "stop": false,
+      "material": {
+        "kind": "catalog",
+        "name": "N-SK16",
+        "catalogs": [
+          "SCHOTT"
+        ],
+        "nd": 1.6207046508789062,
+        "vd": 60.27947998046875,
+        "resolution": "unresolved"
+      },
+      "clearAperture": null,
+      "parameters": {
+        "type": "standard",
+        "is_stop": false,
+        "conic": 0.0,
+        "material": {
+          "kind": "catalog",
+          "name": "N-SK16",
+          "catalogs": [
+            "SCHOTT"
+          ],
+          "nd": 1.6207046508789062,
+          "vd": 60.27947998046875,
+          "resolution": "unresolved"
+        },
+        "aperture": null,
+        "radius": 12.439788347626695,
+        "thickness": 5.514017105102539,
+        "index": 1.6207046508789062,
+        "abbe": 60.27947998046875
+      }
+    },
+    {
+      "index": 2,
+      "role": "surface",
+      "type": "standard",
+      "radiusMm": -181.2574754401636,
+      "thicknessMm": 2.6377501487731934,
+      "conic": 0.0,
+      "stop": false,
+      "material": {
+        "kind": "air"
+      },
+      "clearAperture": null,
+      "parameters": {
+        "type": "standard",
+        "is_stop": false,
+        "conic": 0.0,
+        "material": "air",
+        "aperture": null,
+        "radius": -181.2574754401636,
+        "thickness": 2.6377501487731934
+      }
+    },
+    {
+      "index": 3,
+      "role": "surface",
+      "type": "standard",
+      "radiusMm": -12.362402664694592,
+      "thicknessMm": 1.017357349395752,
+      "conic": 0.0,
+      "stop": false,
+      "material": {
+        "kind": "catalog",
+        "name": "N-SF2",
+        "catalogs": [
+          "SCHOTT"
+        ],
+        "nd": 1.6476432085037231,
+        "vd": 33.838470458984375,
+        "resolution": "unresolved"
+      },
+      "clearAperture": null,
+      "parameters": {
+        "type": "standard",
+        "is_stop": false,
+        "conic": 0.0,
+        "material": {
+          "kind": "catalog",
+          "name": "N-SF2",
+          "catalogs": [
+            "SCHOTT"
+          ],
+          "nd": 1.6476432085037231,
+          "vd": 33.838470458984375,
+          "resolution": "unresolved"
+        },
+        "aperture": null,
+        "radius": -12.362402664694592,
+        "thickness": 1.017357349395752,
+        "index": 1.6476432085037231,
+        "abbe": 33.838470458984375
+      }
+    },
+    {
+      "index": 4,
+      "role": "surface",
+      "type": "standard",
+      "radiusMm": 10.181895642830472,
+      "thicknessMm": 0.7544687986373901,
+      "conic": 0.0,
+      "stop": false,
+      "material": {
+        "kind": "air"
+      },
+      "clearAperture": null,
+      "parameters": {
+        "type": "standard",
+        "is_stop": false,
+        "conic": 0.0,
+        "material": "air",
+        "aperture": null,
+        "radius": 10.181895642830472,
+        "thickness": 0.7544687986373901
+      }
+    },
+    {
+      "index": 5,
+      "role": "surface",
+      "type": "standard",
+      "radiusMm": {
+        "special": "positiveInfinity"
+      },
+      "thicknessMm": 1.6761058568954468,
+      "conic": 0.0,
+      "stop": true,
+      "material": {
+        "kind": "air"
+      },
+      "clearAperture": null,
+      "parameters": {
+        "type": "standard",
+        "is_stop": true,
+        "conic": 0.0,
+        "material": "air",
+        "aperture": null,
+        "radius": {
+          "special": "positiveInfinity"
+        },
+        "thickness": 1.6761058568954468
+      }
+    },
+    {
+      "index": 6,
+      "role": "surface",
+      "type": "standard",
+      "radiusMm": 25.4625317208055,
+      "thicknessMm": 1.6096280813217163,
+      "conic": 0.0,
+      "stop": false,
+      "material": {
+        "kind": "catalog",
+        "name": "N-LAK9",
+        "catalogs": [
+          "SCHOTT"
+        ],
+        "nd": 1.6906219720840454,
+        "vd": 54.711463928222656,
+        "resolution": "unresolved"
+      },
+      "clearAperture": null,
+      "parameters": {
+        "type": "standard",
+        "is_stop": false,
+        "conic": 0.0,
+        "material": {
+          "kind": "catalog",
+          "name": "N-LAK9",
+          "catalogs": [
+            "SCHOTT"
+          ],
+          "nd": 1.6906219720840454,
+          "vd": 54.711463928222656,
+          "resolution": "unresolved"
+        },
+        "aperture": null,
+        "radius": 25.4625317208055,
+        "thickness": 1.6096280813217163,
+        "index": 1.6906219720840454,
+        "abbe": 54.711463928222656
+      }
+    },
+    {
+      "index": 7,
+      "role": "surface",
+      "type": "standard",
+      "radiusMm": -11.16160011921875,
+      "thicknessMm": 18.660079956054688,
+      "conic": 0.0,
+      "stop": false,
+      "material": {
+        "kind": "air"
+      },
+      "clearAperture": null,
+      "parameters": {
+        "type": "standard",
+        "is_stop": false,
+        "conic": 0.0,
+        "material": "air",
+        "aperture": null,
+        "radius": -11.16160011921875,
+        "thickness": 18.660079956054688
+      }
+    },
+    {
+      "index": 8,
+      "role": "image",
+      "type": "standard",
+      "radiusMm": {
+        "special": "positiveInfinity"
+      },
+      "thicknessMm": 0.0,
+      "conic": 0.0,
+      "stop": false,
+      "material": {
+        "kind": "air"
+      },
+      "clearAperture": null,
+      "parameters": {
+        "type": "standard",
+        "is_stop": false,
+        "conic": 0.0,
+        "material": "air",
+        "aperture": null,
+        "radius": {
+          "special": "positiveInfinity"
+        },
+        "thickness": 0.0
+      }
+    }
+  ],
+  "diagnostics": [
+    {
+      "severity": "warning",
+      "code": "uninterpreted_record",
+      "command": "ZVCY",
+      "line": 8,
+      "surface": -1,
+      "message": "Record retained but not interpreted"
+    },
+    {
+      "severity": "warning",
+      "code": "uninterpreted_record",
+      "command": "ZVDY",
+      "line": 9,
+      "surface": -1,
+      "message": "Record retained but not interpreted"
+    },
+    {
+      "severity": "warning",
+      "code": "uninterpreted_record",
+      "command": "ZVCX",
+      "line": 10,
+      "surface": -1,
+      "message": "Record retained but not interpreted"
+    },
+    {
+      "severity": "warning",
+      "code": "uninterpreted_record",
+      "command": "ZVDX",
+      "line": 11,
+      "surface": -1,
+      "message": "Record retained but not interpreted"
+    },
+    {
+      "severity": "warning",
+      "code": "unresolved_material",
+      "message": "Material identity preserved; catalog lookup and dispersion fitting are not executed",
+      "surface": 1
+    },
+    {
+      "severity": "warning",
+      "code": "unresolved_material",
+      "message": "Material identity preserved; catalog lookup and dispersion fitting are not executed",
+      "surface": 3
+    },
+    {
+      "severity": "warning",
+      "code": "unresolved_material",
+      "message": "Material identity preserved; catalog lookup and dispersion fitting are not executed",
+      "surface": 6
+    }
+  ],
+  "raw": {
+    "mode": "Sequential",
+    "units": "MM",
+    "records": [
+      {
+        "line": 1,
+        "text": "MODE SEQ"
+      },
+      {
+        "line": 2,
+        "text": "UNIT MM X W X CM MR CPMM"
+      },
+      {
+        "line": 3,
+        "text": "ENPD 8.333333969116211"
+      },
+      {
+        "line": 4,
+        "text": "GCAT SCHOTT"
+      },
+      {
+        "line": 5,
+        "text": "FTYP 0 0 3 3 0 0 0"
+      },
+      {
+        "line": 6,
+        "text": "XFLN 0. 0. 0."
+      },
+      {
+        "line": 7,
+        "text": "YFLN 0.0 8.485281610363037 12.000000333930423"
+      },
+      {
+        "line": 8,
+        "text": "ZVCY 0.0 0.0 0.0"
+      },
+      {
+        "line": 9,
+        "text": "ZVDY 0.0 0.0 0.0"
+      },
+      {
+        "line": 10,
+        "text": "ZVCX 0. 0. 0."
+      },
+      {
+        "line": 11,
+        "text": "ZVDX 0. 0. 0."
+      },
+      {
+        "line": 12,
+        "text": "PWAV 2"
+      },
+      {
+        "line": 13,
+        "text": "WAVM 1 0.48613269999999997 1"
+      },
+      {
+        "line": 14,
+        "text": "WAVM 2 0.58756180000000002 1"
+      },
+      {
+        "line": 15,
+        "text": "WAVM 3 0.65627250000000004 1"
+      },
+      {
+        "line": 16,
+        "text": "SURF 0"
+      },
+      {
+        "line": 17,
+        "text": "TYPE STANDARD"
+      },
+      {
+        "line": 18,
+        "text": "CURV 0."
+      },
+      {
+        "line": 19,
+        "text": "DISZ INFINITY"
+      },
+      {
+        "line": 20,
+        "text": "SURF 1"
+      },
+      {
+        "line": 21,
+        "text": "TYPE STANDARD"
+      },
+      {
+        "line": 22,
+        "text": "CURV 0.08038721978664398"
+      },
+      {
+        "line": 23,
+        "text": "DISZ 5.514017105102539"
+      },
+      {
+        "line": 24,
+        "text": "GLAS N-SK16 1 0 1.6207046508789062 60.27947998046875"
+      },
+      {
+        "line": 25,
+        "text": "SURF 2"
+      },
+      {
+        "line": 26,
+        "text": "TYPE STANDARD"
+      },
+      {
+        "line": 27,
+        "text": "CURV -0.0055170138366520405"
+      },
+      {
+        "line": 28,
+        "text": "DISZ 2.6377501487731934"
+      },
+      {
+        "line": 29,
+        "text": "SURF 3"
+      },
+      {
+        "line": 30,
+        "text": "TYPE STANDARD"
+      },
+      {
+        "line": 31,
+        "text": "CURV -0.08089042454957962"
+      },
+      {
+        "line": 32,
+        "text": "DISZ 1.017357349395752"
+      },
+      {
+        "line": 33,
+        "text": "GLAS N-SF2 1 0 1.6476432085037231 33.838470458984375"
+      },
+      {
+        "line": 34,
+        "text": "SURF 4"
+      },
+      {
+        "line": 35,
+        "text": "TYPE STANDARD"
+      },
+      {
+        "line": 36,
+        "text": "CURV 0.09821353852748871"
+      },
+      {
+        "line": 37,
+        "text": "DISZ 0.7544687986373901"
+      },
+      {
+        "line": 38,
+        "text": "SURF 5"
+      },
+      {
+        "line": 39,
+        "text": "STOP"
+      },
+      {
+        "line": 40,
+        "text": "TYPE STANDARD"
+      },
+      {
+        "line": 41,
+        "text": "CURV 0.0"
+      },
+      {
+        "line": 42,
+        "text": "DISZ 1.6761058568954468"
+      },
+      {
+        "line": 43,
+        "text": "SURF 6"
+      },
+      {
+        "line": 44,
+        "text": "TYPE STANDARD"
+      },
+      {
+        "line": 45,
+        "text": "CURV 0.03927339240908623"
+      },
+      {
+        "line": 46,
+        "text": "DISZ 1.6096280813217163"
+      },
+      {
+        "line": 47,
+        "text": "GLAS N-LAK9 1 0 1.6906219720840454 54.711463928222656"
+      },
+      {
+        "line": 48,
+        "text": "SURF 7"
+      },
+      {
+        "line": 49,
+        "text": "TYPE STANDARD"
+      },
+      {
+        "line": 50,
+        "text": "CURV -0.08959288895130157"
+      },
+      {
+        "line": 51,
+        "text": "DISZ 18.660079956054688"
+      },
+      {
+        "line": 52,
+        "text": "SURF 8"
+      },
+      {
+        "line": 53,
+        "text": "TYPE STANDARD"
+      },
+      {
+        "line": 54,
+        "text": "CURV 0."
+      },
+      {
+        "line": 55,
+        "text": "DISZ 0."
+      }
+    ],
+    "diagnostics": [
+      {
+        "command": "ZVCY",
+        "line": 8,
+        "surface": -1,
+        "severity": "warning",
+        "message": "Record retained but not interpreted"
+      },
+      {
+        "command": "ZVDY",
+        "line": 9,
+        "surface": -1,
+        "severity": "warning",
+        "message": "Record retained but not interpreted"
+      },
+      {
+        "command": "ZVCX",
+        "line": 10,
+        "surface": -1,
+        "severity": "warning",
+        "message": "Record retained but not interpreted"
+      },
+      {
+        "command": "ZVDX",
+        "line": 11,
+        "surface": -1,
+        "severity": "warning",
+        "message": "Record retained but not interpreted"
+      }
+    ],
+    "name": null,
+    "aperture": {
+      "EPD": 8.333333969116211
+    },
+    "fields": {
+      "type": "angle",
+      "object_space_telecentric": false,
+      "afocal_image_space": false,
+      "x": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "y": [
+        0.0,
+        8.485281610363037,
+        12.000000333930423
+      ],
+      "num_fields": 3
+    },
+    "wavelengths": {
+      "data": [
+        0.4861327,
+        0.5875618,
+        0.6562725
+      ],
+      "weights": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "num_wavelengths": 3,
+      "primary_index": 1
+    },
+    "surfaces": {
+      "0": {
+        "type": "standard",
+        "is_stop": false,
+        "conic": 0.0,
+        "material": "air",
+        "aperture": null,
+        "radius": {
+          "special": "positiveInfinity"
+        },
+        "thickness": {
+          "special": "positiveInfinity"
+        }
+      },
+      "1": {
+        "type": "standard",
+        "is_stop": false,
+        "conic": 0.0,
+        "material": {
+          "kind": "catalog",
+          "name": "N-SK16",
+          "catalogs": [
+            "SCHOTT"
+          ],
+          "nd": 1.6207046508789062,
+          "vd": 60.27947998046875,
+          "resolution": "unresolved"
+        },
+        "aperture": null,
+        "radius": 12.439788347626695,
+        "thickness": 5.514017105102539,
+        "index": 1.6207046508789062,
+        "abbe": 60.27947998046875
+      },
+      "2": {
+        "type": "standard",
+        "is_stop": false,
+        "conic": 0.0,
+        "material": "air",
+        "aperture": null,
+        "radius": -181.2574754401636,
+        "thickness": 2.6377501487731934
+      },
+      "3": {
+        "type": "standard",
+        "is_stop": false,
+        "conic": 0.0,
+        "material": {
+          "kind": "catalog",
+          "name": "N-SF2",
+          "catalogs": [
+            "SCHOTT"
+          ],
+          "nd": 1.6476432085037231,
+          "vd": 33.838470458984375,
+          "resolution": "unresolved"
+        },
+        "aperture": null,
+        "radius": -12.362402664694592,
+        "thickness": 1.017357349395752,
+        "index": 1.6476432085037231,
+        "abbe": 33.838470458984375
+      },
+      "4": {
+        "type": "standard",
+        "is_stop": false,
+        "conic": 0.0,
+        "material": "air",
+        "aperture": null,
+        "radius": 10.181895642830472,
+        "thickness": 0.7544687986373901
+      },
+      "5": {
+        "type": "standard",
+        "is_stop": true,
+        "conic": 0.0,
+        "material": "air",
+        "aperture": null,
+        "radius": {
+          "special": "positiveInfinity"
+        },
+        "thickness": 1.6761058568954468
+      },
+      "6": {
+        "type": "standard",
+        "is_stop": false,
+        "conic": 0.0,
+        "material": {
+          "kind": "catalog",
+          "name": "N-LAK9",
+          "catalogs": [
+            "SCHOTT"
+          ],
+          "nd": 1.6906219720840454,
+          "vd": 54.711463928222656,
+          "resolution": "unresolved"
+        },
+        "aperture": null,
+        "radius": 25.4625317208055,
+        "thickness": 1.6096280813217163,
+        "index": 1.6906219720840454,
+        "abbe": 54.711463928222656
+      },
+      "7": {
+        "type": "standard",
+        "is_stop": false,
+        "conic": 0.0,
+        "material": "air",
+        "aperture": null,
+        "radius": -11.16160011921875,
+        "thickness": 18.660079956054688
+      },
+      "8": {
+        "type": "standard",
+        "is_stop": false,
+        "conic": 0.0,
+        "material": "air",
+        "aperture": null,
+        "radius": {
+          "special": "positiveInfinity"
+        },
+        "thickness": 0.0
+      }
+    },
+    "glass_catalogs": [
+      "SCHOTT"
+    ]
+  }
+}

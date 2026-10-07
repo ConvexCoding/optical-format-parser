@@ -1,0 +1,387 @@
+{
+  "schemaVersion": "1.0",
+  "source": {
+    "format": "oslo",
+    "filename": "test_achromat.len",
+    "encoding": "utf-8",
+    "upstreamRevision": "4e893f53aee1312f2d091680b93dd2279711e197"
+  },
+  "name": "LENS",
+  "mode": "sequential",
+  "units": {
+    "length": "mm",
+    "wavelength": "um",
+    "angle": "deg",
+    "sourceLength": "lensUnit",
+    "scaleToMm": 1.0
+  },
+  "aperture": {
+    "kind": "imageFNumber",
+    "value": 6.0,
+    "source": {
+      "FNO": 6.0
+    }
+  },
+  "fields": {
+    "kind": "angle",
+    "points": [],
+    "reference": {
+      "y": 5.0,
+      "coordinates": "prescriptionExtent"
+    },
+    "source": {
+      "type": "angle",
+      "y": [
+        5.0
+      ]
+    }
+  },
+  "wavelengths": {
+    "valuesUm": [
+      0.4861327,
+      0.5875618,
+      0.6562725
+    ],
+    "weights": [
+      1.0,
+      1.0,
+      1.0
+    ],
+    "primaryIndex": 0
+  },
+  "surfaces": [
+    {
+      "index": 0,
+      "role": "object",
+      "type": "standard",
+      "radiusMm": {
+        "special": "positiveInfinity"
+      },
+      "thicknessMm": {
+        "special": "positiveInfinity"
+      },
+      "conic": 0.0,
+      "stop": false,
+      "material": {
+        "kind": "air"
+      },
+      "clearAperture": {
+        "kind": "annulus",
+        "r_min": 0.0,
+        "r_max": 874886600.0,
+        "offset_x": 0.0,
+        "offset_y": 0.0,
+        "checked": false,
+        "checkingEnabled": true
+      },
+      "parameters": {
+        "material": "AIR",
+        "TH": 10000000000.0,
+        "AP": 874886600.0,
+        "aperture_checked": false
+      }
+    },
+    {
+      "index": 1,
+      "role": "surface",
+      "type": "standard",
+      "radiusMm": 12.38401,
+      "thicknessMm": 0.434,
+      "conic": 0.0,
+      "stop": true,
+      "material": {
+        "kind": "catalog",
+        "name": "N-BAK1",
+        "resolution": "unresolved"
+      },
+      "clearAperture": {
+        "kind": "annulus",
+        "r_min": 0.0,
+        "r_max": 1.667166,
+        "offset_x": 0.0,
+        "offset_y": 0.0,
+        "checked": false,
+        "checkingEnabled": true
+      },
+      "parameters": {
+        "material": "GLA N-BAK1",
+        "glass_wavelengths": [
+          0.58756,
+          0.48613,
+          0.65627
+        ],
+        "RD": 12.38401,
+        "TH": 0.434,
+        "AP": 1.667166,
+        "aperture_checked": false
+      }
+    },
+    {
+      "index": 2,
+      "role": "surface",
+      "type": "standard",
+      "radiusMm": -7.9414,
+      "thicknessMm": 0.321,
+      "conic": 0.0,
+      "stop": false,
+      "material": {
+        "kind": "catalog",
+        "name": "SF2",
+        "resolution": "unresolved"
+      },
+      "clearAperture": null,
+      "parameters": {
+        "material": "GLA SF2",
+        "glass_wavelengths": [
+          0.58756,
+          0.48613,
+          0.65627
+        ],
+        "RD": -7.9414,
+        "TH": 0.321
+      }
+    },
+    {
+      "index": 3,
+      "role": "surface",
+      "type": "standard",
+      "radiusMm": -48.44396,
+      "thicknessMm": 19.60699,
+      "conic": 0.0,
+      "stop": false,
+      "material": {
+        "kind": "air"
+      },
+      "clearAperture": null,
+      "parameters": {
+        "material": "AIR",
+        "RD": -48.44396,
+        "TH": 19.60699
+      }
+    },
+    {
+      "index": 4,
+      "role": "image",
+      "type": "standard",
+      "radiusMm": {
+        "special": "positiveInfinity"
+      },
+      "thicknessMm": 0.0,
+      "conic": 0.0,
+      "stop": false,
+      "material": {
+        "kind": "air"
+      },
+      "clearAperture": null,
+      "parameters": {
+        "material": "AIR",
+        "TH": 0.0
+      }
+    }
+  ],
+  "diagnostics": [
+    {
+      "severity": "warning",
+      "code": "unresolved_material",
+      "message": "Material identity preserved; catalog lookup and dispersion fitting are not executed",
+      "surface": 1
+    },
+    {
+      "severity": "warning",
+      "code": "unresolved_material",
+      "message": "Material identity preserved; catalog lookup and dispersion fitting are not executed",
+      "surface": 2
+    }
+  ],
+  "raw": {
+    "name": "LENS",
+    "scaling": 20.006,
+    "num_surfaces": 4,
+    "aperture": {
+      "FNO": 6.0
+    },
+    "fields": {
+      "type": "angle",
+      "y": [
+        5.0
+      ]
+    },
+    "wavelengths": {
+      "values": [
+        0.4861327,
+        0.5875618,
+        0.6562725
+      ],
+      "weights": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "primary_index": 0
+    },
+    "surfaces": {
+      "0": {
+        "material": "AIR",
+        "TH": 10000000000.0,
+        "AP": 874886600.0,
+        "aperture_checked": false
+      },
+      "1": {
+        "material": "GLA N-BAK1",
+        "glass_wavelengths": [
+          0.58756,
+          0.48613,
+          0.65627
+        ],
+        "RD": 12.38401,
+        "TH": 0.434,
+        "AP": 1.667166,
+        "aperture_checked": false
+      },
+      "2": {
+        "material": "GLA SF2",
+        "glass_wavelengths": [
+          0.58756,
+          0.48613,
+          0.65627
+        ],
+        "RD": -7.9414,
+        "TH": 0.321
+      },
+      "3": {
+        "material": "AIR",
+        "RD": -48.44396,
+        "TH": 19.60699
+      },
+      "4": {
+        "material": "AIR",
+        "TH": 0.0
+      }
+    },
+    "units": 1.0,
+    "records": [
+      {
+        "line": 2,
+        "text": "LEN NEW \"LENS\" 20.006 4"
+      },
+      {
+        "line": 3,
+        "text": "FNO 6"
+      },
+      {
+        "line": 4,
+        "text": "DES \"Optiland\""
+      },
+      {
+        "line": 5,
+        "text": "UNI 1"
+      },
+      {
+        "line": 6,
+        "text": "ANG 5"
+      },
+      {
+        "line": 7,
+        "text": "AIR"
+      },
+      {
+        "line": 8,
+        "text": "TH 1e+10"
+      },
+      {
+        "line": 9,
+        "text": "AP 8.748866e+08"
+      },
+      {
+        "line": 10,
+        "text": "NXT"
+      },
+      {
+        "line": 11,
+        "text": "GLA N-BAK1"
+      },
+      {
+        "line": 12,
+        "text": "RD 12.38401"
+      },
+      {
+        "line": 13,
+        "text": "TH 0.434"
+      },
+      {
+        "line": 14,
+        "text": "AP 1.667166"
+      },
+      {
+        "line": 15,
+        "text": "NXT"
+      },
+      {
+        "line": 16,
+        "text": "GLA SF2"
+      },
+      {
+        "line": 17,
+        "text": "RD -7.9414"
+      },
+      {
+        "line": 18,
+        "text": "TH 0.321"
+      },
+      {
+        "line": 19,
+        "text": "NXT"
+      },
+      {
+        "line": 20,
+        "text": "AIR"
+      },
+      {
+        "line": 21,
+        "text": "RD -48.44396"
+      },
+      {
+        "line": 22,
+        "text": "TH 19.60699"
+      },
+      {
+        "line": 23,
+        "text": "NXT"
+      },
+      {
+        "line": 24,
+        "text": "AIR"
+      },
+      {
+        "line": 25,
+        "text": "TH 0"
+      },
+      {
+        "line": 26,
+        "text": "WV 0.4861327 0.5875618 0.6562725"
+      },
+      {
+        "line": 27,
+        "text": "WW 1 1 1"
+      },
+      {
+        "line": 28,
+        "text": "END 4"
+      }
+    ],
+    "notes": {
+      "DES": "Optiland"
+    },
+    "diagnostics": [],
+    "settings": {},
+    "configurations": {
+      "1": {
+        "thicknesses": {},
+        "wavelengths": {},
+        "wavelength_weights": {},
+        "weight": 1.0,
+        "active": true
+      }
+    }
+  }
+}
