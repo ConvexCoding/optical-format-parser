@@ -1,4 +1,4 @@
-/** Python-compatible complete-token numeric conversion, not parseFloat prefixes. */
+/** Complete-token numeric conversion; reject partially numeric strings. */
 export function number(token: string | undefined): number {
   if (token === undefined || !/^[+-]?(?:(?:\d+(?:\.\d*)?|\.\d+)(?:[eE][+-]?\d+)?|inf(?:inity)?|nan)$/i.test(token)) {
     throw new Error(`Invalid numeric token: ${String(token)}`);

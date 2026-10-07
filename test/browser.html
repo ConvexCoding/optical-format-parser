@@ -26,11 +26,11 @@ async function check(name, action) {
   catch (error) { failures++; results.textContent += `FAIL ${name}: ${error.message}\n`; }
 }
 try {
-  const manifest = await (await fetch("../../fixtures/manifest.json")).json();
+  const manifest = await (await fetch("./fixtures/manifest.json")).json();
   for (const entry of manifest) await check(entry.filename, async () => {
-    const bytes = await (await fetch(`../../fixtures/${entry.format}/${entry.filename}`)).arrayBuffer();
+    const bytes = await (await fetch(`./fixtures/${entry.format}/${entry.filename}`)).arrayBuffer();
     const data = parseBytes(bytes, entry);
-    const golden = await (await fetch(`../../fixtures/golden/${entry.filename}.json`)).json();
+    const golden = await (await fetch(`./fixtures/golden/${entry.filename}.json`)).json();
     compare(data, golden); compare(JSON.parse(stringify(data)), data);
   });
   await check("Browser File.arrayBuffer() and tagged infinity", async () => {

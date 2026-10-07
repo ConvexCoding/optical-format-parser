@@ -1,14 +1,13 @@
 import assert from "node:assert/strict";
 import { readFileSync, readdirSync } from "node:fs";
 import { fileURLToPath } from "node:url";
-import { spawnSync } from "node:child_process";
 import test from "node:test";
-import Ajv2020 from "ajv/dist/2020.js";
+import { Ajv2020 } from "ajv/dist/2020.js";
 import { parseBytes, parseText, stringify } from "../src/index.js";
 import { jsonSafe } from "../src/normalize.js";
 import type { Format } from "../src/index.js";
 
-const root = fileURLToPath(new URL("../../", import.meta.url));
+const root = fileURLToPath(new URL("../", import.meta.url));
 const ajv = new Ajv2020({ strict: true, allowUnionTypes: true });
 const validate = ajv.compile(JSON.parse(readFileSync(root + "schema/prescription.schema.json", "utf8")));
 
@@ -24,10 +23,10 @@ function compare(actual: any, expected: any, path = "$"): void {
   } else assert.deepEqual(actual, expected, path);
 }
 for (const format of ["zemax", "oslo"] as const) {
-  for (const filename of readdirSync(root + "fixtures/" + format)) {
-    test(`Python golden and schema: ${filename}`, () => {
-      const data = parseBytes(readFileSync(root + `fixtures/${format}/${filename}`), { format, filename });
-      const golden = JSON.parse(readFileSync(root + `fixtures/golden/${filename}.json`, "utf8"));
+  for (const filename of readdirSync(root + "test/fixtures/" + format)) {
+    test(`Fixture regression and schema: ${filename}`, () => {
+      const data = parseBytes(readFileSync(root + `test/fixtures/${format}/${filename}`), { format, filename });
+      const golden = JSON.parse(readFileSync(root + `test/fixtures/golden/${filename}.json`, "utf8"));
       compare(data, golden);
       assert.ok(validate(data), JSON.stringify(validate.errors));
       assert.ok(validate(golden), JSON.stringify(validate.errors));
@@ -39,12 +38,12 @@ for (const format of ["zemax", "oslo"] as const) {
 const ZMX = "NAME simple\nUNIT MM\nENPD 4\nWAVM 1 0.55 1\nPWAV 1\nSURF 0\nCURV 0\nDISZ INFINITY\nSURF 1\nCURV 0.05\nDISZ 2\nSTOP\nSURF 2\nCURV -0.05\nDISZ 20\nSURF 3\nCURV 0\nDISZ 0\n";
 const LEN = 'LEN NEW "simple" 50 3\nEBR 2\nANG 0\nWV 0.55\nTH 1e20; NXT\nRD 20; TH 2; AST; NXT\nRD -20; TH 20; NXT\nRD 0; END 3\n';
 
-function python(text: string, format: Format): any {
-  const result = spawnSync("python3", ["-S", "-c", "import json,sys; from optical_import import parse_text; print(json.dumps(parse_text(sys.stdin.read(),sys.argv[1]),allow_nan=False))", format], {
-    input: text, encoding: "utf8", env: { ...process.env, PYTHONPATH: root + "python/src" },
-  });
-  assert.equal(result.status, 0, result.stderr);
-  return JSON.parse(result.stdout);
+const regressions: { format: Format; text: string; expected: unknown }[] = JSON.parse(readFileSync(root + "test/fixtures/regressions.json", "utf8"));
+function expectedRegression(text: string, format: Format): unknown {
+  const fixture = regressions.find(entry => entry.format === format && entry.text === text);
+  assert.ok(fixture, "Missing regression fixture for " + format);
+  assert.ok(validate(fixture.expected), JSON.stringify(validate.errors));
+  return fixture.expected;
 }
 
 test("independent known geometry in both formats", () => {
@@ -57,7 +56,7 @@ test("independent known geometry in both formats", () => {
   }
 });
 
-test("synthetic supported semantics match Python independently of goldens", () => {
+test("synthetic prescription declarations match saved regressions", () => {
   const cases: [Format, string][] = [
     ["zemax", ZMX.replace("STOP", "GLAS N-BK7 0 0 1.5168 64.17\nOBDC 1 2\nCLAP 0 3\nOBDC 4 5\nSTOP")],
     ["zemax", ZMX.replace("WAVM 1 0.55 1\nPWAV 1", "FTYP 0 0 2 2\nXFLD 0 0 99\nYFLD 0 10 99\nWAVM 2 0.6 2\nWAVM 1 0.5 1\nWAVM 3 0.9 1\nPWAV 2")],
@@ -75,7 +74,7 @@ test("synthetic supported semantics match Python independently of goldens", () =
     ["oslo", LEN.replace("WV 0.55", "WV 0.55 0.65 0.75").replace("RD 20", "GLA 1.6 1.5 1.4; RD 20")],
     ["oslo", LEN.replace("RD 20", "ASP 1 4; AS1 0.1; ATD; PK CV 0; CSD; RD 20")],
   ];
-  for (const [format, text] of cases) compare(parseText(text, { format }), python(text, format));
+  for (const [format, text] of cases) compare(parseText(text, { format }), expectedRegression(text, format));
 });
 
 test("strict rejects partial imports and unknown records are retained", () => {
@@ -115,7 +114,7 @@ test("UTF-8 BOM and UTF-16 LE/BE including no BOM", () => {
   }
 });
 
-test("true Latin-1 differs from Windows-1252 and matches Python policy", () => {
+test("true Latin-1 differs from Windows-1252", () => {
   const source = ZMX.replace("simple", "café\u0080");
   const latin = Uint8Array.from([...source].map(c => c.charCodeAt(0)));
   assert.equal(parseBytes(latin, { format: "zemax" }).name, "café\u0080");
@@ -129,10 +128,10 @@ test("ArrayBuffer input and repeated calls are deterministic", () => {
 });
 
 test("source package has no runtime dependencies or Node imports", () => {
-  const pkg = JSON.parse(readFileSync(root + "typescript/package.json", "utf8"));
+  const pkg = JSON.parse(readFileSync(root + "package.json", "utf8"));
   assert.deepEqual(pkg.dependencies, {});
-  for (const file of readdirSync(root + "typescript/src")) {
-    const source = readFileSync(root + "typescript/src/" + file, "utf8");
+  for (const file of readdirSync(root + "src")) {
+    const source = readFileSync(root + "src/" + file, "utf8");
     assert.doesNotMatch(source, /(?:from\s+["'](?:node:|fs|path)|\bBuffer\b|\bprocess\.)/);
   }
 });
@@ -146,7 +145,7 @@ test("short weight columns are diagnosed and still schema-valid", () => {
   const data = parseText(source, { format: "zemax" });
   assert.deepEqual(data.fields.points.map(p => p.weight), [1, 1]);
   assert.ok(validate(data), JSON.stringify(validate.errors));
-  compare(data, python(source, "zemax"));
+  compare(data, expectedRegression(source, "zemax"));
 });
 test("uninterpreted OSLO footer and phase features are explicit", () => {
   const data = parseText(LEN + "BOGUS 2\n", { format: "oslo" });
@@ -155,13 +154,13 @@ test("uninterpreted OSLO footer and phase features are explicit", () => {
   const source = LEN.replace("RD 20", "GSP 0.01; GOR 1; RD 20");
   const phase = parseText(source, { format: "oslo" });
   assert.ok(phase.diagnostics.some(d => d.code === "unresolved_optical_feature"));
-  compare(phase, python(source, "oslo"));
+  compare(phase, expectedRegression(source, "oslo"));
 });
-test("unknown type and prototype-property command names preserve Python behavior", () => {
+test("unknown type and prototype-property command names are retained", () => {
   const source = ZMX.replace("STOP", "TYPE constructor\nSTOP") + "__proto__ 1\n";
   const data = parseText(source, { format: "zemax" });
   assert.equal(data.surfaces[1].type, "constructor");
   assert.ok(data.diagnostics.some(d => d.code === "unresolved_surface_type"));
   assert.ok(data.diagnostics.some(d => d.command === "__proto__"));
-  compare(data, python(source, "zemax"));
+  compare(data, expectedRegression(source, "zemax"));
 });

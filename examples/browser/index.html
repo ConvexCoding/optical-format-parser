@@ -20,7 +20,7 @@
 <details><summary>Import diagnostics</summary><pre id="diagnostics"></pre></details>
 <textarea id="output" readonly aria-label="Normalized JSON output" placeholder="Your normalized JSON will appear here."></textarea>
 <script type="module">
-  import { parseBytes, stringify } from "../dist/index.js";
+  import { parseBytes, stringify } from "../../dist/index.js";
   let filename = "lens";
   const output = document.querySelector("#output"), status = document.querySelector("#status");
   const download = document.querySelector("#download");
@@ -44,7 +44,7 @@
   });
   for (const [id, folder, name] of [["zemax", "zemax", "lens1.zmx"], ["oslo", "oslo", "test_achromat.len"]]) {
     document.querySelector(`#${id}`).addEventListener("click", async () => {
-      try { const response = await fetch(`../../fixtures/${folder}/${name}`); if (!response.ok) throw new Error("Sample could not be loaded."); await show(new Uint8Array(await response.arrayBuffer()), name); }
+      try { const response = await fetch(`../../test/fixtures/${folder}/${name}`); if (!response.ok) throw new Error("Sample could not be loaded."); await show(new Uint8Array(await response.arrayBuffer()), name); }
       catch (error) { status.textContent = error.message; }
     });
   }

@@ -1,0 +1,5344 @@
+[
+  {
+    "format": "zemax",
+    "text": "NAME simple\nUNIT MM\nENPD 4\nWAVM 1 0.55 1\nPWAV 1\nSURF 0\nCURV 0\nDISZ INFINITY\nSURF 1\nCURV 0.05\nDISZ 2\nGLAS N-BK7 0 0 1.5168 64.17\nOBDC 1 2\nCLAP 0 3\nOBDC 4 5\nSTOP\nSURF 2\nCURV -0.05\nDISZ 20\nSURF 3\nCURV 0\nDISZ 0\n",
+    "expected": {
+      "schemaVersion": "1.0",
+      "source": {
+        "format": "zemax",
+        "filename": "<memory>",
+        "encoding": "text",
+        "upstreamRevision": "4e893f53aee1312f2d091680b93dd2279711e197"
+      },
+      "name": "simple",
+      "mode": "sequential",
+      "units": {
+        "length": "mm",
+        "wavelength": "um",
+        "angle": "deg",
+        "sourceLength": "MM",
+        "scaleToMm": 1
+      },
+      "aperture": {
+        "kind": "entrancePupilDiameter",
+        "value": 4,
+        "source": {
+          "EPD": 4
+        }
+      },
+      "fields": {
+        "kind": "angle",
+        "points": [
+          {
+            "x": 0,
+            "y": 0,
+            "weight": 1,
+            "vignetting": {}
+          }
+        ],
+        "reference": null,
+        "source": {
+          "type": "angle",
+          "object_space_telecentric": false,
+          "afocal_image_space": false,
+          "x": [
+            0
+          ],
+          "y": [
+            0
+          ],
+          "num_fields": 1
+        }
+      },
+      "wavelengths": {
+        "valuesUm": [
+          0.55
+        ],
+        "weights": [
+          1
+        ],
+        "primaryIndex": 0
+      },
+      "surfaces": [
+        {
+          "index": 0,
+          "role": "object",
+          "type": "standard",
+          "radiusMm": {
+            "special": "positiveInfinity"
+          },
+          "thicknessMm": {
+            "special": "positiveInfinity"
+          },
+          "conic": 0,
+          "stop": false,
+          "material": {
+            "kind": "air"
+          },
+          "clearAperture": null,
+          "parameters": {
+            "type": "standard",
+            "is_stop": false,
+            "conic": 0,
+            "material": "air",
+            "aperture": null,
+            "radius": {
+              "special": "positiveInfinity"
+            },
+            "thickness": {
+              "special": "positiveInfinity"
+            }
+          }
+        },
+        {
+          "index": 1,
+          "role": "surface",
+          "type": "standard",
+          "radiusMm": 20,
+          "thicknessMm": 2,
+          "conic": 0,
+          "stop": true,
+          "material": {
+            "kind": "catalog",
+            "name": "N-BK7",
+            "catalogs": [],
+            "nd": 1.5168,
+            "vd": 64.17,
+            "resolution": "unresolved"
+          },
+          "clearAperture": {
+            "kind": "annulus",
+            "r_min": 0,
+            "r_max": 3,
+            "offset_x": 4,
+            "offset_y": 5
+          },
+          "parameters": {
+            "type": "standard",
+            "is_stop": true,
+            "conic": 0,
+            "material": {
+              "kind": "catalog",
+              "name": "N-BK7",
+              "catalogs": [],
+              "nd": 1.5168,
+              "vd": 64.17,
+              "resolution": "unresolved"
+            },
+            "aperture": {
+              "kind": "annulus",
+              "r_min": 0,
+              "r_max": 3,
+              "offset_x": 4,
+              "offset_y": 5
+            },
+            "radius": 20,
+            "thickness": 2,
+            "index": 1.5168,
+            "abbe": 64.17
+          }
+        },
+        {
+          "index": 2,
+          "role": "surface",
+          "type": "standard",
+          "radiusMm": -20,
+          "thicknessMm": 20,
+          "conic": 0,
+          "stop": false,
+          "material": {
+            "kind": "air"
+          },
+          "clearAperture": null,
+          "parameters": {
+            "type": "standard",
+            "is_stop": false,
+            "conic": 0,
+            "material": "air",
+            "aperture": null,
+            "radius": -20,
+            "thickness": 20
+          }
+        },
+        {
+          "index": 3,
+          "role": "image",
+          "type": "standard",
+          "radiusMm": {
+            "special": "positiveInfinity"
+          },
+          "thicknessMm": 0,
+          "conic": 0,
+          "stop": false,
+          "material": {
+            "kind": "air"
+          },
+          "clearAperture": null,
+          "parameters": {
+            "type": "standard",
+            "is_stop": false,
+            "conic": 0,
+            "material": "air",
+            "aperture": null,
+            "radius": {
+              "special": "positiveInfinity"
+            },
+            "thickness": 0
+          }
+        }
+      ],
+      "diagnostics": [
+        {
+          "severity": "warning",
+          "code": "unresolved_material",
+          "message": "Material identity preserved; catalog lookup and dispersion fitting are not executed",
+          "surface": 1
+        }
+      ],
+      "raw": {
+        "mode": "Sequential",
+        "units": "MM",
+        "records": [
+          {
+            "line": 1,
+            "text": "NAME simple"
+          },
+          {
+            "line": 2,
+            "text": "UNIT MM"
+          },
+          {
+            "line": 3,
+            "text": "ENPD 4"
+          },
+          {
+            "line": 4,
+            "text": "WAVM 1 0.55 1"
+          },
+          {
+            "line": 5,
+            "text": "PWAV 1"
+          },
+          {
+            "line": 6,
+            "text": "SURF 0"
+          },
+          {
+            "line": 7,
+            "text": "CURV 0"
+          },
+          {
+            "line": 8,
+            "text": "DISZ INFINITY"
+          },
+          {
+            "line": 9,
+            "text": "SURF 1"
+          },
+          {
+            "line": 10,
+            "text": "CURV 0.05"
+          },
+          {
+            "line": 11,
+            "text": "DISZ 2"
+          },
+          {
+            "line": 12,
+            "text": "GLAS N-BK7 0 0 1.5168 64.17"
+          },
+          {
+            "line": 13,
+            "text": "OBDC 1 2"
+          },
+          {
+            "line": 14,
+            "text": "CLAP 0 3"
+          },
+          {
+            "line": 15,
+            "text": "OBDC 4 5"
+          },
+          {
+            "line": 16,
+            "text": "STOP"
+          },
+          {
+            "line": 17,
+            "text": "SURF 2"
+          },
+          {
+            "line": 18,
+            "text": "CURV -0.05"
+          },
+          {
+            "line": 19,
+            "text": "DISZ 20"
+          },
+          {
+            "line": 20,
+            "text": "SURF 3"
+          },
+          {
+            "line": 21,
+            "text": "CURV 0"
+          },
+          {
+            "line": 22,
+            "text": "DISZ 0"
+          }
+        ],
+        "diagnostics": [],
+        "name": "simple",
+        "aperture": {
+          "EPD": 4
+        },
+        "fields": {
+          "type": "angle",
+          "object_space_telecentric": false,
+          "afocal_image_space": false,
+          "x": [
+            0
+          ],
+          "y": [
+            0
+          ],
+          "num_fields": 1
+        },
+        "wavelengths": {
+          "data": [
+            0.55
+          ],
+          "weights": [
+            1
+          ],
+          "num_wavelengths": 1,
+          "primary_index": 0
+        },
+        "surfaces": {
+          "0": {
+            "type": "standard",
+            "is_stop": false,
+            "conic": 0,
+            "material": "air",
+            "aperture": null,
+            "radius": {
+              "special": "positiveInfinity"
+            },
+            "thickness": {
+              "special": "positiveInfinity"
+            }
+          },
+          "1": {
+            "type": "standard",
+            "is_stop": true,
+            "conic": 0,
+            "material": {
+              "kind": "catalog",
+              "name": "N-BK7",
+              "catalogs": [],
+              "nd": 1.5168,
+              "vd": 64.17,
+              "resolution": "unresolved"
+            },
+            "aperture": {
+              "kind": "annulus",
+              "r_min": 0,
+              "r_max": 3,
+              "offset_x": 4,
+              "offset_y": 5
+            },
+            "radius": 20,
+            "thickness": 2,
+            "index": 1.5168,
+            "abbe": 64.17
+          },
+          "2": {
+            "type": "standard",
+            "is_stop": false,
+            "conic": 0,
+            "material": "air",
+            "aperture": null,
+            "radius": -20,
+            "thickness": 20
+          },
+          "3": {
+            "type": "standard",
+            "is_stop": false,
+            "conic": 0,
+            "material": "air",
+            "aperture": null,
+            "radius": {
+              "special": "positiveInfinity"
+            },
+            "thickness": 0
+          }
+        }
+      }
+    }
+  },
+  {
+    "format": "zemax",
+    "text": "NAME simple\nUNIT MM\nENPD 4\nFTYP 0 0 2 2\nXFLD 0 0 99\nYFLD 0 10 99\nWAVM 2 0.6 2\nWAVM 1 0.5 1\nWAVM 3 0.9 1\nPWAV 2\nSURF 0\nCURV 0\nDISZ INFINITY\nSURF 1\nCURV 0.05\nDISZ 2\nSTOP\nSURF 2\nCURV -0.05\nDISZ 20\nSURF 3\nCURV 0\nDISZ 0\n",
+    "expected": {
+      "schemaVersion": "1.0",
+      "source": {
+        "format": "zemax",
+        "filename": "<memory>",
+        "encoding": "text",
+        "upstreamRevision": "4e893f53aee1312f2d091680b93dd2279711e197"
+      },
+      "name": "simple",
+      "mode": "sequential",
+      "units": {
+        "length": "mm",
+        "wavelength": "um",
+        "angle": "deg",
+        "sourceLength": "MM",
+        "scaleToMm": 1
+      },
+      "aperture": {
+        "kind": "entrancePupilDiameter",
+        "value": 4,
+        "source": {
+          "EPD": 4
+        }
+      },
+      "fields": {
+        "kind": "angle",
+        "points": [
+          {
+            "x": 0,
+            "y": 0,
+            "weight": 1,
+            "vignetting": {}
+          },
+          {
+            "x": 0,
+            "y": 10,
+            "weight": 1,
+            "vignetting": {}
+          }
+        ],
+        "reference": null,
+        "source": {
+          "type": "angle",
+          "object_space_telecentric": false,
+          "afocal_image_space": false,
+          "x": [
+            0,
+            0
+          ],
+          "y": [
+            0,
+            10
+          ],
+          "num_fields": 2
+        }
+      },
+      "wavelengths": {
+        "valuesUm": [
+          0.5,
+          0.6
+        ],
+        "weights": [
+          1,
+          2
+        ],
+        "primaryIndex": 1
+      },
+      "surfaces": [
+        {
+          "index": 0,
+          "role": "object",
+          "type": "standard",
+          "radiusMm": {
+            "special": "positiveInfinity"
+          },
+          "thicknessMm": {
+            "special": "positiveInfinity"
+          },
+          "conic": 0,
+          "stop": false,
+          "material": {
+            "kind": "air"
+          },
+          "clearAperture": null,
+          "parameters": {
+            "type": "standard",
+            "is_stop": false,
+            "conic": 0,
+            "material": "air",
+            "aperture": null,
+            "radius": {
+              "special": "positiveInfinity"
+            },
+            "thickness": {
+              "special": "positiveInfinity"
+            }
+          }
+        },
+        {
+          "index": 1,
+          "role": "surface",
+          "type": "standard",
+          "radiusMm": 20,
+          "thicknessMm": 2,
+          "conic": 0,
+          "stop": true,
+          "material": {
+            "kind": "air"
+          },
+          "clearAperture": null,
+          "parameters": {
+            "type": "standard",
+            "is_stop": true,
+            "conic": 0,
+            "material": "air",
+            "aperture": null,
+            "radius": 20,
+            "thickness": 2
+          }
+        },
+        {
+          "index": 2,
+          "role": "surface",
+          "type": "standard",
+          "radiusMm": -20,
+          "thicknessMm": 20,
+          "conic": 0,
+          "stop": false,
+          "material": {
+            "kind": "air"
+          },
+          "clearAperture": null,
+          "parameters": {
+            "type": "standard",
+            "is_stop": false,
+            "conic": 0,
+            "material": "air",
+            "aperture": null,
+            "radius": -20,
+            "thickness": 20
+          }
+        },
+        {
+          "index": 3,
+          "role": "image",
+          "type": "standard",
+          "radiusMm": {
+            "special": "positiveInfinity"
+          },
+          "thicknessMm": 0,
+          "conic": 0,
+          "stop": false,
+          "material": {
+            "kind": "air"
+          },
+          "clearAperture": null,
+          "parameters": {
+            "type": "standard",
+            "is_stop": false,
+            "conic": 0,
+            "material": "air",
+            "aperture": null,
+            "radius": {
+              "special": "positiveInfinity"
+            },
+            "thickness": 0
+          }
+        }
+      ],
+      "diagnostics": [],
+      "raw": {
+        "mode": "Sequential",
+        "units": "MM",
+        "records": [
+          {
+            "line": 1,
+            "text": "NAME simple"
+          },
+          {
+            "line": 2,
+            "text": "UNIT MM"
+          },
+          {
+            "line": 3,
+            "text": "ENPD 4"
+          },
+          {
+            "line": 4,
+            "text": "FTYP 0 0 2 2"
+          },
+          {
+            "line": 5,
+            "text": "XFLD 0 0 99"
+          },
+          {
+            "line": 6,
+            "text": "YFLD 0 10 99"
+          },
+          {
+            "line": 7,
+            "text": "WAVM 2 0.6 2"
+          },
+          {
+            "line": 8,
+            "text": "WAVM 1 0.5 1"
+          },
+          {
+            "line": 9,
+            "text": "WAVM 3 0.9 1"
+          },
+          {
+            "line": 10,
+            "text": "PWAV 2"
+          },
+          {
+            "line": 11,
+            "text": "SURF 0"
+          },
+          {
+            "line": 12,
+            "text": "CURV 0"
+          },
+          {
+            "line": 13,
+            "text": "DISZ INFINITY"
+          },
+          {
+            "line": 14,
+            "text": "SURF 1"
+          },
+          {
+            "line": 15,
+            "text": "CURV 0.05"
+          },
+          {
+            "line": 16,
+            "text": "DISZ 2"
+          },
+          {
+            "line": 17,
+            "text": "STOP"
+          },
+          {
+            "line": 18,
+            "text": "SURF 2"
+          },
+          {
+            "line": 19,
+            "text": "CURV -0.05"
+          },
+          {
+            "line": 20,
+            "text": "DISZ 20"
+          },
+          {
+            "line": 21,
+            "text": "SURF 3"
+          },
+          {
+            "line": 22,
+            "text": "CURV 0"
+          },
+          {
+            "line": 23,
+            "text": "DISZ 0"
+          }
+        ],
+        "diagnostics": [],
+        "name": "simple",
+        "aperture": {
+          "EPD": 4
+        },
+        "fields": {
+          "type": "angle",
+          "object_space_telecentric": false,
+          "afocal_image_space": false,
+          "x": [
+            0,
+            0
+          ],
+          "y": [
+            0,
+            10
+          ],
+          "num_fields": 2
+        },
+        "wavelengths": {
+          "data": [
+            0.5,
+            0.6
+          ],
+          "weights": [
+            1,
+            2
+          ],
+          "num_wavelengths": 2,
+          "primary_index": 1
+        },
+        "surfaces": {
+          "0": {
+            "type": "standard",
+            "is_stop": false,
+            "conic": 0,
+            "material": "air",
+            "aperture": null,
+            "radius": {
+              "special": "positiveInfinity"
+            },
+            "thickness": {
+              "special": "positiveInfinity"
+            }
+          },
+          "1": {
+            "type": "standard",
+            "is_stop": true,
+            "conic": 0,
+            "material": "air",
+            "aperture": null,
+            "radius": 20,
+            "thickness": 2
+          },
+          "2": {
+            "type": "standard",
+            "is_stop": false,
+            "conic": 0,
+            "material": "air",
+            "aperture": null,
+            "radius": -20,
+            "thickness": 20
+          },
+          "3": {
+            "type": "standard",
+            "is_stop": false,
+            "conic": 0,
+            "material": "air",
+            "aperture": null,
+            "radius": {
+              "special": "positiveInfinity"
+            },
+            "thickness": 0
+          }
+        }
+      }
+    }
+  },
+  {
+    "format": "zemax",
+    "text": "NAME simple\nUNIT IN\nENPD 4\nWAVM 1 0.55 1\nPWAV 1\nSURF 0\nCURV 0\nDISZ INFINITY\nSURF 1\nCURV 0.05\nDISZ 2\nSTOP\nSURF 2\nCURV -0.05\nDISZ 20\nSURF 3\nCURV 0\nDISZ 0\n",
+    "expected": {
+      "schemaVersion": "1.0",
+      "source": {
+        "format": "zemax",
+        "filename": "<memory>",
+        "encoding": "text",
+        "upstreamRevision": "4e893f53aee1312f2d091680b93dd2279711e197"
+      },
+      "name": "simple",
+      "mode": "sequential",
+      "units": {
+        "length": "mm",
+        "wavelength": "um",
+        "angle": "deg",
+        "sourceLength": "IN",
+        "scaleToMm": 25.4
+      },
+      "aperture": {
+        "kind": "entrancePupilDiameter",
+        "value": 101.6,
+        "source": {
+          "EPD": 4
+        }
+      },
+      "fields": {
+        "kind": "angle",
+        "points": [
+          {
+            "x": 0,
+            "y": 0,
+            "weight": 1,
+            "vignetting": {}
+          }
+        ],
+        "reference": null,
+        "source": {
+          "type": "angle",
+          "object_space_telecentric": false,
+          "afocal_image_space": false,
+          "x": [
+            0
+          ],
+          "y": [
+            0
+          ],
+          "num_fields": 1
+        }
+      },
+      "wavelengths": {
+        "valuesUm": [
+          0.55
+        ],
+        "weights": [
+          1
+        ],
+        "primaryIndex": 0
+      },
+      "surfaces": [
+        {
+          "index": 0,
+          "role": "object",
+          "type": "standard",
+          "radiusMm": {
+            "special": "positiveInfinity"
+          },
+          "thicknessMm": {
+            "special": "positiveInfinity"
+          },
+          "conic": 0,
+          "stop": false,
+          "material": {
+            "kind": "air"
+          },
+          "clearAperture": null,
+          "parameters": {
+            "type": "standard",
+            "is_stop": false,
+            "conic": 0,
+            "material": "air",
+            "aperture": null,
+            "radius": {
+              "special": "positiveInfinity"
+            },
+            "thickness": {
+              "special": "positiveInfinity"
+            }
+          }
+        },
+        {
+          "index": 1,
+          "role": "surface",
+          "type": "standard",
+          "radiusMm": 508,
+          "thicknessMm": 50.8,
+          "conic": 0,
+          "stop": true,
+          "material": {
+            "kind": "air"
+          },
+          "clearAperture": null,
+          "parameters": {
+            "type": "standard",
+            "is_stop": true,
+            "conic": 0,
+            "material": "air",
+            "aperture": null,
+            "radius": 20,
+            "thickness": 2
+          }
+        },
+        {
+          "index": 2,
+          "role": "surface",
+          "type": "standard",
+          "radiusMm": -508,
+          "thicknessMm": 508,
+          "conic": 0,
+          "stop": false,
+          "material": {
+            "kind": "air"
+          },
+          "clearAperture": null,
+          "parameters": {
+            "type": "standard",
+            "is_stop": false,
+            "conic": 0,
+            "material": "air",
+            "aperture": null,
+            "radius": -20,
+            "thickness": 20
+          }
+        },
+        {
+          "index": 3,
+          "role": "image",
+          "type": "standard",
+          "radiusMm": {
+            "special": "positiveInfinity"
+          },
+          "thicknessMm": 0,
+          "conic": 0,
+          "stop": false,
+          "material": {
+            "kind": "air"
+          },
+          "clearAperture": null,
+          "parameters": {
+            "type": "standard",
+            "is_stop": false,
+            "conic": 0,
+            "material": "air",
+            "aperture": null,
+            "radius": {
+              "special": "positiveInfinity"
+            },
+            "thickness": 0
+          }
+        }
+      ],
+      "diagnostics": [],
+      "raw": {
+        "mode": "Sequential",
+        "units": "IN",
+        "records": [
+          {
+            "line": 1,
+            "text": "NAME simple"
+          },
+          {
+            "line": 2,
+            "text": "UNIT IN"
+          },
+          {
+            "line": 3,
+            "text": "ENPD 4"
+          },
+          {
+            "line": 4,
+            "text": "WAVM 1 0.55 1"
+          },
+          {
+            "line": 5,
+            "text": "PWAV 1"
+          },
+          {
+            "line": 6,
+            "text": "SURF 0"
+          },
+          {
+            "line": 7,
+            "text": "CURV 0"
+          },
+          {
+            "line": 8,
+            "text": "DISZ INFINITY"
+          },
+          {
+            "line": 9,
+            "text": "SURF 1"
+          },
+          {
+            "line": 10,
+            "text": "CURV 0.05"
+          },
+          {
+            "line": 11,
+            "text": "DISZ 2"
+          },
+          {
+            "line": 12,
+            "text": "STOP"
+          },
+          {
+            "line": 13,
+            "text": "SURF 2"
+          },
+          {
+            "line": 14,
+            "text": "CURV -0.05"
+          },
+          {
+            "line": 15,
+            "text": "DISZ 20"
+          },
+          {
+            "line": 16,
+            "text": "SURF 3"
+          },
+          {
+            "line": 17,
+            "text": "CURV 0"
+          },
+          {
+            "line": 18,
+            "text": "DISZ 0"
+          }
+        ],
+        "diagnostics": [],
+        "name": "simple",
+        "aperture": {
+          "EPD": 4
+        },
+        "fields": {
+          "type": "angle",
+          "object_space_telecentric": false,
+          "afocal_image_space": false,
+          "x": [
+            0
+          ],
+          "y": [
+            0
+          ],
+          "num_fields": 1
+        },
+        "wavelengths": {
+          "data": [
+            0.55
+          ],
+          "weights": [
+            1
+          ],
+          "num_wavelengths": 1,
+          "primary_index": 0
+        },
+        "surfaces": {
+          "0": {
+            "type": "standard",
+            "is_stop": false,
+            "conic": 0,
+            "material": "air",
+            "aperture": null,
+            "radius": {
+              "special": "positiveInfinity"
+            },
+            "thickness": {
+              "special": "positiveInfinity"
+            }
+          },
+          "1": {
+            "type": "standard",
+            "is_stop": true,
+            "conic": 0,
+            "material": "air",
+            "aperture": null,
+            "radius": 20,
+            "thickness": 2
+          },
+          "2": {
+            "type": "standard",
+            "is_stop": false,
+            "conic": 0,
+            "material": "air",
+            "aperture": null,
+            "radius": -20,
+            "thickness": 20
+          },
+          "3": {
+            "type": "standard",
+            "is_stop": false,
+            "conic": 0,
+            "material": "air",
+            "aperture": null,
+            "radius": {
+              "special": "positiveInfinity"
+            },
+            "thickness": 0
+          }
+        }
+      }
+    }
+  },
+  {
+    "format": "zemax",
+    "text": "NAME simple\nUNIT MM\nENPD 4\nWAVM 1 0.55 1\nPWAV 1\nSURF 0\nCURV 0\nDISZ INFINITY\nSURF 1\nCURV 0.05\nDISZ 2\nTYPE EVENASPH\nPARM 1 1e-4\nPARM 2 2e-6\nSTOP\nSURF 2\nCURV -0.05\nDISZ 20\nSURF 3\nCURV 0\nDISZ 0\n",
+    "expected": {
+      "schemaVersion": "1.0",
+      "source": {
+        "format": "zemax",
+        "filename": "<memory>",
+        "encoding": "text",
+        "upstreamRevision": "4e893f53aee1312f2d091680b93dd2279711e197"
+      },
+      "name": "simple",
+      "mode": "sequential",
+      "units": {
+        "length": "mm",
+        "wavelength": "um",
+        "angle": "deg",
+        "sourceLength": "MM",
+        "scaleToMm": 1
+      },
+      "aperture": {
+        "kind": "entrancePupilDiameter",
+        "value": 4,
+        "source": {
+          "EPD": 4
+        }
+      },
+      "fields": {
+        "kind": "angle",
+        "points": [
+          {
+            "x": 0,
+            "y": 0,
+            "weight": 1,
+            "vignetting": {}
+          }
+        ],
+        "reference": null,
+        "source": {
+          "type": "angle",
+          "object_space_telecentric": false,
+          "afocal_image_space": false,
+          "x": [
+            0
+          ],
+          "y": [
+            0
+          ],
+          "num_fields": 1
+        }
+      },
+      "wavelengths": {
+        "valuesUm": [
+          0.55
+        ],
+        "weights": [
+          1
+        ],
+        "primaryIndex": 0
+      },
+      "surfaces": [
+        {
+          "index": 0,
+          "role": "object",
+          "type": "standard",
+          "radiusMm": {
+            "special": "positiveInfinity"
+          },
+          "thicknessMm": {
+            "special": "positiveInfinity"
+          },
+          "conic": 0,
+          "stop": false,
+          "material": {
+            "kind": "air"
+          },
+          "clearAperture": null,
+          "parameters": {
+            "type": "standard",
+            "is_stop": false,
+            "conic": 0,
+            "material": "air",
+            "aperture": null,
+            "radius": {
+              "special": "positiveInfinity"
+            },
+            "thickness": {
+              "special": "positiveInfinity"
+            }
+          }
+        },
+        {
+          "index": 1,
+          "role": "surface",
+          "type": "even_asphere",
+          "radiusMm": 20,
+          "thicknessMm": 2,
+          "conic": 0,
+          "stop": true,
+          "material": {
+            "kind": "air"
+          },
+          "clearAperture": null,
+          "parameters": {
+            "type": "even_asphere",
+            "is_stop": true,
+            "conic": 0,
+            "material": "air",
+            "aperture": null,
+            "radius": 20,
+            "thickness": 2,
+            "param_0": 0.0001,
+            "param_1": 0.000002
+          }
+        },
+        {
+          "index": 2,
+          "role": "surface",
+          "type": "standard",
+          "radiusMm": -20,
+          "thicknessMm": 20,
+          "conic": 0,
+          "stop": false,
+          "material": {
+            "kind": "air"
+          },
+          "clearAperture": null,
+          "parameters": {
+            "type": "standard",
+            "is_stop": false,
+            "conic": 0,
+            "material": "air",
+            "aperture": null,
+            "radius": -20,
+            "thickness": 20
+          }
+        },
+        {
+          "index": 3,
+          "role": "image",
+          "type": "standard",
+          "radiusMm": {
+            "special": "positiveInfinity"
+          },
+          "thicknessMm": 0,
+          "conic": 0,
+          "stop": false,
+          "material": {
+            "kind": "air"
+          },
+          "clearAperture": null,
+          "parameters": {
+            "type": "standard",
+            "is_stop": false,
+            "conic": 0,
+            "material": "air",
+            "aperture": null,
+            "radius": {
+              "special": "positiveInfinity"
+            },
+            "thickness": 0
+          }
+        }
+      ],
+      "diagnostics": [],
+      "raw": {
+        "mode": "Sequential",
+        "units": "MM",
+        "records": [
+          {
+            "line": 1,
+            "text": "NAME simple"
+          },
+          {
+            "line": 2,
+            "text": "UNIT MM"
+          },
+          {
+            "line": 3,
+            "text": "ENPD 4"
+          },
+          {
+            "line": 4,
+            "text": "WAVM 1 0.55 1"
+          },
+          {
+            "line": 5,
+            "text": "PWAV 1"
+          },
+          {
+            "line": 6,
+            "text": "SURF 0"
+          },
+          {
+            "line": 7,
+            "text": "CURV 0"
+          },
+          {
+            "line": 8,
+            "text": "DISZ INFINITY"
+          },
+          {
+            "line": 9,
+            "text": "SURF 1"
+          },
+          {
+            "line": 10,
+            "text": "CURV 0.05"
+          },
+          {
+            "line": 11,
+            "text": "DISZ 2"
+          },
+          {
+            "line": 12,
+            "text": "TYPE EVENASPH"
+          },
+          {
+            "line": 13,
+            "text": "PARM 1 1e-4"
+          },
+          {
+            "line": 14,
+            "text": "PARM 2 2e-6"
+          },
+          {
+            "line": 15,
+            "text": "STOP"
+          },
+          {
+            "line": 16,
+            "text": "SURF 2"
+          },
+          {
+            "line": 17,
+            "text": "CURV -0.05"
+          },
+          {
+            "line": 18,
+            "text": "DISZ 20"
+          },
+          {
+            "line": 19,
+            "text": "SURF 3"
+          },
+          {
+            "line": 20,
+            "text": "CURV 0"
+          },
+          {
+            "line": 21,
+            "text": "DISZ 0"
+          }
+        ],
+        "diagnostics": [],
+        "name": "simple",
+        "aperture": {
+          "EPD": 4
+        },
+        "fields": {
+          "type": "angle",
+          "object_space_telecentric": false,
+          "afocal_image_space": false,
+          "x": [
+            0
+          ],
+          "y": [
+            0
+          ],
+          "num_fields": 1
+        },
+        "wavelengths": {
+          "data": [
+            0.55
+          ],
+          "weights": [
+            1
+          ],
+          "num_wavelengths": 1,
+          "primary_index": 0
+        },
+        "surfaces": {
+          "0": {
+            "type": "standard",
+            "is_stop": false,
+            "conic": 0,
+            "material": "air",
+            "aperture": null,
+            "radius": {
+              "special": "positiveInfinity"
+            },
+            "thickness": {
+              "special": "positiveInfinity"
+            }
+          },
+          "1": {
+            "type": "even_asphere",
+            "is_stop": true,
+            "conic": 0,
+            "material": "air",
+            "aperture": null,
+            "radius": 20,
+            "thickness": 2,
+            "param_0": 0.0001,
+            "param_1": 0.000002
+          },
+          "2": {
+            "type": "standard",
+            "is_stop": false,
+            "conic": 0,
+            "material": "air",
+            "aperture": null,
+            "radius": -20,
+            "thickness": 20
+          },
+          "3": {
+            "type": "standard",
+            "is_stop": false,
+            "conic": 0,
+            "material": "air",
+            "aperture": null,
+            "radius": {
+              "special": "positiveInfinity"
+            },
+            "thickness": 0
+          }
+        }
+      }
+    }
+  },
+  {
+    "format": "oslo",
+    "text": "LEN NEW \"a; // b \\\"c\\\"\" 50 3\nEBR 2\nANG 0\nWV 0.55\nTH 1e20; NXT\nRD 20; TH 2; AST; NXT\nRD -20; TH 20; NXT\nRD 0; END 3\n",
+    "expected": {
+      "schemaVersion": "1.0",
+      "source": {
+        "format": "oslo",
+        "filename": "<memory>",
+        "encoding": "text",
+        "upstreamRevision": "4e893f53aee1312f2d091680b93dd2279711e197"
+      },
+      "name": "a; // b \"c\"",
+      "mode": "sequential",
+      "units": {
+        "length": "mm",
+        "wavelength": "um",
+        "angle": "deg",
+        "sourceLength": "lensUnit",
+        "scaleToMm": 1
+      },
+      "aperture": {
+        "kind": "beamRadiusAtSurface1",
+        "value": 2,
+        "source": {
+          "EPD": 4
+        }
+      },
+      "fields": {
+        "kind": "angle",
+        "points": [],
+        "reference": {
+          "y": 0,
+          "coordinates": "prescriptionExtent"
+        },
+        "source": {
+          "type": "angle",
+          "y": [
+            0
+          ]
+        }
+      },
+      "wavelengths": {
+        "valuesUm": [
+          0.55
+        ],
+        "weights": [
+          1
+        ],
+        "primaryIndex": 0
+      },
+      "surfaces": [
+        {
+          "index": 0,
+          "role": "object",
+          "type": "standard",
+          "radiusMm": {
+            "special": "positiveInfinity"
+          },
+          "thicknessMm": {
+            "special": "positiveInfinity"
+          },
+          "conic": 0,
+          "stop": false,
+          "material": {
+            "kind": "air"
+          },
+          "clearAperture": null,
+          "parameters": {
+            "TH": 100000000000000000000
+          }
+        },
+        {
+          "index": 1,
+          "role": "surface",
+          "type": "standard",
+          "radiusMm": 20,
+          "thicknessMm": 2,
+          "conic": 0,
+          "stop": true,
+          "material": {
+            "kind": "air"
+          },
+          "clearAperture": null,
+          "parameters": {
+            "RD": 20,
+            "TH": 2,
+            "AST": true
+          }
+        },
+        {
+          "index": 2,
+          "role": "surface",
+          "type": "standard",
+          "radiusMm": -20,
+          "thicknessMm": 20,
+          "conic": 0,
+          "stop": false,
+          "material": {
+            "kind": "air"
+          },
+          "clearAperture": null,
+          "parameters": {
+            "RD": -20,
+            "TH": 20
+          }
+        },
+        {
+          "index": 3,
+          "role": "image",
+          "type": "standard",
+          "radiusMm": {
+            "special": "positiveInfinity"
+          },
+          "thicknessMm": 0,
+          "conic": 0,
+          "stop": false,
+          "material": {
+            "kind": "air"
+          },
+          "clearAperture": null,
+          "parameters": {
+            "RD": {
+              "special": "positiveInfinity"
+            }
+          }
+        }
+      ],
+      "diagnostics": [],
+      "raw": {
+        "name": "a; // b \"c\"",
+        "scaling": 50,
+        "num_surfaces": 3,
+        "aperture": {
+          "EPD": 4
+        },
+        "fields": {
+          "type": "angle",
+          "y": [
+            0
+          ]
+        },
+        "wavelengths": {
+          "values": [
+            0.55
+          ],
+          "weights": [
+            1
+          ],
+          "primary_index": 0
+        },
+        "surfaces": {
+          "0": {
+            "TH": 100000000000000000000
+          },
+          "1": {
+            "RD": 20,
+            "TH": 2,
+            "AST": true
+          },
+          "2": {
+            "RD": -20,
+            "TH": 20
+          },
+          "3": {
+            "RD": {
+              "special": "positiveInfinity"
+            }
+          }
+        },
+        "units": 1,
+        "records": [
+          {
+            "line": 1,
+            "text": "LEN NEW \"a; // b \\\"c\\\"\" 50 3"
+          },
+          {
+            "line": 2,
+            "text": "EBR 2"
+          },
+          {
+            "line": 3,
+            "text": "ANG 0"
+          },
+          {
+            "line": 4,
+            "text": "WV 0.55"
+          },
+          {
+            "line": 5,
+            "text": "TH 1e20"
+          },
+          {
+            "line": 5,
+            "text": "NXT"
+          },
+          {
+            "line": 6,
+            "text": "RD 20"
+          },
+          {
+            "line": 6,
+            "text": "TH 2"
+          },
+          {
+            "line": 6,
+            "text": "AST"
+          },
+          {
+            "line": 6,
+            "text": "NXT"
+          },
+          {
+            "line": 7,
+            "text": "RD -20"
+          },
+          {
+            "line": 7,
+            "text": "TH 20"
+          },
+          {
+            "line": 7,
+            "text": "NXT"
+          },
+          {
+            "line": 8,
+            "text": "RD 0"
+          },
+          {
+            "line": 8,
+            "text": "END 3"
+          }
+        ],
+        "notes": {},
+        "diagnostics": [],
+        "settings": {},
+        "configurations": {
+          "1": {
+            "thicknesses": {},
+            "wavelengths": {},
+            "wavelength_weights": {},
+            "weight": 1,
+            "active": true
+          }
+        }
+      }
+    }
+  },
+  {
+    "format": "oslo",
+    "text": "LEN NEW \"simple\" 50 3\nEBR 2\nANG 0\nWV 0.55\nTH 1e20; NXT\nGLA 1.5; AP CHK 3; RD 20; TH 2; AST; NXT\nRD -20; TH 20; NXT\nRD 0; END 3\n",
+    "expected": {
+      "schemaVersion": "1.0",
+      "source": {
+        "format": "oslo",
+        "filename": "<memory>",
+        "encoding": "text",
+        "upstreamRevision": "4e893f53aee1312f2d091680b93dd2279711e197"
+      },
+      "name": "simple",
+      "mode": "sequential",
+      "units": {
+        "length": "mm",
+        "wavelength": "um",
+        "angle": "deg",
+        "sourceLength": "lensUnit",
+        "scaleToMm": 1
+      },
+      "aperture": {
+        "kind": "beamRadiusAtSurface1",
+        "value": 2,
+        "source": {
+          "EPD": 4
+        }
+      },
+      "fields": {
+        "kind": "angle",
+        "points": [],
+        "reference": {
+          "y": 0,
+          "coordinates": "prescriptionExtent"
+        },
+        "source": {
+          "type": "angle",
+          "y": [
+            0
+          ]
+        }
+      },
+      "wavelengths": {
+        "valuesUm": [
+          0.55
+        ],
+        "weights": [
+          1
+        ],
+        "primaryIndex": 0
+      },
+      "surfaces": [
+        {
+          "index": 0,
+          "role": "object",
+          "type": "standard",
+          "radiusMm": {
+            "special": "positiveInfinity"
+          },
+          "thicknessMm": {
+            "special": "positiveInfinity"
+          },
+          "conic": 0,
+          "stop": false,
+          "material": {
+            "kind": "air"
+          },
+          "clearAperture": null,
+          "parameters": {
+            "TH": 100000000000000000000
+          }
+        },
+        {
+          "index": 1,
+          "role": "surface",
+          "type": "standard",
+          "radiusMm": 20,
+          "thicknessMm": 2,
+          "conic": 0,
+          "stop": true,
+          "material": {
+            "kind": "constantIndex",
+            "name": null,
+            "index": 1.5
+          },
+          "clearAperture": {
+            "kind": "annulus",
+            "r_min": 0,
+            "r_max": 3,
+            "offset_x": 0,
+            "offset_y": 0,
+            "checked": true,
+            "checkingEnabled": true
+          },
+          "parameters": {
+            "material": "GLA 1.5",
+            "glass_wavelengths": [
+              0.55
+            ],
+            "AP": 3,
+            "aperture_checked": true,
+            "RD": 20,
+            "TH": 2,
+            "AST": true
+          }
+        },
+        {
+          "index": 2,
+          "role": "surface",
+          "type": "standard",
+          "radiusMm": -20,
+          "thicknessMm": 20,
+          "conic": 0,
+          "stop": false,
+          "material": {
+            "kind": "air"
+          },
+          "clearAperture": null,
+          "parameters": {
+            "RD": -20,
+            "TH": 20
+          }
+        },
+        {
+          "index": 3,
+          "role": "image",
+          "type": "standard",
+          "radiusMm": {
+            "special": "positiveInfinity"
+          },
+          "thicknessMm": 0,
+          "conic": 0,
+          "stop": false,
+          "material": {
+            "kind": "air"
+          },
+          "clearAperture": null,
+          "parameters": {
+            "RD": {
+              "special": "positiveInfinity"
+            }
+          }
+        }
+      ],
+      "diagnostics": [],
+      "raw": {
+        "name": "simple",
+        "scaling": 50,
+        "num_surfaces": 3,
+        "aperture": {
+          "EPD": 4
+        },
+        "fields": {
+          "type": "angle",
+          "y": [
+            0
+          ]
+        },
+        "wavelengths": {
+          "values": [
+            0.55
+          ],
+          "weights": [
+            1
+          ],
+          "primary_index": 0
+        },
+        "surfaces": {
+          "0": {
+            "TH": 100000000000000000000
+          },
+          "1": {
+            "material": "GLA 1.5",
+            "glass_wavelengths": [
+              0.55
+            ],
+            "AP": 3,
+            "aperture_checked": true,
+            "RD": 20,
+            "TH": 2,
+            "AST": true
+          },
+          "2": {
+            "RD": -20,
+            "TH": 20
+          },
+          "3": {
+            "RD": {
+              "special": "positiveInfinity"
+            }
+          }
+        },
+        "units": 1,
+        "records": [
+          {
+            "line": 1,
+            "text": "LEN NEW \"simple\" 50 3"
+          },
+          {
+            "line": 2,
+            "text": "EBR 2"
+          },
+          {
+            "line": 3,
+            "text": "ANG 0"
+          },
+          {
+            "line": 4,
+            "text": "WV 0.55"
+          },
+          {
+            "line": 5,
+            "text": "TH 1e20"
+          },
+          {
+            "line": 5,
+            "text": "NXT"
+          },
+          {
+            "line": 6,
+            "text": "GLA 1.5"
+          },
+          {
+            "line": 6,
+            "text": "AP CHK 3"
+          },
+          {
+            "line": 6,
+            "text": "RD 20"
+          },
+          {
+            "line": 6,
+            "text": "TH 2"
+          },
+          {
+            "line": 6,
+            "text": "AST"
+          },
+          {
+            "line": 6,
+            "text": "NXT"
+          },
+          {
+            "line": 7,
+            "text": "RD -20"
+          },
+          {
+            "line": 7,
+            "text": "TH 20"
+          },
+          {
+            "line": 7,
+            "text": "NXT"
+          },
+          {
+            "line": 8,
+            "text": "RD 0"
+          },
+          {
+            "line": 8,
+            "text": "END 3"
+          }
+        ],
+        "notes": {},
+        "diagnostics": [],
+        "settings": {},
+        "configurations": {
+          "1": {
+            "thicknesses": {},
+            "wavelengths": {},
+            "wavelength_weights": {},
+            "weight": 1,
+            "active": true
+          }
+        }
+      }
+    }
+  },
+  {
+    "format": "oslo",
+    "text": "LEN NEW \"simple\" 50 3\nEBR 2; UNI 25.4\nANG 0\nWV 0.55\nTH 1e20; NXT\nRD 20; TH 2; AST; NXT\nRD -20; TH 20; NXT\nRD 0; END 3\n",
+    "expected": {
+      "schemaVersion": "1.0",
+      "source": {
+        "format": "oslo",
+        "filename": "<memory>",
+        "encoding": "text",
+        "upstreamRevision": "4e893f53aee1312f2d091680b93dd2279711e197"
+      },
+      "name": "simple",
+      "mode": "sequential",
+      "units": {
+        "length": "mm",
+        "wavelength": "um",
+        "angle": "deg",
+        "sourceLength": "lensUnit",
+        "scaleToMm": 25.4
+      },
+      "aperture": {
+        "kind": "beamRadiusAtSurface1",
+        "value": 50.8,
+        "source": {
+          "EPD": 4
+        }
+      },
+      "fields": {
+        "kind": "angle",
+        "points": [],
+        "reference": {
+          "y": 0,
+          "coordinates": "prescriptionExtent"
+        },
+        "source": {
+          "type": "angle",
+          "y": [
+            0
+          ]
+        }
+      },
+      "wavelengths": {
+        "valuesUm": [
+          0.55
+        ],
+        "weights": [
+          1
+        ],
+        "primaryIndex": 0
+      },
+      "surfaces": [
+        {
+          "index": 0,
+          "role": "object",
+          "type": "standard",
+          "radiusMm": {
+            "special": "positiveInfinity"
+          },
+          "thicknessMm": {
+            "special": "positiveInfinity"
+          },
+          "conic": 0,
+          "stop": false,
+          "material": {
+            "kind": "air"
+          },
+          "clearAperture": null,
+          "parameters": {
+            "TH": 100000000000000000000
+          }
+        },
+        {
+          "index": 1,
+          "role": "surface",
+          "type": "standard",
+          "radiusMm": 508,
+          "thicknessMm": 50.8,
+          "conic": 0,
+          "stop": true,
+          "material": {
+            "kind": "air"
+          },
+          "clearAperture": null,
+          "parameters": {
+            "RD": 20,
+            "TH": 2,
+            "AST": true
+          }
+        },
+        {
+          "index": 2,
+          "role": "surface",
+          "type": "standard",
+          "radiusMm": -508,
+          "thicknessMm": 508,
+          "conic": 0,
+          "stop": false,
+          "material": {
+            "kind": "air"
+          },
+          "clearAperture": null,
+          "parameters": {
+            "RD": -20,
+            "TH": 20
+          }
+        },
+        {
+          "index": 3,
+          "role": "image",
+          "type": "standard",
+          "radiusMm": {
+            "special": "positiveInfinity"
+          },
+          "thicknessMm": 0,
+          "conic": 0,
+          "stop": false,
+          "material": {
+            "kind": "air"
+          },
+          "clearAperture": null,
+          "parameters": {
+            "RD": {
+              "special": "positiveInfinity"
+            }
+          }
+        }
+      ],
+      "diagnostics": [],
+      "raw": {
+        "name": "simple",
+        "scaling": 50,
+        "num_surfaces": 3,
+        "aperture": {
+          "EPD": 4
+        },
+        "fields": {
+          "type": "angle",
+          "y": [
+            0
+          ]
+        },
+        "wavelengths": {
+          "values": [
+            0.55
+          ],
+          "weights": [
+            1
+          ],
+          "primary_index": 0
+        },
+        "surfaces": {
+          "0": {
+            "TH": 100000000000000000000
+          },
+          "1": {
+            "RD": 20,
+            "TH": 2,
+            "AST": true
+          },
+          "2": {
+            "RD": -20,
+            "TH": 20
+          },
+          "3": {
+            "RD": {
+              "special": "positiveInfinity"
+            }
+          }
+        },
+        "units": 25.4,
+        "records": [
+          {
+            "line": 1,
+            "text": "LEN NEW \"simple\" 50 3"
+          },
+          {
+            "line": 2,
+            "text": "EBR 2"
+          },
+          {
+            "line": 2,
+            "text": "UNI 25.4"
+          },
+          {
+            "line": 3,
+            "text": "ANG 0"
+          },
+          {
+            "line": 4,
+            "text": "WV 0.55"
+          },
+          {
+            "line": 5,
+            "text": "TH 1e20"
+          },
+          {
+            "line": 5,
+            "text": "NXT"
+          },
+          {
+            "line": 6,
+            "text": "RD 20"
+          },
+          {
+            "line": 6,
+            "text": "TH 2"
+          },
+          {
+            "line": 6,
+            "text": "AST"
+          },
+          {
+            "line": 6,
+            "text": "NXT"
+          },
+          {
+            "line": 7,
+            "text": "RD -20"
+          },
+          {
+            "line": 7,
+            "text": "TH 20"
+          },
+          {
+            "line": 7,
+            "text": "NXT"
+          },
+          {
+            "line": 8,
+            "text": "RD 0"
+          },
+          {
+            "line": 8,
+            "text": "END 3"
+          }
+        ],
+        "notes": {},
+        "diagnostics": [],
+        "settings": {},
+        "configurations": {
+          "1": {
+            "thicknesses": {},
+            "wavelengths": {},
+            "wavelength_weights": {},
+            "weight": 1,
+            "active": true
+          }
+        }
+      }
+    }
+  },
+  {
+    "format": "oslo",
+    "text": "LEN NEW \"simple\" 50 3\nEBR 2\nANG 0\nWV 0.55\nTH 1e20; NXT\nRD 20; TH 2; AST; NXT\nRD -20; TH 20; NXT\nRD 0; END 3\nCFG NEW\nTH 1 2 8\nWV1 2 0.6\nWW1 2 2\nEND\nCFWT 2 0.5\nCFAC 2 NO\n",
+    "expected": {
+      "schemaVersion": "1.0",
+      "source": {
+        "format": "oslo",
+        "filename": "<memory>",
+        "encoding": "text",
+        "upstreamRevision": "4e893f53aee1312f2d091680b93dd2279711e197"
+      },
+      "name": "simple",
+      "mode": "sequential",
+      "units": {
+        "length": "mm",
+        "wavelength": "um",
+        "angle": "deg",
+        "sourceLength": "lensUnit",
+        "scaleToMm": 1
+      },
+      "aperture": {
+        "kind": "beamRadiusAtSurface1",
+        "value": 2,
+        "source": {
+          "EPD": 4
+        }
+      },
+      "fields": {
+        "kind": "angle",
+        "points": [],
+        "reference": {
+          "y": 0,
+          "coordinates": "prescriptionExtent"
+        },
+        "source": {
+          "type": "angle",
+          "y": [
+            0
+          ]
+        }
+      },
+      "wavelengths": {
+        "valuesUm": [
+          0.55
+        ],
+        "weights": [
+          1
+        ],
+        "primaryIndex": 0
+      },
+      "surfaces": [
+        {
+          "index": 0,
+          "role": "object",
+          "type": "standard",
+          "radiusMm": {
+            "special": "positiveInfinity"
+          },
+          "thicknessMm": {
+            "special": "positiveInfinity"
+          },
+          "conic": 0,
+          "stop": false,
+          "material": {
+            "kind": "air"
+          },
+          "clearAperture": null,
+          "parameters": {
+            "TH": 100000000000000000000
+          }
+        },
+        {
+          "index": 1,
+          "role": "surface",
+          "type": "standard",
+          "radiusMm": 20,
+          "thicknessMm": 2,
+          "conic": 0,
+          "stop": true,
+          "material": {
+            "kind": "air"
+          },
+          "clearAperture": null,
+          "parameters": {
+            "RD": 20,
+            "TH": 2,
+            "AST": true
+          }
+        },
+        {
+          "index": 2,
+          "role": "surface",
+          "type": "standard",
+          "radiusMm": -20,
+          "thicknessMm": 20,
+          "conic": 0,
+          "stop": false,
+          "material": {
+            "kind": "air"
+          },
+          "clearAperture": null,
+          "parameters": {
+            "RD": -20,
+            "TH": 20
+          }
+        },
+        {
+          "index": 3,
+          "role": "image",
+          "type": "standard",
+          "radiusMm": {
+            "special": "positiveInfinity"
+          },
+          "thicknessMm": 0,
+          "conic": 0,
+          "stop": false,
+          "material": {
+            "kind": "air"
+          },
+          "clearAperture": null,
+          "parameters": {
+            "RD": {
+              "special": "positiveInfinity"
+            }
+          }
+        }
+      ],
+      "diagnostics": [
+        {
+          "severity": "warning",
+          "code": "configuration_declarations",
+          "message": "Base prescription reported; alternative configuration overrides retained in raw.configurations"
+        }
+      ],
+      "raw": {
+        "name": "simple",
+        "scaling": 50,
+        "num_surfaces": 3,
+        "aperture": {
+          "EPD": 4
+        },
+        "fields": {
+          "type": "angle",
+          "y": [
+            0
+          ]
+        },
+        "wavelengths": {
+          "values": [
+            0.55
+          ],
+          "weights": [
+            1
+          ],
+          "primary_index": 0
+        },
+        "surfaces": {
+          "0": {
+            "TH": 100000000000000000000
+          },
+          "1": {
+            "RD": 20,
+            "TH": 2,
+            "AST": true
+          },
+          "2": {
+            "RD": -20,
+            "TH": 20
+          },
+          "3": {
+            "RD": {
+              "special": "positiveInfinity"
+            }
+          }
+        },
+        "units": 1,
+        "records": [
+          {
+            "line": 1,
+            "text": "LEN NEW \"simple\" 50 3"
+          },
+          {
+            "line": 2,
+            "text": "EBR 2"
+          },
+          {
+            "line": 3,
+            "text": "ANG 0"
+          },
+          {
+            "line": 4,
+            "text": "WV 0.55"
+          },
+          {
+            "line": 5,
+            "text": "TH 1e20"
+          },
+          {
+            "line": 5,
+            "text": "NXT"
+          },
+          {
+            "line": 6,
+            "text": "RD 20"
+          },
+          {
+            "line": 6,
+            "text": "TH 2"
+          },
+          {
+            "line": 6,
+            "text": "AST"
+          },
+          {
+            "line": 6,
+            "text": "NXT"
+          },
+          {
+            "line": 7,
+            "text": "RD -20"
+          },
+          {
+            "line": 7,
+            "text": "TH 20"
+          },
+          {
+            "line": 7,
+            "text": "NXT"
+          },
+          {
+            "line": 8,
+            "text": "RD 0"
+          },
+          {
+            "line": 8,
+            "text": "END 3"
+          },
+          {
+            "line": 9,
+            "text": "CFG NEW"
+          },
+          {
+            "line": 10,
+            "text": "TH 1 2 8"
+          },
+          {
+            "line": 11,
+            "text": "WV1 2 0.6"
+          },
+          {
+            "line": 12,
+            "text": "WW1 2 2"
+          },
+          {
+            "line": 13,
+            "text": "END"
+          },
+          {
+            "line": 14,
+            "text": "CFWT 2 0.5"
+          },
+          {
+            "line": 15,
+            "text": "CFAC 2 NO"
+          }
+        ],
+        "notes": {},
+        "diagnostics": [],
+        "settings": {},
+        "configurations": {
+          "1": {
+            "thicknesses": {},
+            "wavelengths": {},
+            "wavelength_weights": {},
+            "weight": 1,
+            "active": true
+          },
+          "2": {
+            "thicknesses": {
+              "1": 8
+            },
+            "wavelengths": {
+              "1": 0.6
+            },
+            "wavelength_weights": {
+              "1": 2
+            },
+            "weight": 0.5,
+            "active": false
+          }
+        }
+      }
+    }
+  },
+  {
+    "format": "oslo",
+    "text": "LEN NEW \"simple\" 50 3\nEBR 2\nANG 0\nWV 0.55\nTH 1e20; NXT\nRD 20; TH 2; AST; NXT\nRD -20; PK TH 1 3; TH 20; PY 0; NXT\nRD 0; END 3\n",
+    "expected": {
+      "schemaVersion": "1.0",
+      "source": {
+        "format": "oslo",
+        "filename": "<memory>",
+        "encoding": "text",
+        "upstreamRevision": "4e893f53aee1312f2d091680b93dd2279711e197"
+      },
+      "name": "simple",
+      "mode": "sequential",
+      "units": {
+        "length": "mm",
+        "wavelength": "um",
+        "angle": "deg",
+        "sourceLength": "lensUnit",
+        "scaleToMm": 1
+      },
+      "aperture": {
+        "kind": "beamRadiusAtSurface1",
+        "value": 2,
+        "source": {
+          "EPD": 4
+        }
+      },
+      "fields": {
+        "kind": "angle",
+        "points": [],
+        "reference": {
+          "y": 0,
+          "coordinates": "prescriptionExtent"
+        },
+        "source": {
+          "type": "angle",
+          "y": [
+            0
+          ]
+        }
+      },
+      "wavelengths": {
+        "valuesUm": [
+          0.55
+        ],
+        "weights": [
+          1
+        ],
+        "primaryIndex": 0
+      },
+      "surfaces": [
+        {
+          "index": 0,
+          "role": "object",
+          "type": "standard",
+          "radiusMm": {
+            "special": "positiveInfinity"
+          },
+          "thicknessMm": {
+            "special": "positiveInfinity"
+          },
+          "conic": 0,
+          "stop": false,
+          "material": {
+            "kind": "air"
+          },
+          "clearAperture": null,
+          "parameters": {
+            "TH": 100000000000000000000
+          }
+        },
+        {
+          "index": 1,
+          "role": "surface",
+          "type": "standard",
+          "radiusMm": 20,
+          "thicknessMm": 2,
+          "conic": 0,
+          "stop": true,
+          "material": {
+            "kind": "air"
+          },
+          "clearAperture": null,
+          "parameters": {
+            "RD": 20,
+            "TH": 2,
+            "AST": true
+          }
+        },
+        {
+          "index": 2,
+          "role": "surface",
+          "type": "standard",
+          "radiusMm": -20,
+          "thicknessMm": 20,
+          "conic": 0,
+          "stop": false,
+          "material": {
+            "kind": "air"
+          },
+          "clearAperture": null,
+          "parameters": {
+            "RD": -20,
+            "pickups": [],
+            "TH": 20,
+            "PY": 0
+          }
+        },
+        {
+          "index": 3,
+          "role": "image",
+          "type": "standard",
+          "radiusMm": {
+            "special": "positiveInfinity"
+          },
+          "thicknessMm": 0,
+          "conic": 0,
+          "stop": false,
+          "material": {
+            "kind": "air"
+          },
+          "clearAperture": null,
+          "parameters": {
+            "RD": {
+              "special": "positiveInfinity"
+            }
+          }
+        }
+      ],
+      "diagnostics": [
+        {
+          "severity": "warning",
+          "code": "unresolved_constraints",
+          "message": "Pickup/solve declarations retained; literal values are not a solved snapshot",
+          "surface": 2
+        }
+      ],
+      "raw": {
+        "name": "simple",
+        "scaling": 50,
+        "num_surfaces": 3,
+        "aperture": {
+          "EPD": 4
+        },
+        "fields": {
+          "type": "angle",
+          "y": [
+            0
+          ]
+        },
+        "wavelengths": {
+          "values": [
+            0.55
+          ],
+          "weights": [
+            1
+          ],
+          "primary_index": 0
+        },
+        "surfaces": {
+          "0": {
+            "TH": 100000000000000000000
+          },
+          "1": {
+            "RD": 20,
+            "TH": 2,
+            "AST": true
+          },
+          "2": {
+            "RD": -20,
+            "pickups": [],
+            "TH": 20,
+            "PY": 0
+          },
+          "3": {
+            "RD": {
+              "special": "positiveInfinity"
+            }
+          }
+        },
+        "units": 1,
+        "records": [
+          {
+            "line": 1,
+            "text": "LEN NEW \"simple\" 50 3"
+          },
+          {
+            "line": 2,
+            "text": "EBR 2"
+          },
+          {
+            "line": 3,
+            "text": "ANG 0"
+          },
+          {
+            "line": 4,
+            "text": "WV 0.55"
+          },
+          {
+            "line": 5,
+            "text": "TH 1e20"
+          },
+          {
+            "line": 5,
+            "text": "NXT"
+          },
+          {
+            "line": 6,
+            "text": "RD 20"
+          },
+          {
+            "line": 6,
+            "text": "TH 2"
+          },
+          {
+            "line": 6,
+            "text": "AST"
+          },
+          {
+            "line": 6,
+            "text": "NXT"
+          },
+          {
+            "line": 7,
+            "text": "RD -20"
+          },
+          {
+            "line": 7,
+            "text": "PK TH 1 3"
+          },
+          {
+            "line": 7,
+            "text": "TH 20"
+          },
+          {
+            "line": 7,
+            "text": "PY 0"
+          },
+          {
+            "line": 7,
+            "text": "NXT"
+          },
+          {
+            "line": 8,
+            "text": "RD 0"
+          },
+          {
+            "line": 8,
+            "text": "END 3"
+          }
+        ],
+        "notes": {},
+        "diagnostics": [],
+        "settings": {},
+        "configurations": {
+          "1": {
+            "thicknesses": {},
+            "wavelengths": {},
+            "wavelength_weights": {},
+            "weight": 1,
+            "active": true
+          }
+        }
+      }
+    }
+  },
+  {
+    "format": "oslo",
+    "text": "LEN NEW \"simple\" 50 3\nEBR 2\nANG 0\nWV 0.55\nTH 1e20; NXT\nRD 20; TH 2; AST; NXT\nPK CV 1 0.01; CC -1; ASP ASR; AS1 1e-4; AS2 1e-6; TH 20; NXT\nRD 0; END 3\n",
+    "expected": {
+      "schemaVersion": "1.0",
+      "source": {
+        "format": "oslo",
+        "filename": "<memory>",
+        "encoding": "text",
+        "upstreamRevision": "4e893f53aee1312f2d091680b93dd2279711e197"
+      },
+      "name": "simple",
+      "mode": "sequential",
+      "units": {
+        "length": "mm",
+        "wavelength": "um",
+        "angle": "deg",
+        "sourceLength": "lensUnit",
+        "scaleToMm": 1
+      },
+      "aperture": {
+        "kind": "beamRadiusAtSurface1",
+        "value": 2,
+        "source": {
+          "EPD": 4
+        }
+      },
+      "fields": {
+        "kind": "angle",
+        "points": [],
+        "reference": {
+          "y": 0,
+          "coordinates": "prescriptionExtent"
+        },
+        "source": {
+          "type": "angle",
+          "y": [
+            0
+          ]
+        }
+      },
+      "wavelengths": {
+        "valuesUm": [
+          0.55
+        ],
+        "weights": [
+          1
+        ],
+        "primaryIndex": 0
+      },
+      "surfaces": [
+        {
+          "index": 0,
+          "role": "object",
+          "type": "standard",
+          "radiusMm": {
+            "special": "positiveInfinity"
+          },
+          "thicknessMm": {
+            "special": "positiveInfinity"
+          },
+          "conic": 0,
+          "stop": false,
+          "material": {
+            "kind": "air"
+          },
+          "clearAperture": null,
+          "parameters": {
+            "TH": 100000000000000000000
+          }
+        },
+        {
+          "index": 1,
+          "role": "surface",
+          "type": "standard",
+          "radiusMm": 20,
+          "thicknessMm": 2,
+          "conic": 0,
+          "stop": true,
+          "material": {
+            "kind": "air"
+          },
+          "clearAperture": null,
+          "parameters": {
+            "RD": 20,
+            "TH": 2,
+            "AST": true
+          }
+        },
+        {
+          "index": 2,
+          "role": "surface",
+          "type": "even_asphere",
+          "radiusMm": {
+            "special": "positiveInfinity"
+          },
+          "thicknessMm": 20,
+          "conic": -1,
+          "stop": false,
+          "material": {
+            "kind": "air"
+          },
+          "clearAperture": null,
+          "parameters": {
+            "pickups": [
+              [
+                "CV",
+                "1",
+                "0.01"
+              ]
+            ],
+            "CC": -1,
+            "ASP": "ASR",
+            "AS1": 0.0001,
+            "AS2": 0.000001,
+            "TH": 20
+          }
+        },
+        {
+          "index": 3,
+          "role": "image",
+          "type": "standard",
+          "radiusMm": {
+            "special": "positiveInfinity"
+          },
+          "thicknessMm": 0,
+          "conic": 0,
+          "stop": false,
+          "material": {
+            "kind": "air"
+          },
+          "clearAperture": null,
+          "parameters": {
+            "RD": {
+              "special": "positiveInfinity"
+            }
+          }
+        }
+      ],
+      "diagnostics": [
+        {
+          "severity": "warning",
+          "code": "unresolved_constraints",
+          "message": "Pickup/solve declarations retained; literal values are not a solved snapshot",
+          "surface": 2
+        }
+      ],
+      "raw": {
+        "name": "simple",
+        "scaling": 50,
+        "num_surfaces": 3,
+        "aperture": {
+          "EPD": 4
+        },
+        "fields": {
+          "type": "angle",
+          "y": [
+            0
+          ]
+        },
+        "wavelengths": {
+          "values": [
+            0.55
+          ],
+          "weights": [
+            1
+          ],
+          "primary_index": 0
+        },
+        "surfaces": {
+          "0": {
+            "TH": 100000000000000000000
+          },
+          "1": {
+            "RD": 20,
+            "TH": 2,
+            "AST": true
+          },
+          "2": {
+            "pickups": [
+              [
+                "CV",
+                "1",
+                "0.01"
+              ]
+            ],
+            "CC": -1,
+            "ASP": "ASR",
+            "AS1": 0.0001,
+            "AS2": 0.000001,
+            "TH": 20
+          },
+          "3": {
+            "RD": {
+              "special": "positiveInfinity"
+            }
+          }
+        },
+        "units": 1,
+        "records": [
+          {
+            "line": 1,
+            "text": "LEN NEW \"simple\" 50 3"
+          },
+          {
+            "line": 2,
+            "text": "EBR 2"
+          },
+          {
+            "line": 3,
+            "text": "ANG 0"
+          },
+          {
+            "line": 4,
+            "text": "WV 0.55"
+          },
+          {
+            "line": 5,
+            "text": "TH 1e20"
+          },
+          {
+            "line": 5,
+            "text": "NXT"
+          },
+          {
+            "line": 6,
+            "text": "RD 20"
+          },
+          {
+            "line": 6,
+            "text": "TH 2"
+          },
+          {
+            "line": 6,
+            "text": "AST"
+          },
+          {
+            "line": 6,
+            "text": "NXT"
+          },
+          {
+            "line": 7,
+            "text": "PK CV 1 0.01"
+          },
+          {
+            "line": 7,
+            "text": "CC -1"
+          },
+          {
+            "line": 7,
+            "text": "ASP ASR"
+          },
+          {
+            "line": 7,
+            "text": "AS1 1e-4"
+          },
+          {
+            "line": 7,
+            "text": "AS2 1e-6"
+          },
+          {
+            "line": 7,
+            "text": "TH 20"
+          },
+          {
+            "line": 7,
+            "text": "NXT"
+          },
+          {
+            "line": 8,
+            "text": "RD 0"
+          },
+          {
+            "line": 8,
+            "text": "END 3"
+          }
+        ],
+        "notes": {},
+        "diagnostics": [],
+        "settings": {},
+        "configurations": {
+          "1": {
+            "thicknesses": {},
+            "wavelengths": {},
+            "wavelength_weights": {},
+            "weight": 1,
+            "active": true
+          }
+        }
+      }
+    }
+  },
+  {
+    "format": "oslo",
+    "text": "LEN NEW \"simple\" 50 3\nEBR 2\nANG 0\nWV 0.55\nTH 1e20; NXT\nDCX 1; TLA 2; DT -1; TOY 3; RD 20; TH 2; AST; NXT\nRD -20; TH 20; NXT\nRD 0; END 3\n",
+    "expected": {
+      "schemaVersion": "1.0",
+      "source": {
+        "format": "oslo",
+        "filename": "<memory>",
+        "encoding": "text",
+        "upstreamRevision": "4e893f53aee1312f2d091680b93dd2279711e197"
+      },
+      "name": "simple",
+      "mode": "sequential",
+      "units": {
+        "length": "mm",
+        "wavelength": "um",
+        "angle": "deg",
+        "sourceLength": "lensUnit",
+        "scaleToMm": 1
+      },
+      "aperture": {
+        "kind": "beamRadiusAtSurface1",
+        "value": 2,
+        "source": {
+          "EPD": 4
+        }
+      },
+      "fields": {
+        "kind": "angle",
+        "points": [],
+        "reference": {
+          "y": 0,
+          "coordinates": "prescriptionExtent"
+        },
+        "source": {
+          "type": "angle",
+          "y": [
+            0
+          ]
+        }
+      },
+      "wavelengths": {
+        "valuesUm": [
+          0.55
+        ],
+        "weights": [
+          1
+        ],
+        "primaryIndex": 0
+      },
+      "surfaces": [
+        {
+          "index": 0,
+          "role": "object",
+          "type": "standard",
+          "radiusMm": {
+            "special": "positiveInfinity"
+          },
+          "thicknessMm": {
+            "special": "positiveInfinity"
+          },
+          "conic": 0,
+          "stop": false,
+          "material": {
+            "kind": "air"
+          },
+          "clearAperture": null,
+          "parameters": {
+            "TH": 100000000000000000000
+          }
+        },
+        {
+          "index": 1,
+          "role": "surface",
+          "type": "standard",
+          "radiusMm": 20,
+          "thicknessMm": 2,
+          "conic": 0,
+          "stop": true,
+          "material": {
+            "kind": "air"
+          },
+          "clearAperture": null,
+          "parameters": {
+            "DCX": 1,
+            "TLA": 2,
+            "DT": -1,
+            "TOY": 3,
+            "RD": 20,
+            "TH": 2,
+            "AST": true
+          }
+        },
+        {
+          "index": 2,
+          "role": "surface",
+          "type": "standard",
+          "radiusMm": -20,
+          "thicknessMm": 20,
+          "conic": 0,
+          "stop": false,
+          "material": {
+            "kind": "air"
+          },
+          "clearAperture": null,
+          "parameters": {
+            "RD": -20,
+            "TH": 20
+          }
+        },
+        {
+          "index": 3,
+          "role": "image",
+          "type": "standard",
+          "radiusMm": {
+            "special": "positiveInfinity"
+          },
+          "thicknessMm": 0,
+          "conic": 0,
+          "stop": false,
+          "material": {
+            "kind": "air"
+          },
+          "clearAperture": null,
+          "parameters": {
+            "RD": {
+              "special": "positiveInfinity"
+            }
+          }
+        }
+      ],
+      "diagnostics": [
+        {
+          "severity": "warning",
+          "code": "unresolved_coordinates",
+          "message": "Coordinate declarations retained; no global frame is calculated",
+          "surface": 1
+        }
+      ],
+      "raw": {
+        "name": "simple",
+        "scaling": 50,
+        "num_surfaces": 3,
+        "aperture": {
+          "EPD": 4
+        },
+        "fields": {
+          "type": "angle",
+          "y": [
+            0
+          ]
+        },
+        "wavelengths": {
+          "values": [
+            0.55
+          ],
+          "weights": [
+            1
+          ],
+          "primary_index": 0
+        },
+        "surfaces": {
+          "0": {
+            "TH": 100000000000000000000
+          },
+          "1": {
+            "DCX": 1,
+            "TLA": 2,
+            "DT": -1,
+            "TOY": 3,
+            "RD": 20,
+            "TH": 2,
+            "AST": true
+          },
+          "2": {
+            "RD": -20,
+            "TH": 20
+          },
+          "3": {
+            "RD": {
+              "special": "positiveInfinity"
+            }
+          }
+        },
+        "units": 1,
+        "records": [
+          {
+            "line": 1,
+            "text": "LEN NEW \"simple\" 50 3"
+          },
+          {
+            "line": 2,
+            "text": "EBR 2"
+          },
+          {
+            "line": 3,
+            "text": "ANG 0"
+          },
+          {
+            "line": 4,
+            "text": "WV 0.55"
+          },
+          {
+            "line": 5,
+            "text": "TH 1e20"
+          },
+          {
+            "line": 5,
+            "text": "NXT"
+          },
+          {
+            "line": 6,
+            "text": "DCX 1"
+          },
+          {
+            "line": 6,
+            "text": "TLA 2"
+          },
+          {
+            "line": 6,
+            "text": "DT -1"
+          },
+          {
+            "line": 6,
+            "text": "TOY 3"
+          },
+          {
+            "line": 6,
+            "text": "RD 20"
+          },
+          {
+            "line": 6,
+            "text": "TH 2"
+          },
+          {
+            "line": 6,
+            "text": "AST"
+          },
+          {
+            "line": 6,
+            "text": "NXT"
+          },
+          {
+            "line": 7,
+            "text": "RD -20"
+          },
+          {
+            "line": 7,
+            "text": "TH 20"
+          },
+          {
+            "line": 7,
+            "text": "NXT"
+          },
+          {
+            "line": 8,
+            "text": "RD 0"
+          },
+          {
+            "line": 8,
+            "text": "END 3"
+          }
+        ],
+        "notes": {},
+        "diagnostics": [],
+        "settings": {},
+        "configurations": {
+          "1": {
+            "thicknesses": {},
+            "wavelengths": {},
+            "wavelength_weights": {},
+            "weight": 1,
+            "active": true
+          }
+        }
+      }
+    }
+  },
+  {
+    "format": "oslo",
+    "text": "LEN NEW \"simple\" 50 3\nEBR 2\nANG 0\nWV 0.55\nTH 1e20; NXT\nRD 20; TH 2; AST; NXT\nRD -20; TH 20; NXT\nRD 0; END 3\nRST NEW\nF 1 0.7 0 0 0 0 -1 1 -1 1 1\nEND\n",
+    "expected": {
+      "schemaVersion": "1.0",
+      "source": {
+        "format": "oslo",
+        "filename": "<memory>",
+        "encoding": "text",
+        "upstreamRevision": "4e893f53aee1312f2d091680b93dd2279711e197"
+      },
+      "name": "simple",
+      "mode": "sequential",
+      "units": {
+        "length": "mm",
+        "wavelength": "um",
+        "angle": "deg",
+        "sourceLength": "lensUnit",
+        "scaleToMm": 1
+      },
+      "aperture": {
+        "kind": "beamRadiusAtSurface1",
+        "value": 2,
+        "source": {
+          "EPD": 4
+        }
+      },
+      "fields": {
+        "kind": "angle",
+        "points": [],
+        "reference": {
+          "y": 0,
+          "coordinates": "prescriptionExtent"
+        },
+        "source": {
+          "type": "angle",
+          "y": [
+            0
+          ],
+          "points": {
+            "1": {
+              "y": 0.7,
+              "x": 0,
+              "weight": 1,
+              "vy": 0,
+              "vx": 0
+            }
+          }
+        }
+      },
+      "wavelengths": {
+        "valuesUm": [
+          0.55
+        ],
+        "weights": [
+          1
+        ],
+        "primaryIndex": 0
+      },
+      "surfaces": [
+        {
+          "index": 0,
+          "role": "object",
+          "type": "standard",
+          "radiusMm": {
+            "special": "positiveInfinity"
+          },
+          "thicknessMm": {
+            "special": "positiveInfinity"
+          },
+          "conic": 0,
+          "stop": false,
+          "material": {
+            "kind": "air"
+          },
+          "clearAperture": null,
+          "parameters": {
+            "TH": 100000000000000000000
+          }
+        },
+        {
+          "index": 1,
+          "role": "surface",
+          "type": "standard",
+          "radiusMm": 20,
+          "thicknessMm": 2,
+          "conic": 0,
+          "stop": true,
+          "material": {
+            "kind": "air"
+          },
+          "clearAperture": null,
+          "parameters": {
+            "RD": 20,
+            "TH": 2,
+            "AST": true
+          }
+        },
+        {
+          "index": 2,
+          "role": "surface",
+          "type": "standard",
+          "radiusMm": -20,
+          "thicknessMm": 20,
+          "conic": 0,
+          "stop": false,
+          "material": {
+            "kind": "air"
+          },
+          "clearAperture": null,
+          "parameters": {
+            "RD": -20,
+            "TH": 20
+          }
+        },
+        {
+          "index": 3,
+          "role": "image",
+          "type": "standard",
+          "radiusMm": {
+            "special": "positiveInfinity"
+          },
+          "thicknessMm": 0,
+          "conic": 0,
+          "stop": false,
+          "material": {
+            "kind": "air"
+          },
+          "clearAperture": null,
+          "parameters": {
+            "RD": {
+              "special": "positiveInfinity"
+            }
+          }
+        }
+      ],
+      "diagnostics": [
+        {
+          "severity": "warning",
+          "code": "relative_field_table",
+          "message": "OSLO field-table coordinates are retained as relative prescription data; no optical conversion is executed"
+        }
+      ],
+      "raw": {
+        "name": "simple",
+        "scaling": 50,
+        "num_surfaces": 3,
+        "aperture": {
+          "EPD": 4
+        },
+        "fields": {
+          "type": "angle",
+          "y": [
+            0
+          ],
+          "points": {
+            "1": {
+              "y": 0.7,
+              "x": 0,
+              "weight": 1,
+              "vy": 0,
+              "vx": 0
+            }
+          }
+        },
+        "wavelengths": {
+          "values": [
+            0.55
+          ],
+          "weights": [
+            1
+          ],
+          "primary_index": 0
+        },
+        "surfaces": {
+          "0": {
+            "TH": 100000000000000000000
+          },
+          "1": {
+            "RD": 20,
+            "TH": 2,
+            "AST": true
+          },
+          "2": {
+            "RD": -20,
+            "TH": 20
+          },
+          "3": {
+            "RD": {
+              "special": "positiveInfinity"
+            }
+          }
+        },
+        "units": 1,
+        "records": [
+          {
+            "line": 1,
+            "text": "LEN NEW \"simple\" 50 3"
+          },
+          {
+            "line": 2,
+            "text": "EBR 2"
+          },
+          {
+            "line": 3,
+            "text": "ANG 0"
+          },
+          {
+            "line": 4,
+            "text": "WV 0.55"
+          },
+          {
+            "line": 5,
+            "text": "TH 1e20"
+          },
+          {
+            "line": 5,
+            "text": "NXT"
+          },
+          {
+            "line": 6,
+            "text": "RD 20"
+          },
+          {
+            "line": 6,
+            "text": "TH 2"
+          },
+          {
+            "line": 6,
+            "text": "AST"
+          },
+          {
+            "line": 6,
+            "text": "NXT"
+          },
+          {
+            "line": 7,
+            "text": "RD -20"
+          },
+          {
+            "line": 7,
+            "text": "TH 20"
+          },
+          {
+            "line": 7,
+            "text": "NXT"
+          },
+          {
+            "line": 8,
+            "text": "RD 0"
+          },
+          {
+            "line": 8,
+            "text": "END 3"
+          },
+          {
+            "line": 9,
+            "text": "RST NEW"
+          },
+          {
+            "line": 10,
+            "text": "F 1 0.7 0 0 0 0 -1 1 -1 1 1"
+          },
+          {
+            "line": 11,
+            "text": "END"
+          }
+        ],
+        "notes": {},
+        "diagnostics": [],
+        "settings": {},
+        "configurations": {
+          "1": {
+            "thicknesses": {},
+            "wavelengths": {},
+            "wavelength_weights": {},
+            "weight": 1,
+            "active": true
+          }
+        }
+      }
+    }
+  },
+  {
+    "format": "oslo",
+    "text": "LEN NEW \"simple\" 50 3\nEBR 2\nANG 0\nWV 0.55\nTH 1e20; NXT\nGLA MOD G1 1.6 50; RD 20; TH 2; AST; NXT\nRD -20; TH 20; NXT\nRD 0; END 3\n",
+    "expected": {
+      "schemaVersion": "1.0",
+      "source": {
+        "format": "oslo",
+        "filename": "<memory>",
+        "encoding": "text",
+        "upstreamRevision": "4e893f53aee1312f2d091680b93dd2279711e197"
+      },
+      "name": "simple",
+      "mode": "sequential",
+      "units": {
+        "length": "mm",
+        "wavelength": "um",
+        "angle": "deg",
+        "sourceLength": "lensUnit",
+        "scaleToMm": 1
+      },
+      "aperture": {
+        "kind": "beamRadiusAtSurface1",
+        "value": 2,
+        "source": {
+          "EPD": 4
+        }
+      },
+      "fields": {
+        "kind": "angle",
+        "points": [],
+        "reference": {
+          "y": 0,
+          "coordinates": "prescriptionExtent"
+        },
+        "source": {
+          "type": "angle",
+          "y": [
+            0
+          ]
+        }
+      },
+      "wavelengths": {
+        "valuesUm": [
+          0.55
+        ],
+        "weights": [
+          1
+        ],
+        "primaryIndex": 0
+      },
+      "surfaces": [
+        {
+          "index": 0,
+          "role": "object",
+          "type": "standard",
+          "radiusMm": {
+            "special": "positiveInfinity"
+          },
+          "thicknessMm": {
+            "special": "positiveInfinity"
+          },
+          "conic": 0,
+          "stop": false,
+          "material": {
+            "kind": "air"
+          },
+          "clearAperture": null,
+          "parameters": {
+            "TH": 100000000000000000000
+          }
+        },
+        {
+          "index": 1,
+          "role": "surface",
+          "type": "standard",
+          "radiusMm": 20,
+          "thicknessMm": 2,
+          "conic": 0,
+          "stop": true,
+          "material": {
+            "kind": "model",
+            "name": "G1",
+            "nd": 1.6,
+            "vd": 50,
+            "dispersion": "unspecified",
+            "resolution": "unresolved"
+          },
+          "clearAperture": null,
+          "parameters": {
+            "material": "GLA MOD G1 1.6 50",
+            "glass_wavelengths": [
+              0.55
+            ],
+            "RD": 20,
+            "TH": 2,
+            "AST": true
+          }
+        },
+        {
+          "index": 2,
+          "role": "surface",
+          "type": "standard",
+          "radiusMm": -20,
+          "thicknessMm": 20,
+          "conic": 0,
+          "stop": false,
+          "material": {
+            "kind": "air"
+          },
+          "clearAperture": null,
+          "parameters": {
+            "RD": -20,
+            "TH": 20
+          }
+        },
+        {
+          "index": 3,
+          "role": "image",
+          "type": "standard",
+          "radiusMm": {
+            "special": "positiveInfinity"
+          },
+          "thicknessMm": 0,
+          "conic": 0,
+          "stop": false,
+          "material": {
+            "kind": "air"
+          },
+          "clearAperture": null,
+          "parameters": {
+            "RD": {
+              "special": "positiveInfinity"
+            }
+          }
+        }
+      ],
+      "diagnostics": [
+        {
+          "severity": "warning",
+          "code": "unresolved_material",
+          "message": "Material identity preserved; catalog lookup and dispersion fitting are not executed",
+          "surface": 1
+        }
+      ],
+      "raw": {
+        "name": "simple",
+        "scaling": 50,
+        "num_surfaces": 3,
+        "aperture": {
+          "EPD": 4
+        },
+        "fields": {
+          "type": "angle",
+          "y": [
+            0
+          ]
+        },
+        "wavelengths": {
+          "values": [
+            0.55
+          ],
+          "weights": [
+            1
+          ],
+          "primary_index": 0
+        },
+        "surfaces": {
+          "0": {
+            "TH": 100000000000000000000
+          },
+          "1": {
+            "material": "GLA MOD G1 1.6 50",
+            "glass_wavelengths": [
+              0.55
+            ],
+            "RD": 20,
+            "TH": 2,
+            "AST": true
+          },
+          "2": {
+            "RD": -20,
+            "TH": 20
+          },
+          "3": {
+            "RD": {
+              "special": "positiveInfinity"
+            }
+          }
+        },
+        "units": 1,
+        "records": [
+          {
+            "line": 1,
+            "text": "LEN NEW \"simple\" 50 3"
+          },
+          {
+            "line": 2,
+            "text": "EBR 2"
+          },
+          {
+            "line": 3,
+            "text": "ANG 0"
+          },
+          {
+            "line": 4,
+            "text": "WV 0.55"
+          },
+          {
+            "line": 5,
+            "text": "TH 1e20"
+          },
+          {
+            "line": 5,
+            "text": "NXT"
+          },
+          {
+            "line": 6,
+            "text": "GLA MOD G1 1.6 50"
+          },
+          {
+            "line": 6,
+            "text": "RD 20"
+          },
+          {
+            "line": 6,
+            "text": "TH 2"
+          },
+          {
+            "line": 6,
+            "text": "AST"
+          },
+          {
+            "line": 6,
+            "text": "NXT"
+          },
+          {
+            "line": 7,
+            "text": "RD -20"
+          },
+          {
+            "line": 7,
+            "text": "TH 20"
+          },
+          {
+            "line": 7,
+            "text": "NXT"
+          },
+          {
+            "line": 8,
+            "text": "RD 0"
+          },
+          {
+            "line": 8,
+            "text": "END 3"
+          }
+        ],
+        "notes": {},
+        "diagnostics": [],
+        "settings": {},
+        "configurations": {
+          "1": {
+            "thicknesses": {},
+            "wavelengths": {},
+            "wavelength_weights": {},
+            "weight": 1,
+            "active": true
+          }
+        }
+      }
+    }
+  },
+  {
+    "format": "oslo",
+    "text": "LEN NEW \"simple\" 50 3\nEBR 2\nANG 0\nWV 0.55 0.65 0.75\nTH 1e20; NXT\nGLA 1.6 1.5 1.4; RD 20; TH 2; AST; NXT\nRD -20; TH 20; NXT\nRD 0; END 3\n",
+    "expected": {
+      "schemaVersion": "1.0",
+      "source": {
+        "format": "oslo",
+        "filename": "<memory>",
+        "encoding": "text",
+        "upstreamRevision": "4e893f53aee1312f2d091680b93dd2279711e197"
+      },
+      "name": "simple",
+      "mode": "sequential",
+      "units": {
+        "length": "mm",
+        "wavelength": "um",
+        "angle": "deg",
+        "sourceLength": "lensUnit",
+        "scaleToMm": 1
+      },
+      "aperture": {
+        "kind": "beamRadiusAtSurface1",
+        "value": 2,
+        "source": {
+          "EPD": 4
+        }
+      },
+      "fields": {
+        "kind": "angle",
+        "points": [],
+        "reference": {
+          "y": 0,
+          "coordinates": "prescriptionExtent"
+        },
+        "source": {
+          "type": "angle",
+          "y": [
+            0
+          ]
+        }
+      },
+      "wavelengths": {
+        "valuesUm": [
+          0.55,
+          0.65,
+          0.75
+        ],
+        "weights": [
+          1,
+          1,
+          1
+        ],
+        "primaryIndex": 0
+      },
+      "surfaces": [
+        {
+          "index": 0,
+          "role": "object",
+          "type": "standard",
+          "radiusMm": {
+            "special": "positiveInfinity"
+          },
+          "thicknessMm": {
+            "special": "positiveInfinity"
+          },
+          "conic": 0,
+          "stop": false,
+          "material": {
+            "kind": "air"
+          },
+          "clearAperture": null,
+          "parameters": {
+            "TH": 100000000000000000000
+          }
+        },
+        {
+          "index": 1,
+          "role": "surface",
+          "type": "standard",
+          "radiusMm": 20,
+          "thicknessMm": 2,
+          "conic": 0,
+          "stop": true,
+          "material": {
+            "kind": "sampledIndex",
+            "name": null,
+            "wavelengthsUm": [
+              0.55,
+              0.65,
+              0.75
+            ],
+            "indices": [
+              1.6,
+              1.5,
+              1.4
+            ]
+          },
+          "clearAperture": null,
+          "parameters": {
+            "material": "GLA 1.6 1.5 1.4",
+            "glass_wavelengths": [
+              0.55,
+              0.65,
+              0.75
+            ],
+            "RD": 20,
+            "TH": 2,
+            "AST": true
+          }
+        },
+        {
+          "index": 2,
+          "role": "surface",
+          "type": "standard",
+          "radiusMm": -20,
+          "thicknessMm": 20,
+          "conic": 0,
+          "stop": false,
+          "material": {
+            "kind": "air"
+          },
+          "clearAperture": null,
+          "parameters": {
+            "RD": -20,
+            "TH": 20
+          }
+        },
+        {
+          "index": 3,
+          "role": "image",
+          "type": "standard",
+          "radiusMm": {
+            "special": "positiveInfinity"
+          },
+          "thicknessMm": 0,
+          "conic": 0,
+          "stop": false,
+          "material": {
+            "kind": "air"
+          },
+          "clearAperture": null,
+          "parameters": {
+            "RD": {
+              "special": "positiveInfinity"
+            }
+          }
+        }
+      ],
+      "diagnostics": [],
+      "raw": {
+        "name": "simple",
+        "scaling": 50,
+        "num_surfaces": 3,
+        "aperture": {
+          "EPD": 4
+        },
+        "fields": {
+          "type": "angle",
+          "y": [
+            0
+          ]
+        },
+        "wavelengths": {
+          "values": [
+            0.55,
+            0.65,
+            0.75
+          ],
+          "weights": [
+            1,
+            1,
+            1
+          ],
+          "primary_index": 0
+        },
+        "surfaces": {
+          "0": {
+            "TH": 100000000000000000000
+          },
+          "1": {
+            "material": "GLA 1.6 1.5 1.4",
+            "glass_wavelengths": [
+              0.55,
+              0.65,
+              0.75
+            ],
+            "RD": 20,
+            "TH": 2,
+            "AST": true
+          },
+          "2": {
+            "RD": -20,
+            "TH": 20
+          },
+          "3": {
+            "RD": {
+              "special": "positiveInfinity"
+            }
+          }
+        },
+        "units": 1,
+        "records": [
+          {
+            "line": 1,
+            "text": "LEN NEW \"simple\" 50 3"
+          },
+          {
+            "line": 2,
+            "text": "EBR 2"
+          },
+          {
+            "line": 3,
+            "text": "ANG 0"
+          },
+          {
+            "line": 4,
+            "text": "WV 0.55 0.65 0.75"
+          },
+          {
+            "line": 5,
+            "text": "TH 1e20"
+          },
+          {
+            "line": 5,
+            "text": "NXT"
+          },
+          {
+            "line": 6,
+            "text": "GLA 1.6 1.5 1.4"
+          },
+          {
+            "line": 6,
+            "text": "RD 20"
+          },
+          {
+            "line": 6,
+            "text": "TH 2"
+          },
+          {
+            "line": 6,
+            "text": "AST"
+          },
+          {
+            "line": 6,
+            "text": "NXT"
+          },
+          {
+            "line": 7,
+            "text": "RD -20"
+          },
+          {
+            "line": 7,
+            "text": "TH 20"
+          },
+          {
+            "line": 7,
+            "text": "NXT"
+          },
+          {
+            "line": 8,
+            "text": "RD 0"
+          },
+          {
+            "line": 8,
+            "text": "END 3"
+          }
+        ],
+        "notes": {},
+        "diagnostics": [],
+        "settings": {},
+        "configurations": {
+          "1": {
+            "thicknesses": {},
+            "wavelengths": {},
+            "wavelength_weights": {},
+            "weight": 1,
+            "active": true
+          }
+        }
+      }
+    }
+  },
+  {
+    "format": "oslo",
+    "text": "LEN NEW \"simple\" 50 3\nEBR 2\nANG 0\nWV 0.55\nTH 1e20; NXT\nASP 1 4; AS1 0.1; ATD; PK CV 0; CSD; RD 20; TH 2; AST; NXT\nRD -20; TH 20; NXT\nRD 0; END 3\n",
+    "expected": {
+      "schemaVersion": "1.0",
+      "source": {
+        "format": "oslo",
+        "filename": "<memory>",
+        "encoding": "text",
+        "upstreamRevision": "4e893f53aee1312f2d091680b93dd2279711e197"
+      },
+      "name": "simple",
+      "mode": "sequential",
+      "units": {
+        "length": "mm",
+        "wavelength": "um",
+        "angle": "deg",
+        "sourceLength": "lensUnit",
+        "scaleToMm": 1
+      },
+      "aperture": {
+        "kind": "beamRadiusAtSurface1",
+        "value": 2,
+        "source": {
+          "EPD": 4
+        }
+      },
+      "fields": {
+        "kind": "angle",
+        "points": [],
+        "reference": {
+          "y": 0,
+          "coordinates": "prescriptionExtent"
+        },
+        "source": {
+          "type": "angle",
+          "y": [
+            0
+          ]
+        }
+      },
+      "wavelengths": {
+        "valuesUm": [
+          0.55
+        ],
+        "weights": [
+          1
+        ],
+        "primaryIndex": 0
+      },
+      "surfaces": [
+        {
+          "index": 0,
+          "role": "object",
+          "type": "standard",
+          "radiusMm": {
+            "special": "positiveInfinity"
+          },
+          "thicknessMm": {
+            "special": "positiveInfinity"
+          },
+          "conic": 0,
+          "stop": false,
+          "material": {
+            "kind": "air"
+          },
+          "clearAperture": null,
+          "parameters": {
+            "TH": 100000000000000000000
+          }
+        },
+        {
+          "index": 1,
+          "role": "surface",
+          "type": "standard",
+          "radiusMm": 20,
+          "thicknessMm": 2,
+          "conic": 0,
+          "stop": true,
+          "material": {
+            "kind": "air"
+          },
+          "clearAperture": null,
+          "parameters": {
+            "pickups": [],
+            "RD": 20,
+            "TH": 2,
+            "AST": true
+          }
+        },
+        {
+          "index": 2,
+          "role": "surface",
+          "type": "standard",
+          "radiusMm": -20,
+          "thicknessMm": 20,
+          "conic": 0,
+          "stop": false,
+          "material": {
+            "kind": "air"
+          },
+          "clearAperture": null,
+          "parameters": {
+            "RD": -20,
+            "TH": 20
+          }
+        },
+        {
+          "index": 3,
+          "role": "image",
+          "type": "standard",
+          "radiusMm": {
+            "special": "positiveInfinity"
+          },
+          "thicknessMm": 0,
+          "conic": 0,
+          "stop": false,
+          "material": {
+            "kind": "air"
+          },
+          "clearAperture": null,
+          "parameters": {
+            "RD": {
+              "special": "positiveInfinity"
+            }
+          }
+        }
+      ],
+      "diagnostics": [
+        {
+          "severity": "warning",
+          "code": "unresolved_constraints",
+          "message": "Pickup/solve declarations retained; literal values are not a solved snapshot",
+          "surface": 1
+        }
+      ],
+      "raw": {
+        "name": "simple",
+        "scaling": 50,
+        "num_surfaces": 3,
+        "aperture": {
+          "EPD": 4
+        },
+        "fields": {
+          "type": "angle",
+          "y": [
+            0
+          ]
+        },
+        "wavelengths": {
+          "values": [
+            0.55
+          ],
+          "weights": [
+            1
+          ],
+          "primary_index": 0
+        },
+        "surfaces": {
+          "0": {
+            "TH": 100000000000000000000
+          },
+          "1": {
+            "pickups": [],
+            "RD": 20,
+            "TH": 2,
+            "AST": true
+          },
+          "2": {
+            "RD": -20,
+            "TH": 20
+          },
+          "3": {
+            "RD": {
+              "special": "positiveInfinity"
+            }
+          }
+        },
+        "units": 1,
+        "records": [
+          {
+            "line": 1,
+            "text": "LEN NEW \"simple\" 50 3"
+          },
+          {
+            "line": 2,
+            "text": "EBR 2"
+          },
+          {
+            "line": 3,
+            "text": "ANG 0"
+          },
+          {
+            "line": 4,
+            "text": "WV 0.55"
+          },
+          {
+            "line": 5,
+            "text": "TH 1e20"
+          },
+          {
+            "line": 5,
+            "text": "NXT"
+          },
+          {
+            "line": 6,
+            "text": "ASP 1 4"
+          },
+          {
+            "line": 6,
+            "text": "AS1 0.1"
+          },
+          {
+            "line": 6,
+            "text": "ATD"
+          },
+          {
+            "line": 6,
+            "text": "PK CV 0"
+          },
+          {
+            "line": 6,
+            "text": "CSD"
+          },
+          {
+            "line": 6,
+            "text": "RD 20"
+          },
+          {
+            "line": 6,
+            "text": "TH 2"
+          },
+          {
+            "line": 6,
+            "text": "AST"
+          },
+          {
+            "line": 6,
+            "text": "NXT"
+          },
+          {
+            "line": 7,
+            "text": "RD -20"
+          },
+          {
+            "line": 7,
+            "text": "TH 20"
+          },
+          {
+            "line": 7,
+            "text": "NXT"
+          },
+          {
+            "line": 8,
+            "text": "RD 0"
+          },
+          {
+            "line": 8,
+            "text": "END 3"
+          }
+        ],
+        "notes": {},
+        "diagnostics": [],
+        "settings": {},
+        "configurations": {
+          "1": {
+            "thicknesses": {},
+            "wavelengths": {},
+            "wavelength_weights": {},
+            "weight": 1,
+            "active": true
+          }
+        }
+      }
+    }
+  },
+  {
+    "format": "zemax",
+    "text": "NAME simple\nUNIT MM\nENPD 4\nWAVM 1 0.55 1\nPWAV 1\nSURF 0\nCURV 0\nDISZ INFINITY\nSURF 1\nCURV 0.05\nDISZ 2\nXFLD 0 1\nYFLD 0 1\nFWGN\nSTOP\nSURF 2\nCURV -0.05\nDISZ 20\nSURF 3\nCURV 0\nDISZ 0\n",
+    "expected": {
+      "schemaVersion": "1.0",
+      "source": {
+        "format": "zemax",
+        "filename": "<memory>",
+        "encoding": "text",
+        "upstreamRevision": "4e893f53aee1312f2d091680b93dd2279711e197"
+      },
+      "name": "simple",
+      "mode": "sequential",
+      "units": {
+        "length": "mm",
+        "wavelength": "um",
+        "angle": "deg",
+        "sourceLength": "MM",
+        "scaleToMm": 1
+      },
+      "aperture": {
+        "kind": "entrancePupilDiameter",
+        "value": 4,
+        "source": {
+          "EPD": 4
+        }
+      },
+      "fields": {
+        "kind": "angle",
+        "points": [
+          {
+            "x": 0,
+            "y": 0,
+            "weight": 1,
+            "vignetting": {}
+          },
+          {
+            "x": 1,
+            "y": 1,
+            "weight": 1,
+            "vignetting": {}
+          }
+        ],
+        "reference": null,
+        "source": {
+          "type": "angle",
+          "object_space_telecentric": false,
+          "afocal_image_space": false,
+          "x": [
+            0,
+            1
+          ],
+          "y": [
+            0,
+            1
+          ],
+          "num_fields": 2,
+          "weights": []
+        }
+      },
+      "wavelengths": {
+        "valuesUm": [
+          0.55
+        ],
+        "weights": [
+          1
+        ],
+        "primaryIndex": 0
+      },
+      "surfaces": [
+        {
+          "index": 0,
+          "role": "object",
+          "type": "standard",
+          "radiusMm": {
+            "special": "positiveInfinity"
+          },
+          "thicknessMm": {
+            "special": "positiveInfinity"
+          },
+          "conic": 0,
+          "stop": false,
+          "material": {
+            "kind": "air"
+          },
+          "clearAperture": null,
+          "parameters": {
+            "type": "standard",
+            "is_stop": false,
+            "conic": 0,
+            "material": "air",
+            "aperture": null,
+            "radius": {
+              "special": "positiveInfinity"
+            },
+            "thickness": {
+              "special": "positiveInfinity"
+            }
+          }
+        },
+        {
+          "index": 1,
+          "role": "surface",
+          "type": "standard",
+          "radiusMm": 20,
+          "thicknessMm": 2,
+          "conic": 0,
+          "stop": true,
+          "material": {
+            "kind": "air"
+          },
+          "clearAperture": null,
+          "parameters": {
+            "type": "standard",
+            "is_stop": true,
+            "conic": 0,
+            "material": "air",
+            "aperture": null,
+            "radius": 20,
+            "thickness": 2
+          }
+        },
+        {
+          "index": 2,
+          "role": "surface",
+          "type": "standard",
+          "radiusMm": -20,
+          "thicknessMm": 20,
+          "conic": 0,
+          "stop": false,
+          "material": {
+            "kind": "air"
+          },
+          "clearAperture": null,
+          "parameters": {
+            "type": "standard",
+            "is_stop": false,
+            "conic": 0,
+            "material": "air",
+            "aperture": null,
+            "radius": -20,
+            "thickness": 20
+          }
+        },
+        {
+          "index": 3,
+          "role": "image",
+          "type": "standard",
+          "radiusMm": {
+            "special": "positiveInfinity"
+          },
+          "thicknessMm": 0,
+          "conic": 0,
+          "stop": false,
+          "material": {
+            "kind": "air"
+          },
+          "clearAperture": null,
+          "parameters": {
+            "type": "standard",
+            "is_stop": false,
+            "conic": 0,
+            "material": "air",
+            "aperture": null,
+            "radius": {
+              "special": "positiveInfinity"
+            },
+            "thickness": 0
+          }
+        }
+      ],
+      "diagnostics": [
+        {
+          "severity": "warning",
+          "code": "field_count_mismatch",
+          "message": "Declared and parsed field columns differ; raw columns retained"
+        }
+      ],
+      "raw": {
+        "mode": "Sequential",
+        "units": "MM",
+        "records": [
+          {
+            "line": 1,
+            "text": "NAME simple"
+          },
+          {
+            "line": 2,
+            "text": "UNIT MM"
+          },
+          {
+            "line": 3,
+            "text": "ENPD 4"
+          },
+          {
+            "line": 4,
+            "text": "WAVM 1 0.55 1"
+          },
+          {
+            "line": 5,
+            "text": "PWAV 1"
+          },
+          {
+            "line": 6,
+            "text": "SURF 0"
+          },
+          {
+            "line": 7,
+            "text": "CURV 0"
+          },
+          {
+            "line": 8,
+            "text": "DISZ INFINITY"
+          },
+          {
+            "line": 9,
+            "text": "SURF 1"
+          },
+          {
+            "line": 10,
+            "text": "CURV 0.05"
+          },
+          {
+            "line": 11,
+            "text": "DISZ 2"
+          },
+          {
+            "line": 12,
+            "text": "XFLD 0 1"
+          },
+          {
+            "line": 13,
+            "text": "YFLD 0 1"
+          },
+          {
+            "line": 14,
+            "text": "FWGN"
+          },
+          {
+            "line": 15,
+            "text": "STOP"
+          },
+          {
+            "line": 16,
+            "text": "SURF 2"
+          },
+          {
+            "line": 17,
+            "text": "CURV -0.05"
+          },
+          {
+            "line": 18,
+            "text": "DISZ 20"
+          },
+          {
+            "line": 19,
+            "text": "SURF 3"
+          },
+          {
+            "line": 20,
+            "text": "CURV 0"
+          },
+          {
+            "line": 21,
+            "text": "DISZ 0"
+          }
+        ],
+        "diagnostics": [],
+        "name": "simple",
+        "aperture": {
+          "EPD": 4
+        },
+        "fields": {
+          "type": "angle",
+          "object_space_telecentric": false,
+          "afocal_image_space": false,
+          "x": [
+            0,
+            1
+          ],
+          "y": [
+            0,
+            1
+          ],
+          "num_fields": 2,
+          "weights": []
+        },
+        "wavelengths": {
+          "data": [
+            0.55
+          ],
+          "weights": [
+            1
+          ],
+          "num_wavelengths": 1,
+          "primary_index": 0
+        },
+        "surfaces": {
+          "0": {
+            "type": "standard",
+            "is_stop": false,
+            "conic": 0,
+            "material": "air",
+            "aperture": null,
+            "radius": {
+              "special": "positiveInfinity"
+            },
+            "thickness": {
+              "special": "positiveInfinity"
+            }
+          },
+          "1": {
+            "type": "standard",
+            "is_stop": true,
+            "conic": 0,
+            "material": "air",
+            "aperture": null,
+            "radius": 20,
+            "thickness": 2
+          },
+          "2": {
+            "type": "standard",
+            "is_stop": false,
+            "conic": 0,
+            "material": "air",
+            "aperture": null,
+            "radius": -20,
+            "thickness": 20
+          },
+          "3": {
+            "type": "standard",
+            "is_stop": false,
+            "conic": 0,
+            "material": "air",
+            "aperture": null,
+            "radius": {
+              "special": "positiveInfinity"
+            },
+            "thickness": 0
+          }
+        }
+      }
+    }
+  },
+  {
+    "format": "oslo",
+    "text": "LEN NEW \"simple\" 50 3\nEBR 2\nANG 0\nWV 0.55\nTH 1e20; NXT\nGSP 0.01; GOR 1; RD 20; TH 2; AST; NXT\nRD -20; TH 20; NXT\nRD 0; END 3\n",
+    "expected": {
+      "schemaVersion": "1.0",
+      "source": {
+        "format": "oslo",
+        "filename": "<memory>",
+        "encoding": "text",
+        "upstreamRevision": "4e893f53aee1312f2d091680b93dd2279711e197"
+      },
+      "name": "simple",
+      "mode": "sequential",
+      "units": {
+        "length": "mm",
+        "wavelength": "um",
+        "angle": "deg",
+        "sourceLength": "lensUnit",
+        "scaleToMm": 1
+      },
+      "aperture": {
+        "kind": "beamRadiusAtSurface1",
+        "value": 2,
+        "source": {
+          "EPD": 4
+        }
+      },
+      "fields": {
+        "kind": "angle",
+        "points": [],
+        "reference": {
+          "y": 0,
+          "coordinates": "prescriptionExtent"
+        },
+        "source": {
+          "type": "angle",
+          "y": [
+            0
+          ]
+        }
+      },
+      "wavelengths": {
+        "valuesUm": [
+          0.55
+        ],
+        "weights": [
+          1
+        ],
+        "primaryIndex": 0
+      },
+      "surfaces": [
+        {
+          "index": 0,
+          "role": "object",
+          "type": "standard",
+          "radiusMm": {
+            "special": "positiveInfinity"
+          },
+          "thicknessMm": {
+            "special": "positiveInfinity"
+          },
+          "conic": 0,
+          "stop": false,
+          "material": {
+            "kind": "air"
+          },
+          "clearAperture": null,
+          "parameters": {
+            "TH": 100000000000000000000
+          }
+        },
+        {
+          "index": 1,
+          "role": "surface",
+          "type": "standard",
+          "radiusMm": 20,
+          "thicknessMm": 2,
+          "conic": 0,
+          "stop": true,
+          "material": {
+            "kind": "air"
+          },
+          "clearAperture": null,
+          "parameters": {
+            "GSP": 0.01,
+            "GOR": 1,
+            "RD": 20,
+            "TH": 2,
+            "AST": true
+          }
+        },
+        {
+          "index": 2,
+          "role": "surface",
+          "type": "standard",
+          "radiusMm": -20,
+          "thicknessMm": 20,
+          "conic": 0,
+          "stop": false,
+          "material": {
+            "kind": "air"
+          },
+          "clearAperture": null,
+          "parameters": {
+            "RD": -20,
+            "TH": 20
+          }
+        },
+        {
+          "index": 3,
+          "role": "image",
+          "type": "standard",
+          "radiusMm": {
+            "special": "positiveInfinity"
+          },
+          "thicknessMm": 0,
+          "conic": 0,
+          "stop": false,
+          "material": {
+            "kind": "air"
+          },
+          "clearAperture": null,
+          "parameters": {
+            "RD": {
+              "special": "positiveInfinity"
+            }
+          }
+        }
+      ],
+      "diagnostics": [
+        {
+          "severity": "warning",
+          "code": "unresolved_optical_feature",
+          "message": "Perfect-imagery, grating or thermal declarations retained without optical interpretation",
+          "surface": 1
+        }
+      ],
+      "raw": {
+        "name": "simple",
+        "scaling": 50,
+        "num_surfaces": 3,
+        "aperture": {
+          "EPD": 4
+        },
+        "fields": {
+          "type": "angle",
+          "y": [
+            0
+          ]
+        },
+        "wavelengths": {
+          "values": [
+            0.55
+          ],
+          "weights": [
+            1
+          ],
+          "primary_index": 0
+        },
+        "surfaces": {
+          "0": {
+            "TH": 100000000000000000000
+          },
+          "1": {
+            "GSP": 0.01,
+            "GOR": 1,
+            "RD": 20,
+            "TH": 2,
+            "AST": true
+          },
+          "2": {
+            "RD": -20,
+            "TH": 20
+          },
+          "3": {
+            "RD": {
+              "special": "positiveInfinity"
+            }
+          }
+        },
+        "units": 1,
+        "records": [
+          {
+            "line": 1,
+            "text": "LEN NEW \"simple\" 50 3"
+          },
+          {
+            "line": 2,
+            "text": "EBR 2"
+          },
+          {
+            "line": 3,
+            "text": "ANG 0"
+          },
+          {
+            "line": 4,
+            "text": "WV 0.55"
+          },
+          {
+            "line": 5,
+            "text": "TH 1e20"
+          },
+          {
+            "line": 5,
+            "text": "NXT"
+          },
+          {
+            "line": 6,
+            "text": "GSP 0.01"
+          },
+          {
+            "line": 6,
+            "text": "GOR 1"
+          },
+          {
+            "line": 6,
+            "text": "RD 20"
+          },
+          {
+            "line": 6,
+            "text": "TH 2"
+          },
+          {
+            "line": 6,
+            "text": "AST"
+          },
+          {
+            "line": 6,
+            "text": "NXT"
+          },
+          {
+            "line": 7,
+            "text": "RD -20"
+          },
+          {
+            "line": 7,
+            "text": "TH 20"
+          },
+          {
+            "line": 7,
+            "text": "NXT"
+          },
+          {
+            "line": 8,
+            "text": "RD 0"
+          },
+          {
+            "line": 8,
+            "text": "END 3"
+          }
+        ],
+        "notes": {},
+        "diagnostics": [],
+        "settings": {},
+        "configurations": {
+          "1": {
+            "thicknesses": {},
+            "wavelengths": {},
+            "wavelength_weights": {},
+            "weight": 1,
+            "active": true
+          }
+        }
+      }
+    }
+  },
+  {
+    "format": "zemax",
+    "text": "NAME simple\nUNIT MM\nENPD 4\nWAVM 1 0.55 1\nPWAV 1\nSURF 0\nCURV 0\nDISZ INFINITY\nSURF 1\nCURV 0.05\nDISZ 2\nTYPE constructor\nSTOP\nSURF 2\nCURV -0.05\nDISZ 20\nSURF 3\nCURV 0\nDISZ 0\n__proto__ 1\n",
+    "expected": {
+      "schemaVersion": "1.0",
+      "source": {
+        "format": "zemax",
+        "filename": "<memory>",
+        "encoding": "text",
+        "upstreamRevision": "4e893f53aee1312f2d091680b93dd2279711e197"
+      },
+      "name": "simple",
+      "mode": "sequential",
+      "units": {
+        "length": "mm",
+        "wavelength": "um",
+        "angle": "deg",
+        "sourceLength": "MM",
+        "scaleToMm": 1
+      },
+      "aperture": {
+        "kind": "entrancePupilDiameter",
+        "value": 4,
+        "source": {
+          "EPD": 4
+        }
+      },
+      "fields": {
+        "kind": "angle",
+        "points": [
+          {
+            "x": 0,
+            "y": 0,
+            "weight": 1,
+            "vignetting": {}
+          }
+        ],
+        "reference": null,
+        "source": {
+          "type": "angle",
+          "object_space_telecentric": false,
+          "afocal_image_space": false,
+          "x": [
+            0
+          ],
+          "y": [
+            0
+          ],
+          "num_fields": 1
+        }
+      },
+      "wavelengths": {
+        "valuesUm": [
+          0.55
+        ],
+        "weights": [
+          1
+        ],
+        "primaryIndex": 0
+      },
+      "surfaces": [
+        {
+          "index": 0,
+          "role": "object",
+          "type": "standard",
+          "radiusMm": {
+            "special": "positiveInfinity"
+          },
+          "thicknessMm": {
+            "special": "positiveInfinity"
+          },
+          "conic": 0,
+          "stop": false,
+          "material": {
+            "kind": "air"
+          },
+          "clearAperture": null,
+          "parameters": {
+            "type": "standard",
+            "is_stop": false,
+            "conic": 0,
+            "material": "air",
+            "aperture": null,
+            "radius": {
+              "special": "positiveInfinity"
+            },
+            "thickness": {
+              "special": "positiveInfinity"
+            }
+          }
+        },
+        {
+          "index": 1,
+          "role": "surface",
+          "type": "constructor",
+          "radiusMm": 20,
+          "thicknessMm": 2,
+          "conic": 0,
+          "stop": true,
+          "material": {
+            "kind": "air"
+          },
+          "clearAperture": null,
+          "parameters": {
+            "type": "constructor",
+            "is_stop": true,
+            "conic": 0,
+            "material": "air",
+            "aperture": null,
+            "radius": 20,
+            "thickness": 2
+          }
+        },
+        {
+          "index": 2,
+          "role": "surface",
+          "type": "standard",
+          "radiusMm": -20,
+          "thicknessMm": 20,
+          "conic": 0,
+          "stop": false,
+          "material": {
+            "kind": "air"
+          },
+          "clearAperture": null,
+          "parameters": {
+            "type": "standard",
+            "is_stop": false,
+            "conic": 0,
+            "material": "air",
+            "aperture": null,
+            "radius": -20,
+            "thickness": 20
+          }
+        },
+        {
+          "index": 3,
+          "role": "image",
+          "type": "standard",
+          "radiusMm": {
+            "special": "positiveInfinity"
+          },
+          "thicknessMm": 0,
+          "conic": 0,
+          "stop": false,
+          "material": {
+            "kind": "air"
+          },
+          "clearAperture": null,
+          "parameters": {
+            "type": "standard",
+            "is_stop": false,
+            "conic": 0,
+            "material": "air",
+            "aperture": null,
+            "radius": {
+              "special": "positiveInfinity"
+            },
+            "thickness": 0
+          }
+        }
+      ],
+      "diagnostics": [
+        {
+          "severity": "warning",
+          "code": "uninterpreted_record",
+          "command": "__proto__",
+          "line": 20,
+          "surface": 3,
+          "message": "Record retained but not interpreted"
+        },
+        {
+          "severity": "warning",
+          "code": "unresolved_surface_type",
+          "message": "Surface type retained without a common geometry interpretation",
+          "surface": 1
+        }
+      ],
+      "raw": {
+        "mode": "Sequential",
+        "units": "MM",
+        "records": [
+          {
+            "line": 1,
+            "text": "NAME simple"
+          },
+          {
+            "line": 2,
+            "text": "UNIT MM"
+          },
+          {
+            "line": 3,
+            "text": "ENPD 4"
+          },
+          {
+            "line": 4,
+            "text": "WAVM 1 0.55 1"
+          },
+          {
+            "line": 5,
+            "text": "PWAV 1"
+          },
+          {
+            "line": 6,
+            "text": "SURF 0"
+          },
+          {
+            "line": 7,
+            "text": "CURV 0"
+          },
+          {
+            "line": 8,
+            "text": "DISZ INFINITY"
+          },
+          {
+            "line": 9,
+            "text": "SURF 1"
+          },
+          {
+            "line": 10,
+            "text": "CURV 0.05"
+          },
+          {
+            "line": 11,
+            "text": "DISZ 2"
+          },
+          {
+            "line": 12,
+            "text": "TYPE constructor"
+          },
+          {
+            "line": 13,
+            "text": "STOP"
+          },
+          {
+            "line": 14,
+            "text": "SURF 2"
+          },
+          {
+            "line": 15,
+            "text": "CURV -0.05"
+          },
+          {
+            "line": 16,
+            "text": "DISZ 20"
+          },
+          {
+            "line": 17,
+            "text": "SURF 3"
+          },
+          {
+            "line": 18,
+            "text": "CURV 0"
+          },
+          {
+            "line": 19,
+            "text": "DISZ 0"
+          },
+          {
+            "line": 20,
+            "text": "__proto__ 1"
+          }
+        ],
+        "diagnostics": [
+          {
+            "command": "__proto__",
+            "line": 20,
+            "surface": 3,
+            "severity": "warning",
+            "message": "Record retained but not interpreted"
+          }
+        ],
+        "name": "simple",
+        "aperture": {
+          "EPD": 4
+        },
+        "fields": {
+          "type": "angle",
+          "object_space_telecentric": false,
+          "afocal_image_space": false,
+          "x": [
+            0
+          ],
+          "y": [
+            0
+          ],
+          "num_fields": 1
+        },
+        "wavelengths": {
+          "data": [
+            0.55
+          ],
+          "weights": [
+            1
+          ],
+          "num_wavelengths": 1,
+          "primary_index": 0
+        },
+        "surfaces": {
+          "0": {
+            "type": "standard",
+            "is_stop": false,
+            "conic": 0,
+            "material": "air",
+            "aperture": null,
+            "radius": {
+              "special": "positiveInfinity"
+            },
+            "thickness": {
+              "special": "positiveInfinity"
+            }
+          },
+          "1": {
+            "type": "constructor",
+            "is_stop": true,
+            "conic": 0,
+            "material": "air",
+            "aperture": null,
+            "radius": 20,
+            "thickness": 2
+          },
+          "2": {
+            "type": "standard",
+            "is_stop": false,
+            "conic": 0,
+            "material": "air",
+            "aperture": null,
+            "radius": -20,
+            "thickness": 20
+          },
+          "3": {
+            "type": "standard",
+            "is_stop": false,
+            "conic": 0,
+            "material": "air",
+            "aperture": null,
+            "radius": {
+              "special": "positiveInfinity"
+            },
+            "thickness": 0
+          }
+        }
+      }
+    }
+  }
+]

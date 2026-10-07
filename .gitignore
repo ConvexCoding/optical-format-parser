@@ -1,12 +1,6 @@
 node_modules/
 dist/
-__pycache__/
-*.pyc
-.venv/
-*.egg-info/
-.pytest_cache/
-.coverage
-typescript/schema/
+coverage/
 *.tgz
-*.whl
-build/
+*.tsbuildinfo
+.DS_Store
