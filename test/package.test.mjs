@@ -8,7 +8,7 @@ import test from "node:test";
 
 const root = fileURLToPath(new URL("../", import.meta.url));
 test("packed dependency installs, runs and typechecks in an isolated JS/TS consumer", () => {
-  const temp = mkdtempSync(join(tmpdir(), "optical-import-consumer-"));
+  const temp = mkdtempSync(join(tmpdir(), "optical-format-parser-consumer-"));
   const run = (command, args, cwd) =>
     execFileSync(command, args, { cwd, encoding: "utf8", timeout: 60000, stdio: ["ignore", "pipe", "pipe"] });
   try {
@@ -43,7 +43,7 @@ test("packed dependency installs, runs and typechecks in an isolated JS/TS consu
       `
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
-import { PrescriptionParseError, parseText, parseBytes, parseJson, stringify } from 'optical-format-import';
+import { PrescriptionParseError, parseText, parseBytes, parseJson, stringify } from 'optical-format-parser';
 const source = 'NAME consumer\\nUNIT MM\\nENPD 4\\nSURF 0\\nCURV 0\\nDISZ INFINITY\\nSURF 1\\nCURV 0.05\\nDISZ 2\\n';
 const [data, error] = parseText(source, {format: 'zemax', strict: true});
 assert.equal(error, null);
@@ -56,9 +56,9 @@ const [nothing, failure] = parseText('SURF 0\\nCURV x\\n', {format: 'zemax'});
 assert.equal(nothing, null);
 assert.ok(failure instanceof PrescriptionParseError);
 assert.equal(failure.line, 2);
-const schema = JSON.parse(readFileSync(new URL(import.meta.resolve('optical-format-import/schema')), 'utf8'));
+const schema = JSON.parse(readFileSync(new URL(import.meta.resolve('optical-format-parser/schema')), 'utf8'));
 assert.equal(schema.properties.schemaVersion.const, data.schemaVersion);
-const pkg = JSON.parse(readFileSync('./node_modules/optical-format-import/package.json', 'utf8'));
+const pkg = JSON.parse(readFileSync('./node_modules/optical-format-parser/package.json', 'utf8'));
 assert.deepEqual(pkg.dependencies ?? {}, {});
 assert.equal(Object.keys(pkg.scripts).some(key => ['install','postinstall','preinstall'].includes(key)), false);
 const [oslo] = parseText('LEN NEW "consumer" 1 1\\nEBR 2; RD 0; NXT; RD 20; END 1\\n', {format:'oslo', strict:true});
@@ -71,17 +71,17 @@ assert.equal(oslo.surfaces[1].radius, 20);
       join(consumer, "consumer.cjs"),
       `
 const assert = require('node:assert/strict');
-const { parseText } = require('optical-format-import');
+const { parseText } = require('optical-format-parser');
 assert.equal(parseText('', {format: 'zemax'})[1].code, 'invalid_prescription');
-assert.equal(require('optical-format-import/package.json').name, 'optical-format-import');
+assert.equal(require('optical-format-parser/package.json').name, 'optical-format-parser');
 `,
     );
     run(process.execPath, ["consumer.cjs"], consumer);
     writeFileSync(
       join(consumer, "consumer.mts"),
       `
-import { PrescriptionParseError, parseBytes, parseJson, parseText, stringify } from 'optical-format-import';
-import type { Format, Material, NormalizedPrescription, NormalizedSurface, ParseOptions, ParseResult, SystemAperture } from 'optical-format-import';
+import { PrescriptionParseError, parseBytes, parseJson, parseText, stringify } from 'optical-format-parser';
+import type { Format, Material, NormalizedPrescription, NormalizedSurface, ParseOptions, ParseResult, SystemAperture } from 'optical-format-parser';
 const options: ParseOptions = {format:'zemax', strict:true};
 const [parsed, parseError] = parseText('text', options);
 // @ts-expect-error the value is nullable until the error has been checked

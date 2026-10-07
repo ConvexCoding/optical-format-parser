@@ -1,4 +1,4 @@
-# Optical Format Import
+# Optical Format Parser
 
 A TypeScript library that parses the contents of sequential Zemax (`.zmx`) and OSLO (`.len`) prescriptions into a typed, normalized object. It takes text or bytes and never touches files itself. Runs in browsers and Node.js, with no runtime dependencies, network requests, or native modules. Distributed as ESM with TypeScript declarations and a JSON Schema.
 
@@ -13,13 +13,13 @@ npm run test:all
 npm pack
 
 # In your application
-npm install /path/to/optical-format-import/optical-format-import-0.2.0.tgz
+npm install /path/to/optical-format-parser/optical-format-parser-0.2.0.tgz
 ```
 
 For local development, after `npm ci` in this repository you can instead install the repository root:
 
 ```sh
-npm install /path/to/optical-format-import
+npm install /path/to/optical-format-parser
 ```
 
 The tarball contains compiled JavaScript, type declarations with declaration maps, the TypeScript sources they point to, the schema, documentation, and the MIT license. Tests, sample files, and development dependencies are excluded. Consumers do not need a compiler or a build step. The package is ESM; bundlers (Vite, SvelteKit, webpack) and Node.js `import` use it directly, and CommonJS code can `require()` it on Node.js 22.12+.
@@ -29,7 +29,7 @@ The tarball contains compiled JavaScript, type declarations with declaration map
 The library parses the contents of a prescription, as text or as undecoded bytes, and you say which format they are in. Where the contents come from (a file input, a fetch, a database, the filesystem) and how the format is chosen are up to your application.
 
 ```ts
-import { parseText } from "optical-format-import";
+import { parseText } from "optical-format-parser";
 
 const [prescription, error] = parseText(contents, { format: "zemax" }); // or "oslo"
 if (error) {
@@ -119,10 +119,10 @@ The [schema](schema/prescription.schema.json) describes schema version `2.0`: th
 { "special": "positiveInfinity" }
 ```
 
-NaN is rejected. The schema is also exported as `optical-format-import/schema`. In a bundler, `import schema from "optical-format-import/schema"`; in Node.js:
+NaN is rejected. The schema is also exported as `optical-format-parser/schema`. In a bundler, `import schema from "optical-format-parser/schema"`; in Node.js:
 
 ```js
-import schema from "optical-format-import/schema" with { type: "json" };
+import schema from "optical-format-parser/schema" with { type: "json" };
 ```
 
 Runtime schema validation is optional and supplied by the consuming application.

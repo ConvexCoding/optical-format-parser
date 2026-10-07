@@ -1,5 +1,5 @@
 {
-  "name": "optical-format-import",
+  "name": "optical-format-parser",
   "version": "0.2.0",
   "description": "Browser-native Zemax and OSLO prescription parsers and normalized JSON",
   "type": "module",

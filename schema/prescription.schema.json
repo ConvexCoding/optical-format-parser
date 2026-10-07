@@ -1,6 +1,6 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "urn:optical-format-import:prescription:2.0",
+  "$id": "urn:optical-format-parser:prescription:2.0",
   "title": "Normalized optical prescription (declarations, not computed optics)",
   "description": "The JSON written by stringify(). Lengths are millimeters and wavelengths micrometers; parameters, source and raw keep file units. Infinite numbers appear as { \"special\": \"positiveInfinity\" | \"negativeInfinity\" }.",
   "type": "object",
