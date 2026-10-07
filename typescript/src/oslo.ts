@@ -1,4 +1,4 @@
-// Derived from Optiland master parser/model/configurations/syntax; see UPSTREAM.json and LICENSE.
+// Derived from Optiland master parser/model/configurations/syntax; see LICENSE.
 import { integer, number, requireLength } from "./numbers.js";
 import type { NativeRecord } from "./types.js";
 

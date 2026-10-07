@@ -1,4 +1,4 @@
-# Adapted from Optiland master; see UPSTREAM.json and LICENSE.
+# Adapted from Optiland master; see LICENSE.
 """Documented conventions shared by the OSLO reader and writer."""
 
 from __future__ import annotations

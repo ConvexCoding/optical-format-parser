@@ -1,4 +1,4 @@
-# Adapted from Optiland master; see UPSTREAM.json and LICENSE.
+# Adapted from Optiland master; see LICENSE.
 """OSLO Data Parser
 
 Parses an OSLO .len file into an OsloDataModel.

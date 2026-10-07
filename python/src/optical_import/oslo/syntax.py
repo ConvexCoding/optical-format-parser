@@ -1,4 +1,4 @@
-# Adapted from Optiland master; see UPSTREAM.json and LICENSE.
+# Adapted from Optiland master; see LICENSE.
 """Shared token and quoted-string handling for OSLO prescription data."""
 
 from __future__ import annotations

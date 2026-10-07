@@ -1,4 +1,4 @@
-# Adapted from Optiland master; see UPSTREAM.json and LICENSE.
+# Adapted from Optiland master; see LICENSE.
 """OSLO Data Model
 
 Defines OsloDataModel, the shared parsed prescription. The reader fills it

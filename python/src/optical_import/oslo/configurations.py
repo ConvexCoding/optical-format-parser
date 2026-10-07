@@ -1,4 +1,4 @@
-# Adapted from Optiland master; see UPSTREAM.json and LICENSE.
+# Adapted from Optiland master; see LICENSE.
 """Declarative OSLO configuration data and independent sequential snapshots."""
 
 from __future__ import annotations

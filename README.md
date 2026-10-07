@@ -2,7 +2,7 @@
 
 Standalone Zemax `.zmx` and OSLO `.len` prescription parsers with a shared normalized JSON contract. Python uses only its standard library; TypeScript targets browsers and has no runtime dependencies.
 
-Derived from Optiland **master**, inspected at `4e893f53aee1312f2d091680b93dd2279711e197` on 2026-10-07. See [UPSTREAM.json](UPSTREAM.json), [LICENSE](LICENSE), and the [extraction and port guide](GUIDE.md).
+Derived from Optiland **master**, inspected at `4e893f53aee1312f2d091680b93dd2279711e197` on 2026-10-07. See [LICENSE](LICENSE) for licensing and attribution.
 
 This library parses prescriptions. It preserves catalog names, direct-index samples, coordinate commands, pickups, and solve declarations as data. It does not execute optical solves, resolve glass catalogs, trace rays, or reproduce Optiland's native `Optic.to_dict()` format. Unsupported records are retained with diagnostics.
 
@@ -93,8 +93,8 @@ Open [the file-picker demo](http://127.0.0.1:8765/typescript/demo/) or [the brow
 
 ## JSON contract and verification
 
-Use [the guide](GUIDE.md) for the exact Optiland master source map, dependency boundaries, extraction edits, native JSON distinction, and staged semantic extensions. [The schema](schema/prescription.schema.json) specifies common lengths in mm, wavelengths in um, angles in degrees, ordered surface records, material declarations, diagnostics, and retained native data.
+[The schema](schema/prescription.schema.json) specifies common lengths in mm, wavelengths in um, angles in degrees, ordered surface records, material declarations, diagnostics, and retained native data.
 
 Default parsing preserves uninterpreted declarations with diagnostics. Pass `strict=True` in Python or `strict: true` in TypeScript to reject warnings. Infinity has explicit JSON tags; NaN and malformed common numeric data fail. Original parameters remain in prescription units under `parameters` and `raw`.
 
-Validated locally: **17 Python tests, 34 TypeScript tests, and 24 browser checks**, including all 15 Zemax and 7 OSLO upstream inputs, cross-language output comparisons, schema validation, encoding cases, independent geometry expectations, CLI failure paths, and isolated package installation. See [validation evidence](docs/VALIDATION.md).
+Validated locally: **17 Python tests, 34 TypeScript tests, and 24 browser checks**, including all 15 Zemax and 7 OSLO upstream inputs, cross-language output comparisons, schema validation, encoding cases, independent geometry expectations, CLI failure paths, and isolated package installation.

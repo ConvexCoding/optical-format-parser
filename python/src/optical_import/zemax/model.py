@@ -1,4 +1,4 @@
-# Adapted from Optiland master; see UPSTREAM.json and LICENSE.
+# Adapted from Optiland master; see LICENSE.
 """Zemax Data Model
 
 Defines ZemaxDataModel, the shared intermediate representation used by both

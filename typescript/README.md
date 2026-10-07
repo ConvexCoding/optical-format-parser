@@ -28,4 +28,4 @@ Default mode preserves unresolved declarations with diagnostics. Strict mode rej
 
 This is a prescription parser. Catalog matching, optical solve execution, frame composition, and ray tracing are outside the library. Original statements and native parameters are retained. The output is distinct from Optiland's native `Optic.to_dict()` JSON.
 
-To run the file-picker demo and browser verification page, serve the **repository root**, then open `/typescript/demo/` and `/typescript/test/browser.html`. See the root guide for exact master source paths, extraction edits, tests, and future semantic stages. Derived/adapted code retains the Optiland MIT notice in LICENSE.
+To run the file-picker demo and browser verification page, serve the **repository root**, then open `/typescript/demo/` and `/typescript/test/browser.html`. See the root README for usage, compatibility limits, and verification commands. Derived/adapted code retains the Optiland MIT notice in LICENSE.

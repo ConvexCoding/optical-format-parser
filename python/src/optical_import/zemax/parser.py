@@ -1,4 +1,4 @@
-# Adapted from Optiland master; see UPSTREAM.json and LICENSE.
+# Adapted from Optiland master; see LICENSE.
 """Zemax Data Parser
 
 Parses a Zemax OpticStudio .zmx file into a ZemaxDataModel. The parser uses
