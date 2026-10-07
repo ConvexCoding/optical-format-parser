@@ -7,9 +7,9 @@ A TypeScript library that parses the contents of sequential Zemax (`.zmx`) and O
 The package is not published to npm. Install it straight from GitHub, pinned to a release tag:
 
 ```sh
-npm install github:ConvexCoding/optical-format-parser#v1.0.1
+npm install github:ConvexCoding/optical-format-parser#v1.0.2
 # or
-bun add github:ConvexCoding/optical-format-parser#v1.0.1
+bun add github:ConvexCoding/optical-format-parser#v1.0.2
 ```
 
 The built `dist/` is committed to the repository, so nothing is compiled on install and no install scripts run. This works with npm, Bun, pnpm and Yarn.
@@ -23,7 +23,7 @@ npm run test:all
 npm pack
 
 # In your application
-npm install /path/to/optical-format-parser/optical-format-parser-1.0.1.tgz
+npm install /path/to/optical-format-parser/optical-format-parser-1.0.2.tgz
 ```
 
 For local development, after `npm ci` in this repository you can instead install the repository root:
