@@ -2,7 +2,6 @@
   "schemaVersion": "2.0",
   "source": {
     "format": "zemax",
-    "filename": "thorlabs_lj1598l1.zmx",
     "encoding": "utf-8",
     "upstreamRevision": "4e893f53aee1312f2d091680b93dd2279711e197"
   },
@@ -72,7 +71,7 @@
     }
   },
   "wavelengths": {
-    "valuesUm": [
+    "values": [
       0.4861,
       0.5876,
       0.6563
@@ -89,10 +88,10 @@
       "index": 0,
       "role": "object",
       "nativeType": "STANDARD",
-      "radiusMm": {
+      "radius": {
         "special": "positiveInfinity"
       },
-      "thicknessMm": {
+      "thickness": {
         "special": "positiveInfinity"
       },
       "conic": 0,
@@ -101,7 +100,7 @@
         "kind": "air"
       },
       "clearAperture": null,
-      "semiDiameterMm": 0,
+      "semiDiameter": 0,
       "parameters": {
         "type": "standard",
         "is_stop": false,
@@ -122,8 +121,8 @@
       "index": 1,
       "role": "surface",
       "nativeType": "TOROIDAL",
-      "radiusMm": 2.0199999999999996,
-      "thicknessMm": 3.8,
+      "radius": 2.0199999999999996,
+      "thickness": 3.8,
       "conic": 0,
       "stop": true,
       "material": {
@@ -139,7 +138,7 @@
         "resolution": "unresolved"
       },
       "clearAperture": null,
-      "semiDiameterMm": 2,
+      "semiDiameter": 2,
       "parameters": {
         "type": "toroidal",
         "is_stop": true,
@@ -178,17 +177,17 @@
       "index": 2,
       "role": "surface",
       "nativeType": "TOROIDAL",
-      "radiusMm": {
+      "radius": {
         "special": "positiveInfinity"
       },
-      "thicknessMm": 1.035445081706,
+      "thickness": 1.035445081706,
       "conic": 0,
       "stop": false,
       "material": {
         "kind": "air"
       },
       "clearAperture": null,
-      "semiDiameterMm": 2,
+      "semiDiameter": 2,
       "parameters": {
         "type": "toroidal",
         "is_stop": false,
@@ -216,17 +215,17 @@
       "index": 3,
       "role": "image",
       "nativeType": "STANDARD",
-      "radiusMm": {
+      "radius": {
         "special": "positiveInfinity"
       },
-      "thicknessMm": 0,
+      "thickness": 0,
       "conic": 0,
       "stop": false,
       "material": {
         "kind": "air"
       },
       "clearAperture": null,
-      "semiDiameterMm": 0.2336290250042,
+      "semiDiameter": 0.2336290250042,
       "parameters": {
         "type": "standard",
         "is_stop": false,

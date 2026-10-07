@@ -188,7 +188,7 @@ function checkSpectrum(model: OsloModel, config: OsloConfiguration): void {
   if (!weights[0]) throw new DeclarationError("configuration primary wavelength weight must be positive");
 }
 
-export function parseOslo(text: string, filename: string): OsloModel {
+export function parseOslo(text: string): OsloModel {
   const model: OsloModel = {
     name: null,
     scaling: 1,
@@ -574,21 +574,20 @@ export function parseOslo(text: string, filename: string): OsloModel {
       for (const statement of statements(line)) readStatement(statement);
     } catch (error) {
       if (!(error instanceof DeclarationError)) throw error;
-      throw new PrescriptionParseError("invalid_prescription", `${filename}:${lineNumber}: ${error.message}`, {
-        filename,
+      throw new PrescriptionParseError("invalid_prescription", `line ${lineNumber}: ${error.message}`, {
         line: lineNumber,
         cause: error,
       });
     }
   }
-  if (configTable) throw new DeclarationError(`${filename}: unterminated CFG table`);
+  if (configTable) throw new DeclarationError("unterminated CFG table");
   if (!ended) readEnd(["END"]);
-  if (!seenLen) throw new DeclarationError(`${filename}: missing LEN NEW prescription`);
+  if (!seenLen) throw new DeclarationError("missing LEN NEW prescription");
   const indices = Object.keys(model.surfaces)
     .map(Number)
     .sort((a, b) => a - b);
   if (indices.length !== model.num_surfaces + 1 || indices.some((value, i) => value !== i)) {
-    throw new DeclarationError(`${filename}: surface records do not match LEN count`);
+    throw new DeclarationError("surface records do not match LEN count");
   }
   for (const index of indices) {
     const data = model.surfaces[index] ?? {};
@@ -602,10 +601,9 @@ export function parseOslo(text: string, filename: string): OsloModel {
   model.wavelengths.values = values;
   model.wavelengths.weights = [...weights, ...Array<number>(values.length).fill(1)].slice(0, values.length);
   if (!model.wavelengths.weights.some(Boolean)) {
-    throw new DeclarationError(`${filename}: wavelength weights cannot all be zero`);
+    throw new DeclarationError("wavelength weights cannot all be zero");
   }
-  if ((weights[0] ?? 1) === 0)
-    throw new DeclarationError(`${filename}: OSLO primary wavelength weight must be positive`);
+  if ((weights[0] ?? 1) === 0) throw new DeclarationError("OSLO primary wavelength weight must be positive");
   for (const config of Object.values(model.configurations)) checkSpectrum(model, config);
   return model;
 }

@@ -1,6 +1,6 @@
 # Optical Format Import
 
-A TypeScript library that parses sequential Zemax `.zmx` and OSLO `.len` files into normalized JSON. Runs in browsers and Node.js, with no runtime dependencies, network requests, or native modules. Distributed as ESM with TypeScript declarations and a JSON Schema.
+A TypeScript library that parses the contents of sequential Zemax (`.zmx`) and OSLO (`.len`) prescriptions into a typed, normalized object. It takes text or bytes and never touches files itself. Runs in browsers and Node.js, with no runtime dependencies, network requests, or native modules. Distributed as ESM with TypeScript declarations and a JSON Schema.
 
 ## Install in another project
 
@@ -26,43 +26,40 @@ The tarball contains compiled JavaScript, type declarations with declaration map
 
 ## Usage
 
+The library parses the contents of a prescription, as text or as undecoded bytes, and you say which format they are in. Where the contents come from (a file input, a fetch, a database, the filesystem) and how the format is chosen are up to your application.
+
 ```ts
-import { parseBytes } from "optical-format-import";
+import { parseText } from "optical-format-import";
 
-async function importLens(file: File) {
-  // The format is inferred from a .zmx or .len filename; pass `format` to override.
-  const prescription = parseBytes(await file.arrayBuffer(), { filename: file.name });
+const [prescription, error] = parseText(contents, { format: "zemax" }); // or "oslo"
+if (error) {
+  console.error(error.code, error.message, error.line);
+  return;
+}
 
-  for (const surface of prescription.surfaces) {
-    const curvature = 1 / surface.radiusMm; // flat surfaces have radiusMm === Infinity
-    if (surface.type === "evenAsphere") {
-      for (const term of surface.asphereTerms) console.log(`r^${term.power}`, term.coefficient);
-    }
-    if (surface.material.kind === "catalog") console.log(surface.material.name);
+for (const surface of prescription.surfaces) {
+  const curvature = 1 / surface.radius; // flat surfaces have radius === Infinity
+  if (surface.type === "evenAsphere") {
+    for (const term of surface.asphereTerms) console.log(`r^${term.power}`, term.coefficient);
   }
-  return prescription;
+  if (surface.material.kind === "catalog") console.log(surface.material.name);
 }
 ```
 
-Parsing is synchronous, runs locally, and needs only an ES2022 environment with `TextDecoder`, so it works in the browser, in a Web Worker, and on the server. For an already decoded string use `parseText(text, { format: "oslo" })`. In Node.js, pass the `Buffer` from `readFile` to `parseBytes`.
+Parsing returns a `[value, error]` pair and does not throw for bad input. Exactly one of the two is `null`, and checking `error` narrows `prescription` from nullable to `NormalizedPrescription`.
 
-### Handling bad files
+Use `parseBytes(bytes, { format })` when you have a `Uint8Array` or `ArrayBuffer` that has not been decoded yet; lens files are often UTF-16 or Latin-1, and `parseBytes` detects that. Parsing is synchronous, runs locally, and needs only an ES2022 environment with `TextDecoder`, so it works in the browser, in a Web Worker, and on the server.
 
-Every problem with the input is a `PrescriptionParseError`. Either catch it, or use the non-throwing variants, which suit form actions and file-drop handlers:
+### Errors
 
-```ts
-import { safeParseBytes } from "optical-format-import";
+The error is a `PrescriptionParseError`:
 
-const result = safeParseBytes(bytes, { filename: file.name, strict: true });
-if (result.ok) {
-  show(result.prescription);
-} else {
-  const { code, message, line, command, diagnostics } = result.error;
-  // code: "invalid_options" | "decoding_failed" | "invalid_prescription" | "strict_violation" | "invalid_json"
-}
-```
-
-`line` and `command` are set when the problem is tied to a source line. For `strict_violation`, `diagnostics` lists everything the import reported.
+| Property          | Meaning                                                                                                       |
+| ----------------- | ------------------------------------------------------------------------------------------------------------- |
+| `code`            | `"invalid_options"`, `"decoding_failed"`, `"invalid_prescription"`, `"strict_violation"` or `"invalid_json"`. |
+| `message`         | Human-readable, for example `line 10: CURV: Invalid numeric token: 12junk`.                                   |
+| `line`, `command` | Set when the problem is tied to a line of the contents.                                                       |
+| `diagnostics`     | For `strict_violation`, everything the import reported.                                                       |
 
 ### SvelteKit
 
@@ -70,30 +67,28 @@ The parsed object is plain data, so it can be returned from a `load` function as
 
 ## API
 
-| Export                                | Purpose                                                                                          |
-| ------------------------------------- | ------------------------------------------------------------------------------------------------ |
-| `parseBytes(data, options)`           | Parse a `Uint8Array` or `ArrayBuffer`, detecting the text encoding.                              |
-| `parseText(text, options)`            | Parse an already decoded string.                                                                 |
-| `safeParseBytes`, `safeParseText`     | Same, returning `{ ok: true, prescription }` or `{ ok: false, error }`.                          |
-| `formatFromFilename(name)`            | `"zemax"`, `"oslo"` or `null` from a `.zmx`/`.len` extension.                                    |
-| `stringify(prescription, indent = 2)` | Serialize to portable JSON with a trailing newline.                                              |
-| `parseJson(text)`                     | Read `stringify` output back, restoring infinities. Checks the schema version only.              |
-| `PrescriptionParseError`              | The error class thrown for bad input, with `code`, `filename`, `line`, `command`, `diagnostics`. |
+| Export                                | Purpose                                                                                                              |
+| ------------------------------------- | -------------------------------------------------------------------------------------------------------------------- |
+| `parseText(text, options)`            | Parse the text of a prescription. Returns `[prescription, error]`.                                                   |
+| `parseBytes(data, options)`           | Parse a `Uint8Array` or `ArrayBuffer`, detecting the text encoding. Returns `[prescription, error]`.                 |
+| `stringify(prescription, indent = 2)` | Serialize to portable JSON with a trailing newline.                                                                  |
+| `parseJson(text)`                     | Read `stringify` output back, restoring infinities. Returns `[prescription, error]`; checks the schema version only. |
+| `PrescriptionParseError`              | The error class, with `code`, `line`, `command`, `diagnostics`.                                                      |
+| `ParseResult`, `Result<T>`            | The pair type the parsing functions return.                                                                          |
 
 Options:
 
-| Option       | Default                  | Meaning                                                                           |
-| ------------ | ------------------------ | --------------------------------------------------------------------------------- |
-| `format`     | inferred from `filename` | `"zemax"` or `"oslo"`. Required when the filename has no `.zmx`/`.len` extension. |
-| `filename`   | `"<memory>"`             | Used in error messages and `source.filename`.                                     |
-| `strict`     | `false`                  | Throw `strict_violation` if the import produces any warning.                      |
-| `includeRaw` | `false`                  | Attach the format-specific parser model as `raw` (roughly doubles the output).    |
+| Option       | Default  | Meaning                                                                        |
+| ------------ | -------- | ------------------------------------------------------------------------------ |
+| `format`     | required | `"zemax"` or `"oslo"`: the format of the contents.                             |
+| `strict`     | `false`  | Return a `strict_violation` error if the import produces any warning.          |
+| `includeRaw` | `false`  | Attach the format-specific parser model as `raw` (roughly doubles the output). |
 
 Zemax byte decoding supports UTF-8, UTF-16 LE/BE, and Latin-1; OSLO supports UTF-8 and Windows-1252.
 
 ## The parsed prescription
 
-All types are exported; `NormalizedPrescription` is the root. Lengths are millimeters (property names end in `Mm`), wavelengths micrometers, angles degrees.
+All types are exported; `NormalizedPrescription` is the root. **Every length is in millimeters and every wavelength in micrometers**, whatever unit the file used, so property names carry no unit. A name includes a unit only where it departs from that rule (`units.scaleToMm`, the millimeters per source unit). Angles are in degrees. The pass-through records (`parameters`, `source`, `raw`) keep the file's own units.
 
 | Property               | Type                  | Notes                                                                                                                                                       |
 | ---------------------- | --------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------- |
@@ -101,10 +96,10 @@ All types are exported; `NormalizedPrescription` is the root. Lengths are millim
 | `surfaces[i].material` | `Material`            | Union discriminated by `kind`: `"air"`, `"mirror"`, `"catalog"`, `"model"`, `"constantIndex"`, `"sampledIndex"`, `"unknown"`.                               |
 | `aperture`             | `SystemAperture`      | Union discriminated by `kind`; `value` is `null` only for `"floatingStop"` and `"unspecified"`.                                                             |
 | `fields`               | `Fields`              | `points` is never empty. `specification` says whether they are the file's point list (Zemax) or its single full-field point (OSLO).                         |
-| `wavelengths`          | `Wavelengths`         | Parallel `valuesUm` and `weights`, plus `primaryIndex`.                                                                                                     |
+| `wavelengths`          | `Wavelengths`         | Parallel `values` (micrometers) and `weights`, plus `primaryIndex`.                                                                                         |
 | `diagnostics`          | `Diagnostic[]`        | `severity` is `"info"` or `"warning"`; `code` is a closed set of literals.                                                                                  |
 
-Every surface has `radiusMm` (`Infinity` when flat), `thicknessMm`, `conic`, `stop`, `clearAperture`, `semiDiameterMm`, `nativeType` (the format's own type name) and `parameters` (every declaration as the file spells it, in file units). Asphere surfaces add `asphereTerms`: each term is `coefficient * r^power` with `r` and sag in millimeters, so the format-specific coefficient naming and unit scaling are already resolved.
+Every surface has `radius` (`Infinity` when flat), `thickness`, `conic`, `stop`, `clearAperture`, `semiDiameter`, `nativeType` (the format's own type name) and `parameters` (every declaration as the file spells it, in file units). Asphere surfaces add `asphereTerms`: each term is `coefficient * r^power` with `r` and sag in millimeters, so the format-specific coefficient naming and unit scaling are already resolved.
 
 | Source                      | Term                |
 | --------------------------- | ------------------- |
@@ -136,7 +131,7 @@ Runtime schema validation is optional and supplied by the consuming application.
 
 **Parsing into JSON does not establish optical equivalence with Zemax or OSLO.** This library captures prescription declarations. Catalog names, direct-index samples, coordinate commands, pickups, and solve declarations are retained as data. Catalog resolution, dispersion fitting, solve/pickup execution, global frame composition, thermal analysis, and ray tracing are outside its scope.
 
-Review `diagnostics` alongside the data. A retained command or surface type does not mean its optical effect was implemented. Strict parsing rejects warning diagnostics; it does not certify optical accuracy. Legacy Zemax `WAVL` vector syntax and `WWGT` are not fully interpreted. Alternative OSLO configurations remain declarations in `raw` (with `includeRaw`); common surfaces describe the base prescription. Values in `parameters`, the `source` records and `raw` keep the file's own units; the normalized properties are converted. The OSLO `ASn` powers above follow the upstream importer's documentation and have not been checked against OSLO itself.
+Review `diagnostics` alongside the data. A retained command or surface type does not mean its optical effect was implemented. Strict parsing rejects warning diagnostics; it does not certify optical accuracy. Legacy Zemax `WAVL` vector syntax and `WWGT` are not fully interpreted. Alternative OSLO configurations remain declarations in `raw` (with `includeRaw`); common surfaces describe the base prescription. Values in `parameters`, the `source` records and `raw` keep the file's own units; the normalized properties are in millimeters and micrometers. The OSLO `ASn` powers above follow the upstream importer's documentation and have not been checked against OSLO itself.
 
 [Detailed compatibility notes](docs/compatibility.md) document the original importer restrictions and how this library's scope differs. Adapted code and test inputs retain their required [MIT attribution](LICENSE).
 

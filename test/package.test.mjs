@@ -43,25 +43,26 @@ test("packed dependency installs, runs and typechecks in an isolated JS/TS consu
       `
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
-import { PrescriptionParseError, parseText, parseBytes, parseJson, safeParseText, stringify } from 'optical-format-import';
+import { PrescriptionParseError, parseText, parseBytes, parseJson, stringify } from 'optical-format-import';
 const source = 'NAME consumer\\nUNIT MM\\nENPD 4\\nSURF 0\\nCURV 0\\nDISZ INFINITY\\nSURF 1\\nCURV 0.05\\nDISZ 2\\n';
-const data = parseText(source, {format: 'zemax', strict: true});
-assert.equal(data.surfaces[1].radiusMm, 20);
-assert.equal(data.surfaces[0].thicknessMm, Infinity);
-assert.deepEqual(parseBytes(new TextEncoder().encode(source), {filename: 'consumer.zmx'}).surfaces, data.surfaces);
-assert.deepEqual(JSON.parse(stringify(data)).surfaces[0].thicknessMm, {special: 'positiveInfinity'});
-assert.deepEqual(parseJson(stringify(data)), data);
-const failed = safeParseText('SURF 0\\nCURV x\\n', {format: 'zemax'});
-assert.equal(failed.ok, false);
-assert.ok(failed.error instanceof PrescriptionParseError);
-assert.equal(failed.error.line, 2);
+const [data, error] = parseText(source, {format: 'zemax', strict: true});
+assert.equal(error, null);
+assert.equal(data.surfaces[1].radius, 20);
+assert.equal(data.surfaces[0].thickness, Infinity);
+assert.deepEqual(parseBytes(new TextEncoder().encode(source), {format: 'zemax'})[0].surfaces, data.surfaces);
+assert.deepEqual(JSON.parse(stringify(data)).surfaces[0].thickness, {special: 'positiveInfinity'});
+assert.deepEqual(parseJson(stringify(data)), [data, null]);
+const [nothing, failure] = parseText('SURF 0\\nCURV x\\n', {format: 'zemax'});
+assert.equal(nothing, null);
+assert.ok(failure instanceof PrescriptionParseError);
+assert.equal(failure.line, 2);
 const schema = JSON.parse(readFileSync(new URL(import.meta.resolve('optical-format-import/schema')), 'utf8'));
 assert.equal(schema.properties.schemaVersion.const, data.schemaVersion);
 const pkg = JSON.parse(readFileSync('./node_modules/optical-format-import/package.json', 'utf8'));
 assert.deepEqual(pkg.dependencies ?? {}, {});
 assert.equal(Object.keys(pkg.scripts).some(key => ['install','postinstall','preinstall'].includes(key)), false);
-const oslo = parseText('LEN NEW "consumer" 1 1\\nEBR 2; RD 0; NXT; RD 20; END 1\\n', {format:'oslo', strict:true});
-assert.equal(oslo.surfaces[1].radiusMm, 20);
+const [oslo] = parseText('LEN NEW "consumer" 1 1\\nEBR 2; RD 0; NXT; RD 20; END 1\\n', {format:'oslo', strict:true});
+assert.equal(oslo.surfaces[1].radius, 20);
 `,
     );
     run(process.execPath, ["consumer.mjs"], consumer);
@@ -71,7 +72,7 @@ assert.equal(oslo.surfaces[1].radiusMm, 20);
       `
 const assert = require('node:assert/strict');
 const { parseText } = require('optical-format-import');
-assert.equal(typeof parseText, 'function');
+assert.equal(parseText('', {format: 'zemax'})[1].code, 'invalid_prescription');
 assert.equal(require('optical-format-import/package.json').name, 'optical-format-import');
 `,
     );
@@ -79,17 +80,31 @@ assert.equal(require('optical-format-import/package.json').name, 'optical-format
     writeFileSync(
       join(consumer, "consumer.mts"),
       `
-import { PrescriptionParseError, formatFromFilename, parseBytes, parseText, safeParseText, stringify } from 'optical-format-import';
+import { PrescriptionParseError, parseBytes, parseJson, parseText, stringify } from 'optical-format-import';
 import type { Format, Material, NormalizedPrescription, NormalizedSurface, ParseOptions, ParseResult, SystemAperture } from 'optical-format-import';
 const options: ParseOptions = {format:'zemax', strict:true};
-const prescription: NormalizedPrescription = parseText('text', options);
+const [parsed, parseError] = parseText('text', options);
+// @ts-expect-error the value is nullable until the error has been checked
+parsed.surfaces;
+if (parseError) throw parseError;
+// Checking the error narrows the value.
+const prescription: NormalizedPrescription = parsed;
 const surface: NormalizedSurface = prescription.surfaces[0]!;
-const curvature: number = 1 / surface.radiusMm;
-const semiDiameter: number | null = surface.semiDiameterMm;
-const maxRadius: number | undefined = surface.clearAperture?.maxRadiusMm;
+const curvature: number = 1 / surface.radius;
+const semiDiameter: number | null = surface.semiDiameter;
+const maxRadius: number | undefined = surface.clearAperture?.maxRadius;
 const output: string = stringify(prescription);
-const format: Format | null = formatFromFilename('a.zmx');
-async function fromFile(file: File): Promise<NormalizedPrescription> { return parseBytes(await file.arrayBuffer(), {filename: file.name}); }
+const format: Format = prescription.source.format;
+async function fromFile(file: File): Promise<NormalizedPrescription | null> {
+  const [fromBytes, bytesError] = parseBytes(await file.arrayBuffer(), options);
+  if (bytesError !== null) { const line: number | undefined = bytesError.line; return null; }
+  return fromBytes;
+}
+function fromJson(text: string): NormalizedPrescription {
+  const [restored, jsonError] = parseJson(text);
+  if (jsonError) throw jsonError;
+  return restored;
+}
 
 // Discriminated unions narrow, and switches over them are exhaustive.
 function describe(material: Material): string {
@@ -109,15 +124,18 @@ function apertureValue(aperture: SystemAperture): number {
   if (aperture.kind === 'floatingStop' || aperture.kind === 'unspecified') { const none: null = aperture.value; return 0; }
   return aperture.value;
 }
-function report(result: ParseResult): string {
-  if (result.ok) return result.prescription.name ?? '';
-  const error: PrescriptionParseError = result.error;
+function report([value, error]: ParseResult): string {
+  if (!error) return value.name ?? '';
   return error.code === 'strict_violation' ? error.diagnostics.map(d => d.code).join() : String(error.line);
 }
 
 declare const material: Material;
 // @ts-expect-error invalid format must fail at compile time
 parseText('text', {format:'invalid'});
+// @ts-expect-error the format is required
+parseText('text', {});
+// @ts-expect-error the library takes contents, not file names
+parseText('text', {format:'zemax', filename:'a.zmx'});
 // @ts-expect-error a property of one variant is not readable before narrowing
 material.name;
 // @ts-expect-error misspelled properties are rejected
@@ -132,8 +150,8 @@ if (prescription.aperture.kind === 'entrancePupilDiamter') {}
 if (prescription.diagnostics[0]?.code === 'unresolved') {}
 // @ts-expect-error a valued aperture kind never has a null value
 if (prescription.aperture.kind === 'imageFNumber') { const none: null = prescription.aperture.value; }
-// @ts-expect-error results must be narrowed on ok before reading the prescription
-safeParseText('text', options).prescription;
+// @ts-expect-error a result is a pair, not the prescription itself
+parseText('text', options).surfaces;
 `,
     );
     const compiler = join(root, "node_modules/typescript/bin/tsc");

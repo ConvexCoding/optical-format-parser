@@ -3,17 +3,8 @@ import { readFileSync, readdirSync } from "node:fs";
 import { fileURLToPath } from "node:url";
 import test from "node:test";
 import { Ajv2020 } from "ajv/dist/2020.js";
-import {
-  PrescriptionParseError,
-  formatFromFilename,
-  parseBytes,
-  parseJson,
-  parseText,
-  safeParseBytes,
-  safeParseText,
-  stringify,
-} from "../src/index.js";
-import type { Format, NormalizedPrescription, NormalizedSurface, ParseErrorCode } from "../src/index.js";
+import { PrescriptionParseError, parseBytes, parseJson, parseText, stringify } from "../src/index.js";
+import type { Format, NormalizedPrescription, NormalizedSurface, ParseErrorCode, Result } from "../src/index.js";
 import { tagSpecialNumbers } from "../src/json.js";
 
 const root = fileURLToPath(new URL("../", import.meta.url));
@@ -35,6 +26,15 @@ function compare(actual: any, expected: any, path = "$"): void {
 /** The JSON form of a prescription: what `stringify` writes and the schema describes. */
 const serialized = (data: NormalizedPrescription): unknown => JSON.parse(stringify(data));
 
+/** Most tests want the value: unwrap it, turning a returned error back into a thrown one. */
+function must<T>([value, error]: Result<T>): T {
+  if (error) throw error;
+  return value;
+}
+const mustParseText = (...args: Parameters<typeof parseText>) => must(parseText(...args));
+const mustParseBytes = (...args: Parameters<typeof parseBytes>) => must(parseBytes(...args));
+const mustParseJson = (...args: Parameters<typeof parseJson>) => must(parseJson(...args));
+
 function expectError(action: () => unknown, code: ParseErrorCode): PrescriptionParseError {
   try {
     action();
@@ -54,18 +54,18 @@ for (const format of ["zemax", "oslo"] as const) {
   for (const filename of readdirSync(root + "test/fixtures/" + format)) {
     test(`Fixture regression and schema: ${filename}`, () => {
       const bytes = readFileSync(root + `test/fixtures/${format}/${filename}`);
-      const data = parseBytes(bytes, { format, filename, includeRaw: true });
+      const data = mustParseBytes(bytes, { format, includeRaw: true });
       const golden = JSON.parse(readFileSync(root + `test/fixtures/golden/${filename}.json`, "utf8"));
       compare(serialized(data), golden);
       assert.ok(validate(golden), JSON.stringify(validate.errors));
-      compare(parseJson(stringify(data)), data);
+      compare(mustParseJson(stringify(data)), data);
 
-      // Format inference and the default (no raw) output agree with the explicit call.
+      // The default output is the same prescription without the raw model.
       const { raw, ...withoutRaw } = data;
       assert.ok(raw);
-      const inferred = parseBytes(bytes, { filename });
-      assert.deepEqual(inferred, withoutRaw);
-      assert.ok(validate(serialized(inferred)), JSON.stringify(validate.errors));
+      const plain = mustParseBytes(bytes, { format });
+      assert.deepEqual(plain, withoutRaw);
+      assert.ok(validate(serialized(plain)), JSON.stringify(validate.errors));
     });
   }
 }
@@ -82,7 +82,7 @@ function compareRegression(text: string, format: Format): NormalizedPrescription
   const fixture = regressions.find((entry) => entry.format === format && entry.text === text);
   assert.ok(fixture, "Missing regression fixture for " + format);
   assert.ok(validate(fixture.expected), JSON.stringify(validate.errors));
-  const data = parseText(text, { format, includeRaw: true });
+  const data = mustParseText(text, { format, includeRaw: true });
   compare(serialized(data), fixture.expected);
   return data;
 }
@@ -92,13 +92,13 @@ test("independent known geometry in both formats", () => {
     ["zemax", ZMX],
     ["oslo", LEN],
   ] as const) {
-    const data = parseText(text, { format, strict: true });
+    const data = mustParseText(text, { format, strict: true });
     assert.deepEqual(
-      data.surfaces.map((s) => s.radiusMm),
+      data.surfaces.map((s) => s.radius),
       [Infinity, 20, -20, Infinity],
     );
     assert.deepEqual(
-      data.surfaces.map((s) => s.thicknessMm),
+      data.surfaces.map((s) => s.thickness),
       [Infinity, 2, 20, 0],
     );
     assert.deepEqual(
@@ -106,7 +106,7 @@ test("independent known geometry in both formats", () => {
       ["object", "surface", "surface", "image"],
     );
     assert.equal(data.surfaces[1]?.stop, true);
-    assert.deepEqual(data.wavelengths, { valuesUm: [0.55], weights: [1], primaryIndex: 0 });
+    assert.deepEqual(data.wavelengths, { values: [0.55], weights: [1], primaryIndex: 0 });
     assert.equal("raw" in data, false);
   }
 });
@@ -139,7 +139,9 @@ test("synthetic prescription declarations match saved regressions", () => {
 });
 
 test("materials are a discriminated union with uniform catalog records", () => {
-  const zemax = parseText(ZMX.replace("STOP", "GCAT SCHOTT\nGLAS N-BK7 0 0 1.5168 64.17\nSTOP"), { format: "zemax" });
+  const zemax = mustParseText(ZMX.replace("STOP", "GCAT SCHOTT\nGLAS N-BK7 0 0 1.5168 64.17\nSTOP"), {
+    format: "zemax",
+  });
   assert.deepEqual(zemax.surfaces[1]?.material, {
     kind: "catalog",
     name: "N-BK7",
@@ -150,7 +152,7 @@ test("materials are a discriminated union with uniform catalog records", () => {
   });
   assert.deepEqual(zemax.surfaces[2]?.material, { kind: "air" });
   const material = (declaration: string) =>
-    parseText(LEN.replace("RD 20", `${declaration}; RD 20`), { format: "oslo" }).surfaces[1]?.material;
+    mustParseText(LEN.replace("RD 20", `${declaration}; RD 20`), { format: "oslo" }).surfaces[1]?.material;
   assert.deepEqual(material("GLA BK7"), {
     kind: "catalog",
     name: "BK7",
@@ -165,7 +167,10 @@ test("materials are a discriminated union with uniform catalog records", () => {
 
 test("asphere terms carry explicit powers and millimeter coefficients", () => {
   const asphere = "TYPE EVENASPH\nPARM 1 1e-4\nPARM 2 2e-6\nSTOP";
-  const even = surfaceOfType(parseText(ZMX.replace("STOP", asphere), { format: "zemax" }).surfaces[1], "evenAsphere");
+  const even = surfaceOfType(
+    mustParseText(ZMX.replace("STOP", asphere), { format: "zemax" }).surfaces[1],
+    "evenAsphere",
+  );
   assert.equal(even.nativeType, "EVENASPH");
   assert.deepEqual(even.asphereTerms, [
     { power: 2, coefficient: 1e-4, native: "PARM 1" },
@@ -173,22 +178,22 @@ test("asphere terms carry explicit powers and millimeter coefficients", () => {
   ]);
 
   // In inches, sag = a * r^p with r in inches; in millimeters the coefficient is a * 25.4^(1 - p).
-  const inches = parseText(ZMX.replace("UNIT MM", "UNIT IN").replace("STOP", asphere), { format: "zemax" });
+  const inches = mustParseText(ZMX.replace("UNIT MM", "UNIT IN").replace("STOP", asphere), { format: "zemax" });
   const scaled = surfaceOfType(inches.surfaces[1], "evenAsphere");
-  assert.equal(scaled.radiusMm, 20 * 25.4);
+  assert.equal(scaled.radius, 20 * 25.4);
   compare(
     scaled.asphereTerms.map((term) => term.coefficient),
     [1e-4 / 25.4, 2e-6 / 25.4 ** 3],
   );
 
-  const odd = parseText(ZMX.replace("STOP", "TYPE ODDASPHE\nPARM 1 0.5\nPARM 3 7\nSTOP"), { format: "zemax" });
+  const odd = mustParseText(ZMX.replace("STOP", "TYPE ODDASPHE\nPARM 1 0.5\nPARM 3 7\nSTOP"), { format: "zemax" });
   assert.deepEqual(
     surfaceOfType(odd.surfaces[1], "oddAsphere").asphereTerms.map((term) => term.power),
     [1, 3],
   );
 
   const oslo = (declarations: string) =>
-    parseText(LEN.replace("RD 20", `${declarations}; RD 20`), { format: "oslo" }).surfaces[1];
+    mustParseText(LEN.replace("RD 20", `${declarations}; RD 20`), { format: "oslo" }).surfaces[1];
   assert.deepEqual(surfaceOfType(oslo("AD 1e-5; AF 3e-9"), "evenAsphere").asphereTerms, [
     { power: 4, coefficient: 1e-5, native: "AD" },
     { power: 8, coefficient: 3e-9, native: "AF" },
@@ -204,40 +209,62 @@ test("asphere terms carry explicit powers and millimeter coefficients", () => {
 });
 
 test("semi-diameters and clear apertures are in millimeters for both formats", () => {
-  const zemax = parseText(ZMX.replace("UNIT MM", "UNIT CM").replace("STOP", "DIAM 1.5 0 0 0 1\nCLAP 0 1.2\nSTOP"), {
+  const zemax = mustParseText(ZMX.replace("UNIT MM", "UNIT CM").replace("STOP", "DIAM 1.5 0 0 0 1\nCLAP 0 1.2\nSTOP"), {
     format: "zemax",
   });
-  assert.equal(zemax.surfaces[1]?.semiDiameterMm, 15);
+  assert.equal(zemax.surfaces[1]?.semiDiameter, 15);
   assert.deepEqual(zemax.surfaces[1]?.clearAperture, {
     kind: "annulus",
-    minRadiusMm: 0,
-    maxRadiusMm: 12,
-    offsetXMm: 0,
-    offsetYMm: 0,
+    minRadius: 0,
+    maxRadius: 12,
+    offsetX: 0,
+    offsetY: 0,
     checked: null,
     checkingEnabled: null,
   });
-  assert.equal(zemax.surfaces[2]?.semiDiameterMm, null);
+  assert.equal(zemax.surfaces[2]?.semiDiameter, null);
   assert.equal(zemax.surfaces[2]?.clearAperture, null);
 
-  const oslo = parseText(LEN.replace("RD 20", "AP CHK 3; RD 20"), { format: "oslo" });
-  assert.equal(oslo.surfaces[1]?.semiDiameterMm, 3);
+  const oslo = mustParseText(LEN.replace("RD 20", "AP CHK 3; RD 20"), { format: "oslo" });
+  assert.equal(oslo.surfaces[1]?.semiDiameter, 3);
   assert.deepEqual(oslo.surfaces[1]?.clearAperture, {
     kind: "annulus",
-    minRadiusMm: 0,
-    maxRadiusMm: 3,
-    offsetXMm: 0,
-    offsetYMm: 0,
+    minRadius: 0,
+    maxRadius: 3,
+    offsetX: 0,
+    offsetY: 0,
     checked: true,
     checkingEnabled: true,
   });
 });
 
+test("wavelengths are micrometers", () => {
+  const zemax = mustParseText(ZMX.replace("WAVM 1 0.55 1", "WAVM 1 0.55 1\nWAVM 2 0.5875618 1"), { format: "zemax" });
+  assert.equal(zemax.units.wavelength, "um");
+  assert.deepEqual(zemax.wavelengths.values, [0.55, 0.5875618]);
+
+  const sampled = LEN.replace("WV 0.55", "WV 0.55 0.65 0.75").replace("RD 20", "GLA 1.6 1.5 1.4; RD 20");
+  assert.deepEqual(mustParseText(sampled, { format: "oslo" }).surfaces[1]?.material, {
+    kind: "sampledIndex",
+    name: null,
+    wavelengths: [0.55, 0.65, 0.75],
+    indices: [1.6, 1.5, 1.4],
+  });
+  // OSLO's default d, F and C lines.
+  assert.deepEqual(
+    mustParseText(LEN.replace("WV 0.55\n", ""), { format: "oslo" }).wavelengths.values,
+    [0.58756, 0.48613, 0.65627],
+  );
+});
+
 test("fields always provide points; OSLO tables are reported as relative points", () => {
   const none = { decenterX: 0, decenterY: 0, compressX: 0, compressY: 0, tangentAngle: 0 };
-  const zemax = parseText(ZMX.replace("PWAV 1", "PWAV 1\nFTYP 1 0 2 1\nXFLD 0 0\nYFLD 0 5\nFWGN 1 2\nVCYN 0 0.25"), {
-    format: "zemax",
-  });
+  const zemax = mustParseText(
+    ZMX.replace("PWAV 1", "PWAV 1\nFTYP 1 0 2 1\nXFLD 0 0\nYFLD 0 5\nFWGN 1 2\nVCYN 0 0.25"),
+    {
+      format: "zemax",
+    },
+  );
   assert.equal(zemax.fields.kind, "objectHeight");
   assert.equal(zemax.fields.specification, "pointList");
   assert.deepEqual(zemax.fields.points, [
@@ -246,7 +273,7 @@ test("fields always provide points; OSLO tables are reported as relative points"
   ]);
   assert.deepEqual(zemax.fields.relativePoints, []);
 
-  const oslo = parseText(LEN.replace("ANG 0", "ANG 20") + "RST NEW\nF 1 0.7 0 0 0 0 -1 1 -1 1 1\nEND\n", {
+  const oslo = mustParseText(LEN.replace("ANG 0", "ANG 20") + "RST NEW\nF 1 0.7 0 0 0 0 -1 1 -1 1 1\nEND\n", {
     format: "oslo",
   });
   assert.equal(oslo.fields.kind, "angle");
@@ -257,34 +284,31 @@ test("fields always provide points; OSLO tables are reported as relative points"
 });
 
 test("system aperture kinds and units", () => {
-  const zemax = parseText(ZMX.replace("UNIT MM", "UNIT CM"), { format: "zemax" });
+  const zemax = mustParseText(ZMX.replace("UNIT MM", "UNIT CM"), { format: "zemax" });
   assert.deepEqual(zemax.aperture, { kind: "entrancePupilDiameter", value: 40, source: { EPD: 4 } });
-  const floating = parseText(ZMX.replace("ENPD 4", "FLOA"), { format: "zemax" });
+  const floating = mustParseText(ZMX.replace("ENPD 4", "FLOA"), { format: "zemax" });
   assert.deepEqual(floating.aperture, { kind: "floatingStop", value: null, source: { floating_stop: true } });
-  const oslo = parseText(LEN, { format: "oslo" });
+  const oslo = mustParseText(LEN, { format: "oslo" });
   assert.deepEqual(oslo.aperture, { kind: "beamRadiusAtSurface1", value: 2, source: { EPD: 4 } });
-  const unspecified = parseText(LEN.replace("EBR 2\n", ""), { format: "oslo" });
+  const unspecified = mustParseText(LEN.replace("EBR 2\n", ""), { format: "oslo" });
   assert.deepEqual(unspecified.aperture, { kind: "unspecified", value: null, source: {} });
 });
 
 test("strict rejects partial imports and unknown records are retained", () => {
   const source = ZMX.replace("SURF 0", "BOGUS 2\nSURF 0");
-  const data = parseText(source, { format: "zemax", includeRaw: true });
+  const data = mustParseText(source, { format: "zemax", includeRaw: true });
   assert.ok(data.diagnostics.some((d) => d.command === "BOGUS"));
   assert.ok((data.raw?.records as any[]).some((r) => r.text === "BOGUS 2"));
-  expectError(() => parseText(source, { format: "zemax", strict: true }), "strict_violation");
+  expectError(() => mustParseText(source, { format: "zemax", strict: true }), "strict_violation");
   expectError(
-    () => parseText(LEN.replace("RD 20", "BOGUS 2; RD 20"), { format: "oslo", strict: true }),
+    () => mustParseText(LEN.replace("RD 20", "BOGUS 2; RD 20"), { format: "oslo", strict: true }),
     "strict_violation",
   );
 });
 
 test("strict errors carry every diagnostic of the rejected import", () => {
   const source = ZMX.replace("SURF 0", "BOGUS 2\nVERS 1\nSURF 0") + "OTHER 3\n";
-  const error = expectError(
-    () => parseText(source, { format: "zemax", strict: true, filename: "a.zmx" }),
-    "strict_violation",
-  );
+  const error = expectError(() => mustParseText(source, { format: "zemax", strict: true }), "strict_violation");
   assert.deepEqual(
     error.diagnostics.map((d) => [d.severity, d.command, d.line, d.surface]),
     [
@@ -293,32 +317,33 @@ test("strict errors carry every diagnostic of the rejected import", () => {
       ["warning", "OTHER", 21, 3],
     ],
   );
-  assert.equal(error.filename, "a.zmx");
   assert.match(error.message, /2 warning\(s\)/);
 });
 
 test("malformed input reports where it failed", () => {
   const zemax = expectError(
-    () => parseText(ZMX.replace("CURV 0.05", "CURV 12junk"), { format: "zemax", filename: "bad.zmx" }),
+    () => mustParseText(ZMX.replace("CURV 0.05", "CURV 12junk"), { format: "zemax" }),
     "invalid_prescription",
   );
-  assert.deepEqual([zemax.filename, zemax.line, zemax.command], ["bad.zmx", 10, "CURV"]);
-  assert.equal(zemax.message, "bad.zmx:10: CURV: Invalid numeric token: 12junk");
+  assert.deepEqual([zemax.line, zemax.command], [10, "CURV"]);
+  assert.equal(zemax.message, "line 10: CURV: Invalid numeric token: 12junk");
   assert.equal(zemax.name, "PrescriptionParseError");
   assert.ok(zemax instanceof Error);
 
   const oslo = expectError(
-    () => parseText(LEN.replace("RD 20", "RD 12junk"), { filename: "bad.len" }),
+    () => mustParseText(LEN.replace("RD 20", "RD 12junk"), { format: "oslo" }),
     "invalid_prescription",
   );
-  assert.deepEqual([oslo.filename, oslo.line], ["bad.len", 6]);
+  assert.equal(oslo.line, 6);
+  assert.equal(oslo.message, "line 6: Invalid numeric token: 12junk");
 
-  // Problems found after the last line have no line number but still name the file.
+  // Problems found after the last line have no line number.
   const unit = expectError(
-    () => parseText(ZMX.replace("UNIT MM", "UNIT BOGUS"), { filename: "u.zmx" }),
+    () => mustParseText(ZMX.replace("UNIT MM", "UNIT BOGUS"), { format: "zemax" }),
     "invalid_prescription",
   );
-  assert.deepEqual([unit.filename, unit.line], ["u.zmx", undefined]);
+  assert.equal(unit.line, undefined);
+  assert.equal(unit.message, "Unsupported Zemax length unit: BOGUS");
 });
 
 test("complete numeric tokens, counts, quotes, NaN and non-sequential input fail", () => {
@@ -336,57 +361,81 @@ test("complete numeric tokens, counts, quotes, NaN and non-sequential input fail
     ["oslo", LEN + "CFG NEW\nTH 1 2 8\n"],
     ["oslo", LEN.replace("WV 0.55", "WV2 0.6; WV8 0.7")],
   ];
-  for (const [format, text] of cases) expectError(() => parseText(text, { format }), "invalid_prescription");
+  for (const [format, text] of cases) expectError(() => mustParseText(text, { format }), "invalid_prescription");
 });
 
-test("safe parsing returns errors instead of throwing", () => {
-  const good = safeParseText(ZMX, { format: "zemax" });
-  assert.ok(good.ok);
-  assert.equal(good.prescription.surfaces.length, 4);
+test("parsing returns [value, error] pairs and never throws for bad input", () => {
+  const [prescription, noError] = parseText(ZMX, { format: "zemax" });
+  assert.equal(noError, null);
+  assert.equal(prescription?.surfaces.length, 4);
 
-  const bad = safeParseText(ZMX.replace("CURV 0.05", "CURV 12junk"), { format: "zemax" });
-  assert.ok(!bad.ok);
-  assert.equal(bad.error.code, "invalid_prescription");
-  assert.equal(bad.error.line, 10);
+  const [nothing, error] = parseText(ZMX.replace("CURV 0.05", "CURV 12junk"), { format: "zemax" });
+  assert.equal(nothing, null);
+  assert.ok(error instanceof PrescriptionParseError);
+  assert.deepEqual([error.code, error.line, error.command], ["invalid_prescription", 10, "CURV"]);
 
-  const bytes = safeParseBytes(new Uint8Array([0xff, 0xfe, 0x00, 0xd8, 0x41]), { format: "zemax" });
-  assert.ok(!bytes.ok);
-  assert.equal(bytes.error.code, "decoding_failed");
-  assert.equal(safeParseBytes(new TextEncoder().encode(LEN), { filename: "x.LEN" }).ok, true);
+  const codes = [
+    parseText(ZMX + "BOGUS 1\n", { format: "zemax", strict: true }),
+    parseText(ZMX, { format: "codev" as Format }),
+    parseText(ZMX, undefined as never),
+    parseText(undefined as never, { format: "zemax" }),
+    parseBytes(new Uint8Array([0xff, 0xfe, 0x00, 0xd8, 0x41]), { format: "zemax" }),
+    parseBytes(new Uint8Array([0x81, 0xff]), { format: "oslo" }),
+    parseBytes(null as never, { format: "zemax" }),
+    parseJson("{nope"),
+    parseJson('{"schemaVersion":"1.0"}'),
+  ].map(([value, failure]) => [value, failure?.code]);
+  assert.deepEqual(codes, [
+    [null, "strict_violation"],
+    [null, "invalid_options"],
+    [null, "invalid_options"],
+    [null, "invalid_options"],
+    [null, "decoding_failed"],
+    [null, "decoding_failed"],
+    [null, "invalid_options"],
+    [null, "invalid_json"],
+    [null, "invalid_json"],
+  ]);
+
+  const [fromBytes] = parseBytes(new TextEncoder().encode(LEN), { format: "oslo" });
+  const [fromText] = parseText(LEN, { format: "oslo" });
+  assert.deepEqual(fromBytes?.surfaces, fromText?.surfaces);
+  const [restored, jsonError] = parseJson(stringify(must(parseText(ZMX, { format: "zemax" }))));
+  assert.equal(jsonError, null);
+  assert.equal(restored?.surfaces[0]?.radius, Infinity);
 });
 
-test("format is inferred from the filename and bad options are reported", () => {
-  assert.equal(formatFromFilename("Design.ZMX"), "zemax");
-  assert.equal(formatFromFilename("dir/lens.len"), "oslo");
-  assert.equal(formatFromFilename("lens.json"), null);
-  assert.equal(parseText(ZMX, { filename: "simple.zmx" }).source.format, "zemax");
-  assert.equal(parseText(ZMX, { filename: "misnamed.len", format: "zemax" }).source.format, "zemax");
-  expectError(() => parseText(ZMX, {}), "invalid_options");
-  expectError(() => parseText(ZMX, { filename: "lens.txt" }), "invalid_options");
-  expectError(() => parseText(ZMX, { format: "codev" as Format }), "invalid_options");
-  expectError(() => parseText(ZMX, undefined as never), "invalid_options");
-  expectError(() => parseBytes(new Uint8Array([0x81, 0xff]), { format: "oslo" }), "decoding_failed");
+test("the format is always explicit and bad options are reported", () => {
+  expectError(() => mustParseText(ZMX, {} as never), "invalid_options");
+  assert.deepEqual(Object.keys(mustParseText(ZMX, { format: "zemax" }).source).sort(), [
+    "encoding",
+    "format",
+    "upstreamRevision",
+  ]);
+  expectError(() => mustParseText(ZMX, { format: "codev" as Format }), "invalid_options");
+  expectError(() => mustParseText(ZMX, undefined as never), "invalid_options");
+  expectError(() => mustParseBytes(new Uint8Array([0x81, 0xff]), { format: "oslo" }), "decoding_failed");
 });
 
 test("JSON round trip tags and restores infinities", () => {
-  const data = parseText(ZMX, { format: "zemax", includeRaw: true });
+  const data = mustParseText(ZMX, { format: "zemax", includeRaw: true });
   const json = stringify(data);
   assert.ok(json.endsWith("}\n"));
-  assert.deepEqual(JSON.parse(json).surfaces[0].radiusMm, { special: "positiveInfinity" });
+  assert.deepEqual(JSON.parse(json).surfaces[0].radius, { special: "positiveInfinity" });
   assert.equal(JSON.parse(json).raw.surfaces[0].thickness.special, "positiveInfinity");
   assert.ok(validate(JSON.parse(json)), JSON.stringify(validate.errors));
-  assert.deepEqual(parseJson(json), data);
-  assert.equal(parseJson(json).surfaces[0]?.radiusMm, Infinity);
+  assert.deepEqual(mustParseJson(json), data);
+  assert.equal(mustParseJson(json).surfaces[0]?.radius, Infinity);
 
   assert.deepEqual(tagSpecialNumbers({ x: -Infinity }), { x: { special: "negativeInfinity" } });
   assert.throws(() => tagSpecialNumbers({ x: NaN }));
-  expectError(() => parseJson("{nope"), "invalid_json");
-  expectError(() => parseJson('{"schemaVersion":"1.0"}'), "invalid_json");
-  expectError(() => parseJson("null"), "invalid_json");
+  expectError(() => mustParseJson("{nope"), "invalid_json");
+  expectError(() => mustParseJson('{"schemaVersion":"1.0"}'), "invalid_json");
+  expectError(() => mustParseJson("null"), "invalid_json");
 });
 
 test("UTF-8 BOM and UTF-16 LE/BE including no BOM", () => {
-  const expected = parseText(ZMX, { format: "zemax" });
+  const expected = mustParseText(ZMX, { format: "zemax" });
   const utf8 = new TextEncoder().encode(ZMX);
   const payloads: [Uint8Array, string][] = [
     [utf8, "utf-8"],
@@ -403,7 +452,7 @@ test("UTF-8 BOM and UTF-16 LE/BE including no BOM", () => {
     payloads.push([bytes, encoding], [new Uint8Array([...(big ? [0xfe, 0xff] : [0xff, 0xfe]), ...bytes]), encoding]);
   }
   for (const [bytes, encoding] of payloads) {
-    const data = parseBytes(bytes, { format: "zemax" });
+    const data = mustParseBytes(bytes, { format: "zemax" });
     assert.equal(data.source.encoding, encoding);
     assert.deepEqual({ ...data, source: expected.source }, expected);
   }
@@ -412,16 +461,16 @@ test("UTF-8 BOM and UTF-16 LE/BE including no BOM", () => {
 test("true Latin-1 differs from Windows-1252", () => {
   const source = ZMX.replace("simple", "café\u0080");
   const latin = Uint8Array.from([...source].map((c) => c.charCodeAt(0)));
-  assert.equal(parseBytes(latin, { format: "zemax" }).name, "café\u0080");
+  assert.equal(mustParseBytes(latin, { format: "zemax" }).name, "café\u0080");
   const cp = Uint8Array.from([...LEN.replace("simple", "smart \u0093quotes\u0094")].map((c) => c.charCodeAt(0)));
-  const oslo = parseBytes(cp, { format: "oslo" });
+  const oslo = mustParseBytes(cp, { format: "oslo" });
   assert.equal(oslo.name, "smart “quotes”");
   assert.equal(oslo.source.encoding, "cp1252");
 });
 
 test("ArrayBuffer input and repeated calls are deterministic", () => {
   const buffer = new TextEncoder().encode(ZMX).buffer;
-  assert.deepEqual(parseBytes(buffer, { format: "zemax" }), parseBytes(buffer, { format: "zemax" }));
+  assert.deepEqual(mustParseBytes(buffer, { format: "zemax" }), mustParseBytes(buffer, { format: "zemax" }));
 });
 
 test("source package has no runtime dependencies or Node imports", () => {
@@ -443,12 +492,12 @@ test("invalid common numbers and clear aperture bounds fail", () => {
     "DIAM Infinity",
   ]) {
     expectError(
-      () => parseText(ZMX.replace("STOP", insertion + "\nSTOP"), { format: "zemax" }),
+      () => mustParseText(ZMX.replace("STOP", insertion + "\nSTOP"), { format: "zemax" }),
       "invalid_prescription",
     );
   }
   for (const replacement of ["ENPD Infinity", "ENPD -2"]) {
-    expectError(() => parseText(ZMX.replace("ENPD 4", replacement), { format: "zemax" }), "invalid_prescription");
+    expectError(() => mustParseText(ZMX.replace("ENPD 4", replacement), { format: "zemax" }), "invalid_prescription");
   }
 });
 
@@ -463,9 +512,9 @@ test("short weight columns are diagnosed and still schema-valid", () => {
 });
 
 test("uninterpreted OSLO footer and phase features are explicit", () => {
-  const data = parseText(LEN + "BOGUS 2\n", { format: "oslo" });
+  const data = mustParseText(LEN + "BOGUS 2\n", { format: "oslo" });
   assert.ok(data.diagnostics.some((d) => d.command === "BOGUS"));
-  expectError(() => parseText(LEN + "BOGUS 2\n", { format: "oslo", strict: true }), "strict_violation");
+  expectError(() => mustParseText(LEN + "BOGUS 2\n", { format: "oslo", strict: true }), "strict_violation");
   const phase = compareRegression(LEN.replace("RD 20", "GSP 0.01; GOR 1; RD 20"), "oslo");
   assert.ok(phase.diagnostics.some((d) => d.code === "unresolved_optical_feature"));
 });

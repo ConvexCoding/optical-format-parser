@@ -72,7 +72,7 @@
     placeholder="Your normalized JSON will appear here."
   ></textarea>
   <script type="module">
-    import { formatFromFilename, parseBytes, stringify } from "../../dist/index.js";
+    import { parseBytes, stringify } from "../../dist/index.js";
     let filename = "lens";
     const output = document.querySelector("#output"),
       status = document.querySelector("#status");
@@ -81,13 +81,16 @@
       try {
         output.value = "";
         download.disabled = true;
-        const format = formatFromFilename(name);
+        // Choosing the format is the application's job; this page goes by the file extension.
+        const extension = name.toLowerCase().split(".").pop();
+        const format = { zmx: "zemax", len: "oslo" }[extension];
         if (!format) throw new Error("Choose a .zmx or .len file.");
-        const data = parseBytes(bytes, { format, filename: name });
+        const [data, error] = parseBytes(bytes, { format });
+        if (error) throw error;
         output.value = stringify(data);
         filename = name;
         const warnings = data.diagnostics.filter((d) => d.severity === "warning").length;
-        status.textContent = `${name}: ${data.surfaces.length} surface records, ${data.wavelengths.valuesUm.length} wavelengths, ${warnings} import warnings.\n${warnings ? "Some declarations remain uninterpreted. Review the diagnostics." : "Prescription parsed successfully."}`;
+        status.textContent = `${name}: ${data.surfaces.length} surface records, ${data.wavelengths.values.length} wavelengths, ${warnings} import warnings.\n${warnings ? "Some declarations remain uninterpreted. Review the diagnostics." : "Prescription parsed successfully."}`;
         document.querySelector("#diagnostics").textContent = JSON.stringify(data.diagnostics, null, 2);
         download.disabled = false;
       } catch (error) {

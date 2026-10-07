@@ -28,7 +28,6 @@ import type {
 const UPSTREAM_REVISION = "4e893f53aee1312f2d091680b93dd2279711e197";
 
 export interface NormalizeContext {
-  filename: string;
   encoding: SourceEncoding;
   strict: boolean;
   includeRaw: boolean;
@@ -116,7 +115,7 @@ function wavelengths(
   if (values.length && primaryIndex === null) {
     log.warn("missing_primary_wavelength", "Declared primary wavelength is not in the active slots");
   }
-  return { valuesUm: [...values], weights: [...weights], primaryIndex };
+  return { values: [...values], weights: [...weights], primaryIndex };
 }
 
 function surfaceIndices(surfaces: Readonly<Record<number, unknown>>): number[] {
@@ -178,12 +177,12 @@ function finish(
     throw new PrescriptionParseError(
       "strict_violation",
       `Strict import rejected ${warnings.length} warning(s); first: ${warnings[0].code}: ${warnings[0].message}`,
-      { filename: context.filename, diagnostics: log.items },
+      { diagnostics: log.items },
     );
   }
   const prescription: NormalizedPrescription = {
     schemaVersion: "2.0",
-    source: { format, filename: context.filename, encoding: context.encoding, upstreamRevision: UPSTREAM_REVISION },
+    source: { format, encoding: context.encoding, upstreamRevision: UPSTREAM_REVISION },
     name: model.name,
     mode: "sequential",
     ...parts,
@@ -282,10 +281,10 @@ function zemaxClearAperture(surface: ZemaxSurface, scale: number): ClearAperture
   }
   return {
     kind: "annulus",
-    minRadiusMm: native.r_min * scale,
-    maxRadiusMm: native.r_max * scale,
-    offsetXMm: native.offset_x * scale,
-    offsetYMm: native.offset_y * scale,
+    minRadius: native.r_min * scale,
+    maxRadius: native.r_max * scale,
+    offsetX: native.offset_x * scale,
+    offsetY: native.offset_y * scale,
     checked: null,
     checkingEnabled: null,
   };
@@ -344,13 +343,13 @@ export function normalizeZemax(model: ZemaxModel, context: NormalizeContext): No
       index,
       role: surfaceRole(type, index, lastIndex),
       nativeType: known?.native ?? native.type.toUpperCase(),
-      radiusMm: (native.radius ?? Infinity) * scale,
-      thicknessMm: (native.thickness ?? 0) * scale,
+      radius: (native.radius ?? Infinity) * scale,
+      thickness: (native.thickness ?? 0) * scale,
       conic: native.conic,
       stop: native.is_stop,
       material,
       clearAperture: zemaxClearAperture(native, scale),
-      semiDiameterMm: native.diameter === undefined ? null : native.diameter * scale,
+      semiDiameter: native.diameter === undefined ? null : native.diameter * scale,
       parameters: toJsonObject(native),
     };
     surfaces.push(typedSurface(base, type, () => zemaxAsphereTerms(native, type, scale)));
@@ -453,9 +452,9 @@ function osloMaterial(surface: OsloSurface): Material {
     return { kind: "model", name, nd: first, vd: second, dispersion: "unspecified", resolution: "unresolved" };
   }
   if (first !== undefined && new Set(indices).size === 1) return { kind: "constantIndex", name, index: first };
-  const wavelengthsUm = surface.glass_wavelengths ?? DEFAULT_WAVELENGTHS;
-  if (indices.length !== wavelengthsUm.length) throw new DeclarationError("OSLO glass index/wavelength counts differ");
-  return { kind: "sampledIndex", name, wavelengthsUm: [...wavelengthsUm], indices };
+  const sampled = surface.glass_wavelengths ?? DEFAULT_WAVELENGTHS;
+  if (indices.length !== sampled.length) throw new DeclarationError("OSLO glass index/wavelength counts differ");
+  return { kind: "sampledIndex", name, wavelengths: [...sampled], indices };
 }
 
 function osloSurfaceType(surface: OsloSurface): SurfaceType {
@@ -539,30 +538,30 @@ export function normalizeOslo(model: OsloModel, context: NormalizeContext): Norm
         index,
       );
     }
-    const semiDiameterMm = native.AP === undefined ? null : native.AP * scale;
+    const semiDiameter = native.AP === undefined ? null : native.AP * scale;
     const base: SurfaceBase = {
       index,
       role: surfaceRole(type, index, lastIndex),
       nativeType: native.ASP ?? "ADO",
-      radiusMm: (native.RD ?? Infinity) * scale,
-      thicknessMm: thickness * scale,
+      radius: (native.RD ?? Infinity) * scale,
+      thickness: thickness * scale,
       conic: native.CC ?? 0,
       // Without an explicit AST, OSLO takes surface 1 as the stop.
       stop: native.AST ?? (!declaresStop && index === 1),
       material,
       clearAperture:
-        semiDiameterMm === null
+        semiDiameter === null
           ? null
           : {
               kind: "annulus",
-              minRadiusMm: 0,
-              maxRadiusMm: semiDiameterMm,
-              offsetXMm: 0,
-              offsetYMm: 0,
+              minRadius: 0,
+              maxRadius: semiDiameter,
+              offsetX: 0,
+              offsetY: 0,
               checked: native.aperture_checked ?? false,
               checkingEnabled: model.settings.aperture_check ?? true,
             },
-      semiDiameterMm,
+      semiDiameter,
       parameters: toJsonObject(native),
     };
     surfaces.push(typedSurface(base, type, () => osloAsphereTerms(native, scale)));

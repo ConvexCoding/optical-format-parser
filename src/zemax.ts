@@ -32,7 +32,7 @@ function newSurface(): ZemaxSurface {
   return { type: "standard", is_stop: false, conic: 0, material: "air", aperture: null };
 }
 
-export function parseZemax(text: string, filename: string): ZemaxModel {
+export function parseZemax(text: string): ZemaxModel {
   const model: ZemaxModel = {
     mode: "Sequential",
     units: "MM",
@@ -242,16 +242,11 @@ export function parseZemax(text: string, filename: string): ZemaxModel {
       }
     } catch (error) {
       if (!(error instanceof DeclarationError)) throw error;
-      throw new PrescriptionParseError(
-        "invalid_prescription",
-        `${filename}:${lineNumber}: ${command}: ${error.message}`,
-        {
-          filename,
-          line: lineNumber,
-          command,
-          cause: error,
-        },
-      );
+      throw new PrescriptionParseError("invalid_prescription", `line ${lineNumber}: ${command}: ${error.message}`, {
+        line: lineNumber,
+        command,
+        cause: error,
+      });
     }
   }
   if (!Object.keys(model.aperture).length) throw new DeclarationError("Zemax file requires aperture data");

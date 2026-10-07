@@ -2,7 +2,6 @@
   "schemaVersion": "2.0",
   "source": {
     "format": "oslo",
-    "filename": "test_asphere_singlet.len",
     "encoding": "utf-8",
     "upstreamRevision": "4e893f53aee1312f2d091680b93dd2279711e197"
   },
@@ -48,7 +47,7 @@
     }
   },
   "wavelengths": {
-    "valuesUm": [
+    "values": [
       0.587
     ],
     "weights": [
@@ -61,10 +60,10 @@
       "index": 0,
       "role": "object",
       "nativeType": "ADO",
-      "radiusMm": {
+      "radius": {
         "special": "positiveInfinity"
       },
-      "thicknessMm": {
+      "thickness": {
         "special": "positiveInfinity"
       },
       "conic": 0,
@@ -74,14 +73,14 @@
       },
       "clearAperture": {
         "kind": "annulus",
-        "minRadiusMm": 0,
-        "maxRadiusMm": 10000000000,
-        "offsetXMm": 0,
-        "offsetYMm": 0,
+        "minRadius": 0,
+        "maxRadius": 10000000000,
+        "offsetX": 0,
+        "offsetY": 0,
         "checked": false,
         "checkingEnabled": true
       },
-      "semiDiameterMm": 10000000000,
+      "semiDiameter": 10000000000,
       "parameters": {
         "material": "AIR",
         "TH": 10000000000,
@@ -94,8 +93,8 @@
       "index": 1,
       "role": "surface",
       "nativeType": "ADO",
-      "radiusMm": 20,
-      "thicknessMm": 7,
+      "radius": 20,
+      "thickness": 7,
       "conic": 0,
       "stop": true,
       "material": {
@@ -108,14 +107,14 @@
       },
       "clearAperture": {
         "kind": "annulus",
-        "minRadiusMm": 0,
-        "maxRadiusMm": 10,
-        "offsetXMm": 0,
-        "offsetYMm": 0,
+        "minRadius": 0,
+        "maxRadius": 10,
+        "offsetX": 0,
+        "offsetY": 0,
         "checked": false,
         "checkingEnabled": true
       },
-      "semiDiameterMm": 10,
+      "semiDiameter": 10,
       "parameters": {
         "material": "GLA N-SF11",
         "glass_wavelengths": [
@@ -160,17 +159,17 @@
       "index": 2,
       "role": "surface",
       "nativeType": "ADO",
-      "radiusMm": {
+      "radius": {
         "special": "positiveInfinity"
       },
-      "thicknessMm": 21.56201,
+      "thickness": 21.56201,
       "conic": 0,
       "stop": false,
       "material": {
         "kind": "air"
       },
       "clearAperture": null,
-      "semiDiameterMm": null,
+      "semiDiameter": null,
       "parameters": {
         "material": "AIR",
         "TH": 21.56201
@@ -181,17 +180,17 @@
       "index": 3,
       "role": "image",
       "nativeType": "ADO",
-      "radiusMm": {
+      "radius": {
         "special": "positiveInfinity"
       },
-      "thicknessMm": 0,
+      "thickness": 0,
       "conic": 0,
       "stop": false,
       "material": {
         "kind": "air"
       },
       "clearAperture": null,
-      "semiDiameterMm": null,
+      "semiDiameter": null,
       "parameters": {
         "material": "AIR",
         "TH": 0

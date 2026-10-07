@@ -2,7 +2,7 @@
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "urn:optical-format-import:prescription:2.0",
   "title": "Normalized optical prescription (declarations, not computed optics)",
-  "description": "The JSON written by stringify(). Infinite numbers appear as { \"special\": \"positiveInfinity\" | \"negativeInfinity\" }.",
+  "description": "The JSON written by stringify(). Lengths are millimeters and wavelengths micrometers; parameters, source and raw keep file units. Infinite numbers appear as { \"special\": \"positiveInfinity\" | \"negativeInfinity\" }.",
   "type": "object",
   "properties": {
     "schemaVersion": {
@@ -14,9 +14,6 @@
         "format": {
           "enum": ["zemax", "oslo"]
         },
-        "filename": {
-          "type": "string"
-        },
         "encoding": {
           "enum": ["text", "utf-8", "utf-16-le", "utf-16-be", "iso-8859-1", "cp1252"]
         },
@@ -24,7 +21,7 @@
           "type": "string"
         }
       },
-      "required": ["format", "filename", "encoding", "upstreamRevision"],
+      "required": ["format", "encoding", "upstreamRevision"],
       "additionalProperties": false
     },
     "name": {
@@ -217,7 +214,7 @@
     "wavelengths": {
       "type": "object",
       "properties": {
-        "valuesUm": {
+        "values": {
           "type": "array",
           "items": {
             "type": "number",
@@ -243,7 +240,7 @@
           ]
         }
       },
-      "required": ["valuesUm", "weights", "primaryIndex"],
+      "required": ["values", "weights", "primaryIndex"],
       "additionalProperties": false
     },
     "surfaces": {
@@ -380,10 +377,10 @@
         "nativeType": {
           "type": "string"
         },
-        "radiusMm": {
+        "radius": {
           "$ref": "#/$defs/opticalNumber"
         },
-        "thicknessMm": {
+        "thickness": {
           "$ref": "#/$defs/opticalNumber"
         },
         "conic": {
@@ -403,18 +400,18 @@
                 "kind": {
                   "const": "annulus"
                 },
-                "minRadiusMm": {
+                "minRadius": {
                   "type": "number",
                   "minimum": 0
                 },
-                "maxRadiusMm": {
+                "maxRadius": {
                   "type": "number",
                   "minimum": 0
                 },
-                "offsetXMm": {
+                "offsetX": {
                   "type": "number"
                 },
-                "offsetYMm": {
+                "offsetY": {
                   "type": "number"
                 },
                 "checked": {
@@ -438,15 +435,7 @@
                   ]
                 }
               },
-              "required": [
-                "kind",
-                "minRadiusMm",
-                "maxRadiusMm",
-                "offsetXMm",
-                "offsetYMm",
-                "checked",
-                "checkingEnabled"
-              ],
+              "required": ["kind", "minRadius", "maxRadius", "offsetX", "offsetY", "checked", "checkingEnabled"],
               "additionalProperties": false
             },
             {
@@ -454,7 +443,7 @@
             }
           ]
         },
-        "semiDiameterMm": {
+        "semiDiameter": {
           "anyOf": [
             {
               "type": "number"
@@ -496,13 +485,13 @@
         "role",
         "type",
         "nativeType",
-        "radiusMm",
-        "thicknessMm",
+        "radius",
+        "thickness",
         "conic",
         "stop",
         "material",
         "clearAperture",
-        "semiDiameterMm",
+        "semiDiameter",
         "parameters"
       ],
       "additionalProperties": false,
@@ -667,7 +656,7 @@
                 }
               ]
             },
-            "wavelengthsUm": {
+            "wavelengths": {
               "type": "array",
               "items": {
                 "type": "number",
@@ -682,7 +671,7 @@
               }
             }
           },
-          "required": ["kind", "name", "wavelengthsUm", "indices"],
+          "required": ["kind", "name", "wavelengths", "indices"],
           "additionalProperties": false
         },
         {

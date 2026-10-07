@@ -2,7 +2,6 @@
   "schemaVersion": "2.0",
   "source": {
     "format": "zemax",
-    "filename": "one_mirror_up_45deg.zmx",
     "encoding": "utf-16-le",
     "upstreamRevision": "4e893f53aee1312f2d091680b93dd2279711e197"
   },
@@ -72,7 +71,7 @@
     }
   },
   "wavelengths": {
-    "valuesUm": [
+    "values": [
       0.55
     ],
     "weights": [
@@ -85,10 +84,10 @@
       "index": 0,
       "role": "object",
       "nativeType": "STANDARD",
-      "radiusMm": {
+      "radius": {
         "special": "positiveInfinity"
       },
-      "thicknessMm": {
+      "thickness": {
         "special": "positiveInfinity"
       },
       "conic": 0,
@@ -97,7 +96,7 @@
         "kind": "air"
       },
       "clearAperture": null,
-      "semiDiameterMm": 0,
+      "semiDiameter": 0,
       "parameters": {
         "type": "standard",
         "is_stop": false,
@@ -118,17 +117,17 @@
       "index": 1,
       "role": "surface",
       "nativeType": "STANDARD",
-      "radiusMm": {
+      "radius": {
         "special": "positiveInfinity"
       },
-      "thicknessMm": 10,
+      "thickness": 10,
       "conic": 0,
       "stop": false,
       "material": {
         "kind": "air"
       },
       "clearAperture": null,
-      "semiDiameterMm": 10,
+      "semiDiameter": 10,
       "parameters": {
         "type": "standard",
         "is_stop": false,
@@ -147,17 +146,17 @@
       "index": 2,
       "role": "surface",
       "nativeType": "STANDARD",
-      "radiusMm": {
+      "radius": {
         "special": "positiveInfinity"
       },
-      "thicknessMm": 30,
+      "thickness": 30,
       "conic": 0,
       "stop": true,
       "material": {
         "kind": "air"
       },
       "clearAperture": null,
-      "semiDiameterMm": 10,
+      "semiDiameter": 10,
       "parameters": {
         "type": "standard",
         "is_stop": true,
@@ -176,17 +175,17 @@
       "index": 3,
       "role": "coordinateBreak",
       "nativeType": "COORDBRK",
-      "radiusMm": {
+      "radius": {
         "special": "positiveInfinity"
       },
-      "thicknessMm": 0,
+      "thickness": 0,
       "conic": 0,
       "stop": false,
       "material": {
         "kind": "air"
       },
       "clearAperture": null,
-      "semiDiameterMm": 0,
+      "semiDiameter": 0,
       "parameters": {
         "type": "coordinate_break",
         "is_stop": false,
@@ -211,17 +210,17 @@
       "index": 4,
       "role": "surface",
       "nativeType": "STANDARD",
-      "radiusMm": {
+      "radius": {
         "special": "positiveInfinity"
       },
-      "thicknessMm": 0,
+      "thickness": 0,
       "conic": 0,
       "stop": false,
       "material": {
         "kind": "mirror"
       },
       "clearAperture": null,
-      "semiDiameterMm": 14.142135623730955,
+      "semiDiameter": 14.142135623730955,
       "parameters": {
         "type": "standard",
         "is_stop": false,
@@ -242,17 +241,17 @@
       "index": 5,
       "role": "coordinateBreak",
       "nativeType": "COORDBRK",
-      "radiusMm": {
+      "radius": {
         "special": "positiveInfinity"
       },
-      "thicknessMm": -20,
+      "thickness": -20,
       "conic": 0,
       "stop": false,
       "material": {
         "kind": "air"
       },
       "clearAperture": null,
-      "semiDiameterMm": 0,
+      "semiDiameter": 0,
       "parameters": {
         "type": "coordinate_break",
         "is_stop": false,
@@ -277,17 +276,17 @@
       "index": 6,
       "role": "image",
       "nativeType": "STANDARD",
-      "radiusMm": {
+      "radius": {
         "special": "positiveInfinity"
       },
-      "thicknessMm": 0,
+      "thickness": 0,
       "conic": 0,
       "stop": false,
       "material": {
         "kind": "air"
       },
       "clearAperture": null,
-      "semiDiameterMm": 10.000000000000005,
+      "semiDiameter": 10.000000000000005,
       "parameters": {
         "type": "standard",
         "is_stop": false,

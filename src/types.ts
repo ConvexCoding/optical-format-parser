@@ -9,11 +9,9 @@ export type JsonObject = { [key: string]: JsonValue };
 export type SourceEncoding = "text" | "utf-8" | "utf-16-le" | "utf-16-be" | "iso-8859-1" | "cp1252";
 
 export interface ParseOptions {
-  /** File format. May be omitted when `filename` ends in `.zmx` or `.len`. */
-  format?: Format;
-  /** Used in error messages and `source.filename`. Defaults to `"<memory>"`. */
-  filename?: string;
-  /** Throw a `strict_violation` error if any warning diagnostic is produced. Defaults to `false`. */
+  /** Which format `text` or `data` is written in. The library never guesses. */
+  format: Format;
+  /** Return a `strict_violation` error if any warning diagnostic is produced. Defaults to `false`. */
   strict?: boolean;
   /** Attach the format-specific parser model as `raw`. Roughly doubles the output size. Defaults to `false`. */
   includeRaw?: boolean;
@@ -102,11 +100,11 @@ export interface ConstantIndexMaterial {
   name: string | null;
   index: number;
 }
-/** Refractive indices tabulated at specific wavelengths; the two arrays are parallel. */
+/** Refractive indices tabulated at specific wavelengths (micrometers); the two arrays are parallel. */
 export interface SampledIndexMaterial {
   kind: "sampledIndex";
   name: string | null;
-  wavelengthsUm: number[];
+  wavelengths: number[];
   indices: number[];
 }
 /** A material declaration that could not be classified; `raw` is the source text. */
@@ -131,13 +129,13 @@ export type MaterialKind = Material["kind"];
 
 export type SurfaceRole = "object" | "surface" | "image" | "coordinateBreak";
 
-/** Circular or annular clear aperture, centered at (`offsetXMm`, `offsetYMm`). */
+/** Circular or annular clear aperture, centered at (`offsetX`, `offsetY`). */
 export interface ClearAperture {
   kind: "annulus";
-  minRadiusMm: number;
-  maxRadiusMm: number;
-  offsetXMm: number;
-  offsetYMm: number;
+  minRadius: number;
+  maxRadius: number;
+  offsetX: number;
+  offsetY: number;
   /** OSLO: whether this aperture is flagged as checked (`AP CHK`). `null` when the format has no such flag. */
   checked: boolean | null;
   /** OSLO: the lens-wide aperture checking setting (`APCK`). `null` when the format has no such setting. */
@@ -147,7 +145,7 @@ export interface ClearAperture {
 /**
  * One polynomial sag term, `coefficient * r^power`, with `r` and sag in millimeters.
  * Coefficients are rescaled from the file's length unit, so they can be used directly with
- * `radiusMm`.
+ * `radius`.
  */
 export interface AsphereTerm {
   /** Exponent of the radial coordinate. */
@@ -164,10 +162,10 @@ interface SurfaceCommon {
   role: SurfaceRole;
   /** The format's own surface type name, e.g. Zemax `"EVENASPH"` (upper-cased) or OSLO `"ASR"`. */
   nativeType: string;
-  /** Vertex radius of curvature in millimeters. `Infinity` means flat. */
-  radiusMm: number;
-  /** Distance to the next surface in millimeters. `±Infinity` for an object at infinity. */
-  thicknessMm: number;
+  /** Vertex radius of curvature. `Infinity` means flat. */
+  radius: number;
+  /** Distance to the next surface. `±Infinity` for an object at infinity. */
+  thickness: number;
   conic: number;
   /** Whether this surface is the aperture stop. */
   stop: boolean;
@@ -175,8 +173,8 @@ interface SurfaceCommon {
   material: Material;
   /** Declared clear aperture, or `null` when none is declared. */
   clearAperture: ClearAperture | null;
-  /** Declared semi-diameter (Zemax `DIAM`, OSLO `AP`) in millimeters, or `null`. */
-  semiDiameterMm: number | null;
+  /** Declared semi-diameter (Zemax `DIAM`, OSLO `AP`), or `null`. */
+  semiDiameter: number | null;
   /** Every declaration on this surface as the format spells it, in the file's own units. */
   parameters: JsonObject;
 }
@@ -224,7 +222,7 @@ interface ApertureCommon {
   /** The file's own aperture declarations, keyed as the parser names them, in file units. */
   source: JsonObject;
 }
-/** An aperture given as a number. Lengths are in millimeters, `objectConeAngle` in degrees. */
+/** An aperture given as a number. The two length kinds are in millimeters, `objectConeAngle` in degrees. */
 export interface ValuedAperture extends ApertureCommon {
   kind:
     | "entrancePupilDiameter"
@@ -301,11 +299,11 @@ export interface Fields {
   source: JsonObject;
 }
 
-/** Active wavelengths; `valuesUm` and `weights` are parallel arrays. */
+/** Active wavelengths in micrometers; `values` and `weights` are parallel arrays. */
 export interface Wavelengths {
-  valuesUm: number[];
+  values: number[];
   weights: number[];
-  /** Index into `valuesUm`, or `null` when no active wavelength is the primary. */
+  /** Index into `values`, or `null` when no active wavelength is the primary. */
   primaryIndex: number | null;
 }
 
@@ -315,21 +313,25 @@ export interface Units {
   angle: "deg";
   /** The length unit the file was written in; OSLO files use an arbitrary `"lensUnit"`. */
   sourceLength: "MM" | "CM" | "M" | "IN" | "INCH" | "lensUnit";
-  /** Millimeters per source length unit; already applied to every `...Mm` value. */
+  /** Millimeters per source length unit; already applied to every normalized length. */
   scaleToMm: number;
 }
 
 export interface PrescriptionSource {
   format: Format;
-  filename: string;
   encoding: SourceEncoding;
   /** Revision of the Optiland importers this parser was derived from. */
   upstreamRevision: string;
 }
 
 /**
- * A sequential lens prescription in common units. This is what the file declares, not a solved or
- * ray-traced model: check `diagnostics` for anything that was kept without being interpreted.
+ * A sequential lens prescription. This is what the file declares, not a solved or ray-traced
+ * model: check `diagnostics` for anything that was kept without being interpreted.
+ *
+ * Units: every length is in millimeters and every wavelength in micrometers, whatever the file
+ * used, so property names carry no unit. A name includes a unit only where it departs from that
+ * rule (`scaleToMm`). Angles are in degrees. The pass-through records (`parameters`, `source`,
+ * `raw`) are the exception: they keep the file's own units.
  */
 export interface NormalizedPrescription {
   schemaVersion: "2.0";

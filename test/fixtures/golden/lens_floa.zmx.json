@@ -2,7 +2,6 @@
   "schemaVersion": "2.0",
   "source": {
     "format": "zemax",
-    "filename": "lens_floa.zmx",
     "encoding": "utf-8",
     "upstreamRevision": "4e893f53aee1312f2d091680b93dd2279711e197"
   },
@@ -54,7 +53,7 @@
     }
   },
   "wavelengths": {
-    "valuesUm": [
+    "values": [
       0.5876
     ],
     "weights": [
@@ -67,10 +66,10 @@
       "index": 0,
       "role": "object",
       "nativeType": "STANDARD",
-      "radiusMm": {
+      "radius": {
         "special": "positiveInfinity"
       },
-      "thicknessMm": {
+      "thickness": {
         "special": "positiveInfinity"
       },
       "conic": 0,
@@ -79,7 +78,7 @@
         "kind": "air"
       },
       "clearAperture": null,
-      "semiDiameterMm": null,
+      "semiDiameter": null,
       "parameters": {
         "type": "standard",
         "is_stop": false,
@@ -99,8 +98,8 @@
       "index": 1,
       "role": "surface",
       "nativeType": "STANDARD",
-      "radiusMm": 20,
-      "thicknessMm": 5,
+      "radius": 20,
+      "thickness": 5,
       "conic": 0,
       "stop": false,
       "material": {
@@ -112,7 +111,7 @@
         "resolution": "unresolved"
       },
       "clearAperture": null,
-      "semiDiameterMm": null,
+      "semiDiameter": null,
       "parameters": {
         "type": "standard",
         "is_stop": false,
@@ -137,15 +136,15 @@
       "index": 2,
       "role": "surface",
       "nativeType": "STANDARD",
-      "radiusMm": -20,
-      "thicknessMm": 10,
+      "radius": -20,
+      "thickness": 10,
       "conic": 0,
       "stop": false,
       "material": {
         "kind": "air"
       },
       "clearAperture": null,
-      "semiDiameterMm": null,
+      "semiDiameter": null,
       "parameters": {
         "type": "standard",
         "is_stop": false,
@@ -161,17 +160,17 @@
       "index": 3,
       "role": "surface",
       "nativeType": "STANDARD",
-      "radiusMm": {
+      "radius": {
         "special": "positiveInfinity"
       },
-      "thicknessMm": 20,
+      "thickness": 20,
       "conic": 0,
       "stop": true,
       "material": {
         "kind": "air"
       },
       "clearAperture": null,
-      "semiDiameterMm": 8.5,
+      "semiDiameter": 8.5,
       "parameters": {
         "type": "standard",
         "is_stop": true,
@@ -190,17 +189,17 @@
       "index": 4,
       "role": "image",
       "nativeType": "STANDARD",
-      "radiusMm": {
+      "radius": {
         "special": "positiveInfinity"
       },
-      "thicknessMm": 0,
+      "thickness": 0,
       "conic": 0,
       "stop": false,
       "material": {
         "kind": "air"
       },
       "clearAperture": null,
-      "semiDiameterMm": null,
+      "semiDiameter": null,
       "parameters": {
         "type": "standard",
         "is_stop": false,

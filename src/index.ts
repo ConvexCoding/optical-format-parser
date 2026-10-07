@@ -1,109 +1,93 @@
 import { decodeBytes } from "./encoding.js";
 import { DeclarationError, PrescriptionParseError } from "./errors.js";
-import type { ParseResult } from "./errors.js";
+import type { ParseResult, Result } from "./errors.js";
 import { reviveSpecialNumbers, tagSpecialNumbers } from "./json.js";
 import { normalizeOslo, normalizeZemax } from "./normalize.js";
 import type { NormalizeContext } from "./normalize.js";
 import { parseOslo } from "./oslo.js";
-import type { Format, NormalizedPrescription, ParseOptions } from "./types.js";
+import type { NormalizedPrescription, ParseOptions } from "./types.js";
 import { parseZemax } from "./zemax.js";
 
 export { PrescriptionParseError } from "./errors.js";
-export type { ParseErrorCode, ParseErrorDetails, ParseResult } from "./errors.js";
+export type { ParseErrorCode, ParseErrorDetails, ParseResult, Result } from "./errors.js";
 export type * from "./types.js";
 
 const SCHEMA_VERSION: NormalizedPrescription["schemaVersion"] = "2.0";
 
-/** The format implied by a file name's extension (`.zmx` or `.len`), or `null`. */
-export function formatFromFilename(filename: string): Format | null {
-  const name = filename.toLowerCase();
-  if (name.endsWith(".zmx")) return "zemax";
-  if (name.endsWith(".len")) return "oslo";
-  return null;
-}
-
-function resolveOptions(options: ParseOptions): {
-  format: Format;
-  filename: string;
-  strict: boolean;
-  includeRaw: boolean;
-} {
+function resolveOptions(options: ParseOptions): Required<ParseOptions> {
   if (options === null || typeof options !== "object") {
-    throw new PrescriptionParseError("invalid_options", "options must be an object with a format or a filename");
+    throw new PrescriptionParseError("invalid_options", "options must be an object with a format");
   }
-  const filename = options.filename ?? "<memory>";
-  const format = options.format ?? formatFromFilename(filename);
+  const { format } = options;
   if (format !== "zemax" && format !== "oslo") {
-    throw new PrescriptionParseError(
-      "invalid_options",
-      "format must be 'zemax' or 'oslo', or filename must end in .zmx or .len",
-      { filename },
-    );
+    throw new PrescriptionParseError("invalid_options", "format must be 'zemax' or 'oslo'");
   }
-  return { format, filename, strict: options.strict ?? false, includeRaw: options.includeRaw ?? false };
+  return { format, strict: options.strict ?? false, includeRaw: options.includeRaw ?? false };
 }
 
-/** Run a parsing stage, attaching the filename to bad-input errors raised without one. */
-function stage<T>(code: "decoding_failed" | "invalid_prescription", filename: string, action: () => T): T {
+/** Run a parsing stage, turning bad input found below the public boundary into the public error. */
+function stage<T>(code: "decoding_failed" | "invalid_prescription", action: () => T): T {
   try {
     return action();
   } catch (error) {
     if (!(error instanceof DeclarationError)) throw error;
-    throw new PrescriptionParseError(code, error.message, { filename, cause: error });
+    throw new PrescriptionParseError(code, error.message, { cause: error });
   }
 }
 
-function parseDecoded(
-  text: string,
-  encoding: NormalizeContext["encoding"],
-  options: ReturnType<typeof resolveOptions>,
-) {
-  const { format, filename, strict, includeRaw } = options;
-  const context: NormalizeContext = { filename, encoding, strict, includeRaw };
+function parseDecoded(text: string, encoding: NormalizeContext["encoding"], options: Required<ParseOptions>) {
+  const { format, strict, includeRaw } = options;
+  const context: NormalizeContext = { encoding, strict, includeRaw };
   const source = text.replace(/^\ufeff+/, "");
-  return stage("invalid_prescription", filename, () =>
-    format === "zemax"
-      ? normalizeZemax(parseZemax(source, filename), context)
-      : normalizeOslo(parseOslo(source, filename), context),
+  return stage("invalid_prescription", () =>
+    format === "zemax" ? normalizeZemax(parseZemax(source), context) : normalizeOslo(parseOslo(source), context),
   );
 }
 
-/**
- * Parse an already decoded prescription.
- * @throws {PrescriptionParseError} for malformed input, or for any warning when `strict` is set.
- */
-export function parseText(text: string, options: ParseOptions): NormalizedPrescription {
-  return parseDecoded(text, "text", resolveOptions(options));
+function toBytes(data: unknown): Uint8Array {
+  if (data instanceof Uint8Array) return data;
+  if (ArrayBuffer.isView(data)) return new Uint8Array(data.buffer, data.byteOffset, data.byteLength);
+  // The tag check also accepts an ArrayBuffer from another realm, such as an iframe or worker.
+  if (data instanceof ArrayBuffer || Object.prototype.toString.call(data) === "[object ArrayBuffer]") {
+    return new Uint8Array(data as ArrayBuffer);
+  }
+  throw new PrescriptionParseError("invalid_options", "data must be a Uint8Array or ArrayBuffer");
 }
 
-/**
- * Parse a prescription file's bytes, detecting the text encoding.
- * @throws {PrescriptionParseError} for malformed input, or for any warning when `strict` is set.
- */
-export function parseBytes(data: Uint8Array | ArrayBuffer, options: ParseOptions): NormalizedPrescription {
-  const resolved = resolveOptions(options);
-  const bytes = data instanceof Uint8Array ? data : new Uint8Array(data);
-  const decoded = stage("decoding_failed", resolved.filename, () => decodeBytes(bytes, resolved.format));
-  return parseDecoded(decoded.text, decoded.encoding, resolved);
-}
-
-function safely(action: () => NormalizedPrescription): ParseResult {
+/** Return bad-input errors as values; anything else is a bug and keeps propagating. */
+function attempt<T>(action: () => T): Result<T> {
   try {
-    return { ok: true, prescription: action() };
+    return [action(), null];
   } catch (error) {
-    if (error instanceof PrescriptionParseError) return { ok: false, error };
+    if (error instanceof PrescriptionParseError) return [null, error];
     throw error;
   }
 }
 
-/** `parseText` that returns bad-input errors instead of throwing them. */
-export function safeParseText(text: string, options: ParseOptions): ParseResult {
-  return safely(() => parseText(text, options));
+/**
+ * Parse the text of a prescription. Bad input, or any warning when `strict` is set, comes back
+ * as the error; this does not throw for it.
+ *
+ *     const [prescription, error] = parseText(contents, { format: "zemax" });
+ */
+export function parseText(text: string, options: ParseOptions): ParseResult {
+  return attempt(() => {
+    if (typeof text !== "string") throw new PrescriptionParseError("invalid_options", "text must be a string");
+    return parseDecoded(text, "text", resolveOptions(options));
+  });
 }
 
-/** `parseBytes` that returns bad-input errors instead of throwing them. */
-export function safeParseBytes(data: Uint8Array | ArrayBuffer, options: ParseOptions): ParseResult {
-  return safely(() => parseBytes(data, options));
+/**
+ * Parse the undecoded bytes of a prescription, detecting the text encoding. Bad input, or any
+ * warning when `strict` is set, comes back as the error; this does not throw for it.
+ */
+export function parseBytes(data: Uint8Array | ArrayBuffer, options: ParseOptions): ParseResult {
+  return attempt(() => {
+    const resolved = resolveOptions(options);
+    const bytes = toBytes(data);
+    const decoded = stage("decoding_failed", () => decodeBytes(bytes, resolved.format));
+    return parseDecoded(decoded.text, decoded.encoding, resolved);
+  });
 }
 
 /**
@@ -117,20 +101,21 @@ export function stringify(prescription: NormalizedPrescription, indent = 2): str
 
 /**
  * Read back text written by `stringify`. This checks the schema version only; validate untrusted
- * JSON against the published schema first.
- * @throws {PrescriptionParseError} with code `invalid_json`.
+ * JSON against the published schema first. Anything else comes back as an `invalid_json` error.
  */
-export function parseJson(json: string): NormalizedPrescription {
-  let value: unknown;
-  try {
-    value = reviveSpecialNumbers(JSON.parse(json));
-  } catch (error) {
-    throw new PrescriptionParseError("invalid_json", "Input is not valid JSON", { cause: error });
-  }
-  if (!isPrescription(value)) {
-    throw new PrescriptionParseError("invalid_json", `Input is not a schema ${SCHEMA_VERSION} prescription`);
-  }
-  return value;
+export function parseJson(json: string): ParseResult {
+  return attempt(() => {
+    let value: unknown;
+    try {
+      value = reviveSpecialNumbers(JSON.parse(json));
+    } catch (error) {
+      throw new PrescriptionParseError("invalid_json", "Input is not valid JSON", { cause: error });
+    }
+    if (!isPrescription(value)) {
+      throw new PrescriptionParseError("invalid_json", `Input is not a schema ${SCHEMA_VERSION} prescription`);
+    }
+    return value;
+  });
 }
 
 function isPrescription(value: unknown): value is NormalizedPrescription {

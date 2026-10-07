@@ -2,7 +2,6 @@
   "schemaVersion": "2.0",
   "source": {
     "format": "oslo",
-    "filename": "test_cassegrain.len",
     "encoding": "utf-8",
     "upstreamRevision": "4e893f53aee1312f2d091680b93dd2279711e197"
   },
@@ -48,7 +47,7 @@
     }
   },
   "wavelengths": {
-    "valuesUm": [
+    "values": [
       0.55
     ],
     "weights": [
@@ -61,10 +60,10 @@
       "index": 0,
       "role": "object",
       "nativeType": "ADO",
-      "radiusMm": {
+      "radius": {
         "special": "positiveInfinity"
       },
-      "thicknessMm": {
+      "thickness": {
         "special": "positiveInfinity"
       },
       "conic": 0,
@@ -74,14 +73,14 @@
       },
       "clearAperture": {
         "kind": "annulus",
-        "minRadiusMm": 0,
-        "maxRadiusMm": 17453310,
-        "offsetXMm": 0,
-        "offsetYMm": 0,
+        "minRadius": 0,
+        "maxRadius": 17453310,
+        "offsetX": 0,
+        "offsetY": 0,
         "checked": false,
         "checkingEnabled": true
       },
-      "semiDiameterMm": 17453310,
+      "semiDiameter": 17453310,
       "parameters": {
         "material": "AIR",
         "RD": {
@@ -97,8 +96,8 @@
       "index": 1,
       "role": "surface",
       "nativeType": "ADO",
-      "radiusMm": -4000,
-      "thicknessMm": -1800,
+      "radius": -4000,
+      "thickness": -1800,
       "conic": -1,
       "stop": true,
       "material": {
@@ -106,14 +105,14 @@
       },
       "clearAperture": {
         "kind": "annulus",
-        "minRadiusMm": 0,
-        "maxRadiusMm": 200,
-        "offsetXMm": 0,
-        "offsetYMm": 0,
+        "minRadius": 0,
+        "maxRadius": 200,
+        "offsetX": 0,
+        "offsetY": 0,
         "checked": false,
         "checkingEnabled": true
       },
-      "semiDiameterMm": 200,
+      "semiDiameter": 200,
       "parameters": {
         "material": "RFL",
         "RD": -4000,
@@ -128,15 +127,15 @@
       "index": 2,
       "role": "surface",
       "nativeType": "ADO",
-      "radiusMm": 1400,
-      "thicknessMm": 2200,
+      "radius": 1400,
+      "thickness": 2200,
       "conic": -2.5,
       "stop": false,
       "material": {
         "kind": "mirror"
       },
       "clearAperture": null,
-      "semiDiameterMm": null,
+      "semiDiameter": null,
       "parameters": {
         "material": "RFL",
         "RD": 1400,
@@ -149,17 +148,17 @@
       "index": 3,
       "role": "image",
       "nativeType": "ADO",
-      "radiusMm": {
+      "radius": {
         "special": "positiveInfinity"
       },
-      "thicknessMm": 0,
+      "thickness": 0,
       "conic": 0,
       "stop": false,
       "material": {
         "kind": "air"
       },
       "clearAperture": null,
-      "semiDiameterMm": null,
+      "semiDiameter": null,
       "parameters": {
         "material": "AIR",
         "TH": 0

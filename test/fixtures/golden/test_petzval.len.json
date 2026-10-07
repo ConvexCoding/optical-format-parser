@@ -2,7 +2,6 @@
   "schemaVersion": "2.0",
   "source": {
     "format": "oslo",
-    "filename": "test_petzval.len",
     "encoding": "utf-8",
     "upstreamRevision": "4e893f53aee1312f2d091680b93dd2279711e197"
   },
@@ -48,7 +47,7 @@
     }
   },
   "wavelengths": {
-    "valuesUm": [
+    "values": [
       0.4861327,
       0.5875618,
       0.6562725
@@ -65,10 +64,10 @@
       "index": 0,
       "role": "object",
       "nativeType": "ADO",
-      "radiusMm": {
+      "radius": {
         "special": "positiveInfinity"
       },
-      "thicknessMm": {
+      "thickness": {
         "special": "positiveInfinity"
       },
       "conic": 0,
@@ -78,14 +77,14 @@
       },
       "clearAperture": {
         "kind": "annulus",
-        "minRadiusMm": 0,
-        "maxRadiusMm": 1227846000,
-        "offsetXMm": 0,
-        "offsetYMm": 0,
+        "minRadius": 0,
+        "maxRadius": 1227846000,
+        "offsetX": 0,
+        "offsetY": 0,
         "checked": false,
         "checkingEnabled": true
       },
-      "semiDiameterMm": 1227846000,
+      "semiDiameter": 1227846000,
       "parameters": {
         "material": "AIR",
         "TH": 10000000000,
@@ -98,8 +97,8 @@
       "index": 1,
       "role": "surface",
       "nativeType": "ADO",
-      "radiusMm": 33.6931,
-      "thicknessMm": 10.16,
+      "radius": 33.6931,
+      "thickness": 10.16,
       "conic": 0,
       "stop": false,
       "material": {
@@ -111,7 +110,7 @@
         "resolution": "unresolved"
       },
       "clearAperture": null,
-      "semiDiameterMm": null,
+      "semiDiameter": null,
       "parameters": {
         "material": "GLA N-LAK12",
         "glass_wavelengths": [
@@ -128,15 +127,15 @@
       "index": 2,
       "role": "surface",
       "nativeType": "ADO",
-      "radiusMm": -68.37426,
-      "thicknessMm": 1.524,
+      "radius": -68.37426,
+      "thickness": 1.524,
       "conic": 0,
       "stop": false,
       "material": {
         "kind": "air"
       },
       "clearAperture": null,
-      "semiDiameterMm": null,
+      "semiDiameter": null,
       "parameters": {
         "material": "AIR",
         "RD": -68.37426,
@@ -148,8 +147,8 @@
       "index": 3,
       "role": "surface",
       "nativeType": "ADO",
-      "radiusMm": -50.87112,
-      "thicknessMm": 4.064,
+      "radius": -50.87112,
+      "thickness": 4.064,
       "conic": 0,
       "stop": false,
       "material": {
@@ -161,7 +160,7 @@
         "resolution": "unresolved"
       },
       "clearAperture": null,
-      "semiDiameterMm": null,
+      "semiDiameter": null,
       "parameters": {
         "material": "GLA SF4",
         "glass_wavelengths": [
@@ -178,15 +177,15 @@
       "index": 4,
       "role": "surface",
       "nativeType": "ADO",
-      "radiusMm": 138.4275,
-      "thicknessMm": 2.54,
+      "radius": 138.4275,
+      "thickness": 2.54,
       "conic": 0,
       "stop": false,
       "material": {
         "kind": "air"
       },
       "clearAperture": null,
-      "semiDiameterMm": null,
+      "semiDiameter": null,
       "parameters": {
         "material": "AIR",
         "RD": 138.4275,
@@ -198,10 +197,10 @@
       "index": 5,
       "role": "surface",
       "nativeType": "ADO",
-      "radiusMm": {
+      "radius": {
         "special": "positiveInfinity"
       },
-      "thicknessMm": 22.85746,
+      "thickness": 22.85746,
       "conic": 0,
       "stop": true,
       "material": {
@@ -209,14 +208,14 @@
       },
       "clearAperture": {
         "kind": "annulus",
-        "minRadiusMm": 0,
-        "maxRadiusMm": 18.0659,
-        "offsetXMm": 0,
-        "offsetYMm": 0,
+        "minRadius": 0,
+        "maxRadius": 18.0659,
+        "offsetX": 0,
+        "offsetY": 0,
         "checked": false,
         "checkingEnabled": true
       },
-      "semiDiameterMm": 18.0659,
+      "semiDiameter": 18.0659,
       "parameters": {
         "material": "AIR",
         "TH": 22.85746,
@@ -230,8 +229,8 @@
       "index": 6,
       "role": "surface",
       "nativeType": "ADO",
-      "radiusMm": 29.77896,
-      "thicknessMm": 7.62,
+      "radius": 29.77896,
+      "thickness": 7.62,
       "conic": 0,
       "stop": false,
       "material": {
@@ -243,7 +242,7 @@
         "resolution": "unresolved"
       },
       "clearAperture": null,
-      "semiDiameterMm": null,
+      "semiDiameter": null,
       "parameters": {
         "material": "GLA N-LAK12",
         "glass_wavelengths": [
@@ -260,15 +259,15 @@
       "index": 7,
       "role": "surface",
       "nativeType": "ADO",
-      "radiusMm": -62.48908,
-      "thicknessMm": 5.64134,
+      "radius": -62.48908,
+      "thickness": 5.64134,
       "conic": 0,
       "stop": false,
       "material": {
         "kind": "air"
       },
       "clearAperture": null,
-      "semiDiameterMm": null,
+      "semiDiameter": null,
       "parameters": {
         "material": "AIR",
         "RD": -62.48908,
@@ -280,8 +279,8 @@
       "index": 8,
       "role": "surface",
       "nativeType": "ADO",
-      "radiusMm": -21.8821,
-      "thicknessMm": 2.032,
+      "radius": -21.8821,
+      "thickness": 2.032,
       "conic": 0,
       "stop": false,
       "material": {
@@ -293,7 +292,7 @@
         "resolution": "unresolved"
       },
       "clearAperture": null,
-      "semiDiameterMm": null,
+      "semiDiameter": null,
       "parameters": {
         "material": "GLA LF5",
         "glass_wavelengths": [
@@ -310,15 +309,15 @@
       "index": 9,
       "role": "surface",
       "nativeType": "ADO",
-      "radiusMm": 76.29906,
-      "thicknessMm": 9.95934,
+      "radius": 76.29906,
+      "thickness": 9.95934,
       "conic": 0,
       "stop": false,
       "material": {
         "kind": "air"
       },
       "clearAperture": null,
-      "semiDiameterMm": null,
+      "semiDiameter": null,
       "parameters": {
         "material": "AIR",
         "RD": 76.29906,
@@ -330,17 +329,17 @@
       "index": 10,
       "role": "image",
       "nativeType": "ADO",
-      "radiusMm": {
+      "radius": {
         "special": "positiveInfinity"
       },
-      "thicknessMm": 0,
+      "thickness": 0,
       "conic": 0,
       "stop": false,
       "material": {
         "kind": "air"
       },
       "clearAperture": null,
-      "semiDiameterMm": null,
+      "semiDiameter": null,
       "parameters": {
         "material": "AIR",
         "TH": 0
