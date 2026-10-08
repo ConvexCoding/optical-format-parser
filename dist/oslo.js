@@ -10,6 +10,21 @@ export function decodeText(value) {
         value = value.slice(1, -1);
     return value.replace(/\\(["\\])/g, "$1");
 }
+/**
+ * Arguments are separated by blanks or by single commas (OSLO Program Reference, "Command Syntax").
+ * Nothing there lets a comma follow the command name or stand without an argument after it.
+ */
+function checkSeparators(statement) {
+    const bare = statement.replace(/"(?:\\.|[^"\\])*"/g, '""').trim();
+    if (/^[^\s,]*\s*,/.test(bare))
+        throw new DeclarationError("a comma cannot separate a command from its arguments");
+    if (/,\s*(?:,|$)/.test(bare))
+        throw new DeclarationError("a comma must be followed by an argument");
+}
+/** The free text after a command word, kept as written: commas and spacing are content. */
+function freeText(statement, command) {
+    return decodeText(statement.trim().slice(command.length).trim());
+}
 /** Split a line at unquoted `;`, dropping a trailing `//` comment. */
 function statements(line) {
     const result = [];
@@ -78,6 +93,8 @@ const COEFFICIENTS = new Set(OSLO_COEFFICIENTS);
 const KNOWN = words("LEN EBR OBH ANG GIH UNI AIR RFL RFH AIF GLA GLF RD RDF CV CVF RDX TH THF AP APF APCK ASP AST WV WW NXT GTO END " +
     "PY PYC PU PUC EC PK FNO NAO NAP PUK TELE DES PFL NOT LMO RCO BEN BCR");
 const DRAWING = words("DRW LDP CBK ELMDF1 ELMDF2 BDI BDD VX PF LMN LME");
+/** Footer records whose arguments are read rather than retained. */
+const FOOTER_COMMANDS = words("CFG END TH CFWT CFAC F RST OPE LEN");
 /**
  * Operating conditions for lens drawings (`DLxx`), spot diagrams (`SDxx`) and optimization
  * (`OPxx`, `OMxx`), as the OSLO Program Reference lists them. They configure analyses and cannot
@@ -240,8 +257,10 @@ export function parseOslo(text) {
     let surface = 0;
     let current = {};
     let values = [...DEFAULT_WAVELENGTHS];
+    /** Declared weights by wavelength slot; a hole is a wavelength whose weight the file leaves at 1. */
     let weights = [];
     let lineNumber = 0;
+    let statementCommand;
     let ended = false;
     let footerBlock = null;
     let ignoreFooter = false;
@@ -318,6 +337,11 @@ export function parseOslo(text) {
             }
         }
     };
+    /**
+     * `WV`/`WW` replace the whole list and `WVn`/`WWn` set one slot. Each wavelength has one weight
+     * (OSLO Program Reference, "Wavelength"), so a weight is only accepted for a wavelength that is
+     * defined when its record is read.
+     */
     const readSpectrum = (tokens) => {
         const command = tokens[0] ?? "";
         const numbers = tokens.slice(1).map((token) => parseNumber(token));
@@ -327,11 +351,28 @@ export function parseOslo(text) {
         }
         if (wavelength)
             model.declarations.wavelengths = "explicit";
-        if (command.length === 2) {
-            if (wavelength)
-                values = numbers;
-            else
-                weights = numbers;
+        if (command === "WV") {
+            values = numbers;
+            // Weights belong to wavelength slots, so the ones for slots this list no longer has go with them.
+            const dropped = weights.slice(values.length).filter((weight) => weight !== undefined).length;
+            weights = weights.slice(0, values.length);
+            if (dropped) {
+                model.diagnostics.push({
+                    command,
+                    line: lineNumber,
+                    surface: -1,
+                    severity: "info",
+                    code: "dropped_wavelength_weights",
+                    message: `WV leaves ${values.length} wavelength(s); ${dropped} weight(s) declared for removed wavelengths are dropped`,
+                });
+            }
+            return;
+        }
+        if (command === "WW") {
+            if (numbers.length > values.length) {
+                throw new DeclarationError(`WW gives ${numbers.length} weights for ${values.length} wavelength(s)`);
+            }
+            weights = numbers;
             return;
         }
         const index = parseInteger(command.slice(2)) - 1;
@@ -339,12 +380,18 @@ export function parseOslo(text) {
         if (index > 1000 || numbers.length !== 1 || value === undefined) {
             throw new DeclarationError(`${command} requires one value and a bounded wavelength index`);
         }
-        const target = wavelength ? values : weights;
-        if (wavelength && index > target.length)
-            throw new DeclarationError(`${command} leaves undefined wavelength slots`);
-        while (target.length <= index)
-            target.push(1);
-        target[index] = value;
+        if (wavelength) {
+            if (index > values.length)
+                throw new DeclarationError(`${command} leaves undefined wavelength slots`);
+            values[index] = value;
+            return;
+        }
+        if (index >= values.length) {
+            throw new DeclarationError(`${command} sets a weight for wavelength ${index + 1}, but ${values.length} are defined`);
+        }
+        while (weights.length <= index)
+            weights.push(undefined);
+        weights[index] = value;
     };
     const readEnd = (tokens) => {
         if (tokens.length > 2 || (tokens.length === 2 && parseInteger(tokens[1]) !== model.num_surfaces)) {
@@ -377,12 +424,14 @@ export function parseOslo(text) {
         (model.fields.points ??= {})[index] = { y, x, weight, vy, vx };
     };
     /** Everything after the prescription's END: configurations, field tables and operating data. */
-    const readFooter = (tokens) => {
+    const readFooter = (tokens, statement) => {
         const command = tokens[0] ?? "";
         if (ignoreFooter) {
             unsupported(command, "remaining footer block retained but not interpreted");
             return;
         }
+        if (FOOTER_COMMANDS.has(command) || isSpectrumSlot(command))
+            checkSeparators(statement);
         if (configTable) {
             if (command === "CFG")
                 throw new DeclarationError("nested CFG table");
@@ -437,7 +486,7 @@ export function parseOslo(text) {
         else
             unsupported(command, "footer command retained but not interpreted");
     };
-    const readSurfaceCommand = (command, tokens) => {
+    const readSurfaceCommand = (command, tokens, statement) => {
         const num = (index = 1) => parseNumber(tokens[index]);
         const argument = (tokens[1] ?? "").toUpperCase();
         switch (command) {
@@ -472,7 +521,7 @@ export function parseOslo(text) {
                 break;
             case "PUK":
                 model.declarations.aperture = "explicit";
-                model.aperture = { PUK: Math.abs(num()) };
+                model.aperture = { PUK: num() };
                 break;
             case "ANG":
                 model.declarations.fields = "explicit";
@@ -558,7 +607,7 @@ export function parseOslo(text) {
                 current.PFL = num();
                 break;
             case "NOT":
-                current.note = decodeText(tokens.slice(1).join(" "));
+                current.note = freeText(statement, command);
                 break;
             case "LMO":
                 if (!["EGR", "ELE"].includes(argument))
@@ -637,13 +686,20 @@ export function parseOslo(text) {
             return;
         model.records.push({ line: lineNumber, text: statement.trim() });
         const command = tokens[0].toUpperCase();
-        tokens[0] = command;
+        tokens[0] = statementCommand = command;
         if (ended)
-            return readFooter(tokens);
+            return readFooter(tokens, statement);
         if (/^SNO\d+$/.test(command) || command === "DES") {
-            model.notes[command] = decodeText(tokens.slice(1).join(" "));
+            model.notes[command] = freeText(statement, command);
             return;
         }
+        if (DRAWING.has(command))
+            return;
+        const interpreted = isSpectrumSlot(command) || isGeneralCoefficient(command) || isCoefficient(command);
+        if (!interpreted && !KNOWN.has(command) && !DELETIONS.has(command))
+            return unsupported(command);
+        if (command !== "NOT")
+            checkSeparators(statement);
         if (isSpectrumSlot(command)) {
             requireFiniteNumbers(tokens);
             readSpectrum(tokens);
@@ -656,10 +712,6 @@ export function parseOslo(text) {
             remove([COEFFICIENT_ALIASES.get(command) ?? ""]);
             return;
         }
-        if (DRAWING.has(command))
-            return;
-        if (!KNOWN.has(command) && !DELETIONS.has(command) && !isCoefficient(command))
-            return unsupported(command);
         requireFiniteNumbers(tokens);
         validateCommand(tokens);
         if (isCoefficient(command)) {
@@ -680,10 +732,11 @@ export function parseOslo(text) {
                 clearConstraint(family);
             return;
         }
-        readSurfaceCommand(command, tokens);
+        readSurfaceCommand(command, tokens, statement);
     };
     for (const [lineIndex, line] of text.split(LINE_BREAKS).entries()) {
         lineNumber = lineIndex + 1;
+        statementCommand = undefined;
         try {
             for (const statement of statements(line))
                 readStatement(statement);
@@ -693,6 +746,7 @@ export function parseOslo(text) {
                 throw error;
             throw new PrescriptionParseError("invalid_prescription", `line ${lineNumber}: ${error.message}`, {
                 line: lineNumber,
+                ...(statementCommand === undefined ? {} : { command: statementCommand }),
                 cause: error,
             });
         }
@@ -712,9 +766,11 @@ export function parseOslo(text) {
         throw new DeclarationError("surface records do not match LEN count");
     }
     model.wavelengths.values = values;
-    model.wavelengths.weights = [...weights, ...Array(values.length).fill(1)].slice(0, values.length);
-    if (weights.length)
-        model.declarations.wavelengthWeights = weights.length < values.length ? "padded" : "explicit";
+    model.wavelengths.weights = values.map((_, slot) => weights[slot] ?? 1);
+    const declaredWeights = weights.filter((weight) => weight !== undefined).length;
+    if (declaredWeights) {
+        model.declarations.wavelengthWeights = declaredWeights < values.length ? "padded" : "explicit";
+    }
     if (!model.wavelengths.weights.some(Boolean)) {
         throw new DeclarationError("wavelength weights cannot all be zero");
     }

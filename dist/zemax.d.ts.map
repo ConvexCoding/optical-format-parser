@@ -1,1 +1,1 @@
-{"version":3,"file":"zemax.d.ts","sourceRoot":"","sources":["../src/zemax.ts"],"names":[],"mappings":"AAEA,OAAO,KAAK,EAAmC,UAAU,EAAgB,MAAM,aAAa,CAAC;AAmC7F,wBAAgB,UAAU,CAAC,IAAI,EAAE,MAAM,GAAG,UAAU,CAiRnD"}
+{"version":3,"file":"zemax.d.ts","sourceRoot":"","sources":["../src/zemax.ts"],"names":[],"mappings":"AAEA,OAAO,KAAK,EAAmC,UAAU,EAAgB,MAAM,aAAa,CAAC;AAqC7F,wBAAgB,UAAU,CAAC,IAAI,EAAE,MAAM,GAAG,UAAU,CAwRnD"}

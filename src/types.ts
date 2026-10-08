@@ -31,6 +31,8 @@ export type DiagnosticCode =
   | "default_wavelengths"
   /** Fewer wavelength weights than wavelengths; the missing weights are reported as 1. */
   | "padded_wavelength_weights"
+  /** OSLO `WV` list shorter than the weights already declared; the weights of the removed wavelengths are gone. */
+  | "dropped_wavelength_weights"
   /** OSLO prescription that stops without its `END` record. */
   | "missing_end"
   /** Sag coefficients are declared that `asphereTerms` does not represent; see `unresolvedSag`. */
@@ -41,6 +43,12 @@ export type DiagnosticCode =
   | "multiple_apertures"
   /** Zemax field columns disagree in length with each other or with the declared count. */
   | "field_count_mismatch"
+  /** Zemax field type this library does not know; `fields.kind` is `"unknown"` and coordinates are unscaled. */
+  | "unresolved_field_type"
+  /** Zemax declares more or fewer wavelengths than it defines; the defined ones are reported. */
+  | "wavelength_count_mismatch"
+  /** OSLO `TELE ON`: telecentric entrance pupil mode, which no normalized property carries. */
+  | "telecentric_declaration"
   /** OSLO field table rows are fractions of the full field and are reported unconverted. */
   | "relative_field_table"
   /** The declared primary wavelength is not one of the active wavelengths. */
@@ -331,7 +339,10 @@ interface ApertureCommon {
   /** The file's own aperture declarations, keyed as the parser names them, in file units. */
   source: JsonObject;
 }
-/** An aperture given as a number. The two length kinds are in millimeters, `objectConeAngle` in degrees. */
+/**
+ * An aperture given as a number. The two length kinds are in millimeters, `objectConeAngle` in
+ * degrees. `imageSlope` is the magnitude of OSLO `PUK`; `source.PUK` keeps the declared sign.
+ */
 export interface ValuedAperture extends ApertureCommon {
   kind:
     | "entrancePupilDiameter"

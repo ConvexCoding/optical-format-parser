@@ -25,6 +25,8 @@ const SURFACE_TYPES = new Map([
 ]);
 /** Records that carry no prescription data; reported as inert rather than as warnings. */
 const INERT = new Set(["VERS", "PFIL", "LANG", "ZRD", "ZPK", "MNUM"]);
+/** Records that describe the surface opened by the preceding `SURF`. */
+const SURFACE_RECORDS = new Set("TYPE PARM CURV DISZ CONI GLAS STOP DIAM MEMA COMM COAT CLAP OBDC".split(" "));
 const AXES = ["x", "y"] as const;
 
 function newSurface(line: number): ZemaxSurface {
@@ -101,13 +103,9 @@ export function parseZemax(text: string): ZemaxModel {
     }
   };
   const configure = (tokens: readonly string[]) => {
-    const flag = (index: number, fallback = 0) => {
-      try {
-        return parseInteger(tokens[index]);
-      } catch {
-        return fallback;
-      }
-    };
+    // Older files write fewer flags; one that is written must be an integer.
+    const flag = (index: number, fallback = 0) =>
+      tokens[index] === undefined ? fallback : parseInteger(tokens[index]);
     const declaredFields = flag(3, -1);
     const declaredWavelengths = flag(4, -1);
     fieldCount = declaredFields >= 0 ? declaredFields : null;
@@ -136,7 +134,13 @@ export function parseZemax(text: string): ZemaxModel {
     const num = (index = 1) => parseNumber(tokens[index]);
     const rest = line.slice(command.length).trim();
     model.records.push({ line: lineNumber, text: line });
+    const unmapped = (message: string) => {
+      model.diagnostics.push({ command, line: lineNumber, surface, severity: "warning", message });
+    };
     try {
+      if (surface < 0 && SURFACE_RECORDS.has(command)) {
+        throw new DeclarationError("surface data before the first SURF");
+      }
       const column = FIELD_COMMANDS.get(command);
       if (column) {
         declaredColumns.set(
@@ -166,6 +170,7 @@ export function parseZemax(text: string): ZemaxModel {
           const mode = parseInteger(tokens[2]);
           if (mode === 0) model.aperture.imageFNO = num();
           else if (mode === 1) model.aperture.paraxialImageFNO = num();
+          else unmapped(`F-number mode ${mode} is not mapped; the aperture declaration is not reported`);
           break;
         }
         case "ENPD":
@@ -175,6 +180,7 @@ export function parseZemax(text: string): ZemaxModel {
           const mode = parseInteger(tokens[2]);
           if (mode === 0) model.aperture.objectNA = num();
           else if (mode === 1) model.aperture.object_cone_angle = num();
+          else unmapped(`Object aperture mode ${mode} is not mapped; the aperture declaration is not reported`);
           break;
         }
         case "FLOA":
@@ -186,11 +192,10 @@ export function parseZemax(text: string): ZemaxModel {
         case "WAVL":
         case "WAVM": {
           const slot = command === "WAVL" ? Math.max(0, ...slots.keys()) + 1 : parseInteger(tokens[1]);
-          if (slot >= 1) {
-            const weighted = tokens.length > 3;
-            slots.set(slot, { value: num(2), weight: weighted ? num(3) : 1, weighted });
-            syncWavelengths();
-          }
+          if (slot < 1) throw new DeclarationError("wavelength slot must be 1 or greater");
+          const weighted = tokens.length > 3;
+          slots.set(slot, { value: num(2), weight: weighted ? num(3) : 1, weighted });
+          syncWavelengths();
           break;
         }
         case "PWAV":
@@ -216,9 +221,13 @@ export function parseZemax(text: string): ZemaxModel {
           current.type = SURFACE_TYPES.get(name) ?? name.toLowerCase();
           break;
         }
-        case "PARM":
-          current[`param_${parseInteger(tokens[1]) - 1}`] = num(2);
+        case "PARM": {
+          const parameter = parseInteger(tokens[1]);
+          // Zemax itself writes `PARM 0` (on toroidal surfaces), so only a negative number is malformed.
+          if (parameter < 0) throw new DeclarationError("parameter number must not be negative");
+          current[`param_${parameter - 1}`] = num(2);
           break;
+        }
         case "CURV": {
           const curvature = num();
           current.radius = curvature === 0 ? Infinity : 1 / curvature;

@@ -2,6 +2,8 @@
 // importers (hence the snake_case and OSLO mnemonics); these records are what `raw` and each
 // surface's `parameters` expose.
 
+import type { DiagnosticCode } from "./types.js";
+
 export interface SourceRecord {
   line: number;
   text: string;
@@ -12,6 +14,8 @@ export interface NativeDiagnostic {
   surface: number;
   message: string;
   severity?: "info" | "warning";
+  /** Set when the reader knows exactly what happened; otherwise the record is reported generically. */
+  code?: DiagnosticCode;
 }
 /**
  * How a piece of system data came to have its value. `explicit`: the file declares it.

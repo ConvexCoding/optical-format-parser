@@ -900,3 +900,163 @@ test("surfaces report the line that opens them", () => {
     [1, 8, 13, 18],
   );
 });
+
+// Issue #12. What the OSLO Program Reference settles: `wv`/`ww` set the lists and `wvi`/`wwi` one
+// slot (Chapter 3 and the command summary), each wavelength has one weight ("Wavelength"), and
+// arguments are separated by blanks or commas ("Command Syntax"). These inputs are synthetic, not
+// OSLO exports.
+const spectrum = (records: string, options: { strict?: boolean; includeRaw?: boolean } = {}) =>
+  parseText(LEN.replace("WV 0.55\n", records + "\n"), { format: "oslo", ...options });
+const TWO = "WV 0.5876 0.6328\n";
+
+test("OSLO weights are only accepted for wavelengths that are defined", () => {
+  const valid: [string, number[], string][] = [
+    [TWO + "WW 1 0.5", [1, 0.5], "explicit"],
+    [TWO + "WW 1,0.5", [1, 0.5], "explicit"],
+    [TWO + "WW 1 , 0.5", [1, 0.5], "explicit"],
+    [TWO + "WW 1\nWW2 0.5", [1, 0.5], "explicit"],
+    [TWO + "WW 1 0.25\nWW 1 0.5", [1, 0.5], "explicit"],
+    [TWO + "WW 1", [1, 1], "padded"],
+    // Only the second weight is declared; the first is not passed off as explicit.
+    [TWO + "WW2 0.5", [1, 0.5], "padded"],
+    [TWO + "WV3 0.7\nWW 1 0.5 0.25", [1, 0.5, 0.25], "explicit"],
+    // Without WV the three default wavelengths are defined.
+    ["WW 1 0.5 0.25", [1, 0.5, 0.25], "explicit"],
+    ["WW 1 0.5\n" + TWO.trim(), [1, 0.5], "explicit"],
+  ];
+  for (const [records, weights, declaration] of valid) {
+    const data = must(spectrum(records));
+    assert.deepEqual(data.wavelengths.weights, weights, records);
+    assert.equal(data.declarations.wavelengthWeights, declaration, records);
+    assert.equal(data.wavelengths.values.length, weights.length, records);
+    assert.ok(!data.diagnostics.some((d) => d.code === "dropped_wavelength_weights"), records);
+    assert.equal(
+      data.diagnostics.some((d) => d.code === "padded_wavelength_weights"),
+      declaration === "padded",
+      records,
+    );
+    assert.ok(validate(serialized(data)), JSON.stringify(validate.errors));
+  }
+
+  const invalid: [string, number, string][] = [
+    [TWO + "WW 1 0.5 0.25", 5, "WW"],
+    // A later, well-formed vector does not make the earlier one legal.
+    [TWO + "WW 1 0.5 0.25\nWW 1 0.5", 5, "WW"],
+    [TWO + "WW3 0.25", 5, "WW3"],
+    ["WW 1 1 1 1", 4, "WW"],
+    [TWO + "WV4 0.7", 5, "WV4"],
+  ];
+  for (const [records, line, command] of invalid) {
+    for (const strict of [false, true]) {
+      const [value, error] = spectrum(records, { strict });
+      assert.equal(value, null, records);
+      assert.equal(error?.code, "invalid_prescription", records);
+      assert.deepEqual([error?.line, error?.command], [line, command], records);
+    }
+  }
+});
+
+test("OSLO weights dropped by a shorter wavelength list are reported without raw", () => {
+  const data = must(spectrum("WW 1 0.5 0.25\n" + TWO.trim(), { includeRaw: false }));
+  assert.deepEqual(data.wavelengths, { values: [0.5876, 0.6328], weights: [1, 0.5], primaryIndex: 0 });
+  assert.equal(data.declarations.wavelengthWeights, "explicit");
+  const dropped = data.diagnostics.filter((d) => d.code === "dropped_wavelength_weights");
+  assert.deepEqual(
+    dropped.map((d) => [d.severity, d.command, d.line, d.surface]),
+    [["info", "WV", 5, undefined]],
+  );
+  assert.ok(validate(serialized(data)), JSON.stringify(validate.errors));
+  // Replacing wavelengths whose weights were never declared loses nothing.
+  assert.ok(!must(spectrum("WW 1\n" + TWO.trim())).diagnostics.some((d) => d.code === "dropped_wavelength_weights"));
+});
+
+test("OSLO commas separate arguments only", () => {
+  for (const records of [TWO + "WW,1,0.5", TWO + "WW,1,0.5,0.25", TWO + "WW 1,,0.5", TWO + "WW 1 0.5,", "WV,0.55"]) {
+    const error = expectError(() => must(spectrum(records)), "invalid_prescription");
+    assert.match(error.message, /comma/, records);
+    assert.equal(error.command?.slice(0, 1), "W", records);
+  }
+  expectError(() => mustParseText(LEN.replace("RD 20", "RD,20"), { format: "oslo" }), "invalid_prescription");
+  expectError(() => mustParseText(LEN + "CFWT,1,2\n", { format: "oslo" }), "invalid_prescription");
+  // Records that are retained rather than read keep whatever punctuation they have.
+  const retained = mustParseText(LEN.replace("RD 20", "BOGUS,1; DRW,ON; RD 20") + "SDAD,32\n", { format: "oslo" });
+  assert.equal(retained.surfaces[1]?.radius, 20);
+});
+
+test("OSLO free text keeps its commas and spacing", () => {
+  const source = LEN.replace("EBR 2", 'EBR 2; SNO1 first, second  third\nDES "Smith, J"').replace(
+    "RD 20",
+    "NOT front, coated; RD 20",
+  );
+  const data = mustParseText(source, { format: "oslo" });
+  assert.deepEqual(data.notes, ["first, second  third"]);
+  assert.equal(data.designer, "Smith, J");
+  assert.equal(data.surfaces[1]?.comment, "front, coated");
+});
+
+test("OSLO PUK keeps its sign and TELE ON is reported", () => {
+  const slope = mustParseText(LEN.replace("EBR 2", "PUK -0.1"), { format: "oslo" }).aperture;
+  assert.deepEqual(slope, { kind: "imageSlope", value: 0.1, source: { PUK: -0.1 } });
+
+  const telecentric = mustParseText(LEN.replace("EBR 2", "EBR 2; TELE ON"), { format: "oslo" });
+  assert.equal(telecentric.diagnostics.find((d) => d.code === "telecentric_declaration")?.severity, "warning");
+  assert.ok(validate(serialized(telecentric)), JSON.stringify(validate.errors));
+  const off = mustParseText(LEN.replace("EBR 2", "EBR 2; TELE ON; TELE OFF"), { format: "oslo", strict: true });
+  assert.ok(!off.diagnostics.some((d) => d.code === "telecentric_declaration"));
+});
+
+test("Zemax records that used to be dropped silently are errors or diagnostics", () => {
+  const zemax = (text: string, strict = false) => parseText(text, { format: "zemax", strict });
+  const invalid: [string, string, number, string][] = [
+    ["surface data before SURF", ZMX.replace("SURF 0", "CURV 0.1\nSURF 0"), 6, "CURV"],
+    ["wavelength slot 0", ZMX.replace("PWAV 1", "WAVM 0 0.6 1\nPWAV 1"), 5, "WAVM"],
+    ["non-integer FTYP flag", ZMX.replace("PWAV 1", "FTYP 0 0 one 1"), 5, "FTYP"],
+    ["negative PARM", ZMX.replace("STOP", "PARM -1 2\nSTOP"), 12, "PARM"],
+  ];
+  for (const [name, text, line, command] of invalid) {
+    const [value, error] = zemax(text);
+    assert.equal(value, null, name);
+    assert.equal(error?.code, "invalid_prescription", name);
+    assert.deepEqual([error?.line, error?.command], [line, command], name);
+  }
+  // An older, shorter FTYP is still read, and PARM 0 is what Zemax writes on toroidal surfaces.
+  assert.equal(must(zemax(ZMX.replace("PWAV 1", "FTYP 1 0"))).fields.kind, "objectHeight");
+  assert.equal(must(zemax(ZMX.replace("STOP", "PARM 0 0\nSTOP"), true)).surfaces[1]?.parameters["param_-1"], 0);
+
+  const reported: [string, string, string, string | undefined][] = [
+    ["unmapped F-number mode", ZMX.replace("ENPD 4", "ENPD 4\nFNUM 2.8 7"), "uninterpreted_record", "FNUM"],
+    ["unmapped object aperture mode", ZMX.replace("ENPD 4", "ENPD 4\nOBNA 0.1 7"), "uninterpreted_record", "OBNA"],
+    ["unknown field type", ZMX.replace("PWAV 1", "FTYP 9 0 1 1"), "unresolved_field_type", undefined],
+    ["fewer wavelengths than declared", ZMX.replace("PWAV 1", "FTYP 0 0 1 3"), "wavelength_count_mismatch", undefined],
+  ];
+  for (const [name, text, code, command] of reported) {
+    const data = must(zemax(text));
+    const diagnostic = data.diagnostics.find((d) => d.code === code && d.command === command);
+    assert.equal(diagnostic?.severity, "warning", name);
+    assert.ok(validate(serialized(data)), JSON.stringify(validate.errors));
+    assert.equal(zemax(text, true)[1]?.code, "strict_violation", name);
+  }
+  // Slots beyond the declared count are inactive, as Zemax writes them: not a mismatch.
+  must(zemax(ZMX.replace("PWAV 1", "FTYP 0 0 1 1\nWAVM 2 0.6 1\nPWAV 1"), true));
+});
+
+test("parseText and parseBytes agree on validation and diagnostics", () => {
+  const cases: [Format, string][] = [
+    ["oslo", LEN.replace("WV 0.55", TWO + "WW 1 0.5 0.25")],
+    ["oslo", LEN.replace("WV 0.55", "WW 1 0.5 0.25\n" + TWO.trim())],
+    ["oslo", LEN.replace("WV 0.55", TWO + "WW,1,0.5")],
+    ["oslo", LEN.replace("EBR 2", "EBR 2; TELE ON")],
+    ["zemax", ZMX.replace("SURF 0", "CURV 0.1\nSURF 0")],
+    ["zemax", ZMX.replace("PWAV 1", "FTYP 9 0 1 3")],
+  ];
+  for (const [format, text] of cases) {
+    for (const strict of [false, true]) {
+      const [fromText, textError] = parseText(text, { format, strict });
+      const [fromBytes, bytesError] = parseBytes(new TextEncoder().encode(text), { format, strict });
+      const describe = (error: PrescriptionParseError | null) =>
+        error && [error.code, error.message, error.line, error.command, error.diagnostics];
+      assert.deepEqual(describe(bytesError), describe(textError), text);
+      assert.deepEqual(fromBytes && { ...fromBytes, source: null }, fromText && { ...fromText, source: null }, text);
+    }
+  }
+});

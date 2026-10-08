@@ -10,7 +10,7 @@ class DiagnosticLog {
     constructor(native) {
         this.items = native.map((entry) => ({
             severity: entry.severity ?? "warning",
-            code: entry.severity === "info" ? "inert_record" : "uninterpreted_record",
+            code: entry.code ?? (entry.severity === "info" ? "inert_record" : "uninterpreted_record"),
             message: entry.message,
             command: entry.command,
             line: entry.line,
@@ -38,9 +38,10 @@ function checkScale(scale) {
 /** The first declared aperture becomes the system aperture; the rest stay in `source`. */
 function systemAperture(declarations, kinds, scale, log) {
     const entries = Object.entries(declarations);
-    if (entries.some(([, value]) => typeof value !== "boolean" && (!Number.isFinite(value) || value < 0))) {
+    // A ray slope is signed; every other aperture is a size.
+    const valid = ([key, value]) => typeof value === "boolean" || (Number.isFinite(value) && (value >= 0 || kinds.get(key) === "imageSlope"));
+    if (!entries.every(valid))
         throw new DeclarationError("Aperture values must be finite and nonnegative");
-    }
     if (entries.length > 1) {
         log.warn("multiple_apertures", "Multiple aperture declarations retained; first is reported as the common aperture");
     }
@@ -58,6 +59,8 @@ function systemAperture(declarations, kinds, scale, log) {
         return { kind, value: value * scale, source };
     if (kind === "beamRadiusAtSurface1")
         return { kind, value: (value * scale) / 2, source };
+    if (kind === "imageSlope")
+        return { kind, value: Math.abs(value), source };
     return { kind, value, source };
 }
 function wavelengths(values, weights, primaryIndex, log) {
@@ -183,6 +186,9 @@ const ZEMAX_VIGNETTING = [
 function zemaxFields(model, scale, log) {
     const source = model.fields;
     const kind = ZEMAX_FIELDS.get(source.type ?? "angle") ?? "unknown";
+    if (kind === "unknown") {
+        log.warn("unresolved_field_type", "Field type is not mapped; field coordinates are reported in file units");
+    }
     for (const [key, column] of Object.entries(source)) {
         if (Array.isArray(column) && column.some((value) => !Number.isFinite(value))) {
             throw new DeclarationError(`Field ${key} must contain finite numbers`);
@@ -285,6 +291,9 @@ export function normalizeZemax(model, context) {
     const declaredPrimary = model.wavelengths.primary_index;
     const primaryIndex = declaredPrimary !== undefined ? declaredPrimary : model.wavelengths.data.length ? 0 : null;
     const spectrum = wavelengths(model.wavelengths.data, model.wavelengths.weights, primaryIndex, log);
+    if ((model.wavelengths.num_wavelengths ?? spectrum.values.length) !== spectrum.values.length) {
+        log.warn("wavelength_count_mismatch", "Declared wavelength count differs from the wavelengths defined");
+    }
     if (model.records.some((record) => record.text.startsWith("WAVL "))) {
         log.warn("legacy_wavl", "WAVL follows upstream legacy token consumption; vector WAVL/WWGT is not fully interpreted");
     }
@@ -641,6 +650,9 @@ export function normalizeOslo(model, context) {
             parameters: toJsonObject(parameters),
         };
         surfaces.push(typedSurface(base, type, sag.terms));
+    }
+    if (model.settings.telecentric) {
+        log.warn("telecentric_declaration", "Telecentric entrance pupil mode is declared; it is not part of the system data");
     }
     if (Object.keys(model.configurations).length > 1) {
         log.warn("configuration_declarations", "Base prescription reported; alternative configuration overrides retained in raw.configurations");

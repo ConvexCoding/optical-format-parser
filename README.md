@@ -153,15 +153,27 @@ OSLO declares only the maximum field, so `fields.points` holds that one point. R
 
 Diagnostic codes fall into three groups, so a review can separate what may matter optically from what cannot:
 
-| Group                          | Severity  | Codes                                                                                                                                                                                                                                                |
-| ------------------------------ | --------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| Cannot affect the prescription | `info`    | `inert_record`: version and file records, and OSLO display, spot-diagram and optimization settings, ray sets and operands.                                                                                                                           |
-| Left to a default              | `info`    | `assumed_units`, `default_wavelengths`, `padded_wavelength_weights`, `missing_end`. These mirror `declarations`.                                                                                                                                     |
-| Kept but not interpreted       | `warning` | `uninterpreted_record` (an unknown record, which may be optical), `unresolved_material`, `unresolved_geometry`, `unresolved_coordinates`, `unresolved_constraints`, `unresolved_optical_feature`, `unresolved_surface_type` and the remaining codes. |
+| Group                                                 | Severity  | Codes                                                                                                                                                                                                                                                |
+| ----------------------------------------------------- | --------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Cannot affect the prescription                        | `info`    | `inert_record`: version and file records, and OSLO display, spot-diagram and optimization settings, ray sets and operands.                                                                                                                           |
+| Left to a default                                     | `info`    | `assumed_units`, `default_wavelengths`, `padded_wavelength_weights`, `missing_end`. These mirror `declarations`.                                                                                                                                     |
+| Permitted by the format, with declared values dropped | `info`    | `dropped_wavelength_weights`: an OSLO `WV` list shorter than the weights already declared.                                                                                                                                                           |
+| Kept but not interpreted                              | `warning` | `uninterpreted_record` (an unknown record, which may be optical), `unresolved_material`, `unresolved_geometry`, `unresolved_coordinates`, `unresolved_constraints`, `unresolved_optical_feature`, `unresolved_surface_type` and the remaining codes. |
 
 `strict` rejects warnings only. Whether a defaulted declaration is acceptable is the application's decision: check `declarations`, for example `declarations.terminator === "absent"` for an OSLO file cut off before `END`.
 
 Malformed structure is always an error, whatever the options. Zemax `SURF` records must number the surfaces from 0 without gaps or repeats, and OSLO surface counts must match `LEN` and `END`.
+
+### Validation, omission and recovery
+
+One policy applies to both formats and every field:
+
+- **Invalid input is an `invalid_prescription` error** carrying `line` and, where a record was being read, `command`. `strict` does not change this: a malformed file is never repaired into a different prescription, and there is no recovery mode.
+- **What the format permits is read as the format defines it.** Documented defaults, unit conversion, indexed updates, a later record replacing an earlier one, and Zemax wavelength and field slots beyond the declared count are not reported as loss.
+- **Declared data that the normalized properties do not carry is always reported**, with a typed `code` and, where one record is responsible, its `command` and `line`. This holds with `includeRaw: false`, so an application can enforce its own supported-feature policy from `diagnostics` and `declarations` without reading the source text or matching messages. A `warning` means the prescription may differ optically from the file; `info` means it does not.
+- **A default is never passed off as a declaration.** `declarations` says which system data the file states.
+
+For OSLO spectra this means a weight is accepted only for a wavelength that is defined when its record is read. `WW` with more weights than wavelengths, or `WWn` beyond the last wavelength, is an error, and a later record does not make it legal. `WW` with fewer weights, or `WWn` alone, leaves the other weights at 1 and reports `wavelengthWeights: "padded"`. A `WV` list replaces the wavelengths; weights declared for wavelengths it removes are dropped and reported as `dropped_wavelength_weights`. OSLO arguments are separated by blanks or single commas; a comma after the command name (`WW,1,0.5`) or without an argument after it is an error in any record this library reads. [The compatibility notes](docs/compatibility.md) say which of these rules come from the OSLO Program Reference and which are this library's reading of it.
 
 ## JSON contract
 
@@ -202,7 +214,7 @@ npm run release        # Run all checks, then bump the version, commit, tag and 
 npm run demo          # Build and serve the browser example and checks
 ```
 
-The fixture suite covers all 15 Zemax and 7 OSLO inputs, plus 18 saved synthetic regression cases, 22 synthetic prescriptions covering metadata, mechanical apertures, coordinates, pickups, solves, declaration defaults and malformed structure, and independent assertions for geometry, units, encodings, quoting, diagnostics, and malformed data. Tests run entirely in JavaScript/TypeScript and never regenerate expectations. The package test installs the tarball and checks its runtime exports from ESM and CommonJS, the schema export, TypeScript resolution in NodeNext and Bundler modes, and compile-time behavior of the public types (narrowing, exhaustive switches, and rejected typos). These checks establish parser regression behavior and JSON structure, not ray-trace accuracy.
+The fixture suite covers all 15 Zemax and 7 OSLO inputs, plus 18 saved synthetic regression cases, 22 synthetic prescriptions covering metadata, mechanical apertures, coordinates, pickups, solves, declaration defaults and malformed structure, and independent assertions for geometry, units, encodings, quoting, diagnostics, spectral-weight validation, and malformed data. Tests run entirely in JavaScript/TypeScript and never regenerate expectations. The package test installs the tarball and checks its runtime exports from ESM and CommonJS, the schema export, TypeScript resolution in NodeNext and Bundler modes, and compile-time behavior of the public types (narrowing, exhaustive switches, and rejected typos). These checks establish parser regression behavior and JSON structure, not ray-trace accuracy.
 
 `npm run demo` serves [the browser example](http://127.0.0.1:8765/examples/browser/) and [25 browser checks](http://127.0.0.1:8765/test/browser.html). Set `PORT` to change the default port, 8765. Files selected in the example stay local.
 
